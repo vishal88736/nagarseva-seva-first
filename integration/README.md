@@ -1,37 +1,33 @@
-# Source merge status
+# Completed source merge
 
-The local Seva Evidence materials are present in this fresh repository. **At the preparation checkpoint on 17 October 2026, the upstream NagarSeva application had not been cloned or merged, and no new GitHub repository had been created.** See [status.json](status.json) for the current recorded boundary and [local-snapshot.json](local-snapshot.json) for the initial source-file hashes. A later successful merge creates `source-manifest.json`; a verified publish writes the local `.merge-work/published.json` receipt.
+The combined project is published at [vishal88736/nagarseva-seva-first](https://github.com/vishal88736/nagarseva-seva-first). It contains all **118 tracked files** from the original NagarSeva snapshot, the local research, the evidence workbench and the submission materials. The original repository was read only and its main branch was rechecked at the pinned commit `f1049b6b274be996a9e09bf11011a724905c0c76` after publication. The user-created target repository is public.
 
-Direct terminal `git clone` failed with `Could not resolve host: github.com`. After browser authentication, the GitHub connector successfully accessed the source and the newly created public repository, [vishal88736/nagarseva-seva-first](https://github.com/vishal88736/nagarseva-seva-first). The source is pinned to `f1049b6b274be996a9e09bf11011a724905c0c76`. The connector retrieved 117 original files with matching Git blob hashes; its binary/inline-size limitations prevented retrieving the generated cost-model artifact directly. The one-time GitHub Actions workflow therefore performs a real, pinned clone and verifies all 118 files before merging. Its actual outcomes are recorded in `ci-validation.json` after execution.
+[The passing workflow](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39061086658) completed **30 backend tests**, the frontend production build, 32 evidence-engine checks, 3 converter checks, 10 template checks and the 25 authored document-retrieval queries. These are development checks, not independent accuracy or field-impact measurements. The application checks used Python 3.12 and Node 24.
 
-The bootstrap ZIP contains only checked local project materials, with a per-file SHA-256 manifest. The workflow validates and removes that temporary payload, merges the original application, and runs software checks. A Git bundle exported through the authenticated workflow log permits local synchronization without transferring checkout credentials or changing the terminal sandbox. No browser or field-validation pass is inferred from CI.
+- [Current merge state](status.json) and [executed application-check results](ci-validation.json).
+- [Original and current file hashes](source-manifest.json), including intentional integration changes.
+- [Compatibility repair, CI fixes and validation limits](merge_fixes.md).
+- [Initial local-material snapshot](local-snapshot.json), retained as historical provenance.
 
-## Finish with access available
+## Using the combined project
 
-From this directory, on a host with GitHub connectivity and `gh` signed in as `vishal88736`:
+Follow [NagarSeva's run instructions](../nagarseva/README.md) for the FastAPI backend and React/Vite frontend. The evidence workbench is available at the frontend's `/evidence/` route and independently as [a standalone HTML file](../prototype/dist/standalone.html). The [root README](../README.md) links the research and editable submission pack.
 
-```bash
-python3 scripts/merge_source.py --publish
-```
+The source merge is complete. The original `scripts/merge_source.py --publish` helper describes initial acquisition and creation of a new private repository; do not use it to publish this already-created target. This repository's configured `origin` is the new combined repository. Normal future Git changes should be made and pushed there.
 
-To merge and commit locally without creating a GitHub repository:
+## Acquisition and provenance
 
-```bash
-python3 scripts/merge_source.py
-```
+Direct terminal network access failed during preparation. After authentication, the GitHub connector accessed both the source and the new target. Its file-content endpoint retrieved 117 source files but could not deliver the large cost-model binary. GitHub Actions therefore performed a real clone, checked out the pinned commit and verified the full set of **118 original Git blob hashes**, including that binary, before integration.
 
-The script clones the original repository into an ignored cache, records its commit, copies its tracked files without overwriting conflicting local work, combines ignore rules, and keeps NagarSeva as the main application. The evidence workbench is also copied to the Vite public directory at `/evidence/`. It runs the evidence checks and submission-package checks, makes a local merge commit, then optionally creates **a new private repository** named `vishal88736/nagarseva-seva-first` and pushes it. It never pushes to the original repository. If the new name already exists, it stops.
+The bootstrap ZIP contained checked local materials and a per-file SHA-256 manifest. The workflow verified and removed the payload, merged the original application and ran the software checks. A checksum-verified Git bundle from the workflow log synchronized the local checkout without including checkout credentials or Git configuration. This is a fresh combined repository; the original commit history was not imported.
 
-This is a fresh combined repository, rather than a rewrite of the upstream commit history. The upstream commit and original-file hashes remain in `source-manifest.json` after a successful merge. No application feature equivalence, original-application test pass, browser pass, field validation, adopter acceptance or real-world impact is established by copying files.
+## Included work and remaining limits
 
-## Included work
+- `nagarseva/`: original application, model artifacts and tests, with the documented dependency repair.
+- `research/`: evidence, literature, datasets, access limitations and validation plan.
+- `prototype/`: evidence workbench, fixtures, calculations and document-retrieval checks.
+- `submission/`: draft answers, editable six-slide deck, budget and pitch materials. Authenticated form limits remain unverified; applicant personal fields remain omitted at the user's request.
 
-- `research/`: evidence, source access limits, literature, datasets and validation plan.
-- `prototype/`: standalone evidence workbench, source, fixtures and tests.
-- `submission/`: draft answers, six-slide editable deck, budget and pitch materials. Official authenticated form limits and personal fields remain unverified/omitted.
+The initial frontend installation reported 10 dependency advisories, including 7 high-severity advisories; they have not been resolved by the compatibility repair. See [the merge findings](merge_fixes.md). No production deployment, real-browser acceptance, independent model evaluation, field-service verification or government adoption has been established. Synthetic models, hypothetical budgets and historical statistics retain their labels and limitations.
 
-No credentials, household records, local databases, package caches or original workspace Git metadata were copied. Generated ZIP archives remain ignored; `submission/scripts/prepare_pack.py` recreates the delivery ZIP locally.
-
-## Validation boundary
-
-The evidence checks exercise deterministic calculations, converter fixtures, templates, source packaging and a small authored retrieval checklist. They do not test NagarSeva's FastAPI/React application, perform an independent model evaluation, launch a real browser here, or verify services in the field. Once the original source is available, its backend and frontend checks must be run separately and recorded against that source commit. Synthetic models and cost estimates must retain their labels and limitations.
+No credentials, household records, local databases, package caches or original workspace Git metadata were copied. Generated submission ZIP archives remain ignored; `python3 submission/scripts/prepare_pack.py` recreates the archive and its file manifest locally.

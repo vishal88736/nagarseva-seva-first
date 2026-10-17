@@ -20,7 +20,7 @@ Run `python3 prototype/scripts/verify.py` and then `python3 submission/scripts/p
 
 Synthetic planning data, trained models, hypothetical budgets and author-written test fixtures do not establish field accuracy, cost savings or government adoption. Preserve NagarSeva's synthetic-data labels and model limitations. The evidence workbench keeps public-record audits, historical statistics, unknown service baselines and a clearly labelled synthetic sandbox separate. It does not make eligibility or relocation decisions.
 
-Browser checks in the preparation environment were blocked before assertions; no new browser or original-application test pass is claimed by this merge. Original-application tests must be run separately in a compatible environment. Applicant personal details remain omitted, and authenticated application limits remain unverified.
+GitHub Actions completed **30 backend tests**, the frontend production build and the evidence-workbench checks in [the passing validation run](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39061086658), using Python 3.12 and Node 24. See [the compatibility repair and remaining limits](integration/merge_fixes.md). Browser checks in the preparation environment were blocked before assertions; no real-browser or field-validation pass is claimed. Applicant personal details remain omitted, and authenticated application limits remain unverified.
 
 The original repository is unchanged. Its commit and imported-file hashes are recorded in `integration/source-manifest.json`. This fresh repository does not import its Git history or imply that either prototype is a production public service.
 
