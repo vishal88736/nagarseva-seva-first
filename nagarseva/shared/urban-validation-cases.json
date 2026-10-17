@@ -1,0 +1,6 @@
+[
+  {"id":"proposal-example","indicators":{"water":80,"sanitation":70,"housing":60,"access":50,"risk":40},"weights":{"water":0.30,"sanitation":0.25,"housing":0.20,"access":0.15,"risk":0.10},"score":65,"lower":65,"upper":65,"coverage_pct":100},
+  {"id":"missing-water","indicators":{"water":null,"sanitation":70,"housing":60,"access":50,"risk":40},"weights":{"water":0.30,"sanitation":0.25,"housing":0.20,"access":0.15,"risk":0.10},"score":null,"lower":41,"upper":71,"coverage_pct":70},
+  {"id":"all-missing","indicators":{"water":null,"sanitation":null,"housing":null,"access":null,"risk":null},"weights":{"water":0.30,"sanitation":0.25,"housing":0.20,"access":0.15,"risk":0.10},"score":null,"lower":0,"upper":100,"coverage_pct":0},
+  {"id":"missing-zero-weight-inputs","indicators":{"water":null,"sanitation":40,"housing":80,"access":null,"risk":null},"weights":{"water":0,"sanitation":0.5,"housing":0.5,"access":0,"risk":0},"score":60,"lower":60,"upper":60,"coverage_pct":100}
+]

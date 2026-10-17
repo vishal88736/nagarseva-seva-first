@@ -1,0 +1,534 @@
+{
+  "schema_version": "1.0",
+  "metadata": {
+    "title": "UrbanSaarthi \u00b7 Mumbai demonstration extent",
+    "geographic_scope": "Illustrative geometry near Mumbai M-East; not an approved pilot or settlement boundary",
+    "synthetic": true,
+    "real_pilot_approved": false,
+    "reference_date": "2026-10-01",
+    "source_label": "Project-authored demonstration fixtures",
+    "limitations": [
+      "All polygons, service indicators, household assumptions, roads and amenities in this fixture are synthetic.",
+      "No current service-access baseline or permitted settlement boundaries have been acquired.",
+      "All network distances describe this demonstration graph; they are not real walking routes.",
+      "Public SRA listing records are a separate desk case and are not joined to these clusters."
+    ]
+  },
+  "default_weights": {
+    "water": 0.3,
+    "sanitation": 0.25,
+    "housing": 0.2,
+    "access": 0.15,
+    "risk": 0.1
+  },
+  "clusters": [
+    {
+      "id": "US-A",
+      "name": "Harbour cluster A",
+      "node_id": "n00",
+      "households": 240,
+      "households_source": "Authored demonstration assumption",
+      "synthetic": true,
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              72.9161,
+              19.0533
+            ],
+            [
+              72.9179,
+              19.0533
+            ],
+            [
+              72.9179,
+              19.054699999999997
+            ],
+            [
+              72.9161,
+              19.054699999999997
+            ],
+            [
+              72.9161,
+              19.0533
+            ]
+          ]
+        ]
+      },
+      "indicators": {
+        "water": 80,
+        "sanitation": 70,
+        "housing": 60,
+        "access": 50,
+        "risk": 40
+      },
+      "provenance": {
+        "water": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "sanitation": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "housing": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "access": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "risk": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        }
+      }
+    },
+    {
+      "id": "US-B",
+      "name": "Depot cluster B",
+      "node_id": "n10",
+      "households": 180,
+      "households_source": "Authored demonstration assumption",
+      "synthetic": true,
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              72.9191,
+              19.0533
+            ],
+            [
+              72.9209,
+              19.0533
+            ],
+            [
+              72.9209,
+              19.054699999999997
+            ],
+            [
+              72.9191,
+              19.054699999999997
+            ],
+            [
+              72.9191,
+              19.0533
+            ]
+          ]
+        ]
+      },
+      "indicators": {
+        "water": 50,
+        "sanitation": 85,
+        "housing": 55,
+        "access": 35,
+        "risk": 60
+      },
+      "provenance": {
+        "water": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "sanitation": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "housing": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "access": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "risk": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        }
+      }
+    },
+    {
+      "id": "US-C",
+      "name": "Market cluster C",
+      "node_id": "n01",
+      "households": 320,
+      "households_source": "Authored demonstration assumption",
+      "synthetic": true,
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              72.9161,
+              19.0563
+            ],
+            [
+              72.9179,
+              19.0563
+            ],
+            [
+              72.9179,
+              19.057699999999997
+            ],
+            [
+              72.9161,
+              19.057699999999997
+            ],
+            [
+              72.9161,
+              19.0563
+            ]
+          ]
+        ]
+      },
+      "indicators": {
+        "water": 70,
+        "sanitation": 40,
+        "housing": 80,
+        "access": 65,
+        "risk": 75
+      },
+      "provenance": {
+        "water": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "sanitation": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "housing": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "access": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "risk": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        }
+      }
+    },
+    {
+      "id": "US-D",
+      "name": "Garden cluster D",
+      "node_id": "n11",
+      "households": 150,
+      "households_source": "Authored demonstration assumption",
+      "synthetic": true,
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              72.9191,
+              19.0563
+            ],
+            [
+              72.9209,
+              19.0563
+            ],
+            [
+              72.9209,
+              19.057699999999997
+            ],
+            [
+              72.9191,
+              19.057699999999997
+            ],
+            [
+              72.9191,
+              19.0563
+            ]
+          ]
+        ]
+      },
+      "indicators": {
+        "water": 35,
+        "sanitation": 30,
+        "housing": 45,
+        "access": 25,
+        "risk": 55
+      },
+      "provenance": {
+        "water": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "sanitation": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "housing": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "access": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "risk": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        }
+      }
+    },
+    {
+      "id": "US-E",
+      "name": "Eastern cluster E",
+      "node_id": "n20",
+      "households": null,
+      "households_source": "Unavailable; supply an explicit scenario assumption",
+      "synthetic": true,
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              72.9221,
+              19.0533
+            ],
+            [
+              72.9239,
+              19.0533
+            ],
+            [
+              72.9239,
+              19.054699999999997
+            ],
+            [
+              72.9221,
+              19.054699999999997
+            ],
+            [
+              72.9221,
+              19.0533
+            ]
+          ]
+        ]
+      },
+      "indicators": {
+        "water": null,
+        "sanitation": 65,
+        "housing": 55,
+        "access": null,
+        "risk": 50
+      },
+      "provenance": {
+        "water": {
+          "kind": "unavailable",
+          "source_label": "Not supplied; survey or permitted official evidence required",
+          "reference_date": null,
+          "unit": "deficit index / 100"
+        },
+        "sanitation": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "housing": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        },
+        "access": {
+          "kind": "unavailable",
+          "source_label": "Not supplied; survey or permitted official evidence required",
+          "reference_date": null,
+          "unit": "deficit index / 100"
+        },
+        "risk": {
+          "kind": "synthetic",
+          "source_label": "Authored normalized demonstration index; not a field observation",
+          "reference_date": "2026-10-01",
+          "unit": "deficit index / 100"
+        }
+      }
+    }
+  ],
+  "network": {
+    "nodes": [
+      {
+        "id": "n00",
+        "lon": 72.917,
+        "lat": 19.054
+      },
+      {
+        "id": "n10",
+        "lon": 72.92,
+        "lat": 19.054
+      },
+      {
+        "id": "n20",
+        "lon": 72.923,
+        "lat": 19.054
+      },
+      {
+        "id": "n01",
+        "lon": 72.917,
+        "lat": 19.057
+      },
+      {
+        "id": "n11",
+        "lon": 72.92,
+        "lat": 19.057
+      },
+      {
+        "id": "n21",
+        "lon": 72.923,
+        "lat": 19.057
+      },
+      {
+        "id": "n02",
+        "lon": 72.917,
+        "lat": 19.06
+      },
+      {
+        "id": "n12",
+        "lon": 72.92,
+        "lat": 19.06
+      },
+      {
+        "id": "n22",
+        "lon": 72.923,
+        "lat": 19.06
+      }
+    ],
+    "edges": [
+      {
+        "from": "n00",
+        "to": "n10",
+        "walkable": true
+      },
+      {
+        "from": "n00",
+        "to": "n01",
+        "walkable": true
+      },
+      {
+        "from": "n10",
+        "to": "n20",
+        "walkable": true
+      },
+      {
+        "from": "n10",
+        "to": "n11",
+        "walkable": true
+      },
+      {
+        "from": "n20",
+        "to": "n21",
+        "walkable": true
+      },
+      {
+        "from": "n01",
+        "to": "n11",
+        "walkable": true
+      },
+      {
+        "from": "n01",
+        "to": "n02",
+        "walkable": true
+      },
+      {
+        "from": "n11",
+        "to": "n21",
+        "walkable": true
+      },
+      {
+        "from": "n11",
+        "to": "n12",
+        "walkable": true
+      },
+      {
+        "from": "n21",
+        "to": "n22",
+        "walkable": true
+      },
+      {
+        "from": "n02",
+        "to": "n12",
+        "walkable": true
+      },
+      {
+        "from": "n12",
+        "to": "n22",
+        "walkable": true
+      }
+    ]
+  },
+  "amenities": [
+    {
+      "id": "clinic",
+      "name": "Demo clinic",
+      "category": "Healthcare",
+      "node_id": "n02"
+    },
+    {
+      "id": "school",
+      "name": "Demo school",
+      "category": "Education",
+      "node_id": "n12"
+    },
+    {
+      "id": "transport",
+      "name": "Demo bus interchange",
+      "category": "Transport",
+      "node_id": "n21"
+    },
+    {
+      "id": "livelihood",
+      "name": "Demo employment hub",
+      "category": "Livelihood proxy",
+      "node_id": "n00"
+    }
+  ],
+  "relocation_node_id": "n22"
+}

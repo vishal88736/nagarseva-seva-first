@@ -23,6 +23,25 @@ class RecordStore:
             db.execute("CREATE TABLE IF NOT EXISTS commitments (pocket_id TEXT NOT NULL, service TEXT NOT NULL, body TEXT NOT NULL, PRIMARY KEY(pocket_id, service))")
             db.execute("CREATE TABLE IF NOT EXISTS locations (id TEXT PRIMARY KEY, body TEXT NOT NULL)")
             db.execute("CREATE TABLE IF NOT EXISTS public_cache (key TEXT PRIMARY KEY, body TEXT NOT NULL)")
+            db.execute("CREATE TABLE IF NOT EXISTS urban_records (id TEXT PRIMARY KEY, kind TEXT NOT NULL, cluster_id TEXT NOT NULL, body TEXT NOT NULL)")
+            db.execute("CREATE INDEX IF NOT EXISTS urban_records_kind ON urban_records(kind, cluster_id)")
+
+    def urban_records(self, kind: str, db: sqlite3.Connection | None = None) -> list[dict]:
+        if db is None:
+            with self.connection() as connection:
+                return self.urban_records(kind, connection)
+        return [json.loads(row[0]) for row in db.execute("SELECT body FROM urban_records WHERE kind = ? ORDER BY rowid DESC", (kind,))]
+
+    def urban_record(self, record_id: str, kind: str, db: sqlite3.Connection) -> dict:
+        row = db.execute("SELECT body FROM urban_records WHERE id = ? AND kind = ?", (record_id, kind)).fetchone()
+        if row is None:
+            raise LookupError("Record not found.")
+        return json.loads(row[0])
+
+    def save_urban_record(self, record: dict, kind: str, db: sqlite3.Connection) -> dict:
+        db.execute("INSERT INTO urban_records VALUES (?, ?, ?, ?) ON CONFLICT(id) DO UPDATE SET body = excluded.body",
+                   (record["id"], kind, record["cluster_id"], json.dumps(record, allow_nan=False)))
+        return record
 
     def cached_public_data(self, key: str) -> dict | None:
         with self.connection() as db:

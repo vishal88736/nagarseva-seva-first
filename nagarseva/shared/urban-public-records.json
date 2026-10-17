@@ -1,0 +1,119 @@
+{
+  "case_version": "1.0",
+  "case_type": "public_listing_record_quality_desk_case",
+  "metadata": {
+    "title": "SRA public listing: three M-E/Deonar records",
+    "publisher": "Slum Rehabilitation Authority, Government of Maharashtra",
+    "source_url": "https://dms.sra.gov.in/SRAPUBLIC/",
+    "alternate_indexed_source_url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+    "retrieved_at": "2026-10-17",
+    "source_publication_date": null,
+    "is_synthetic": false,
+    "selection": "Purposive selection of source serial rows 3, 4 and 9 from the first 25 displayed rows; not representative.",
+    "access_method": "Manual transcription of a fresh public HTML/text listing response; no authenticated API or bulk export.",
+    "limitations": [
+      "Source serial numbers and local snapshot IDs are not verified durable official project identifiers.",
+      "No geometry, household data, current service observations, project status, progress or record-update dates acquired.",
+      "A shared CTS string is not proof of duplicate schemes, legal equivalence or a valid unique join.",
+      "Status and update dates may exist in uninspected detail records or other official systems.",
+      "This format is a separate desk case, not the general geospatial service-data import schema."
+    ],
+    "accessed_at": "2026-10-17",
+    "observed_at": null,
+    "licence": "No open-data licence established from inspected listing; all rights reserved footer.",
+    "reuse_caveat": "Page footer reserves rights. No open-data licence established. Limited attributed non-expressive field facts; confirm publisher permission/terms before broader republication or integration."
+  },
+  "records": [
+    {
+      "cts_raw": "1-A",
+      "official_scheme_id": null,
+      "record_updated_at": null,
+      "source_url": "https://dms.sra.gov.in/SRAPUBLIC/",
+      "retrieved_at": "2026-10-17",
+      "local_id": "sra-listing-20261017-row-003",
+      "listing_serial": "3",
+      "name": "Bharti CHS",
+      "ward": "M-E",
+      "locality": "Deonar",
+      "proposal_raw": "-",
+      "proposal_number": null,
+      "project_status": null,
+      "accessed_at": "2026-10-17",
+      "observed_at": null
+    },
+    {
+      "cts_raw": "1-A",
+      "official_scheme_id": null,
+      "record_updated_at": null,
+      "source_url": "https://dms.sra.gov.in/SRAPUBLIC/",
+      "retrieved_at": "2026-10-17",
+      "local_id": "sra-listing-20261017-row-004",
+      "listing_serial": "4",
+      "name": "Universal CHS",
+      "ward": "M-E",
+      "locality": "Deonar",
+      "proposal_raw": "-",
+      "proposal_number": null,
+      "project_status": null,
+      "accessed_at": "2026-10-17",
+      "observed_at": null
+    },
+    {
+      "cts_raw": "1 A",
+      "official_scheme_id": null,
+      "record_updated_at": null,
+      "source_url": "https://dms.sra.gov.in/SRAPUBLIC/",
+      "retrieved_at": "2026-10-17",
+      "local_id": "sra-listing-20261017-row-009",
+      "listing_serial": "9",
+      "name": "Navi Disha & Gurukrupa C.H.S",
+      "ward": "M-E",
+      "locality": "Deonar",
+      "proposal_raw": "-",
+      "proposal_number": null,
+      "project_status": null,
+      "accessed_at": "2026-10-17",
+      "observed_at": null
+    }
+  ],
+  "audit": {
+    "scope": "The three selected listing rows only; derived diagnostics, not source-issued ratings or representative statistics.",
+    "sample_count": 3,
+    "raw_cts_distinct_count": 2,
+    "raw_cts_collision_groups": [
+      {
+        "ward": "M-E",
+        "village": "Deonar",
+        "cts_raw": "1-A",
+        "local_ids": [
+          "sra-listing-20261017-row-003",
+          "sra-listing-20261017-row-004"
+        ]
+      }
+    ],
+    "candidate_normalization": {
+      "rule": "For these three strings only: uppercase and remove ASCII spaces and hyphens. Not a validated cadastral normalization rule.",
+      "candidate_cts": "1A",
+      "decision": "Review association only. Preserve all three rows. Do not merge or infer legal/spatial equivalence.",
+      "local_ids": [
+        "sra-listing-20261017-row-003",
+        "sra-listing-20261017-row-004",
+        "sra-listing-20261017-row-009"
+      ],
+      "analysis_only": true
+    },
+    "non_placeholder_proposal_count": 0,
+    "listing_status_supplied_count": 0,
+    "listing_update_date_supplied_count": 0,
+    "listing_status_column_present": false,
+    "listing_update_date_column_present": false,
+    "missingness_boundary": "Absent in inspected listing view only; other official records/details were not tested.",
+    "next_required_evidence": [
+      "Authoritative durable scheme/project identifiers and permitted crosswalk",
+      "Official explanation of the village/CTS/scheme relationships",
+      "Permitted detail records with defined current status and update dates",
+      "Publisher reuse conditions",
+      "Independent workflow-owner comparison against the existing review process"
+    ]
+  }
+}
