@@ -16,6 +16,8 @@ The default design weights are water .30, sanitation/drainage .25, housing .20, 
 
 Weights are nonnegative, finite and normalized to sum to one. If a positive-weight input is missing, the engine reports a lower/upper contribution interval and does not assign an exact score or rank. The lower bound represents the most favorable possible missing contribution, not an imputed zero. An unavailable zero-weight input remains visibly missing but does not prevent calculation of that particular weighted score.
 
+The Overview high-priority count includes only rankable clusters with score at least 60 under current weights. This cutoff is a visible demonstration assumption, not an official policy threshold. The export records the rule.
+
 Python and browser calculations use the same explicit fixtures and hand-worked validation cases. In API mode the browser checks its ranking and scenario results against the Python endpoints. A mismatch is surfaced; drafting a scenario work requires the scenario check to pass. This is consistency verification, not model accuracy or field validation.
 
 ## Scenarios and access
@@ -53,3 +55,9 @@ Run `make test` for the focused Python API/calculation checks, browser-engine te
 The end-to-end check covers map selection, missing inputs, the 65.0 example, ranking sensitivity, opt-in relocation, scenario drafting, completion without verification, file attachment, a failed measurement, successful review, a complaint disputing review, a response not restoring it, fresh evidence, report export, database persistence, three viewport widths across all five screens, and explicitly separate browser storage. See `integration/urban-validation.json` at the repository root for executed outcomes. A passing automated browser run does not substitute for user testing, accessibility review or independent field validation.
 
 For judges: select a demo cluster; inspect provenance; explain its contributions; compare the two in-place scenarios; draft one service work; start and complete it; attach a harmless text inspection record; show a failing then passing measurement; report an interruption and show verification being disputed; export the reviewable brief. State explicitly that the physical geography, service values, costs and operations are demonstration data.
+
+## Pilot preparation and dependency maintenance
+
+The prepared `pilot/` kit identifies a prospective BMC M-East water-domain role and includes an unsent request, independent-baseline protocol and blank cost/observation templates. It is not completed stakeholder or field validation. Public context acquisition failed on two providers; dated failures remain in `research/acquired/mumbai-context-attempts.json`.
+
+The original Tailwind PostCSS plugin had no `@tailwind` or `@apply` consumer in the source. Removing that unused build dependency preserves the handcrafted CSS and original legacy components. Vite and PostCSS are patched; exact lockfile and all/production advisory results are recorded by the networked validation runner. A clean advisory snapshot is not a complete application security assessment. Dev/preview now default to loopback.

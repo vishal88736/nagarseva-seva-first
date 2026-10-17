@@ -191,6 +191,10 @@
     "bytes": 9180,
     "sha256": "642d318284d85bd1b06c84b1604a29f85ac34b0aec6c9e348dfe43af69b2c7e9"
   },
+  "research/acquired/README.md": {
+    "bytes": 1508,
+    "sha256": "1d0b4c383739163d346335726ec3a7ddf02d5ff012edf542b8a28074deaf0dcc"
+  },
   "research/acquired/mumbai-context-access.json": {
     "bytes": 880,
     "sha256": "076c7144a782cc270b38b8db43a5fee15e0287e51f3b94974ec651d31712f9c8"
@@ -272,8 +276,8 @@
     "sha256": "82c893fc9168493416b97154a26e4692a42af7bb2eb4081a9ca124cb9e3ba20f"
   },
   "submission/competition_requirements.md": {
-    "bytes": 3175,
-    "sha256": "9682cba92ec8d3948f84fd993c255b9e1792af2bed4129bb027fb02a439dc4cd"
+    "bytes": 3138,
+    "sha256": "b9c9d55a266860edc30649d76a700e900c842bac4ead7d1392a9d161eceb691d"
   },
   "submission/deck_outline.md": {
     "bytes": 1617,
@@ -320,8 +324,8 @@
     "sha256": "61111a8da03fb68a50acb0e34c6085c62b4169c85b46454ae887fd0b9765e5d1"
   },
   "submission/presentation_validation.json": {
-    "bytes": 1350,
-    "sha256": "9f2e324835ed651d939340effc1043d791a0b5bc42547d1e9cd06d46d8ad2b2b"
+    "bytes": 1519,
+    "sha256": "d40b28f3590228e7a51ec8044cf45a29eabbc67dc62f6b9d91a092674447aa61"
   },
   "submission/scripts/prepare_pack.py": {
     "bytes": 6573,

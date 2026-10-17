@@ -172,3 +172,5 @@ th { font-weight: 500; color: #718267; }thead { background: #f2f5eb; }thead th {
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; } }
 @media print { .us-sidebar, .us-topbar, .us-context-bar, .us-footer, .us-button { display: none !important; }.us-workspace { margin: 0; }.us-content { padding: 0; }.us-panel { break-inside: avoid; } }
+
+@media (min-width: 981px) { .us-metrics.assurance { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
