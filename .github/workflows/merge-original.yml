@@ -58,7 +58,7 @@ jobs:
         working-directory: nagarseva
         run: |
           set -o pipefail
-          python -m pytest model/tests -q 2>&1 | tee ../.merge-work/backend-tests.txt
+          python -m pytest model/tests tests -q 2>&1 | tee ../.merge-work/backend-tests.txt
       - name: Install frontend dependencies and build
         id: frontend
         continue-on-error: true
@@ -66,17 +66,27 @@ jobs:
         run: |
           set -o pipefail
           npm ci
+          npm test
           npm run build 2>&1 | tee ../../.merge-work/frontend-build.txt
+      - name: Exercise the UrbanSaarthi browser workflow
+        id: browser
+        if: steps.dependencies.outcome == 'success' && steps.frontend.outcome == 'success'
+        continue-on-error: true
+        run: |
+          python -m pip install -r nagarseva/tests/requirements-browser.txt
+          python -m playwright install --with-deps chromium
+          python nagarseva/tests/check_urban_browser.py
       - name: Record actual validation outcomes
         if: always() && steps.merge.outcome == 'success'
         env:
           SEVA_DEPENDENCIES_OUTCOME: ${{ steps.dependencies.outcome }}
           SEVA_BACKEND_OUTCOME: ${{ steps.backend.outcome }}
           SEVA_FRONTEND_OUTCOME: ${{ steps.frontend.outcome }}
+          SEVA_BROWSER_OUTCOME: ${{ steps.browser.outcome }}
         run: |
           python .github/scripts/merge_payload.py report
           python submission/scripts/prepare_pack.py
-          git add integration/status.json integration/source-manifest.json integration/ci-validation.json README.md submission/file_manifest.json
+          git add integration/status.json integration/source-manifest.json integration/ci-validation.json integration/urban-validation.json README.md submission/file_manifest.json
           git commit -m 'Record merged source and actual validation results'
           git push origin HEAD:main
       - name: Export the verified repository for local synchronization
@@ -88,12 +98,13 @@ jobs:
           SEVA_DEPENDENCIES_OUTCOME: ${{ steps.dependencies.outcome }}
           SEVA_BACKEND_OUTCOME: ${{ steps.backend.outcome }}
           SEVA_FRONTEND_OUTCOME: ${{ steps.frontend.outcome }}
+          SEVA_BROWSER_OUTCOME: ${{ steps.browser.outcome }}
         run: |
           python - <<'PY'
           import os
-          checks = ['SEVA_DEPENDENCIES_OUTCOME', 'SEVA_BACKEND_OUTCOME', 'SEVA_FRONTEND_OUTCOME']
+          checks = ['SEVA_DEPENDENCIES_OUTCOME', 'SEVA_BACKEND_OUTCOME', 'SEVA_FRONTEND_OUTCOME', 'SEVA_BROWSER_OUTCOME']
           failed = {name: os.environ.get(name) for name in checks if os.environ.get(name) != 'success'}
           if failed:
               raise SystemExit(f'Application checks did not all pass: {failed}')
-          print('Backend dependencies, backend tests and frontend build all passed.')
+          print('Backend dependencies, backend tests, frontend build and UrbanSaarthi browser workflow all passed.')
           PY
