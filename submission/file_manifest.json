@@ -25,7 +25,7 @@
   },
   "prototype/dist/data/research.json": {
     "bytes": 112671,
-    "sha256": "c17bd1f9234781794962033d6cd2ab0304640688d59f20413dadc34f89d75d1a"
+    "sha256": "1c0a739091efe1544d1d81c3591475a34c564c51eddbdbf7661ae53abeed92f7"
   },
   "prototype/dist/favicon.svg": {
     "bytes": 222,
@@ -73,7 +73,7 @@
   },
   "prototype/dist/research/prototype_validation.md": {
     "bytes": 7281,
-    "sha256": "4b27b07516f0057508ad6d0c0ba67220a572d324556af65a43ca8baf9d843387"
+    "sha256": "f2d3e93511c17c2b632118de02c5aa1bb6666dfc1f03589e5d29c89b3b5d03e8"
   },
   "prototype/dist/research/public_record_case.md": {
     "bytes": 9222,
@@ -101,7 +101,7 @@
   },
   "prototype/dist/standalone.html": {
     "bytes": 463888,
-    "sha256": "cbdd121aeae8f5d5ff6699ebc1553f4038d4aa156639176847761b8b61929bad"
+    "sha256": "57ef0efdd9ac06d680679960e708437a6fa73422b417b49c152de229f9f4d691"
   },
   "prototype/dist/style.css": {
     "bytes": 21435,
@@ -189,7 +189,7 @@
   },
   "research/prototype_validation.md": {
     "bytes": 7281,
-    "sha256": "4b27b07516f0057508ad6d0c0ba67220a572d324556af65a43ca8baf9d843387"
+    "sha256": "f2d3e93511c17c2b632118de02c5aa1bb6666dfc1f03589e5d29c89b3b5d03e8"
   },
   "research/public_record_case.md": {
     "bytes": 9222,
