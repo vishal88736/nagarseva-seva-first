@@ -109,7 +109,7 @@ def report():
         'backend_passed_count': int(matched.group(1)) if matched else None,
         'frontend_build': os.environ.get('SEVA_FRONTEND_OUTCOME', 'not_run'),
         'evidence_checks': 'passed during the source merge',
-        'real_browser_checks': 'not run by this workflow',
+        'real_browser_checks': os.environ.get('SEVA_BROWSER_OUTCOME', 'not_run'),
         'field_validation': 'not performed',
     }
     (ROOT / 'integration/ci-validation.json').write_text(json.dumps(results, indent=2) + '\n')
@@ -118,7 +118,7 @@ def report():
     state.update(state='MERGED_ON_GITHUB', source_complete=True, source_original_files=results['original_files'],
                  source_missing_files=[], original_application_tests=results['backend_tests'],
                  frontend_build=results['frontend_build'], workflow_url=run_url)
-    if any(results[key] != 'success' for key in ['backend_dependencies', 'backend_tests', 'frontend_build']):
+    if any(results[key] != 'success' for key in ['backend_dependencies', 'backend_tests', 'frontend_build', 'real_browser_checks']):
         state['state'] = 'MERGED_ON_GITHUB_VALIDATION_FAILED'
     state_path.write_text(json.dumps(state, indent=2) + '\n')
     manifest_path = ROOT / 'integration/source-manifest.json'

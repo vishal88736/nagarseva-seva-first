@@ -1,29 +1,57 @@
-# NagarSeva + Seva Evidence
+# UrbanSaarthi
 
-NagarSeva's urban-housing and service-assurance application, combined with a research-led evidence workbench and Seva First submission materials.
+Explainable settlement prioritization, hypothetical intervention comparison and basic-service assurance for a Maharashtra urban-development challenge prototype.
 
-- [NagarSeva application and run instructions](nagarseva/README.md)
-- [Evidence workbench and demonstration](prototype/README.md)
-- [Open the self-contained evidence workbench](prototype/dist/standalone.html)
-- [Research overview](research/README.md) and [executive findings](research/research_summary.md)
-- [Draft application, six-slide deck, budget and pitch](submission/README.md)
-- [Source lineage, merge procedure and limits](integration/README.md)
-- [Executed evidence checks](research/prototype_validation.md)
+## Five screens, one workflow
 
-## Run the applications
+1. **Overview** — demonstration cluster coverage, rankability and services awaiting review.
+2. **Explore Settlements** — interactive Leaflet map, deficit filters, source cards and missing data.
+3. **Prioritize Needs** — configurable weighted scores, explanations, uncertainty intervals and ranking sensitivity.
+4. **Compare Scenarios** — two in-place options, conditional relocation thought experiment, cost/access/disruption assumptions.
+5. **Service Assurance** — planned works, physical completion, uploaded evidence, measurements, review, issues and audit history.
 
-Follow the NagarSeva guide for the FastAPI backend and React/Vite frontend. The evidence workbench is additionally served at `/evidence/` by Vite and included in its production build. It can also be opened independently from `prototype/dist/standalone.html`, without a server or credentials.
+The priority example in the brief is **65.0/100**, not 65.5. Unknown indicators stay missing; clusters with missing positive-weight inputs receive an interval and no rank. No eligibility or resident-relocation decision is automated.
 
-Run `python3 prototype/scripts/verify.py` and then `python3 submission/scripts/prepare_pack.py` to verify and rebuild the evidence/submission materials. Refresh the Vite copy with `python3 scripts/sync_evidence.py` after changing the standalone artifact.
+## Run locally
 
-## Evidence boundaries
+Use Python 3.12 and Node 24. No model training or API key is required for the focused demo.
 
-Synthetic planning data, trained models, hypothetical budgets and author-written test fixtures do not establish field accuracy, cost savings or government adoption. Preserve NagarSeva's synthetic-data labels and model limitations. The evidence workbench keeps public-record audits, historical statistics, unknown service baselines and a clearly labelled synthetic sandbox separate. It does not make eligibility or relocation decisions.
+```bash
+cd nagarseva
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r model/requirements-urban.txt
+npm --prefix website ci
+```
 
-GitHub Actions completed **30 backend tests**, the frontend production build and the evidence-workbench checks in [the passing validation run](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39061086658), using Python 3.12 and Node 24. See [the compatibility repair and remaining limits](integration/merge_fixes.md). Browser checks in the preparation environment were blocked before assertions; no real-browser or field-validation pass is claimed. Applicant personal details remain omitted, and authenticated application limits remain unverified.
+Start the API:
 
-The original repository is unchanged. Its commit and imported-file hashes are recorded in `integration/source-manifest.json`. This fresh repository does not import its Git history or imply that either prototype is a production public service.
+```bash
+.venv/bin/python -m uvicorn model.api.urban:app --host 127.0.0.1 --port 8000
+```
 
-## Published source and checks
+In another terminal, from `nagarseva`:
 
-The source merge and per-file hashes were verified in [this workflow](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39060182457). See [the recorded validation outcomes](integration/ci-validation.json) for backend, frontend and evidence-check results. Browser and field validation remain separate.
+```bash
+npm --prefix website run dev
+```
+
+Open **http://localhost:5173**. API documentation: http://localhost:8000/docs. If the API is unavailable, the app explicitly offers a browser sandbox; those records remain separate from server records. Uploads accept consented demo files, up to 2 MiB. SQLite operational files are ignored by Git.
+
+Set `NAGARSEVA_OFFICER_KEY` on the API and enter it through **Officer access** to protect server records. Do not put the key in a frontend build or commit it. This shared-key demo is not production identity or role management.
+
+## Data and validation boundaries
+
+The five cluster polygons, normalized deficit indicators, roads, amenities and household/cost assumptions are **synthetic**. No current field-service baseline or permitted settlement boundary dataset has been acquired. The three attributed SRA listing records are a separate desk case with no geometry or service claims. Mumbai is a demonstration context; no ward-level pilot partnership has been secured.
+
+Calculations run deterministically in Python and the browser, with API consistency checks when connected. The final CI executes the retained backend suite, new calculation/API tests, browser-engine tests, frontend production build and actual Chromium workflow. [Executed UrbanSaarthi browser results](integration/urban-validation.json) and [application CI results](integration/ci-validation.json) record the actual boundary. No field impact, independent ranking accuracy, resident consent or government adoption is claimed. Existing frontend dependency advisories remain unresolved.
+
+## Project materials
+
+- [Architecture, formulas, state transitions and evaluation](nagarseva/docs/urbansaarthi.md)
+- [Focused application guide](nagarseva/README.md)
+- [Research overview](research/README.md) and [executive research findings](research/research_summary.md)
+- [Evidence workbench](prototype/README.md), also available at `/evidence/`
+- [Earlier submission draft](submission/README.md): editable deck, budget, answers and pitch. These retain the earlier Seva Evidence scope/branding and need alignment with UrbanSaarthi before submission; authenticated form limits remain unverified and personal fields remain omitted.
+- [Original source lineage](integration/source-manifest.json) and [merge record](integration/README.md)
+
+The original GitHub repository remains untouched. This fresh repository preserves the imported model artifacts and legacy components; the original interface is in `nagarseva/website/src/LegacyApp.tsx`. UrbanSaarthi's default API does not use those synthetic-trained models. PostgreSQL/PostGIS and agency integrations are later production work; the prototype uses SQLite and a small labelled graph.

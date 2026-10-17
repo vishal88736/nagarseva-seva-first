@@ -53,7 +53,7 @@ export default function UrbanSaarthi() {
     <aside className={`us-sidebar ${menu ? 'open' : ''}`}>
       <button className="us-brand" onClick={() => open('overview')} aria-label="UrbanSaarthi home"><span className="us-brand-mark"><Building2 size={23} /></span><span><strong>UrbanSaarthi<span>●</span></strong><small>PLANNING WITH PURPOSE</small></span></button>
       <div className="us-workspace-label">URBAN DEVELOPMENT <span>01</span></div>
-      <nav aria-label="Planning workflow">{PAGES.map((item, index) => <button key={item.id} aria-current={page === item.id ? 'page' : undefined} className={page === item.id ? 'active' : ''} onClick={() => open(item.id)}><item.icon size={18} /><span>{item.label}</span><small>{String(index + 1).padStart(2, '0')}</small></button>)}</nav>
+      <nav aria-label="Planning workflow">{PAGES.map((item, index) => <button key={item.id} aria-label={item.label} aria-current={page === item.id ? 'page' : undefined} className={page === item.id ? 'active' : ''} onClick={() => open(item.id)}><item.icon size={18} /><span>{item.label}</span><small>{String(index + 1).padStart(2, '0')}</small></button>)}</nav>
       <div className="us-sidebar-note"><span className="us-sidebar-note-icon"><ShieldCheck size={20} /></span><h3>Evidence before decisions.</h3><p>Transparent inputs. Visible assumptions. A separate check for functioning services.</p><a href="/evidence/" target="_blank" rel="noreferrer">Research workbench <ArrowUpRight size={14} /></a></div>
       <div className="us-sidebar-bottom"><span className="us-dot amber" /><div><b>Demonstration only</b><small>No government system connected</small></div></div>
     </aside>

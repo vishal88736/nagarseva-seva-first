@@ -1,6 +1,10 @@
 PYTHON ?= python
 
-.PHONY: setup data train api web all test docs clean
+.PHONY: setup urban-setup data train api legacy-api web all test test-legacy docs clean
+
+urban-setup:
+	$(PYTHON) -m pip install -r model/requirements-urban.txt
+	npm --prefix website ci
 
 setup:
 	$(PYTHON) -m pip install -r model/requirements.txt
@@ -17,6 +21,9 @@ train: data
 	$(PYTHON) model/src/train_grievance_nlp.py
 
 api:
+	$(PYTHON) -m uvicorn model.api.urban:app --host 0.0.0.0 --port 8000 --reload
+
+legacy-api:
 	$(PYTHON) -m uvicorn model.api.main:app --host 0.0.0.0 --port 8000 --reload
 
 web:
@@ -29,6 +36,11 @@ all: setup train
 	@nohup npm --prefix website run dev > web.log 2>&1 & echo "Web started on http://localhost:5173"
 
 test:
+	$(PYTHON) -m pytest tests -q
+	npm --prefix website test
+	npm --prefix website run build
+
+test-legacy:
 	$(PYTHON) -m pytest model/tests -q
 	npm --prefix website run build
 
