@@ -2,7 +2,7 @@ import { ArrowDownToLine, ArrowRight, Check, ChevronRight, CircleHelp, MapPin, S
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import publicCase from '../../../shared/urban-public-records.json'
-import { compareScenarios, defaultAssumptions, DEFAULT_WEIGHTS, INDICATORS, KEYS, networkAccess, normalizeWeights, OPTION_NAMES, prioritize, score } from './engine'
+import { compareScenarios, defaultAssumptions, DEFAULT_WEIGHTS, DEMO_HIGH_PRIORITY_THRESHOLD, INDICATORS, KEYS, networkAccess, normalizeWeights, OPTION_NAMES, prioritize, score } from './engine'
 import type { Assumptions, Cluster, Dataset, Key, OptionKind, ScenarioOption, ScenarioResult, State, Weights } from './engine'
 import { api, downloadJson } from './client'
 
@@ -23,7 +23,7 @@ export function Overview({ data, selected, weights, onSelect, state, onPage }: C
   return <>
     <Heading number="01" title="A clear path from need to service." description="Understand the settlement. Compare the choices. Keep service delivery accountable."><Tag tone="amber">Demonstration workspace</Tag></Heading>
     <div className="us-metrics">
-      {[['05', 'Demo settlement clusters', 'Synthetic geometry; no approved pilot'], [String(complete.length).padStart(2, '0'), 'Rankable clusters', 'Positive-weight inputs are available'], [String(deficits).padStart(2, '0'), 'Demo deficit indicators', 'Index ≥60; an illustrative threshold'], [String(pending).padStart(2, '0'), 'Services awaiting review', 'Completion alone does not verify service']].map(([value, label, note]) => <div className="us-metric" key={label}><span>{label}</span><strong>{value}</strong><small>{note}</small></div>)}
+      {[[String(data.clusters.length).padStart(2, '0'), 'Demo settlement clusters', 'Synthetic geometry; no approved pilot'], [String(complete.length).padStart(2, '0'), 'Rankable clusters', 'Positive-weight inputs are available'], [String(complete.filter(row => row.score !== null && row.score >= DEMO_HIGH_PRIORITY_THRESHOLD).length).padStart(2, '0'), 'High-priority demo clusters', `Score ≥${DEMO_HIGH_PRIORITY_THRESHOLD}; assumed cutoff, rankable only`], [String(deficits).padStart(2, '0'), 'Demo deficit indicators', 'Index ≥60; an illustrative threshold'], [String(pending).padStart(2, '0'), 'Services awaiting review', 'Completion alone does not verify service']].map(([value, label, note]) => <div className="us-metric" key={label}><span>{label}</span><strong>{value}</strong><small>{note}</small></div>)}
     </div>
     <div className="us-overview-main">
       <Panel className="us-intro"><div className="us-eyebrow"><span className="us-dot green" /> SETTLEMENT-LEVEL DECISION SUPPORT</div><h2>Make the next intervention<br />an informed one.</h2><p>Bring service needs, planning assumptions and verification records into one reviewable workflow.</p><div className="us-button-row"><button className="us-button primary" onClick={() => onPage('explore')}>Explore settlements <ArrowRight size={16} /></button><button className="us-button" onClick={() => onPage('prioritize')}>Review priorities</button></div><div className="us-intro-note"><CircleHelp size={18} /><span>All five mapped clusters and their indicators are synthetic. Current household services remain unmeasured.</span></div></Panel>

@@ -1,0 +1,29 @@
+{
+  "status": "passed_direct_package_layout_and_visual_checks",
+  "slides": 6,
+  "native_table_slides": [
+    3
+  ],
+  "source_template_sha256": "f1759dcb60e2953769ad8a535fa4fd7e870c5702c80cef70e6b465fab3e4aa92",
+  "template_geometry_theme_and_section_order_preserved": true,
+  "package_findings": 0,
+  "layout_findings": 0,
+  "layout_warnings": 0,
+  "powerpoint_executed": false,
+  "portal_acceptance_verified": false,
+  "pdf": "Six rendered slide pages, 1440 by 810 pixel slide images; raster viewing copy. Editable text, table and notes remain in PPTX.",
+  "pdf_export_limitations": "Bundled PDF export failed on missing standard-font module; local LibreOffice conversion exited without output. ReportLab assembled inspected slide renders.",
+  "finalizer_limitations": "Node child_process could not spawn the reference-font validator (EPERM). Package and geometry validators were executed directly and passed.",
+  "visual_review": "All six authored renders and all six PDF pages inspected; final PPTX import renders checked separately.",
+  "files": {
+    "urbansaarthi-pitch.pptx": {
+      "bytes": 143681,
+      "sha256": "e7f63bee91b6f2cd5d0d9a7fdcd74e6e443d02efbac70a9796a7164599c9ae54"
+    },
+    "urbansaarthi-pitch.pdf": {
+      "bytes": 856781,
+      "sha256": "4bb0699cc2889efe00459dcbc0306598f9b1fbd54ebba122a0a84fff4bbff3b6"
+    }
+  },
+  "final_pptx_import": "All six final PPTX slides imported and rendered; native comparison table and screenshot verified. All six imported renders visually inspected."
+}

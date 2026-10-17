@@ -82,20 +82,24 @@ def main():
                     if page.viewport_size["width"] <= 800:
                         page.get_by_role("button", name="Open navigation menu", exact=True).click()
                     page.get_by_role("navigation", name="Planning workflow").get_by_role("button", name=label, exact=True).click()
+                    if page.viewport_size["width"] <= 800:
+                        page.wait_for_function("document.querySelector('.us-sidebar').getBoundingClientRect().right <= 1")
 
                 def check(label):
                     checks.append(label)
                     print("URBAN_BROWSER_CHECK " + label, flush=True)
                     if len(checks) == 1:
                         initial = OUT / "overview-initial.jpg"
-                        page.screenshot(path=initial, type="jpeg", quality=70, full_page=True)
+                        page.screenshot(path=initial, type="jpeg", quality=70, full_page=True, animations="disabled")
                         emit_preview(initial)
 
                 page.goto("http://127.0.0.1:4173", wait_until="networkidle")
                 expect(page.locator(".us-context-bar")).to_contain_text("Python calculation checked")
                 expect(page.get_by_role("heading", name="A clear path from need to service.")).to_be_visible()
                 expect(page.get_by_text("Official listing fact", exact=True)).to_have_count(3)
-                check("Overview distinguishes five synthetic clusters from three separate official listing records")
+                expect(page.locator(".us-metric").filter(has_text="High-priority demo clusters").locator("strong")).to_have_text("02")
+                expect(page.locator(".us-metric").filter(has_text="High-priority demo clusters")).to_contain_text("assumed cutoff")
+                check("Overview separates synthetic and official records and counts only rankable scores above the explicit demo threshold")
                 nav("Explore Settlements")
                 expect(page.locator(".leaflet-container")).to_be_visible()
                 page.get_by_label("Service deficit filter").select_option("missing")
@@ -206,14 +210,14 @@ def main():
                         if not page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"):
                             result['overflow_elements'] = page.evaluate("Array.from(document.querySelectorAll('*')).filter(e => e.getBoundingClientRect().right > innerWidth + 1).slice(0, 12).map(e => ({tag:e.tagName,classes:e.className,width:e.getBoundingClientRect().width}))")
                             failure = OUT / f"overflow-{width}.jpg"
-                            page.screenshot(path=failure, type="jpeg", quality=70, full_page=True)
+                            page.screenshot(path=failure, type="jpeg", quality=70, full_page=True, animations="disabled")
                             emit_preview(failure)
                             raise AssertionError(f"Horizontal overflow: {width} / {label}")
                         check(f"Responsive navigation and no document overflow: {width}px / {label}")
                     if width in {1440, 375}:
                         nav("Overview")
                         path = OUT / f"overview-{width}.jpg"
-                        page.screenshot(path=path, type="jpeg", quality=70, full_page=True)
+                        page.screenshot(path=path, type="jpeg", quality=70, full_page=True, animations="disabled")
                         screenshots.append(str(path.relative_to(ROOT)))
                 offline = browser.new_context(viewport={"width": 1280, "height": 900})
                 offline.route("**/api/**", lambda route: route.abort())

@@ -1,6 +1,6 @@
 # Pilot cost and continuation model
 
-Prepared **17 October 2026**. **All quantities/rates below are illustrative planning assumptions, not quotations, approved spending, observed costs or funding commitments.** The editable workbook calculates the same model. Scope: a 90-day evidence-review trial for one agreed cluster and a proposed 20 public assets. It excludes construction, relocation, household enumeration and asset-repair capex.
+Prepared **18 October 2026**. **All quantities/rates below are illustrative planning assumptions, not quotations, approved spending, observed costs or funding commitments.** The editable workbook calculates the same model. Scope: a 90-day UrbanSaarthi water-service review trial for one agreed cluster and a proposed 20 public assets. It excludes construction, relocation, household enumeration and asset-repair capex.
 
 | Trial activity | Assumed quantity | Assumed INR/unit | Illustrative INR |
 |---|---:|---:|---:|
@@ -42,3 +42,7 @@ No SROI, health benefit, repair-time reduction or positive financial return is e
 An innovation work order or approved pilot grant is a candidate trial source. Eligible CSR-supported community verification is another possibility, subject to the donor and implementation arrangement. Continued operation needs an approved municipal/service budget or another named paying institution. No programme automatically finances this software. [Competition award conditions](https://sevainnovationchallenge.in/), [PMAY-U 2.0 guidelines](https://pmaymis.gov.in/PMAYMIS2_2024/Operational-Guidelines-of-PMAY-U-2.pdf)
 
 Land-value capture, developer PPPs, beneficiary contributions and microfinance require different project/legal/affordability appraisals. They are not assumed funding sources for this digital evidence-review trial.
+
+## Construction-scenario rates
+
+The app’s construction/upgrade, rent, contingency and service-coverage inputs are separate hypothetical assumptions. They are not financed by the INR 132,000 review-trial budget. Use the [quote template](../pilot/templates/cost_quote.json) and obtain an engineering scope review before treating a rate as evidence. No current quotation or approved schedule item has been acquired.

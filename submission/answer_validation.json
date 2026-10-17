@@ -4,7 +4,7 @@
   "answers": [
     {
       "field": "Project title",
-      "words": 6,
+      "words": 7,
       "draft_budget": 15,
       "official_limit_verified": false
     },
@@ -16,91 +16,91 @@
     },
     {
       "field": "One-line value proposition",
-      "words": 25,
+      "words": 26,
       "draft_budget": 40,
       "official_limit_verified": false
     },
     {
       "field": "Problem statement",
-      "words": 98,
-      "draft_budget": 150,
-      "official_limit_verified": false
-    },
-    {
-      "field": "People affected and proposed geography",
-      "words": 95,
-      "draft_budget": 100,
-      "official_limit_verified": false
-    },
-    {
-      "field": "Proposed solution",
-      "words": 107,
-      "draft_budget": 150,
-      "official_limit_verified": false
-    },
-    {
-      "field": "Innovation and existing alternatives",
-      "words": 95,
-      "draft_budget": 150,
-      "official_limit_verified": false
-    },
-    {
-      "field": "Technology and methodology",
-      "words": 101,
-      "draft_budget": 150,
-      "official_limit_verified": false
-    },
-    {
-      "field": "Current stage and testing",
       "words": 99,
       "draft_budget": 150,
       "official_limit_verified": false
     },
     {
+      "field": "People affected and proposed geography",
+      "words": 77,
+      "draft_budget": 100,
+      "official_limit_verified": false
+    },
+    {
+      "field": "Proposed solution",
+      "words": 97,
+      "draft_budget": 150,
+      "official_limit_verified": false
+    },
+    {
+      "field": "Innovation and existing alternatives",
+      "words": 90,
+      "draft_budget": 150,
+      "official_limit_verified": false
+    },
+    {
+      "field": "Technology and methodology",
+      "words": 99,
+      "draft_budget": 150,
+      "official_limit_verified": false
+    },
+    {
+      "field": "Current stage and testing",
+      "words": 91,
+      "draft_budget": 150,
+      "official_limit_verified": false
+    },
+    {
       "field": "Implementation and feasibility",
-      "words": 103,
+      "words": 95,
       "draft_budget": 150,
       "official_limit_verified": false
     },
     {
       "field": "Government adopter and operating model",
-      "words": 92,
+      "words": 85,
       "draft_budget": 100,
       "official_limit_verified": false
     },
     {
       "field": "Expected impact and measurement",
-      "words": 91,
+      "words": 81,
       "draft_budget": 100,
       "official_limit_verified": false
     },
     {
       "field": "Scalability",
-      "words": 90,
+      "words": 88,
       "draft_budget": 100,
       "official_limit_verified": false
     },
     {
       "field": "Financial requirement and sustainability",
-      "words": 106,
+      "words": 88,
       "draft_budget": 150,
       "official_limit_verified": false
     },
     {
       "field": "Inclusion and safeguards",
-      "words": 89,
+      "words": 83,
       "draft_budget": 100,
       "official_limit_verified": false
     },
     {
       "field": "Risks and mitigation",
-      "words": 93,
+      "words": 76,
       "draft_budget": 100,
       "official_limit_verified": false
     },
     {
       "field": "Individual applicant and support required",
-      "words": 87,
+      "words": 79,
       "draft_budget": 100,
       "official_limit_verified": false
     }

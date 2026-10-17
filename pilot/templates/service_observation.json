@@ -1,0 +1,20 @@
+{
+  "status": "blank_template_not_observations",
+  "observation_id": null,
+  "approved_asset_id": null,
+  "source_record_id": null,
+  "observer_role_code": null,
+  "observation_start": null,
+  "observation_end": null,
+  "method": null,
+  "metric": null,
+  "value": null,
+  "unit": null,
+  "missing_reason": "not_collected",
+  "evidence_reference": null,
+  "independent_reviewer_role_code": null,
+  "reviewed_at": null,
+  "permission_reference": null,
+  "public_release_approved": false,
+  "notes": "No household identities, phone numbers or eligibility information. A spot-functionality check is not hours/day or potability evidence."
+}

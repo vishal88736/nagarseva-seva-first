@@ -1,63 +1,19 @@
-# Fifteen difficult judge questions
+# Fifteen hard judge questions
 
-Answers reflect the actual desk prototype on 17 October 2026. They are candid submission drafts, not evidence of interviews or adoption.
+Prepared 18 October 2026. Answers describe the actual prototype and the conditions for a trial.
 
-1. **Why does government need another dashboard?**
-
-   It may not. The proposed test is one existing review task. If current GIS/MIS exports already provide the evidence with acceptable effort, I would improve that export or stop this product proposal. A standalone dashboard is not the novelty claim.
-
-2. **What is genuinely different from SRA GIS, SBM or Swachhata?**
-
-   Those systems already cover GIS, functional monitoring and complaint follow-up. The candidate contribution is a reproducible evidence brief preserving tentative matches, unknowns and conflicting dated claims across a specific review. Incremental usefulness is unvalidated.
-
-3. **Show real data rather than a simulation.**
-
-   The real case contains three attributed SRA M/E–Deonar listing rows with original CTS/proposal strings. It computes linkage caution while retaining all rows. It establishes no current service condition. Routes, deficits and cost scenarios use a visibly labelled synthetic dataset because a real network and service survey were not acquired.
-
-4. **Are these duplicate or delayed SRA projects?**
-
-   Neither conclusion follows. Shared CTS can refer to distinct schemes, and removing punctuation does not prove cadastral equivalence. The inspected listing does not publish the relevant status/update columns. Those may exist in detail records. I require authoritative IDs and a permitted crosswalk before any join or progress assessment.
-
-5. **Where is the AI, and how accurate is it?**
-
-   The current version uses deterministic graph/scoring methods and lexical search over fourteen curated cards. It contains no trained AI model. The small author-written retrieval checklist matched the simple baseline. I claim no AI advantage or general accuracy figure.
-
-6. **What current service problem have you measured?**
-
-   None at settlement level. Historical research establishes relevant mechanisms, not today's local prevalence. Current baseline collection is a trial gate. I will not use Census 2011 ward averages or satellite morphology as household service evidence.
-
-7. **Who has agreed to adopt it?**
-
-   No agency has agreed. BMC M/E ward administration, the relevant service department and the actual asset operator are proposed stakeholders. Adoption requires an authorised review task, permitted records, a named owner and comparison with the existing workflow.
-
-8. **What can you realistically deliver as one person?**
-
-   A bounded local research prototype and a reproducible export are already prepared. Field verification, legal/engineering decisions, production security and sustained operations require domain partners. I would restrict the trial to one service-review task and avoid city-wide deployment promises.
-
-9. **What evidence shows that this works?**
-
-   Numerical, missingness, source, export and template checks passed. These establish tested code behaviour only. Real browser launch is blocked here and no field assessment was performed. I would present the recorded boundary, then seek independent transcription and workflow comparison.
-
-10. **Why Mumbai rather than Pune or Nagpur?**
-
-    Mumbai has the strongest reviewed local evidence and a readable SRA desk case. That makes M/E a defensible demonstration focus. Pune becomes preferable for field work if a municipal/NGO partner supplies lawful current data and review access. Actual access outranks a city label.
-
-11. **What does the pilot cost, and who pays after the award?**
-
-    The transparent planning model totals INR 132,000 for the proposed trial and INR 162,360 per year under its continuation assumptions. These are not quotations. A competent payer and operator must approve recurring resources before adoption. Award eligibility does not guarantee a work order or future operating budget.
-
-12. **How many households benefit and what is the SROI?**
-
-    Neither is measured. Twenty proposed assets and sixty proposed observations are a trial design, not beneficiary counts. The workbook withholds household unit cost until a verified denominator exists. Any SROI needs measured outcomes, attribution, costs and safeguards against double-counting.
-
-13. **How do you prevent exclusion or harmful housing decisions?**
-
-    The prototype accepts public/aggregate asset evidence and makes no eligibility, allocation or relocation decision. It distinguishes unknowns from deficits and preserves disputes. A trial must involve consenting women, older/disabled residents, renters and migrants through an assisted route, without collecting sensitive eligibility attributes.
-
-14. **Are public records and OSM legally free to reuse?**
-
-    Access and permission differ. OSM carries ODbL obligations. The SRA listing's open-data licence was not established, so the small case reproduces limited attributed factual fields and carries a reuse caveat. Broader ingestion, redistribution and institutional deployment need confirmed terms and approved data-sharing arrangements.
-
-15. **What result would make you stop?**
-
-    An adequate existing workflow, unavailable lawful inputs, persistent false matches, increased critical evidence omissions, unacceptable resident risk, or no operating owner would defeat the current proposal. A small pilot should be allowed to reject the product hypothesis rather than manufacture a success metric.
+1. **Who has asked for this?** No participating office has agreed. The proposed owner is BMC M-East administration with Assistant Engineer (Water Works) and the actual operator. The request is for one process walkthrough and a fair trial, not a claim of demand.
+2. **Why does this belong in the housing theme?** Housing quality depends partly on usable neighbourhood services. The app connects settlement-level needs, hypothetical improvement/redevelopment trade-offs and subsequent service review. It does not claim to finance or approve housing construction.
+3. **What is new compared with SRA GIS, SBM or Swachhata?** Each is relevant prior art. The hypothesis is a useful traceable handoff between priority explanation, intervention assumptions and closure evidence for one local review. Independent comparison may show no incremental benefit.
+4. **Where is the AI?** The focused app uses deterministic GIS, scoring and arithmetic. There is no validated AI advantage. The title and claims therefore emphasise explainability and service review. An optional document assistant would require its own citation/abstention evaluation.
+5. **Are these real slums and deficits?** No. Five mapped clusters and their indices are synthetic. Three separate SRA listing rows are real public records but do not supply acquired geometry or current services. Map context cannot fill those gaps.
+6. **Why those weights?** They are initial design preferences. Configurable weights and sensitivity expose their effects. A real task requires a preregistered rubric and stakeholder review. We do not present equal weights as an independent ground truth.
+7. **What happens when data is missing?** A positive-weight missing input prevents an exact score and rank. The engine displays possible-contribution bounds and covered weight. It does not silently impute zero or renormalise only the observed indicators.
+8. **Can the score decide who moves?** No. Relocation requires explicit scenario opt-in and a reason, and remains a hypothetical comparison. Legal review, resident participation, livelihood assessment and competent approval are outside the score's authority.
+9. **Are your construction costs credible?** They are editable demonstration assumptions, not market quotations. A separate quote template captures quantity, units, dates, taxes, exclusions and engineering review. No scenario becomes an engineering feasibility approval.
+10. **How can a photograph prove functioning service?** It cannot. Verification also requires a measurement and review, with a separate physical-completion state. Production still needs authenticated inspectors, appropriate observation windows and repeated checks. Different typed names are only a demo rule.
+11. **Can a contractor close a complaint and restore verification?** A response alone cannot restore it. The prototype requires fresh post-complaint evidence and a new review. Operational escalation rules and an existing municipal complaint reference must be agreed before deployment.
+12. **What has actually been validated?** Executed tests cover calculations, API transitions, persistence, exports and actual Chromium interaction/layout on the recorded source. No current service labels, independent priority agreement, resident benefit or user-effort improvement have been measured.
+13. **What is the pilot cost per household?** Unknown because no verified benefiting-household denominator exists. INR 132,000 is an illustrative 90-day review trial. Dividing by 20 proposed asset review scopes gives INR 6,600 per scope, not per household or repaired asset.
+14. **Who maintains and pays for it after the prize?** No recurring payer is committed. The proposed handover must name the host, operator, security/support owner, asset-maintenance duty and approved operating budget. The INR 162,360 annual example is an assumption to validate.
+15. **What if a spreadsheet already solves the task?** Use the spreadsheet or improve the current export. The comparison should measure critical omissions and review effort, preserving negative findings. A weak advantage is a reason to narrow or stop, not add fashionable technology.

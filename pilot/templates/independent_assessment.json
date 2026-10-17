@@ -1,0 +1,16 @@
+{
+  "status": "blank_template_not_observations",
+  "protocol_version": "1",
+  "task": "priority for the next agreed water-service inspection",
+  "assessment_id": null,
+  "area_or_asset_id": null,
+  "reviewer_role_code": null,
+  "assessed_at": null,
+  "evidence_packet_id": null,
+  "engine_score_hidden_during_assessment": null,
+  "rank_with_ties": null,
+  "urgency_label": null,
+  "reasons": [],
+  "missing_inputs": [],
+  "adjudication": null
+}

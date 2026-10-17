@@ -43,7 +43,7 @@ Set `NAGARSEVA_OFFICER_KEY` on the API and enter it through **Officer access** t
 
 The five cluster polygons, normalized deficit indicators, roads, amenities and household/cost assumptions are **synthetic**. No current field-service baseline or permitted settlement boundary dataset has been acquired. The three attributed SRA listing records are a separate desk case with no geometry or service claims. Mumbai is a demonstration context; no ward-level pilot partnership has been secured.
 
-Calculations run deterministically in Python and the browser, with API consistency checks when connected. The final CI executes the retained backend suite, new calculation/API tests, browser-engine tests, frontend production build and actual Chromium workflow. [Executed UrbanSaarthi browser results](integration/urban-validation.json) and [application CI results](integration/ci-validation.json) record the actual boundary. No field impact, independent ranking accuracy, resident consent or government adoption is claimed. Existing frontend dependency advisories remain unresolved.
+Calculations run deterministically in Python and the browser, with API consistency checks when connected. The final CI executes the retained backend suite, new calculation/API tests, browser-engine tests, frontend production build and actual Chromium workflow. [Executed UrbanSaarthi browser results](integration/urban-validation.json) and [application CI results](integration/ci-validation.json) record the actual boundary. No field impact, independent ranking accuracy, resident consent or government adoption is claimed. Dependency remediation and actual advisory outcomes are tracked in `integration/security-audit-before.json` and the subsequent audit report.
 
 ## Project materials
 
@@ -51,7 +51,9 @@ Calculations run deterministically in Python and the browser, with API consisten
 - [Focused application guide](nagarseva/README.md)
 - [Research overview](research/README.md) and [executive research findings](research/research_summary.md)
 - [Evidence workbench](prototype/README.md), also available at `/evidence/`
-- [Earlier submission draft](submission/README.md): editable deck, budget, answers and pitch. These retain the earlier Seva Evidence scope/branding and need alignment with UrbanSaarthi before submission; authenticated form limits remain unverified and personal fields remain omitted.
+- [UrbanSaarthi submission pack](submission/README.md): official-template deck and PDF, budget, answers and pitch. Authenticated form/upload limits remain unverified and personal fields remain omitted.
 - [Original source lineage](integration/source-manifest.json) and [merge record](integration/README.md)
 
 The original GitHub repository remains untouched. This fresh repository preserves the imported model artifacts and legacy components; the original interface is in `nagarseva/website/src/LegacyApp.tsx`. UrbanSaarthi's default API does not use those synthetic-trained models. PostgreSQL/PostGIS and agency integrations are later production work; the prototype uses SQLite and a small labelled graph.
+
+The [prepared pilot kit](pilot/README.md) identifies a prospective BMC M-East water-domain owner and includes an unsent request, independent-baseline protocol, observation/indicator rules and blank quote templates. Prepared protocols are not completed field evidence.

@@ -1,0 +1,4 @@
+{
+  "package_sha256": "10e4350d7748f38912aeb21e755c6050646d63ae6078412e7c2ab8880d1628cc",
+  "reason": "Patch Vite/PostCSS; remove Tailwind plugin that has no @tailwind or @apply consumer. Preserve handcrafted CSS and legacy source."
+}
