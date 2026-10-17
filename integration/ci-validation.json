@@ -1,6 +1,6 @@
 {
-  "checked_at": "2026-10-17T19:46:52.917772+00:00",
-  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39063827451",
+  "checked_at": "2026-10-17T19:51:38.534871+00:00",
+  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39064154385",
   "source_commit": "f1049b6b274be996a9e09bf11011a724905c0c76",
   "original_files": 118,
   "upstream_snapshot_verified_at_acquisition": true,
@@ -9,6 +9,6 @@
   "backend_passed_count": 52,
   "frontend_build": "success",
   "evidence_checks": "passed during the source merge",
-  "real_browser_checks": "failure",
+  "real_browser_checks": "success",
   "field_validation": "not performed"
 }

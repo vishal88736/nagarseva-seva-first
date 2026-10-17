@@ -1,12 +1,11 @@
 {
-  "status": "failed",
-  "checked_at": "2026-10-17T19:46:42.913881+00:00",
-  "tested_commit": "cd644cb9b74d1fc8794c74bf24c43e0092a6f74d",
-  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39063827451",
+  "status": "passed",
+  "checked_at": "2026-10-17T19:51:24.621575+00:00",
+  "tested_commit": "df0a86ce0439899f119c4838ef8ff188da9fcbd1",
+  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39064154385",
   "browser": "Playwright Chromium",
   "data": "Synthetic demonstration only",
   "field_validation": false,
-  "error": "AssertionError: Horizontal overflow: 375 / Prioritize Needs",
   "checks": [
     "Overview distinguishes five synthetic clusters from three separate official listing records",
     "Map filter and accessible cluster selection preserve missing data",
@@ -16,6 +15,7 @@
     "File upload, evidence selection, independent reviewer and measured target gate service verification",
     "A new issue disputes verification; a response alone cannot restore it; fresh evidence permits a new review",
     "Exported brief contains scores, assumptions and evidence metadata; SQLite records persist after reload",
+    "A rejected state refresh clears earlier operational records instead of retaining a stale authorized view",
     "Responsive navigation and no document overflow: 1440px / Overview",
     "Responsive navigation and no document overflow: 1440px / Explore Settlements",
     "Responsive navigation and no document overflow: 1440px / Prioritize Needs",
@@ -27,14 +27,16 @@
     "Responsive navigation and no document overflow: 768px / Compare Scenarios",
     "Responsive navigation and no document overflow: 768px / Service Assurance",
     "Responsive navigation and no document overflow: 375px / Overview",
-    "Responsive navigation and no document overflow: 375px / Explore Settlements"
+    "Responsive navigation and no document overflow: 375px / Explore Settlements",
+    "Responsive navigation and no document overflow: 375px / Prioritize Needs",
+    "Responsive navigation and no document overflow: 375px / Compare Scenarios",
+    "Responsive navigation and no document overflow: 375px / Service Assurance",
+    "Browser sandbox persists locally and never silently writes its records to the API"
   ],
-  "executed_checks": 20,
-  "page_errors": [
-    "Cannot read properties of undefined (reading '_leaflet_pos')",
-    "Cannot read properties of undefined (reading '_leaflet_pos')"
-  ],
+  "executed_checks": 25,
+  "page_errors": [],
   "screenshots": [
-    ".merge-work/urban-browser/overview-1440.jpg"
+    ".merge-work/urban-browser/overview-1440.jpg",
+    ".merge-work/urban-browser/overview-375.jpg"
   ]
 }
