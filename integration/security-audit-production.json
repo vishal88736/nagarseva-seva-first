@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-10-17T20:15:14.924150+00:00",
+  "package_lock_sha256": "2d6e18078ace03b0a088ff0804c6e1d30d4fb2fb04f1da814c8396eeac7a10ee",
+  "scope": "production dependencies",
+  "exit_code": 0,
+  "report": {
+    "auditReportVersion": 2,
+    "vulnerabilities": {},
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 49,
+        "dev": 122,
+        "optional": 53,
+        "peer": 0,
+        "peerOptional": 0,
+        "total": 170
+      }
+    }
+  }
+}
