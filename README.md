@@ -23,3 +23,7 @@ Synthetic planning data, trained models, hypothetical budgets and author-written
 Browser checks in the preparation environment were blocked before assertions; no new browser or original-application test pass is claimed by this merge. Original-application tests must be run separately in a compatible environment. Applicant personal details remain omitted, and authenticated application limits remain unverified.
 
 The original repository is unchanged. Its commit and imported-file hashes are recorded in `integration/source-manifest.json`. This fresh repository does not import its Git history or imply that either prototype is a production public service.
+
+## Published source and checks
+
+The source merge and per-file hashes were verified in [this workflow](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39060182457). See [the recorded validation outcomes](integration/ci-validation.json) for backend, frontend and evidence-check results. Browser and field validation remain separate.
