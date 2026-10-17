@@ -33,14 +33,15 @@ try:
     report = json.loads(audit.stdout)
 except ValueError:
     report = {'error': audit.stderr[-2000:]}
-write(ROOT/'integration/security-audit-before.json', {'checked_at': NOW, 'exit_code': audit.returncode, 'report': report})
+if not (ROOT/'integration/security-audit-before.json').exists():
+    write(ROOT/'integration/security-audit-before.json', {'checked_at': NOW, 'exit_code': audit.returncode, 'report': report})
 print('NPM_AUDIT', json.dumps(report, separators=(',', ':')))
 for package in ['vite@6.4', '@vitejs/plugin-react@4', 'postcss@8', 'tailwindcss@3', 'recharts@2']:
     result = subprocess.run(['npm', 'view', package, 'version', '--json'], capture_output=True, text=True)
     print('NPM_VERSION', package, result.stdout.strip(), result.stderr.strip())
 
 query = '[out:json][timeout:25][maxsize:16777216];(way[highway](19.047,72.912,19.063,72.930);nwr[amenity~"^(school|hospital|clinic|toilets|drinking_water)$"](19.047,72.912,19.063,72.930);node[highway=bus_stop](19.047,72.912,19.063,72.930););out body geom;'
-endpoint = 'https://overpass-api.de/api/interpreter'
+endpoint = 'https://overpass.private.coffee/api/interpreter'
 url = endpoint + '?' + urllib.parse.urlencode({'data': query})
 metadata = {'accessed_at': NOW, 'endpoint': endpoint, 'query': query, 'bbox_wsen': [72.912,19.047,72.930,19.063], 'publisher': 'OpenStreetMap contributors via Overpass API', 'licence': 'ODbL 1.0', 'licence_url': 'https://www.openstreetmap.org/copyright', 'attribution': '© OpenStreetMap contributors', 'purpose': 'Small candidate Mumbai context extract. No settlement identification or household-service inference.', 'field_validation': False}
 try:
@@ -66,6 +67,12 @@ try:
     write(OUT/'mumbai-context.geojson', {'type':'FeatureCollection','metadata':metadata,'features':features})
 except Exception as exc:
     metadata.update(status='failed',error=f'{type(exc).__name__}: {exc}')
+history_path = OUT/'mumbai-context-attempts.json'
+history = json.loads(history_path.read_text()) if history_path.exists() else []
+previous = OUT/'mumbai-context-access.json'
+if previous.exists() and not history: history.append(json.loads(previous.read_text()))
+history.append(metadata)
+write(history_path, history)
 write(OUT/'mumbai-context-access.json', metadata)
 print('PUBLIC_CONTEXT',json.dumps(metadata))
 
