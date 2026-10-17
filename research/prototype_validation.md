@@ -1,6 +1,6 @@
 # Executed prototype validation
 
-Report generated: **2026-10-17T13:49:05.193718+00:00**. Source research access date: **2026-10-17**. This is software/development validation, not field evidence or an official service certification.
+Report generated: **2026-10-17T18:55:03.949695+00:00**. Source research access date: **2026-10-17**. This is software/development validation, not field evidence or an official service certification.
 
 ## Executed results
 
@@ -33,7 +33,7 @@ The initial retrieval run returned an answerable state for “how many people ..
 
 ## Reproduction and limits
 
-Run `python3 prototype/scripts/verify.py` from the project root. Engine tests explicitly use `--test-isolation=none`; this workspace's default subprocess-isolated invocation reported a file wrapper rather than the individual cases, so the pipeline verifies the declared/actual test counts match. Runtime versions: `v26.12.0`; `Python 3.15.0`.
+Run `python3 prototype/scripts/verify.py` from the project root. Engine tests explicitly use `--test-isolation=none`; this workspace's default subprocess-isolated invocation reported a file wrapper rather than the individual cases, so the pipeline verifies the declared/actual test counts match. Runtime versions: `v24.21.0`; `Python 3.12.15`.
 
 Local HTTP-server creation failed with `PermissionError: [Errno 1] Operation not permitted`. The generated [standalone entry point](../prototype/dist/standalone.html) embeds the interface, methods, data and research text and does not require a local port or external runtime assets. Browser execution itself could not be verified here because socket restrictions also prevented Chromium launch; the optional browser script is retained for an unrestricted environment. No server was left running.
 

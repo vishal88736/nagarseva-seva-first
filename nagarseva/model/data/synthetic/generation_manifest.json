@@ -1,0 +1,11 @@
+{
+  "seed": 20261008,
+  "synthetic": true,
+  "rows": {
+    "pockets": 1500,
+    "services": 1500,
+    "grievances": 20000,
+    "projects": 400,
+    "households": 10000
+  }
+}

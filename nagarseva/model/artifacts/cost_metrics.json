@@ -1,0 +1,10 @@
+{
+  "model": "random_forest_cost_delay",
+  "synthetic": true,
+  "split": "held-out wards",
+  "cost_mae": 389.3,
+  "cost_r2": -0.034,
+  "delay_mae_months": 5.9,
+  "delay_r2": -0.021,
+  "interval": "empirical +/- 1.28 residual standard deviations"
+}

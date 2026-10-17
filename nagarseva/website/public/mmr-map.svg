@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1000" viewBox="0 0 1200 1000">
+<defs><pattern id="blocks" width="46" height="44" patternUnits="userSpaceOnUse"><rect width="46" height="44" fill="#f4f5ec"/><rect x="5" y="5" width="14" height="12" rx="2" fill="#e7e9df"/><rect x="23" y="3" width="18" height="17" rx="2" fill="#e4e7df"/><rect x="3" y="25" width="36" height="13" rx="2" fill="#e8eade"/></pattern></defs>
+<rect width="1200" height="1000" fill="#d6ebeb"/>
+<path d="M235 0 H1200 V1000 H500 L420 936 412 816 318 698 344 550 289 489 300 359 239 254 200 143Z" fill="url(#blocks)"/>
+<path d="M540 0 599 114 631 183 679 250 645 307 669 393 721 440 745 533 810 578 854 616" fill="none" stroke="#d6ebeb" stroke-width="32"/>
+<path d="M410 0 389 76 415 156 373 214 404 278 441 320" fill="none" stroke="#d6ebeb" stroke-width="21"/>
+<path d="M650 73 Q805 20 915 168 L900 305 785 335 713 248Z" fill="#dce9cc"/><path d="M955 620 Q1090 588 1200 620 V850 L1040 811Z" fill="#dce9cc"/>
+<g fill="none" stroke-linecap="round"><path d="M283 910 338 805 366 699 402 595 452 485 497 390 535 299 590 230 716 190 817 206 918 239 1122 201" stroke="#fff" stroke-width="18"/><path d="M283 910 338 805 366 699 402 595 452 485 497 390 535 299 590 230 716 190 817 206 918 239 1122 201" stroke="#e9cf8d" stroke-width="7"/>
+<path d="M313 88 360 236 393 347 404 479 466 594 559 637 668 681 804 731 1024 787" stroke="#fff" stroke-width="15"/><path d="M313 88 360 236 393 347 404 479 466 594 559 637 668 681 804 731 1024 787" stroke="#ded3b7" stroke-width="5"/>
+<path d="M459 899 521 733 577 574 656 462 809 386 960 363 1132 300" stroke="#fff" stroke-width="14"/><path d="M459 899 521 733 577 574 656 462 809 386 960 363 1132 300" stroke="#e8d094" stroke-width="5"/>
+<path d="M336 845 379 726 434 615 477 508 527 400 578 290 661 236 793 247 932 277 1088 249" stroke="#afc2bf" stroke-width="3" stroke-dasharray="8 5"/>
+<path d="M290 300 520 385 735 425 1150 420 M320 560 670 605 1140 650 M310 720 704 754 1100 890 M450 80 492 405 538 751 M787 0 742 188 812 522 804 951 M1070 0 966 303 1070 653" stroke="#fff" stroke-width="5"/></g>
+</svg>

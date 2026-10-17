@@ -1,0 +1,27 @@
+{
+  "model": "gradient_boosting_priority",
+  "synthetic": true,
+  "split": "held-out wards",
+  "r2": 0.981,
+  "mae": 1.72,
+  "rank_correlation": 0.994,
+  "fairness_check_mae_by_city_income": {
+    "city": {
+      "Mumbai": 1.698,
+      "Thane": 1.735
+    },
+    "income_band": {
+      "low": 1.709,
+      "middle": 1.586,
+      "high": 1.847
+    }
+  },
+  "intervention_macro_f1": 0.76,
+  "intervention_accuracy": 0.835,
+  "intervention_labels": [
+    "in_situ_SRA",
+    "relocation",
+    "rental_housing",
+    "upgrading"
+  ]
+}

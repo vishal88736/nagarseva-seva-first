@@ -1,0 +1,6 @@
+scenario_id,budget_inr,minimum_vulnerable_share,minimum_wards,objective,assumption
+B-1,25000000,0.2,3,people_served,Synthetic cost bands; validate with DPR rates
+B-2,50000000,0.25,4,people_served,Synthetic cost bands; validate with DPR rates
+B-3,100000000,0.3,5,people_served,Synthetic cost bands; validate with DPR rates
+B-4,250000000,0.35,7,people_served,Synthetic cost bands; validate with DPR rates
+B-5,500000000,0.4,8,people_served,Synthetic cost bands; validate with DPR rates

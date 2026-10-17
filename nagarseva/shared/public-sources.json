@@ -1,0 +1,20 @@
+{
+  "reviewed_at": "2026-10-11",
+  "review_method": "Primary publisher pages and indexed publisher documents; availability is recorded separately from content review.",
+  "sources": [
+    { "id": "pmay", "publisher": "Ministry of Housing and Urban Affairs", "url": "https://pmaymis.gov.in/pmaymis2_2024/PmayFAQ.aspx", "scope": "India · PMAY-U 2.0", "data_period": "PMAY-U 2.0", "integration": "screening_reference", "reuse": "reference_only", "availability": "page_read", "terms_url": "https://pmaymis.gov.in/pmaymis2_2024/PmayFAQ.aspx" },
+    { "id": "slb", "publisher": "CPHEEO · Ministry of Housing and Urban Affairs", "url": "https://cpheeo.gov.in/upload/uploadfiles/files/Handbook.pdf", "scope": "India · urban service indicators", "data_period": "Handbook · 2008", "integration": "benchmark_reference", "reuse": "reference_only", "availability": "publisher_unreachable", "terms_url": "https://cpheeo.gov.in/" },
+    { "id": "census", "publisher": "Office of the Registrar General & Census Commissioner, India", "url": "https://censusindia.gov.in/nada/index.php/catalog/6190/study-description", "scope": "India · town-level slum aggregates", "data_period": "Census 2011", "integration": "dataset_reference", "reuse": "permission_required", "availability": "publisher_unreachable", "terms_url": "https://censusindia.gov.in/census.website/en/node/286" },
+    { "id": "sra", "publisher": "Slum Rehabilitation Authority, Brihanmumbai", "url": "https://sra.gov.in/onlineservices", "scope": "Brihanmumbai · rehabilitation services", "data_period": "Current publisher portal", "integration": "official_handoff", "reuse": "reference_only", "availability": "page_read", "terms_url": "https://sra.gov.in/" },
+    { "id": "bmc", "publisher": "Brihanmumbai Municipal Corporation", "url": "https://www.mcgm.gov.in/", "scope": "Mumbai · civic services", "data_period": "Civic Diary 2026", "integration": "official_handoff", "reuse": "reference_only", "availability": "page_read", "terms_url": "https://portal.mcgm.gov.in/irj/go/km/docs/documents/HomePage%20Data/BMC%20Diary/BMC_English%20Diary_2026.pdf", "phone": "1916" },
+    { "id": "imd", "publisher": "India Meteorological Department", "url": "https://mausam.imd.gov.in/", "scope": "India · official weather warnings", "data_period": "Current publisher portal", "integration": "official_handoff", "reuse": "reference_only", "availability": "page_read", "terms_url": "https://mausam.imd.gov.in/" },
+    { "id": "osm", "publisher": "OpenStreetMap contributors · OpenStreetMap Foundation", "url": "https://www.openstreetmap.org/copyright", "scope": "Global · geographic background", "data_period": "Provider tiles · maintained by contributors", "integration": "map_tiles", "reuse": "ODbL · tile usage policy", "availability": "page_read", "terms_url": "https://operations.osmfoundation.org/policies/tiles/" },
+    { "id": "weather", "publisher": "Open-Meteo", "url": "https://open-meteo.com/en/docs", "scope": "Global · forecast grid", "data_period": "Rolling seven-day forecast", "integration": "live_forecast", "reuse": "CC BY 4.0 · free API for noncommercial use", "availability": "api_tested", "terms_url": "https://open-meteo.com/en/terms" }
+  ],
+  "benchmarks": [
+    { "id": "water_continuity", "service": "water", "value": 24, "unit": "hours/day", "source_id": "slb", "indicator": "2.1.5", "comparison": "context_only" },
+    { "id": "water_quantity", "service": "water", "value": 135, "unit": "litres/person/day", "source_id": "slb", "indicator": "2.1.2", "comparison": "different_unit" },
+    { "id": "toilet_coverage", "service": "sanitation", "value": 100, "unit": "% coverage", "source_id": "slb", "indicator": "2.2.1", "comparison": "different_unit" },
+    { "id": "waste_coverage", "service": "waste", "value": 100, "unit": "% coverage", "source_id": "slb", "indicator": "2.3.1", "comparison": "different_unit" }
+  ]
+}

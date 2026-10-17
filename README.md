@@ -1,41 +1,25 @@
 # NagarSeva + Seva Evidence
 
-**Preparation status: local research, evidence prototype and submission materials are copied. The NagarSeva GitHub source has not yet been cloned or merged.**
+NagarSeva's urban-housing and service-assurance application, combined with a research-led evidence workbench and Seva First submission materials.
 
-The clone attempt on 17 October 2026 failed because GitHub DNS was unavailable in this session. A later check detected the configured GitHub CLI account `vishal88736`, but authentication could not be validated because `gh api user` could not reach GitHub. This directory is a separate fresh local repository; the original GitHub repository and local work remain untouched.
+- [NagarSeva application and run instructions](nagarseva/README.md)
+- [Evidence workbench and demonstration](prototype/README.md)
+- [Open the self-contained evidence workbench](prototype/dist/standalone.html)
+- [Research overview](research/README.md) and [executive findings](research/research_summary.md)
+- [Draft application, six-slide deck, budget and pitch](submission/README.md)
+- [Source lineage, merge procedure and limits](integration/README.md)
+- [Executed evidence checks](research/prototype_validation.md)
 
-## Included Seva Evidence work
+## Run the applications
 
-A research-led prototype for traceable urban-service evidence and inspection review, prepared for the Seva First Innovation Challenge, Maharashtra zone.
+Follow the NagarSeva guide for the FastAPI backend and React/Vite frontend. The evidence workbench is additionally served at `/evidence/` by Vite and included in its production build. It can also be opened independently from `prototype/dist/standalone.html`, without a server or credentials.
 
-**Open [the standalone prototype](prototype/dist/standalone.html) in a browser.** It needs no server, credentials, package installation or network access for its embedded analysis.
+Run `python3 prototype/scripts/verify.py` and then `python3 submission/scripts/prepare_pack.py` to verify and rebuild the evidence/submission materials. Refresh the Vite copy with `python3 scripts/sync_evidence.py` after changing the standalone artifact.
 
-- [Prototype guide and demonstration](prototype/README.md)
-- [Research executive summary](research/research_summary.md)
-- [Research overview and all deliverables](research/README.md)
-- [Executed validation and remaining limits](research/prototype_validation.md)
-- [Application, editable pitch deck, pilot budget and submission checklist](submission/README.md)
+## Evidence boundaries
 
-The default dataset contains three secondary OSM-derived reference points, with no acquired road network or current service baseline. A separate, visibly labelled synthetic sandbox exercises routes, uncertainty, evidence conflicts and hypothetical maintenance comparisons. Historical Census 2011 measures remain historical.
+Synthetic planning data, trained models, hypothetical budgets and author-written test fixtures do not establish field accuracy, cost savings or government adoption. Preserve NagarSeva's synthetic-data labels and model limitations. The evidence workbench keeps public-record audits, historical statistics, unknown service baselines and a clearly labelled synthetic sandbox separate. It does not make eligibility or relocation decisions.
 
-A separate **real public-record demonstration** retains three primary-source SRA listing rows, flags CTS matching ambiguity and preserves unknown project status/update dates. Open it from Overview. It is a desk record audit, not a current service-access or redevelopment-performance assessment.
+Browser checks in the preparation environment were blocked before assertions; no new browser or original-application test pass is claimed by this merge. Original-application tests must be run separately in a compatible environment. Applicant personal details remain omitted, and authenticated application limits remain unverified.
 
-This prototype supports review. It does not decide household eligibility, beneficiary allocation or relocation, submit complaints, certify services or demonstrate field impact. Government adoption and local workflow usefulness remain unvalidated.
-
-For an optional modular preview:
-
-```bash
-python3 prototype/serve.py
-```
-
-For repeatable engineering/research checks and a fresh standalone build:
-
-```bash
-python3 prototype/scripts/verify.py
-```
-
-Browser/field verification boundaries are recorded explicitly. No unrelated existing project files were modified.
-
-## Complete the source merge
-
-See [the merge status and command](integration/README.md). `python3 scripts/merge_source.py --publish` clones the original source, preserves its tracked application files, validates the evidence materials, commits the combined project and creates a **private** new GitHub repository. It stops if authentication, access, conflicts or checks fail.
+The original repository is unchanged. Its commit and imported-file hashes are recorded in `integration/source-manifest.json`. This fresh repository does not import its Git history or imply that either prototype is a production public service.

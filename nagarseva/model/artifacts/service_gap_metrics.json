@@ -1,0 +1,18 @@
+{
+  "model": "random_forest_service_gap",
+  "synthetic": true,
+  "split": "held-out wards",
+  "f1": 0.89,
+  "roc_auc": 0.954,
+  "fairness_check_mae_by_city_income": {
+    "city": {
+      "Mumbai": 0.213,
+      "Thane": 0.21
+    },
+    "income_band": {
+      "low": 0.195,
+      "middle": 0.226,
+      "high": 0.219
+    }
+  }
+}

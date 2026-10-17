@@ -1,8 +1,8 @@
 {
-  "state": "SOURCE_MERGE_PENDING",
+  "state": "MERGED_LOCALLY",
   "source_repository": "https://github.com/vishal88736/affordable-housing-slum-redevelopment-and-basic-service-assurance",
-  "source_commit": null,
-  "source_merged": false,
+  "source_commit": "f1049b6b274be996a9e09bf11011a724905c0c76",
+  "source_merged": true,
   "new_github_repository_created": true,
   "intended_repository": "vishal88736/nagarseva-seva-first",
   "intended_visibility": "public",
@@ -15,5 +15,8 @@
   "initial_api_verified_files": 117,
   "initial_api_missing_files": [
     "nagarseva/model/artifacts/cost_model.joblib"
-  ]
+  ],
+  "original_application_tests": "not run by the merge helper",
+  "evidence_validation": "passed",
+  "field_validation": false
 }

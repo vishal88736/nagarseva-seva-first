@@ -1,0 +1,479 @@
+{
+  "repository": "https://github.com/vishal88736/affordable-housing-slum-redevelopment-and-basic-service-assurance.git",
+  "commit": "f1049b6b274be996a9e09bf11011a724905c0c76",
+  "imported_at": "2026-10-17T18:55:02.980509+00:00",
+  "files": {
+    "nagarseva/Makefile": {
+      "bytes": 1102,
+      "sha256": "cfe07e9ea401b5d4fc7b84a2abfea32ed56b01d914617fe13eee055cba807e1d"
+    },
+    "nagarseva/README.md": {
+      "bytes": 10869,
+      "sha256": "9f4d6936d0abc26610c1f1ac289ca675bec740604caa8dccb5ac339ab07290a2"
+    },
+    "nagarseva/docs/CHANGELOG.md": {
+      "bytes": 3670,
+      "sha256": "28f179d9527a7d7d90c7bd94f2d270cebbeb353e3ca7083701ae76eab2e00a4a"
+    },
+    "nagarseva/docs/NagarSeva_Project_Documentation.docx": {
+      "bytes": 42023,
+      "sha256": "04295e356a7d3f85040f032e66d57b048612c6c74e350b98dd05969aa3f6049b"
+    },
+    "nagarseva/docs/NagarSeva_Project_Documentation.md": {
+      "bytes": 10443,
+      "sha256": "4b4184e608703b0781a17fa589da1c33fbfeb047eb559ffad3babfc336d0a7ff"
+    },
+    "nagarseva/docs/PILOT_PROTOCOL.md": {
+      "bytes": 2179,
+      "sha256": "8b0d4e1faae0e5450a74a576b7f22b6a15d8f2284b9ee152e5c409edd57d2a90"
+    },
+    "nagarseva/docs/PROJECT_STATUS.md": {
+      "bytes": 4017,
+      "sha256": "82aaea3a8f0ffccc4fc412ecb24609749d1942f566b43b142453429af01b1db7"
+    },
+    "nagarseva/docs/PUBLIC_INTEGRATIONS.md": {
+      "bytes": 5353,
+      "sha256": "710090af66b847c1b57ca9f1c122fad7ed8355e0b255bc573d97f63eb337dbec"
+    },
+    "nagarseva/docs/build_documentation.py": {
+      "bytes": 4498,
+      "sha256": "630f432c0c59cbb3b9d745f9e1b9ba2d9969722267d35fbf7b09a1641b3d741d"
+    },
+    "nagarseva/docs/verification/layout_report.json": {
+      "bytes": 54806,
+      "sha256": "136f6e7fd8760574f16ee1b4b730b2bdf33fb190f5c56ae4ae6847480c13f08d"
+    },
+    "nagarseva/model/__init__.py": {
+      "bytes": 39,
+      "sha256": "3d12f6b620c757aa7c281f4213cad7ee753e96e5993f1bf378341ea81551bf67"
+    },
+    "nagarseva/model/api/__init__.py": {
+      "bytes": 35,
+      "sha256": "45390889d8a4a81a685fa8f8fb38422e5f6ff8840d7df1405f088ab5347ae8e2"
+    },
+    "nagarseva/model/api/main.py": {
+      "bytes": 32652,
+      "sha256": "8fc30f7900e6fa3fbd58a9d7f0fd1685278a92c9ee844d6707f74b74ae0775cf"
+    },
+    "nagarseva/model/api/schemas.py": {
+      "bytes": 6833,
+      "sha256": "ad86d05ed6c7092486159da839311b2aa5c2da4191fa007387c7cc9a1f3a4a65"
+    },
+    "nagarseva/model/api/store.py": {
+      "bytes": 6864,
+      "sha256": "be13649c8d660206070f671cfc439f3b4a8ca5539575663f9b61d5dc79c6240d"
+    },
+    "nagarseva/model/artifacts/cost_metrics.json": {
+      "bytes": 247,
+      "sha256": "5d606779aaae2ba2ddc79cd87c8668c1939518f810c5959e4ed0dd9dac4ace96"
+    },
+    "nagarseva/model/artifacts/cost_model.joblib": {
+      "bytes": 2060152,
+      "sha256": "318f77970eb7c91810c0b8c3784d03a0f6c4fe499dff2912b965b610b54ce046"
+    },
+    "nagarseva/model/artifacts/grievance_metrics.json": {
+      "bytes": 314,
+      "sha256": "c9bf850ca7ad394ed7bb29c8439168f56794fb92a2e06475559bed49c58df881"
+    },
+    "nagarseva/model/artifacts/grievance_model.joblib": {
+      "bytes": 164604,
+      "sha256": "e82f9647b5da9c037af02fbdf84ac58e9fc02632653387827f6325aa75dd0f02"
+    },
+    "nagarseva/model/artifacts/intervention_model.joblib": {
+      "bytes": 268613,
+      "sha256": "a3afead01ce1615d08890427a5cd5f29c7035cc82a631675f9a1a22c16663099"
+    },
+    "nagarseva/model/artifacts/priority_metrics.json": {
+      "bytes": 527,
+      "sha256": "a60fde93ccc92b4e9f3ed2a42820882220e6bb05a2891e739c365e2cd991c999"
+    },
+    "nagarseva/model/artifacts/priority_model.joblib": {
+      "bytes": 100692,
+      "sha256": "15fbb25887af4051c3b6d7cd4dae1ff6feea58acefc2cf0163eef79a644b4602"
+    },
+    "nagarseva/model/artifacts/priority_scores.csv": {
+      "bytes": 29339,
+      "sha256": "0b2d74cd7b2d78b7880e16231bb9ded53471d0dc47c49cd6c5d5a5122379745f"
+    },
+    "nagarseva/model/artifacts/service_gap_metrics.json": {
+      "bytes": 326,
+      "sha256": "91c2e2efff5fc5517a722bf9c9ef6e448a659cfbd6b0fd01de76bd209a09b578"
+    },
+    "nagarseva/model/artifacts/service_gap_model.joblib": {
+      "bytes": 485340,
+      "sha256": "46e900261632e482cf084c4336c33224eaab001b7c92a32d3feae3b3cface37f"
+    },
+    "nagarseva/model/artifacts/service_gap_scores.csv": {
+      "bytes": 29631,
+      "sha256": "49eb1ae9a4734b8c4d6a775db3acbc9a1f008b3fe050bf2777db0aab7edd0979"
+    },
+    "nagarseva/model/data/README.md": {
+      "bytes": 2152,
+      "sha256": "619e0f7607cf3e58069f3da0131022ba66056b560f886f37ce360ec100d39b1d"
+    },
+    "nagarseva/model/data/processed/data_quality_report.md": {
+      "bytes": 837,
+      "sha256": "1264e67126766d592a9e33fc29fb881e316f7d2fdd25c569a8d042a7c0545ff0"
+    },
+    "nagarseva/model/data/raw/.gitkeep": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "nagarseva/model/data/synthetic/budget_scenarios.csv": {
+      "bytes": 483,
+      "sha256": "6c27b1ee048136de259b464be861cb565f423bc47646117978b5c8cdfed6f4f4"
+    },
+    "nagarseva/model/data/synthetic/generation_manifest.json": {
+      "bytes": 173,
+      "sha256": "3397c7549e3427d907a95d03a9884269fec8acb70f4793f1c68d5d4159bd8d99"
+    },
+    "nagarseva/model/data/synthetic/grievances.csv": {
+      "bytes": 2072796,
+      "sha256": "31b1d00825421dffab08b57df9f38a611a11e109a9f1fe113be68f27709b71a1"
+    },
+    "nagarseva/model/data/synthetic/households_sample.csv": {
+      "bytes": 725326,
+      "sha256": "af4c7848adbf2de9708acc7ff3b1807dcda11a402c9dc8f3da179c258692c1dc"
+    },
+    "nagarseva/model/data/synthetic/pockets.geojson": {
+      "bytes": 504334,
+      "sha256": "2d1ea1363f8dc472b76bec986e73426f17d5529a16757969de8fff009c6ffb76"
+    },
+    "nagarseva/model/data/synthetic/redevelopment_projects.csv": {
+      "bytes": 38222,
+      "sha256": "9fffe4798addb266b43d706dad9243049f6702e50f9850e450f261005b2465a0"
+    },
+    "nagarseva/model/data/synthetic/service_access.csv": {
+      "bytes": 97083,
+      "sha256": "05e3b26a91a14c135367bf5354916714cd111ac02b482c06fd9ebf7b26de0d80"
+    },
+    "nagarseva/model/data/synthetic/slum_pockets.csv": {
+      "bytes": 240556,
+      "sha256": "a16bc529d6f95131d1a7f399798cdd93b921dc9d0dedd637ce956d12457ab148"
+    },
+    "nagarseva/model/notebooks/.gitkeep": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "nagarseva/model/requirements.txt": {
+      "bytes": 245,
+      "sha256": "7ba99392e4f1495dd3a12575acb7390fb7965b62b4414c5dc4855f02311c7135"
+    },
+    "nagarseva/model/src/__init__.py": {
+      "bytes": 37,
+      "sha256": "43e7b4fc71e49ed2f98fbe2021c47b6b93e240101304cf4c438a517edebc7ba6"
+    },
+    "nagarseva/model/src/allocation.py": {
+      "bytes": 6590,
+      "sha256": "b20e3bfb448c8ae8f8a161e5307058b5581610eb80379fcc307c0113dd642090"
+    },
+    "nagarseva/model/src/data_quality.py": {
+      "bytes": 1418,
+      "sha256": "f0ab02e2b7ee26b8e958bfffc46b6b308713ab9913b5e49965df8474399cb894"
+    },
+    "nagarseva/model/src/eligibility.py": {
+      "bytes": 3614,
+      "sha256": "bcbede3fe4b15c0861800155e29d4c6f4367135ca9931b033beacfefaa83187e"
+    },
+    "nagarseva/model/src/explain.py": {
+      "bytes": 2338,
+      "sha256": "fc7eae988857a3d04356cb006ce7ec2e45355233d3d8717d5c540f5c69e42518"
+    },
+    "nagarseva/model/src/feasibility.py": {
+      "bytes": 3707,
+      "sha256": "45708059b6167716b1260c9611108ed27d904586c6022b9fa6ebf92ab77fa01a"
+    },
+    "nagarseva/model/src/features.py": {
+      "bytes": 4037,
+      "sha256": "70518c433076223b2e10bbce3c52d957e306d6ab9823f28b8385c601f22940b4"
+    },
+    "nagarseva/model/src/generate_data.py": {
+      "bytes": 13931,
+      "sha256": "4544cbfc0c12b5b813bc050adea813a538b8deb628a960ad332aa35eaa31a00b"
+    },
+    "nagarseva/model/src/optimizer.py": {
+      "bytes": 171,
+      "sha256": "61781653bb08293ac876db4c31e99723c3e0b4361fe1ded3c1e56de664ce4d1e"
+    },
+    "nagarseva/model/src/predict.py": {
+      "bytes": 2860,
+      "sha256": "df2ea37f128604cf792531644dcdf2bb434628c9c4b42d4675fc70efbb7b5db9"
+    },
+    "nagarseva/model/src/public_context.py": {
+      "bytes": 5411,
+      "sha256": "2884feffe3a927a34329b93cb99872f7e9bc275d4f4a5d3f3968e84c302ce3c7"
+    },
+    "nagarseva/model/src/service_records.py": {
+      "bytes": 4586,
+      "sha256": "dea6d01f2c8183cbe7334e5d6e5cbcd21824a69a7124349a42082588262ab4f0"
+    },
+    "nagarseva/model/src/train_cost.py": {
+      "bytes": 2577,
+      "sha256": "80aa21bae857943e05adfcbed9d5c151da5ff79e516dd56d958cabc238660bf5"
+    },
+    "nagarseva/model/src/train_grievance_nlp.py": {
+      "bytes": 1504,
+      "sha256": "8820c78d24bf6ba4ef1ea0e325c461dda921affd1810c9c12a1d4aa6ac7e5750"
+    },
+    "nagarseva/model/src/train_intervention.py": {
+      "bytes": 475,
+      "sha256": "884dae581da19b023828d8341a3878fcfacc13fc3c3174aaed40922143eb9295"
+    },
+    "nagarseva/model/src/train_priority.py": {
+      "bytes": 3953,
+      "sha256": "849f1f77bcf36748bff2ea4f5e96bf02ee4bf6cbba334df36985b441ed9c27cf"
+    },
+    "nagarseva/model/src/train_service_gap.py": {
+      "bytes": 2592,
+      "sha256": "0c45cf8a5793036568cfc25a22c6a9afc31c3aa2d994369b9872b99a9a32a215"
+    },
+    "nagarseva/model/tests/conftest.py": {
+      "bytes": 524,
+      "sha256": "fabf9037bed6d7543a4a04e772f8d8df86e6160f789c4a9ae41e8c138b0676eb"
+    },
+    "nagarseva/model/tests/test_api.py": {
+      "bytes": 14251,
+      "sha256": "0da122fe92612f4f16e0601260def50db07a894da091259689f249c232f17f67"
+    },
+    "nagarseva/model/tests/test_feasibility.py": {
+      "bytes": 1302,
+      "sha256": "4d33ac9bb0f3815342cf229617a0a995ea553896174aa1ddb615bbc2d55ad24a"
+    },
+    "nagarseva/model/tests/test_optimizer.py": {
+      "bytes": 1806,
+      "sha256": "59f27f9287e0ea50cd35679091b70b08902e1d18c53a82bf4df85f79f4026de2"
+    },
+    "nagarseva/model/tests/test_public_context.py": {
+      "bytes": 5379,
+      "sha256": "eb9584b7b0de268515115aefb5a849b7ac36be11421832795f6f5e54212720be"
+    },
+    "nagarseva/model/tests/test_service_records.py": {
+      "bytes": 747,
+      "sha256": "d8c52bee7014db6c4cf46795a8946699bf0fb435f71bb3414d798249cec9667f"
+    },
+    "nagarseva/presentation/NagarSeva_Pitch.pptx": {
+      "bytes": 253680,
+      "sha256": "49c8064859b3ebf4c89fde8c5517946d022db10fe8dd08d0f49fe194ebe1b5a7"
+    },
+    "nagarseva/presentation/assets/affordability-desktop.png": {
+      "bytes": 52312,
+      "sha256": "e192dbd871a0eabd940894faf846d3ef768fe3e77186d423ff3c30a36e929dcf"
+    },
+    "nagarseva/presentation/assets/architecture.png": {
+      "bytes": 35717,
+      "sha256": "1993b91dc50742c4b2da53d780cfa27e60e5213c809ab61e8902f6ae3d2cf76e"
+    },
+    "nagarseva/presentation/assets/assurance-viewport.png": {
+      "bytes": 172073,
+      "sha256": "066df0782da03f72dec0edfcd150ff4b277c48b02421375e645796c12a589a23"
+    },
+    "nagarseva/presentation/assets/impact_summary.png": {
+      "bytes": 38341,
+      "sha256": "e6e4a08b787e73502d63fd47bebc4a1c3ecbb21ee50962bf9f8ff10d9866a7cf"
+    },
+    "nagarseva/presentation/assets/intervention_confusion_matrix.png": {
+      "bytes": 29597,
+      "sha256": "117ea4a65b94759fa4674b05400806dfc5471ac6cc0d9da998b4626fb807d045"
+    },
+    "nagarseva/presentation/assets/priority_feature_importance.png": {
+      "bytes": 52400,
+      "sha256": "729bf9ea64f02d9a453a3b11cf7f0af3139f800b466d7b0ef0c2bee262292d5e"
+    },
+    "nagarseva/presentation/assets/product_walkthrough.png": {
+      "bytes": 61704,
+      "sha256": "2ba363d1ae03d723057b62d0bd8bd04a583b48ebea6991405f9818198ef2b0e5"
+    },
+    "nagarseva/presentation/assets/service_gap_importance.png": {
+      "bytes": 48209,
+      "sha256": "38c3ec3beaa9a2b48f606f1b63b1246144572763a923c86eadb930687b6ee237"
+    },
+    "nagarseva/presentation/generate_pitch.py": {
+      "bytes": 5193,
+      "sha256": "d10961591396a63e09a9a669c51b945c5a145ab08aa8253296e32c1a5ccb9a2a"
+    },
+    "nagarseva/presentation/pitch_script.md": {
+      "bytes": 4476,
+      "sha256": "6b234010d2dd1cc123613db41cc7cbde6ce11f49b8a7d71a3314faf9d924a4c1"
+    },
+    "nagarseva/shared/public-sources.json": {
+      "bytes": 3891,
+      "sha256": "23ad7a99728e6e0111b21dcd66b896855274b450e82098a54bb510328b1c5695"
+    },
+    "nagarseva/tests/e2e_full_suite.py": {
+      "bytes": 22251,
+      "sha256": "0ad2dd092e8b5c4219a849b1ce0e4db4c010693ef1c169d1559f19ea0779b0e5"
+    },
+    "nagarseva/tests/review_layout.py": {
+      "bytes": 7184,
+      "sha256": "4fb0a8b7191317296945615c8308911da49db3b22723cccf780498b9c5977476"
+    },
+    "nagarseva/tests/review_public_integrations.py": {
+      "bytes": 2598,
+      "sha256": "33d32eba3c8740652ed38b459bdf98f5c7a159c849d7bd94b8048521828bff29"
+    },
+    "nagarseva/tests/weather_fixture.py": {
+      "bytes": 1272,
+      "sha256": "b04be30a28ab223e4bba01ad88a73852dd9ea0788b69aad7c45f0c96f189b108"
+    },
+    "nagarseva/website/index.html": {
+      "bytes": 481,
+      "sha256": "15d672246dce86e6ff4eee8f9e6ae46b5b70f9b981833303f18027de4b51d6b0"
+    },
+    "nagarseva/website/package-lock.json": {
+      "bytes": 109135,
+      "sha256": "5a1973ee12e023b96ae48f0c91e83f17157b5a04ed2641ed0330f8423f1d8c6e"
+    },
+    "nagarseva/website/package.json": {
+      "bytes": 734,
+      "sha256": "552c6ca5671b0f2c205704f0145ae17e9ff64af573af681a4d68d661a2cd88d2"
+    },
+    "nagarseva/website/postcss.config.js": {
+      "bytes": 66,
+      "sha256": "45027a2befa94d6f46875c529d1088c12548d8f0bee31133e4ebb00ebc581e33"
+    },
+    "nagarseva/website/public/mmr-map.svg": {
+      "bytes": 2125,
+      "sha256": "28e8000cfda832a723b55f5ac48b3494bd3ffa7cc9a6f8e6c90beb99185f8625"
+    },
+    "nagarseva/website/src/App.tsx": {
+      "bytes": 11815,
+      "sha256": "0d9483ba83d6ebb04de886b6bf2df4c624d00fc66d4da91367d12ec9d95db443"
+    },
+    "nagarseva/website/src/components/PublicContext.tsx": {
+      "bytes": 5105,
+      "sha256": "9691901161545ef33de1f4306e9d32be303fa42902845c24858e79a29c9d8530"
+    },
+    "nagarseva/website/src/components/Records.tsx": {
+      "bytes": 8047,
+      "sha256": "bbbe3b87df50e3b9168019f00b981c8efc41eb60e7634cffd9ea4cd3c3d939cb"
+    },
+    "nagarseva/website/src/components/Shared.tsx": {
+      "bytes": 5328,
+      "sha256": "8c06a18fb7e724a56b80cd418aa10b83605532c87b5ede6eceb44fdbeca20f0f"
+    },
+    "nagarseva/website/src/data/fallback.json": {
+      "bytes": 4732,
+      "sha256": "9da3df11674a72df16e158f6572a7dcadff82946dbb332a40039eafb16ac2776"
+    },
+    "nagarseva/website/src/i18n/en.json": {
+      "bytes": 304,
+      "sha256": "6aec37451d8d773b7c622e599fc49975509439a45e91e419fd12f5538a43d25f"
+    },
+    "nagarseva/website/src/i18n/hi.json": {
+      "bytes": 592,
+      "sha256": "9b04acb321eba41d020b0d8bf314d81f86ff9f07b603f0e4bd927a42acba3c2b"
+    },
+    "nagarseva/website/src/i18n/index.tsx": {
+      "bytes": 87425,
+      "sha256": "4646ce1e0ceb2bf5ab05620bc85a1eb7bd35a1828455396fee9614aacf29f9d8"
+    },
+    "nagarseva/website/src/i18n/mr.json": {
+      "bytes": 609,
+      "sha256": "79416459759b306c7ed2d8ecbdc29c6a5f5d791134f07e378d3594c7458504d4"
+    },
+    "nagarseva/website/src/i18n/sources.ts": {
+      "bytes": 23559,
+      "sha256": "4542c1797607de2b28285a04f740db2a6ab60c1a3140a6cea3cf09cc04447074"
+    },
+    "nagarseva/website/src/i18n/updates.ts": {
+      "bytes": 62343,
+      "sha256": "479ed08c460a76f6ebb95453ecb27473c5c83e65e0d897b7db4d4c7a04880951"
+    },
+    "nagarseva/website/src/lib/affordability.ts": {
+      "bytes": 1646,
+      "sha256": "3ad7c07530aa40f1a276d42e8e684b710ada77cd146913c30db594d6658c9c1a"
+    },
+    "nagarseva/website/src/lib/api.ts": {
+      "bytes": 23479,
+      "sha256": "835f5a0e889e4019d300c1371ddc8d05fdf2c9cb3e01906c7cf69fd8c1aceb92"
+    },
+    "nagarseva/website/src/lib/publicSources.ts": {
+      "bytes": 191,
+      "sha256": "6a7a45592a3e2d37ecdc6807f83a73bd3cfb280b2f49bfb7d03a62a61b3c60a9"
+    },
+    "nagarseva/website/src/lib/storage.ts": {
+      "bytes": 1018,
+      "sha256": "e7e787c41de285db09577ac3854517ff5b77f320a73ddf491d4cbbbb77695ca0"
+    },
+    "nagarseva/website/src/main.tsx": {
+      "bytes": 220,
+      "sha256": "449360d409ecbdd6aa7fb603226836ba7a6f3ed5cdcbb1a814397e7deb96a9bb"
+    },
+    "nagarseva/website/src/pages/Admin.tsx": {
+      "bytes": 8828,
+      "sha256": "6fd2caba7d16396b109c069f34e7dbd59271653e5a175e97289004710e22cee8"
+    },
+    "nagarseva/website/src/pages/Assurance.tsx": {
+      "bytes": 2925,
+      "sha256": "8e265cabe308df8d9574b528686c4f46fb6d3a508c7c2dcd0e6c25a6d26d63b3"
+    },
+    "nagarseva/website/src/pages/Dashboard.tsx": {
+      "bytes": 4827,
+      "sha256": "03d5dd582c54ec5a0fb4a8c5e9ac25f1d5ba970020232005278ff30f39138522"
+    },
+    "nagarseva/website/src/pages/Landing.tsx": {
+      "bytes": 4557,
+      "sha256": "cafb50d5b218717d210e571049c6fe41879fa656e2d66543fb7f572fb84b985a"
+    },
+    "nagarseva/website/src/pages/Methodology.tsx": {
+      "bytes": 3226,
+      "sha256": "4a30b85d1b1dfd4ebaee03e4b0f0074b0df1e3a57214bea138af2c1dd025b8ee"
+    },
+    "nagarseva/website/src/pages/Optimizer.tsx": {
+      "bytes": 5001,
+      "sha256": "b509b12122ca65e1c2f43cb3df13d3337c4d02f4c37f4c17c55fdb9a433fbd4a"
+    },
+    "nagarseva/website/src/pages/Pilot.tsx": {
+      "bytes": 13849,
+      "sha256": "fbc05c5c8180c698fb210173fac6fe12c8f7fbf929ec8df2647ab9056137cbc9"
+    },
+    "nagarseva/website/src/pages/PocketDetail.tsx": {
+      "bytes": 6648,
+      "sha256": "ba7e9f6933ce3ecf089cf3936d4afa042566ae8932816f84ee391edf160f9ca7"
+    },
+    "nagarseva/website/src/pages/Resident.tsx": {
+      "bytes": 14994,
+      "sha256": "1828cf1f5ddabafa9fd2d9635c75b3e1e40b1942798818f171ee4f64b8171a25"
+    },
+    "nagarseva/website/src/pages/Simulator.tsx": {
+      "bytes": 9508,
+      "sha256": "1c0a736b4b8a2c9355393fd42ea51482472009eba8e6ea67c2b6cc2f3ca1e088"
+    },
+    "nagarseva/website/src/pages/Sources.tsx": {
+      "bytes": 1991,
+      "sha256": "1b23cf55eab9e6ac15bf68b269973a9e3579886dff493f7e69ce69d3ff6a910e"
+    },
+    "nagarseva/website/src/styles.css": {
+      "bytes": 61442,
+      "sha256": "9ee838d63c379c5cb5a3aa5170acb08212d160ffc45f38071facb97689b53cbf"
+    },
+    "nagarseva/website/src/vite-env.d.ts": {
+      "bytes": 38,
+      "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+    },
+    "nagarseva/website/tailwind.config.js": {
+      "bytes": 211,
+      "sha256": "c7da4e262fb0a9fd98f13c97087e5322b78a38d968c89bb743e770ac240423ca"
+    },
+    "nagarseva/website/tsconfig.app.json": {
+      "bytes": 463,
+      "sha256": "b8eaed22731e99440ee34d691b9fe1a4da99ad2d0d26e3f0f20916d2d6393c07"
+    },
+    "nagarseva/website/tsconfig.json": {
+      "bytes": 71,
+      "sha256": "b6d51d37a8d51b993bd758b7043fa9233eea24d34a4041198ff73c063d9ed66c"
+    },
+    "nagarseva/website/vite.config.ts": {
+      "bytes": 592,
+      "sha256": "b67b3c1d7794da531f0ed8a96c3c4ed1b97995f31e33709dbd833324b8468cbd"
+    },
+    "requirements.txt": {
+      "bytes": 75,
+      "sha256": "be5ad8949176d362ec09c012a0fe38774c832d5eb05d0f1e812635ddc4424488"
+    },
+    ".gitignore": {
+      "upstream_sha256": "da064bd4840bb79fcf082e6a691c7ddd4cd3f5e61c0461bf66e1a9b8beca1c5c",
+      "handling": "combined with local rules"
+    }
+  }
+}

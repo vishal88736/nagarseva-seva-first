@@ -1,0 +1,17 @@
+{
+  "model": "char_tfidf_logistic_regression",
+  "synthetic": true,
+  "macro_f1": 1.0,
+  "per_class_f1": {
+    "drainage": 1.0,
+    "health": 1.0,
+    "housing": 1.0,
+    "power": 1.0,
+    "safety": 1.0,
+    "sanitation": 1.0,
+    "waste": 1.0,
+    "water": 1.0,
+    "macro avg": 1.0,
+    "weighted avg": 1.0
+  }
+}
