@@ -1,0 +1,13 @@
+{
+  "name": "seva-evidence-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Research-led, browser-local service evidence and inspection workbench",
+  "scripts": {
+    "test": "node --test --test-isolation=none tests/*.test.mjs",
+    "test:browser": "node scripts/browser_check.mjs",
+    "serve": "python3 serve.py",
+    "sync-research": "python3 scripts/sync_research.py"
+  }
+}

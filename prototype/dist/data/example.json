@@ -1,0 +1,51 @@
+{
+  "schema_version":"1.0",
+  "metadata":{
+    "title":"Synthetic sandbox — abstract test grid",
+    "publisher":"Prototype authors; invented engineering fixture",
+    "source_url":"https://example.org/synthetic-fixture",
+    "licence":"CC0 for this authored test fixture; not a real service dataset",
+    "geographic_scope":"Abstract coordinates near 0° latitude/longitude. No real Maharashtra locality or resident is represented.",
+    "is_synthetic":true,
+    "observed_at":"2026-10-10",
+    "retrieved_at":"2026-10-17",
+    "limitations":"All roads, facilities, deficits, dates, claims, costs and coverage units are synthetic test inputs. Outputs are calculations on a fixture, not local findings or projected impact."
+  },
+  "network":{"type":"FeatureCollection","features":[
+    {"type":"Feature","id":"example-west","geometry":{"type":"LineString","coordinates":[[0,0],[0.002,0],[0.004,0],[0.006,0]]},"properties":{"highway":"residential","name":"Example south path","node_ids":["a","b","c","d"]}},
+    {"type":"Feature","id":"example-north","geometry":{"type":"LineString","coordinates":[[0,0.002],[0.002,0.002],[0.004,0.002],[0.006,0.002]]},"properties":{"highway":"footway","name":"Example north path","node_ids":["h","e","f","g"]}},
+    {"type":"Feature","id":"example-connector","geometry":{"type":"LineString","coordinates":[[0.002,0],[0.002,0.002]]},"properties":{"highway":"footway","name":"Example public connector","node_ids":["b","e"]}},
+    {"type":"Feature","id":"example-steps","geometry":{"type":"LineString","coordinates":[[0.006,0],[0.006,0.002]]},"properties":{"highway":"steps","name":"Example steps","node_ids":["d","g"]}},
+    {"type":"Feature","id":"example-private","geometry":{"type":"LineString","coordinates":[[0,0],[0,0.002]]},"properties":{"highway":"service","access":"private","name":"Excluded private shortcut","node_ids":["a","h"]}},
+    {"type":"Feature","id":"example-island","geometry":{"type":"LineString","coordinates":[[0.008,0.002],[0.008,0.004]]},"properties":{"highway":"footway","name":"Example disconnected path","node_ids":["i","j"]}}
+  ]},
+  "amenities":{"type":"FeatureCollection","features":[
+    {"type":"Feature","id":"example-toilet-a","geometry":{"type":"Point","coordinates":[0.004,0.002]},"properties":{"name":"Example public toilet A","category":"toilets"}},
+    {"type":"Feature","id":"example-toilet-b","geometry":{"type":"Point","coordinates":[0.008,0.004]},"properties":{"name":"Example disconnected toilet B","category":"toilets"}},
+    {"type":"Feature","id":"example-toilet-private","geometry":{"type":"Point","coordinates":[0,0.002]},"properties":{"name":"Example private facility","category":"toilets","access":"private"}},
+    {"type":"Feature","id":"example-clinic","geometry":{"type":"Point","coordinates":[0.006,0.002]},"properties":{"name":"Example clinic","category":"clinic"}},
+    {"type":"Feature","id":"example-school","geometry":{"type":"Point","coordinates":[0.006,0]},"properties":{"name":"Example school","category":"school"}},
+    {"type":"Feature","id":"example-water","geometry":{"type":"Point","coordinates":[0.002,0.002]},"properties":{"name":"Example water point","category":"water_point"}},
+    {"type":"Feature","id":"example-stop","geometry":{"type":"Point","coordinates":[0.004,0]},"properties":{"name":"Example transit stop","category":"transport_stop"}}
+  ]},
+  "origins":{"type":"FeatureCollection","features":[
+    {"type":"Feature","id":"example-origin","geometry":{"type":"Point","coordinates":[0,0]},"properties":{"name":"Example analysis origin; not a household"}}
+  ]},
+  "areas":[
+    {"id":"example-a","name":"Example area A","water_deficit":0.8,"sanitation_deficit":0.2,"waste_deficit":0.3,"observed_at":"2026-10-10","source_url":"https://example.org/synthetic-fixture","method":"Invented 0–1 deficits for numerical testing; no survey."},
+    {"id":"example-b","name":"Example area B","water_deficit":0.3,"sanitation_deficit":0.8,"waste_deficit":0.4,"observed_at":"2026-10-10","source_url":"https://example.org/synthetic-fixture","method":"Invented 0–1 deficits for numerical testing; no survey."},
+    {"id":"example-c","name":"Example area C — incomplete","water_deficit":0.6,"sanitation_deficit":null,"waste_deficit":0.9,"observed_at":null,"source_url":"https://example.org/synthetic-fixture","method":"Deliberately missing value/date to test uncertainty; no survey."},
+    {"id":"example-d","name":"Example area D — no observations","water_deficit":null,"sanitation_deficit":null,"waste_deficit":null,"observed_at":null,"source_url":"https://example.org/synthetic-fixture","method":"Deliberately unobserved fixture; must not receive a deprivation rank."}
+  ],
+  "observations":[
+    {"id":"claim-1","asset_id":"example-toilet-a","service_type":"toilet opening","observed_at":"2026-10-10","value":"working","evidence_type":"operator_claim","source_url":"https://example.org/synthetic-fixture","note":"Synthetic operator claim; no real report."},
+    {"id":"claim-2","asset_id":"example-toilet-a","service_type":"toilet opening","observed_at":"2026-10-10","value":"not_working","evidence_type":"resident_report","source_url":"https://example.org/synthetic-fixture","note":"Synthetic conflicting report; the prototype must retain both."},
+    {"id":"claim-3","asset_id":"example-water","service_type":"water availability","observed_at":"2026-10-11","value":"unknown","evidence_type":"independent_observation","source_url":"https://example.org/synthetic-fixture","note":"Synthetic unassessable observation; never converted to a working service."}
+  ],
+  "interventions":[
+    {"id":"option-a","label":"Example maintenance package A","cost":12000,"coverage_ids":["unit-1","unit-2"],"feasible":true,"assumption_label":"Invented cost and abstract coverage units; not a contractor estimate or households."},
+    {"id":"option-b","label":"Example maintenance package B","cost":18000,"coverage_ids":["unit-2","unit-3","unit-4"],"feasible":true,"assumption_label":"Invented cost with overlap to test deduplication."},
+    {"id":"option-c","label":"Example maintenance package C","cost":9000,"coverage_ids":["unit-5"],"feasible":true,"assumption_label":"Invented cost for a feasible hypothetical option."},
+    {"id":"option-x","label":"Excluded example option","cost":1000,"coverage_ids":["unit-6","unit-7","unit-8"],"feasible":false,"assumption_label":"Deliberately marked infeasible; a solver must exclude it."}
+  ]
+}

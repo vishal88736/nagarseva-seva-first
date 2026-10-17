@@ -1,0 +1,100 @@
+/* Browser acceptance: use installed Playwright or the existing bundled runtime. */
+import fs from 'node:fs/promises';
+import {existsSync} from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import {createHash} from 'node:crypto';
+import assert from 'node:assert/strict';
+import {fileURLToPath} from 'node:url';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url);
+const root=fileURLToPath(new URL('..',import.meta.url));
+const output=path.join(root,'test-artifacts');await fs.mkdir(output,{recursive:true});
+let browser;
+let phase='dependencies';
+const checks=[];const errors=[];
+const check=(name)=>checks.push(name);
+const report={checked_at:new Date().toISOString(),entry:'dist/standalone.html',status:'not_started',checks,errors};
+try{
+  let playwright;
+  try{playwright=require('playwright');}
+  catch(e){
+    if(e.code!=='MODULE_NOT_FOUND')throw e;
+    const bundled=path.join(os.homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
+    if(!existsSync(path.join(bundled,'playwright/package.json')))throw new Error('Playwright is unavailable. Use an installed Playwright package or supply its module directory through NODE_PATH.');
+    playwright=createRequire(path.join(bundled,'package.json'))('playwright');
+    report.playwright_source='existing bundled runtime';
+  }
+  const {chromium}=playwright;
+  const executable=process.env.BROWSER_PATH||['/usr/bin/chromium','/usr/bin/chromium-browser','/usr/bin/google-chrome','/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'].find(existsSync);
+  report.browser_executable=executable||'Playwright-managed Chromium';
+  report.entry_sha256=createHash('sha256').update(await fs.readFile(path.join(root,'dist/standalone.html'))).digest('hex');
+  const extra=process.env.SEVA_BROWSER_TEST_NO_CRASHPAD==='1'?['--disable-crashpad-for-testing']:[];
+  phase='launch';
+  browser=await chromium.launch({headless:true,executablePath:executable,args:['--disable-dev-shm-usage',...extra]});
+  report.browser=browser.version();
+  phase='page-startup';
+  const context=await browser.newContext({viewport:{width:1440,height:1100},acceptDownloads:true});
+  const page=await context.newPage();
+  page.setDefaultTimeout(10000);
+  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+  const outgoing=[];page.on('request',r=>{if(/^https?:/.test(r.url()))outgoing.push(r.url());});
+  await page.goto(new URL('../dist/standalone.html',import.meta.url).href,{waitUntil:'load'});
+  await page.getByRole('heading',{name:'What can we verify before the next inspection?',exact:true}).waitFor();
+  assert.match(await page.locator('#mode-banner').innerText(),/RESEARCH REFERENCES/);check('Standalone file loads cited research with no HTTP runtime requests');
+  phase='checks';
+  await page.screenshot({path:path.join(output,'overview-desktop.png'),fullPage:true});
+  await page.getByRole('button',{name:'Open the record case ↗',exact:true}).click();
+  assert.match(await page.locator('#library-content').innerText(),/Bharti CHS/);assert.match(await page.locator('#library-content').innerText(),/Unknown \/ Unknown/);
+  const caseDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Export case (.json)',exact:true}).click();const caseFile=await caseDownload;const casePath=path.join(output,'exported-public-case.json');await caseFile.saveAs(casePath);const publicCase=JSON.parse(await fs.readFile(casePath,'utf8'));assert.equal(publicCase.metadata.is_synthetic,false);assert.equal(publicCase.records.length,3);assert.equal(publicCase.computedAudit.automaticallyMerged,0);assert.ok(publicCase.records.every(r=>r.project_status===null));check('Real public-record case preserves distinct source rows and unknown status in its export');
+  await page.getByRole('button',{name:'Service access',exact:true}).click();
+  await page.getByRole('button',{name:'Set origin on map',exact:true}).click();
+  const box=await page.locator('svg[data-map]').boundingBox();await page.mouse.click(box.x+box.width*.3,box.y+box.height*.6);
+  await page.getByRole('button',{name:'Calculate access',exact:true}).click();
+  assert.match(await page.locator('#route-results').innerText(),/Origin is not routable/);check('Real reference markers do not produce a fabricated walking route');
+  await page.locator('#data-mode').selectOption('sandbox');
+  await page.getByRole('button',{name:'Calculate access',exact:true}).click();
+  assert.match(await page.locator('#route-results').innerText(),/667/);assert.match(await page.locator('#route-results').innerText(),/Disconnected in supplied graph/);check('Synthetic graph route, disconnected facility and restriction outputs render');
+  await page.locator('#snap-limit').fill('4');assert.match(await page.locator('#route-results').innerText(),/Parameters changed/);assert.equal(await page.locator('svg[data-map] .route').count(),0);await page.locator('#snap-limit').fill('80');await page.getByRole('button',{name:'Calculate access',exact:true}).click();check('Changed snap parameters immediately clear stale route text and geometry');
+  await page.screenshot({path:path.join(output,'access-sandbox.png'),fullPage:true});
+  await page.getByRole('button',{name:'Inspection priorities',exact:true}).click();
+  assert.match(await page.locator('#priority-results').innerText(),/No observations|no observations/);
+  assert.match(await page.locator('#priority-results').innerText(),/Conflicting reports/);check('Missing scores/dates and same-window conflicts remain visible');
+  const before=await page.locator('#priority-results').innerText();
+  await page.locator('#weight-water_deficit').fill('80');await page.locator('#weight-water_deficit').dispatchEvent('input');
+  assert.notEqual(await page.locator('#priority-results').innerText(),before);check('Weight changes recompute scores and sensitivity results');
+  for(const name of ['water_deficit','sanitation_deficit','waste_deficit']){await page.locator('#weight-'+name).fill('0');await page.locator('#weight-'+name).dispatchEvent('input');}
+  assert.match(await page.locator('#priority-results').innerText(),/At least one weight/);check('All-zero weights withhold rankings instead of silently changing assumptions');
+  await page.getByRole('button',{name:'Reset weights',exact:true}).click();
+  await page.screenshot({path:path.join(output,'priorities.png'),fullPage:true});
+  await page.getByRole('button',{name:'Evidence search',exact:true}).click();
+  await page.locator('#evidence-query').fill('Does PMAY completed project infrastructure include services?');await page.getByRole('button',{name:'Search ↗',exact:true}).click();
+  assert.match(await page.locator('#evidence-results').innerText(),/PMAY-U 2.0 includes project infrastructure/);check('Source-grounded retrieval displays the expected cited policy note');
+  await page.locator('#evidence-query').fill('How many people live in M/E now in 2026?');await page.getByRole('button',{name:'Search ↗',exact:true}).click();
+  assert.match(await page.locator('#search-answer').innerText(),/does not establish a current/);check('Current local population request correctly abstains');
+  await page.screenshot({path:path.join(output,'evidence.png'),fullPage:true});
+  await page.getByRole('button',{name:'Scenario lab',exact:true}).click();
+  assert.match(await page.locator('#scenario-results').innerText(),/27,000/);
+  await page.locator('#scenario-budget').fill('0');assert.match(await page.locator('#scenario-results').innerText(),/0 distinct units/);check('Budget comparison updates, handles zero and labels abstract coverage');
+  await page.getByRole('button',{name:'Research library',exact:true}).click();
+  await page.getByRole('button',{name:'14 publications',exact:true}).click();assert.equal(await page.locator('.paper-detail').count(),14);check('All fourteen publication reviews are accessible in the UI');
+  await page.getByRole('button',{name:'Data inventory',exact:true}).click();await page.locator('#dataset-filter').fill('11441');assert.match(await page.locator('#dataset-table').innerText(),/HL-04/);check('Data inventory filters to the resolved Census record');
+  await page.getByRole('button',{name:'Reports & audit',exact:true}).click();
+  const reportDownload=page.waitForEvent('download');await page.locator('[data-report="research_summary.md"]').click();const reportFile=await reportDownload;assert.equal(reportFile.suggestedFilename(),'research_summary.md');check('Research download works from the standalone file');
+  await page.locator('#export-button').click();const jsonDownload=page.waitForEvent('download');await page.getByRole('button',{name:'Analysis (.json)',exact:true}).click();const file=await jsonDownload;
+  const exportPath=path.join(output,'exported-analysis.json');await file.saveAs(exportPath);const result=JSON.parse(await fs.readFile(exportPath,'utf8'));assert.equal(result.synthetic,true);assert.match(result.inputSha256,/^[a-f0-9]{64}$/);assert.equal(result.quality.areas,4);check('Analysis export retains synthetic status, parameters and a real SHA-256');
+  await page.locator('#close-dialog').click();
+  await page.locator('#import-button').click();await page.locator('#dataset-file').setInputFiles({name:'bad.json',mimeType:'application/json',buffer:Buffer.from('{"schema_version":"wrong"}')});assert.match(await page.locator('#import-error').innerText(),/Import rejected/);await page.locator('#close-dialog').click();assert.equal(await page.locator('#data-mode').inputValue(),'sandbox');check('Invalid import is rejected without replacing the active dataset');
+  const example=JSON.parse(await fs.readFile(path.join(root,'dist/data/example.json'),'utf8'));
+  example.metadata.title='<img src=x onerror="window.injectionRan=true">';
+  await page.locator('#import-button').click();await page.locator('#dataset-file').setInputFiles({name:'safe-test.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(example))});await page.waitForFunction(()=>document.querySelector('#data-mode').value==='imported');assert.equal(await page.evaluate(()=>window.injectionRan),undefined);assert.equal(await page.locator('.topbar img').count(),0);check('Imported labels are escaped, not executed as HTML');
+  await page.locator('#import-button').click();await page.locator('#dataset-file').setInputFiles({name:'broken-import.json',mimeType:'application/json',buffer:Buffer.from('{bad')});assert.match(await page.locator('#import-error').innerText(),/Import rejected/);await page.locator('#close-dialog').click();await page.locator('#data-mode').selectOption('research');await page.locator('#data-mode').selectOption('imported');await page.getByRole('button',{name:'View provenance ↗',exact:true}).click();assert.match(await page.locator('#dialog-content').innerText(),/img src=x/);await page.locator('#close-dialog').click();check('Failed second import cannot corrupt the previous imported dataset/provenance');
+  await page.locator('#data-mode').selectOption('research');await page.getByRole('button',{name:'Overview',exact:true}).click();
+  for(const width of [390,768,1440,1680]){await page.setViewportSize({width,height:1000});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1),'Viewport overflow at '+width);}
+  check('No page-level horizontal overflow at 390, 768, 1440 or 1680 pixels');
+  await page.setViewportSize({width:390,height:1000});await page.screenshot({path:path.join(output,'overview-mobile.png'),fullPage:true});
+  await context.setOffline(true);await page.getByRole('button',{name:'Evidence search',exact:true}).click();await page.locator('#evidence-query').fill('Swachhata reopening confirmation');await page.getByRole('button',{name:'Search ↗',exact:true}).click();assert.match(await page.locator('#evidence-results').innerText(),/Citizen confirmation/);check('Loaded standalone analysis/search continues with network disabled');
+  assert.deepEqual(outgoing,[]);assert.deepEqual(errors,[]);check('No runtime HTTP requests, page errors or console errors observed');
+  report.status='passed';report.outgoing_http_requests=outgoing.length;
+}catch(e){report.status=['dependencies','launch'].includes(phase)?'blocked':'failed';report.failure=e.stack||e.message;console.error(String(e));process.exitCode=1;}
+finally{report.phase=phase;if(browser){try{await browser.close();}catch(e){report.cleanup_error=e.message;if(report.status==='passed'){report.status='failed';process.exitCode=1;}}}await fs.writeFile(path.join(output,'browser.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,phase,checks:checks.length,errors}));}

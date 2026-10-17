@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "metadata": {
+    "title": "Govandi–Baiganwadi transport reference points",
+    "publisher": "OpenStreetMap contributors, described by Mapcarta (secondary source)",
+    "source_url": "https://mapcarta.com/N3205733664",
+    "licence": "OSM-derived geographic facts; ODbL attribution applies. No map tiles or imagery copied.",
+    "geographic_scope": "Three reference points near Govandi/Baiganwadi, Mumbai; not a ward or settlement boundary",
+    "is_synthetic": false,
+    "observed_at": null,
+    "retrieved_at": "2026-10-17",
+    "limitations": "Coordinates transcribed from secondary OSM-derived pages. Original OSM/API requests failed. Points/representative locations are not verified entrances, amenity coverage or service performance. No road network was acquired."
+  },
+  "network": {"type": "FeatureCollection", "features": []},
+  "amenities": {
+    "type": "FeatureCollection",
+    "features": [
+      {"type":"Feature","id":"osm-node-3205733664","geometry":{"type":"Point","coordinates":[72.91507,19.05537]},"properties":{"name":"Govandi railway station","category":"transport_stop","source_url":"https://mapcarta.com/N3205733664","osm_url":"https://www.openstreetmap.org/node/3205733664","observation_date":null,"location_type":"reference point; entrance unverified"}},
+      {"type":"Feature","id":"osm-node-3439107263","geometry":{"type":"Point","coordinates":[72.92437,19.05903]},"properties":{"name":"Bainganwadi bus stop","category":"transport_stop","source_url":"https://mapcarta.com/N3439107263","osm_url":"https://www.openstreetmap.org/node/3439107263","observation_date":null,"location_type":"reference point; current stop operation unverified"}},
+      {"type":"Feature","id":"osm-way-395230147-reference","geometry":{"type":"Point","coordinates":[72.92915,19.06604]},"properties":{"name":"Shivaji Nagar Bus Depot","category":"transport_stop","source_url":"https://mapcarta.com/W395230147","osm_url":"https://www.openstreetmap.org/way/395230147","observation_date":null,"location_type":"representative location of a way; not an entrance or boundary"}}
+    ]
+  },
+  "origins": {"type":"FeatureCollection","features":[]},
+  "areas": [],
+  "observations": [],
+  "interventions": []
+}

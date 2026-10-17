@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+node_modules/
+.venv/
+.runtime/
+prototype/test-artifacts/
+.env
+.env.*
+.build/
+
+# Local merge cache and generated delivery archives
+.merge-work/
+*.zip
+
+# The evidence workbench is intentional committed browser source
+!prototype/dist/
+!prototype/dist/**

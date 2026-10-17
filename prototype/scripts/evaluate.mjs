@@ -1,0 +1,22 @@
+import fs from 'node:fs/promises';
+import {searchEvidence,tokenize,validateDataset,dataQuality,routeToAmenities,prioritise,sensitivity,compareBudget,sha256} from '../dist/lib/engine.mjs';
+const load=async p=>JSON.parse(await fs.readFile(new URL(p,import.meta.url),'utf8'));
+const research=await load('../dist/data/research.json');
+const benchmark=await load('../tests/retrieval_benchmark.json');
+const example=await load('../dist/data/example.json');
+const references=await load('../dist/data/reference-points.json');
+const weights={water_deficit:40,sanitation_deficit:40,waste_deficit:20};
+const results=benchmark.map(q=>{
+  const r=searchEvidence(research.cards,q.question,3);
+  const terms=[...new Set(tokenize(q.question))];
+  const lexical=research.cards.map(c=>({id:c.id,score:terms.filter(t=>tokenize(c.title+' '+c.text+' '+(c.keywords||[]).join(' ')).includes(t)).length})).filter(c=>c.score>0).sort((a,b)=>b.score-a.score||a.id.localeCompare(b.id)).slice(0,3);
+  return {...q,actual_status:r.status,returned_cards:r.results.map(c=>c.id),status_correct:r.status===q.expected_status,expected_card_in_top3:q.expected_card?r.results.some(c=>c.id===q.expected_card):null,lexical_expected_card_in_top3:q.expected_card?lexical.some(c=>c.id===q.expected_card):null};
+});
+const answerable=results.filter(r=>r.expected_card),unsupported=results.filter(r=>r.expected_status==='abstained');
+validateDataset(example);validateDataset(references);
+const route=routeToAmenities(example,[0,0],'toilets',10);
+const report={generated_at:new Date().toISOString(),benchmark_type:'Development checklist, 25 author-written questions over curated cards; not held out or independently adjudicated',corpus_sha256:await sha256(JSON.stringify(research.cards)),corpus_cards:research.cards.length,queries:results.length,answerable_queries:answerable.length,unsupported_queries:unsupported.length,status_correct:results.filter(r=>r.status_correct).length,retrieval_recall_at_3:{numerator:answerable.filter(r=>r.expected_card_in_top3).length,denominator:answerable.length},unweighted_overlap_recall_at_3:{numerator:answerable.filter(r=>r.lexical_expected_card_in_top3).length,denominator:answerable.length},unsupported_abstentions:{numerator:unsupported.filter(r=>r.status_correct).length,denominator:unsupported.length},cases:results,real_reference_quality:dataQuality(references),synthetic_engineering_example:{label:'Synthetic inputs only; not Mumbai performance or impact',quality:dataQuality(example),routes:route,priorities:prioritise(example.areas,weights),sensitivity:sensitivity(example.areas,weights),budget:compareBudget(example.interventions,30000)},validation_limits:['No independent field labels, current service baseline or adoption validation.','Development prompts share the authored source-card vocabulary; no general retrieval accuracy claim.','No generative LLM or trained computer-vision model is used.','Reference points are secondary OSM-derived locations, not an acquired road network.']};
+await fs.mkdir(new URL('../test-artifacts/',import.meta.url),{recursive:true});
+await fs.writeFile(new URL('../test-artifacts/evaluation.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
+console.log(JSON.stringify({queries:report.queries,status_correct:report.status_correct,retrieval_recall_at_3:report.retrieval_recall_at_3,baseline:report.unweighted_overlap_recall_at_3,unsupported_abstentions:report.unsupported_abstentions}));
+if(results.some(r=>!r.status_correct||r.expected_card_in_top3===false))process.exitCode=1;

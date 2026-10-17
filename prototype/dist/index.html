@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A research-led prototype for traceable urban-service evidence, access comparison and inspection review.">
+  <meta name="theme-color" content="#173c33">
+  <title>Seva Evidence · Service review workbench</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="shell">
+    <aside class="sidebar" aria-label="Workbench navigation">
+      <a class="brand" href="#overview" aria-label="Seva Evidence home"><span class="brand-mark" aria-hidden="true">✳</span><span>Seva<span class="brand-sub">EVIDENCE</span></span></a>
+      <div class="project-label">URBAN SERVICE REVIEW</div>
+      <nav id="navigation">
+        <button class="nav-item active" data-view="overview" aria-pressed="true"><span aria-hidden="true">◫</span> Overview</button>
+        <button class="nav-item" data-view="access" aria-pressed="false"><span aria-hidden="true">⌁</span> Service access</button>
+        <button class="nav-item" data-view="priorities" aria-pressed="false"><span aria-hidden="true">≋</span> Inspection priorities</button>
+        <button class="nav-item" data-view="evidence" aria-pressed="false"><span aria-hidden="true">⌕</span> Evidence search</button>
+        <button class="nav-item" data-view="scenarios" aria-pressed="false"><span aria-hidden="true">⇄</span> Scenario lab</button>
+        <button class="nav-item" data-view="library" aria-pressed="false"><span aria-hidden="true">▤</span> Research library</button>
+      </nav>
+      <div class="sidebar-note"><span class="tiny-dot"></span> Decisions need evidence.<p>Sources, dates and uncertainty stay visible throughout the review.</p></div>
+      <div class="sidebar-footer">Seva First · Maharashtra zone<br><span>Independent research prototype</span></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <div><span class="eyebrow">WORKING PROTOTYPE</span><div class="location-label" id="location-label">Mumbai · M/E research context</div></div>
+        <div class="topbar-actions"><label class="visually-hidden" for="data-mode">Dataset mode</label><select id="data-mode"><option value="research">Research references</option><option value="sandbox">Synthetic sandbox</option><option value="imported" disabled>Imported dataset</option></select><button class="button secondary" id="import-button">Import data</button><button class="button primary" id="export-button">Export brief <span aria-hidden="true">↗</span></button></div>
+      </header>
+      <div id="mode-banner" class="mode-banner" role="status">Loading cited research and reference data…</div>
+      <main id="main" tabindex="-1"><div class="loading"><span class="spinner"></span> Preparing the evidence workbench…</div></main>
+      <footer class="workspace-footer"><span>Analysis runs in this browser. Imported files are not uploaded.</span><span id="review-date">Research accessed 17 Oct 2026</span></footer>
+    </div>
+  </div>
+  <dialog id="data-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-head"><h2 id="dialog-title">Import a dataset</h2><button class="icon-button" id="close-dialog" aria-label="Close dialog">×</button></div>
+    <div id="dialog-content"></div>
+  </dialog>
+  <div id="toast" role="status" class="toast" hidden></div>
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>
