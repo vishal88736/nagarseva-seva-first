@@ -1,0 +1,33 @@
+name: Public data and dependency evidence
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/readiness_research.py
+      - .github/workflows/readiness-research.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: nagarseva-initial-merge
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Acquire bounded public data and actual advisory evidence
+        run: python .github/scripts/readiness_research.py
+      - name: Preserve acquisition receipts
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add research/acquired integration/security-audit-before.json
+          git commit -m 'Record public data access and dependency advisory evidence'
+          git push origin HEAD:main
