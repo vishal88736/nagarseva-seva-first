@@ -3,6 +3,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import subprocess
 import zipfile
 import xml.etree.ElementTree as ET
 
@@ -61,7 +62,26 @@ def main():
     files=[ROOT/'README.md']
     for directory in ['research','prototype','submission','pilot']:
         files += [p for p in (ROOT/directory).rglob('*') if p.is_file() and not any(x in forbidden for x in p.relative_to(ROOT).parts) and p.suffix not in {'.pyc','.zip'} and p.name not in {'file_manifest.json', 'seva-evidence-pitch.pptx'} and '.inspect.' not in p.name and not p.name.startswith('.env')]
-    unique=sorted(set(files))
+    # Include the public guides/validation receipts reached by primary pack navigation.
+    # Generated dist/research markdown copies retain their original source context.
+    tracked = set(subprocess.check_output(['git', 'ls-files'], cwd=ROOT, text=True).splitlines())
+    for name in ['integration/security-audit-before.json', 'integration/security-audit-after.json', 'integration/security-audit-production.json']:
+        if (ROOT/name).is_file(): files.append(ROOT/name)
+    included = set(files)
+    queue = [p for p in included if p.suffix == '.md' and 'dist' not in p.relative_to(ROOT).parts]
+    while queue:
+        md = queue.pop()
+        for target in re.findall(r"\]\(([^)]+)\)", md.read_text()):
+            if target.startswith(('https://', 'http://', '#')): continue
+            linked = (md.parent/target.split('#')[0]).resolve()
+            assert linked.is_relative_to(ROOT), (md, target)
+            relative = str(linked.relative_to(ROOT))
+            assert linked.is_file() and relative in tracked, (md, target)
+            assert not forbidden.intersection(linked.relative_to(ROOT).parts) and not linked.name.startswith('.env')
+            if linked not in included:
+                included.add(linked)
+                if linked.suffix == '.md': queue.append(linked)
+    unique=sorted(included)
     manifest={str(p.relative_to(ROOT)):{'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in unique}
     (SUB/'file_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     archive=SUB/'outputs/seva-submission-kit.zip'

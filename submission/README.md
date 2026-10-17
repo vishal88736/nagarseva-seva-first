@@ -22,4 +22,4 @@ Actual software checks are in [application CI](../integration/ci-validation.json
 
 ## Reproduction and delivery
 
-`python3 submission/scripts/prepare_pack.py` regenerates answer counts, checks required files and local links, checks native artifact contents and creates `submission/outputs/seva-submission-kit.zip`. The archive is a submission/research pack, not a complete application-source or dependency bundle. Clone the repository for the app. Exclude private household/operational data from both.
+`python3 submission/scripts/prepare_pack.py` regenerates answer counts, checks required files and local links, checks native artifact contents and creates `submission/outputs/seva-submission-kit.zip`. The archive includes linked primary guides and the validation/advisory receipts. It is a submission/research pack, not a complete application-source or dependency bundle. Clone the repository for the app. Exclude private household/operational data from both.
