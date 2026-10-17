@@ -145,6 +145,7 @@ function text(value: string, label: string, min = 2) { if (value.trim().length <
 function addHistory(record: { history: AuditEvent[] }, action: string, actor: string, notes: string, at: string) { record.history.push({ at, action, actor, notes }) }
 export function planWork(state: State, input: WorkInput, at: string): State {
   text(input.title, 'Work title', 5); text(input.actor, 'Actor'); finite(input.target, 'Service target', 0, SERVICES[input.service].ceiling)
+  if (SERVICES[input.service].direction === 'at_least' && input.target <= 0) throw new Error('An at-least service commitment needs a positive target.')
   if (!/^\d{4}-\d{2}-\d{2}$/.test(input.due_date) || !Number.isFinite(Date.parse(input.due_date))) throw new Error('Supply a valid due date.')
   const result: State = structuredClone(state), definition = SERVICES[input.service]
   result.works.unshift({ ...input, id: id('WORK'), unit: definition.unit, direction: definition.direction, created_at: at, status: 'planned', verification: 'unverified', completed_at: null, completed_by: null, verification_record: null, synthetic: true, history: [{ at, action: 'planned', actor: input.actor.trim(), notes: 'User-entered demonstration plan; no government approval implied.' }] })

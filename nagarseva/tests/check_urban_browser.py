@@ -26,6 +26,16 @@ OUT = ROOT / ".merge-work/urban-browser"
 REPORT = ROOT / "integration/urban-validation.json"
 
 
+def emit_preview(path):
+    data = path.read_bytes()
+    checksum = hashlib.sha256(data).hexdigest()
+    print(f"URBAN_PREVIEW_BEGIN {path.stem} {checksum} {len(data)}", flush=True)
+    encoded = base64.b64encode(data).decode()
+    for offset in range(0, len(encoded), 8192):
+        print("URBAN_PREVIEW_PART " + encoded[offset:offset + 8192], flush=True)
+    print(f"URBAN_PREVIEW_END {path.stem} {checksum}", flush=True)
+
+
 def wait_for(url, process):
     for _ in range(100):
         if process.poll() is not None:
@@ -76,6 +86,10 @@ def main():
                 def check(label):
                     checks.append(label)
                     print("URBAN_BROWSER_CHECK " + label, flush=True)
+                    if len(checks) == 1:
+                        initial = OUT / "overview-initial.jpg"
+                        page.screenshot(path=initial, type="jpeg", quality=70, full_page=True)
+                        emit_preview(initial)
 
                 page.goto("http://127.0.0.1:4173", wait_until="networkidle")
                 expect(page.locator(".us-context-bar")).to_contain_text("Python calculation checked")
@@ -217,13 +231,7 @@ def main():
         print(json.dumps(result, indent=2), flush=True)
     # Public, synthetic UI screenshots only. No credentials, local data or tokens.
     for name in screenshots:
-        data = (ROOT / name).read_bytes()
-        checksum = hashlib.sha256(data).hexdigest()
-        print(f"URBAN_PREVIEW_BEGIN {Path(name).stem} {checksum} {len(data)}", flush=True)
-        encoded = base64.b64encode(data).decode()
-        for offset in range(0, len(encoded), 8192):
-            print("URBAN_PREVIEW_PART " + encoded[offset:offset + 8192], flush=True)
-        print(f"URBAN_PREVIEW_END {Path(name).stem} {checksum}", flush=True)
+        emit_preview(ROOT / name)
 
 
 if __name__ == "__main__":

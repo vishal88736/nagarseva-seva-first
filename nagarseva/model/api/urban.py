@@ -155,7 +155,7 @@ def create_router(store_provider: Callable[[], RecordStore], officer_access=acce
     def create_work(payload: WorkInput):
         cluster(payload.cluster_id)
         definition = SERVICES[payload.service]
-        if payload.target > definition["ceiling"]:
+        if payload.target > definition["ceiling"] or definition["direction"] == "at_least" and payload.target <= 0:
             raise HTTPException(422, "Target is outside the service's valid measurement range.")
         record = {**payload.model_dump(mode="json"), "id": "WORK-" + secrets.token_hex(5).upper(),
                   "unit": definition["unit"], "direction": definition["direction"], "created_at": now(),
