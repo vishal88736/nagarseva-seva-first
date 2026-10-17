@@ -30,6 +30,7 @@ def git_hash(data):
 
 
 def merge():
+    (ROOT / '.merge-work').mkdir(parents=True, exist_ok=True)
     metadata = json.loads(META.read_text())
     state_path = ROOT / 'integration/status.json'
     payload = ROOT / 'integration/local-materials.zip'
@@ -137,6 +138,7 @@ def report():
 
 def bundle():
     path = ROOT / '.merge-work/merged.bundle'
+    path.parent.mkdir(parents=True, exist_ok=True)
     run(['git', 'bundle', 'create', str(path), '--all'])
     data = path.read_bytes()
     checksum = hashlib.sha256(data).hexdigest()
