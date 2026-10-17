@@ -1,13 +1,13 @@
 {
   "status": "passed",
-  "checked_at": "2026-10-17T19:51:24.621575+00:00",
-  "tested_commit": "df0a86ce0439899f119c4838ef8ff188da9fcbd1",
-  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39064154385",
+  "checked_at": "2026-10-17T20:16:21.757418+00:00",
+  "tested_commit": "d3d8f7761f28b342adc77858d6dc2f8b93337e23",
+  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39065908279",
   "browser": "Playwright Chromium",
   "data": "Synthetic demonstration only",
   "field_validation": false,
   "checks": [
-    "Overview distinguishes five synthetic clusters from three separate official listing records",
+    "Overview separates synthetic and official records and counts only rankable scores above the explicit demo threshold",
     "Map filter and accessible cluster selection preserve missing data",
     "Priority example equals 65.0; equal weights alter the ranking without filling missing values",
     "Scenario comparison is Python-checked and relocation is explicit and conditional",

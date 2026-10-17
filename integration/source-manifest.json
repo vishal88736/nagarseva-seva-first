@@ -560,22 +560,22 @@
       "bytes": 109135,
       "sha256": "5a1973ee12e023b96ae48f0c91e83f17157b5a04ed2641ed0330f8423f1d8c6e",
       "upstream_git_sha": "34083d72d32818ac6b1bb9f5494a55897a6e1691",
-      "current_sha256": "5a1973ee12e023b96ae48f0c91e83f17157b5a04ed2641ed0330f8423f1d8c6e",
-      "modified_during_integration": false
+      "current_sha256": "2d6e18078ace03b0a088ff0804c6e1d30d4fb2fb04f1da814c8396eeac7a10ee",
+      "modified_during_integration": true
     },
     "nagarseva/website/package.json": {
       "bytes": 734,
       "sha256": "552c6ca5671b0f2c205704f0145ae17e9ff64af573af681a4d68d661a2cd88d2",
       "upstream_git_sha": "7dd569ba36f90ff96cc3b610aceaf6b2b1385405",
-      "current_sha256": "d3ac57f265695e7770f571a99240b6cd4a898a4103c01531ea1c4a8319933970",
+      "current_sha256": "10e4350d7748f38912aeb21e755c6050646d63ae6078412e7c2ab8880d1628cc",
       "modified_during_integration": true
     },
     "nagarseva/website/postcss.config.js": {
       "bytes": 66,
       "sha256": "45027a2befa94d6f46875c529d1088c12548d8f0bee31133e4ebb00ebc581e33",
       "upstream_git_sha": "82731cbf1403afc27ef70456eb1166f382cd3759",
-      "current_sha256": "45027a2befa94d6f46875c529d1088c12548d8f0bee31133e4ebb00ebc581e33",
-      "modified_during_integration": false
+      "current_sha256": "e99171e5ab4c2a7d330a2dd500648a5414519147bdb9a86a2887c020ada660b3",
+      "modified_during_integration": true
     },
     "nagarseva/website/public/mmr-map.svg": {
       "bytes": 2125,
