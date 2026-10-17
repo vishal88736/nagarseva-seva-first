@@ -1,0 +1,20 @@
+{
+  "status": "blank_template_not_a_quote",
+  "quote_or_schedule_id": null,
+  "source_url_or_document": null,
+  "supplier_or_schedule_owner": null,
+  "issue_date": null,
+  "valid_until": null,
+  "geography": null,
+  "currency": "INR",
+  "item_description": null,
+  "quantity": null,
+  "unit": null,
+  "unit_rate_excluding_tax": null,
+  "tax_rate_pct": null,
+  "delivery_installation_included": null,
+  "maintenance_scope": null,
+  "exclusions": [],
+  "engineering_reviewer": null,
+  "approved_for_scenario_use": false
+}

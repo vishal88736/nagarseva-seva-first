@@ -1,7 +1,7 @@
 import { Activity, ArrowDownToLine, ArrowUpRight, BookOpen, Building2, ChevronDown, Info, LayoutDashboard, LockKeyhole, MapPinned, Menu, ShieldCheck, SlidersHorizontal, X } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { ScenarioResult } from './engine'
-import { DEFAULT_WEIGHTS, prioritize } from './engine'
+import { DEFAULT_WEIGHTS, DEMO_HIGH_PRIORITY_THRESHOLD, prioritize } from './engine'
 import { api, downloadJson, useWorkspace } from './client'
 import { Compare, Explore, Overview, Prioritize, Tag } from './PlanningPages'
 import { AssurancePage } from './AssurancePage'
@@ -43,7 +43,7 @@ export default function UrbanSaarthi() {
   function select(id: string) { setSelectedId(id); setScenarios(null); setDraft(null) }
   function exportBrief() {
     downloadJson(`urbansaarthi-${selected.id}-brief.json`, { project: 'UrbanSaarthi', generated_at: new Date().toISOString(), mode, scope: 'Demonstration; not a government decision or field validation', data_metadata: data.metadata,
-      selected_cluster: selected, priority_report: report, python_priority_check: calculation, scenario_comparison: scenarios?.cluster_id === selected.id ? scenarios : null,
+      selected_cluster: selected, priority_report: report, high_priority_rule: { threshold: DEMO_HIGH_PRIORITY_THRESHOLD, eligible: 'rankable clusters only', basis: 'illustrative design assumption; not official policy' }, python_priority_check: calculation, scenario_comparison: scenarios?.cluster_id === selected.id ? scenarios : null,
       works: state.works.filter(work => work.cluster_id === selected.id), evidence: state.evidence.filter(item => item.cluster_id === selected.id).map(({ content_base64: _, ...metadata }) => metadata),
       reported_issues: state.complaints.filter(issue => issue.cluster_id === selected.id), next_steps: ['Obtain permitted boundaries and current service observations.', 'Validate weights with the responsible government body and residents.', 'Review costs, engineering and livelihood implications.', 'Configure authenticated roles and independent field inspection before a real pilot.'] })
   }

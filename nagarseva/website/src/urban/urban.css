@@ -76,7 +76,7 @@ svg { flex-shrink: 0; }
 .us-small { font-size: 10px; line-height: 1.7; color: var(--us-muted); }
 .us-panel { min-width: 0; padding: 23px; background: #fdfefa; border: 1px solid var(--us-line); border-radius: 9px; margin-bottom: 22px; }
 .us-panel-heading { margin-bottom: 22px; }.us-panel-heading p { font-size: 11px; margin-bottom: 0; max-width: 800px; }
-.us-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; margin-bottom: 25px; }
+.us-metrics { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 15px; margin-bottom: 25px; }
 .us-metric { min-width: 0; background: #fcfdf9; border: 1px solid var(--us-line); border-radius: 8px; padding: 19px 20px 18px; }
 .us-metric > span { display: flex; align-items: center; gap: 8px; font-size: 10px; color: #5c705e; }
 .us-metric strong { display: block; font-size: 34px; font-weight: 600; letter-spacing: -.06em; color: #2c4d39; margin: 14px 0 9px; line-height: 1; }

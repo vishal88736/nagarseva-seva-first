@@ -1,6 +1,8 @@
 export const KEYS = ['water', 'sanitation', 'housing', 'access', 'risk'] as const
 export type Key = typeof KEYS[number]
 export type Weights = Record<Key, number>
+// Demonstration classification only; no official policy threshold is asserted.
+export const DEMO_HIGH_PRIORITY_THRESHOLD = 60
 export const DEFAULT_WEIGHTS: Weights = { water: .30, sanitation: .25, housing: .20, access: .15, risk: .10 }
 export const INDICATORS: Record<Key, { label: string; short: string; color: string; description: string }> = {
   water: { label: 'Water deficit', short: 'W', color: '#267e9c', description: 'Normalized water-service deficit; higher means greater need.' },
