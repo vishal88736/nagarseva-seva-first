@@ -1,5 +1,40 @@
 {
-  "status": "not_run",
-  "scope": "UrbanSaarthi five-screen workflow; CI browser checks pending",
-  "field_validation": false
+  "status": "failed",
+  "checked_at": "2026-10-17T19:46:42.913881+00:00",
+  "tested_commit": "cd644cb9b74d1fc8794c74bf24c43e0092a6f74d",
+  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39063827451",
+  "browser": "Playwright Chromium",
+  "data": "Synthetic demonstration only",
+  "field_validation": false,
+  "error": "AssertionError: Horizontal overflow: 375 / Prioritize Needs",
+  "checks": [
+    "Overview distinguishes five synthetic clusters from three separate official listing records",
+    "Map filter and accessible cluster selection preserve missing data",
+    "Priority example equals 65.0; equal weights alter the ranking without filling missing values",
+    "Scenario comparison is Python-checked and relocation is explicit and conditional",
+    "Planned work and physical completion do not count as verified services",
+    "File upload, evidence selection, independent reviewer and measured target gate service verification",
+    "A new issue disputes verification; a response alone cannot restore it; fresh evidence permits a new review",
+    "Exported brief contains scores, assumptions and evidence metadata; SQLite records persist after reload",
+    "Responsive navigation and no document overflow: 1440px / Overview",
+    "Responsive navigation and no document overflow: 1440px / Explore Settlements",
+    "Responsive navigation and no document overflow: 1440px / Prioritize Needs",
+    "Responsive navigation and no document overflow: 1440px / Compare Scenarios",
+    "Responsive navigation and no document overflow: 1440px / Service Assurance",
+    "Responsive navigation and no document overflow: 768px / Overview",
+    "Responsive navigation and no document overflow: 768px / Explore Settlements",
+    "Responsive navigation and no document overflow: 768px / Prioritize Needs",
+    "Responsive navigation and no document overflow: 768px / Compare Scenarios",
+    "Responsive navigation and no document overflow: 768px / Service Assurance",
+    "Responsive navigation and no document overflow: 375px / Overview",
+    "Responsive navigation and no document overflow: 375px / Explore Settlements"
+  ],
+  "executed_checks": 20,
+  "page_errors": [
+    "Cannot read properties of undefined (reading '_leaflet_pos')",
+    "Cannot read properties of undefined (reading '_leaflet_pos')"
+  ],
+  "screenshots": [
+    ".merge-work/urban-browser/overview-1440.jpg"
+  ]
 }

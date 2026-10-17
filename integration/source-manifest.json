@@ -7,15 +7,15 @@
       "bytes": 1102,
       "sha256": "cfe07e9ea401b5d4fc7b84a2abfea32ed56b01d914617fe13eee055cba807e1d",
       "upstream_git_sha": "0b41f3191428ce201e848c7c96a16418a500bdd4",
-      "current_sha256": "cfe07e9ea401b5d4fc7b84a2abfea32ed56b01d914617fe13eee055cba807e1d",
-      "modified_during_integration": false
+      "current_sha256": "69fc1b0638b56587c5df4f41d2c76b3b4df0eb89d6139eb962e692487fbef703",
+      "modified_during_integration": true
     },
     "nagarseva/README.md": {
       "bytes": 10869,
       "sha256": "9f4d6936d0abc26610c1f1ac289ca675bec740604caa8dccb5ac339ab07290a2",
       "upstream_git_sha": "763b6976ebce7b0de6d3f1b1c5571294c364d0dc",
-      "current_sha256": "9f4d6936d0abc26610c1f1ac289ca675bec740604caa8dccb5ac339ab07290a2",
-      "modified_during_integration": false
+      "current_sha256": "ba27bcf9117433582767130a89bb50440ad5238cfed0de2851a57e9db200fffb",
+      "modified_during_integration": true
     },
     "nagarseva/docs/CHANGELOG.md": {
       "bytes": 3670,
@@ -91,8 +91,8 @@
       "bytes": 32652,
       "sha256": "8fc30f7900e6fa3fbd58a9d7f0fd1685278a92c9ee844d6707f74b74ae0775cf",
       "upstream_git_sha": "373f26f7dbada5874e253570bb86963e1448dfe1",
-      "current_sha256": "8fc30f7900e6fa3fbd58a9d7f0fd1685278a92c9ee844d6707f74b74ae0775cf",
-      "modified_during_integration": false
+      "current_sha256": "1f8c6aee8cf86e5e10061712d6056ef4d9e201789c9a8bf7d3e6558d0757e08a",
+      "modified_during_integration": true
     },
     "nagarseva/model/api/schemas.py": {
       "bytes": 6833,
@@ -105,8 +105,8 @@
       "bytes": 6864,
       "sha256": "be13649c8d660206070f671cfc439f3b4a8ca5539575663f9b61d5dc79c6240d",
       "upstream_git_sha": "1ae33b3f80508335d01dce284c274e5f702f2ea3",
-      "current_sha256": "be13649c8d660206070f671cfc439f3b4a8ca5539575663f9b61d5dc79c6240d",
-      "modified_during_integration": false
+      "current_sha256": "440ca29cf3b33dcf38fa848f0a075a0e6b2baee73bda875e9e3a6576d163918d",
+      "modified_during_integration": true
     },
     "nagarseva/model/artifacts/cost_metrics.json": {
       "bytes": 247,
@@ -553,8 +553,8 @@
       "bytes": 481,
       "sha256": "15d672246dce86e6ff4eee8f9e6ae46b5b70f9b981833303f18027de4b51d6b0",
       "upstream_git_sha": "1b74406a856cb5148ecde1b5a9baab83bdadcf84",
-      "current_sha256": "15d672246dce86e6ff4eee8f9e6ae46b5b70f9b981833303f18027de4b51d6b0",
-      "modified_during_integration": false
+      "current_sha256": "17aa332a2c2f0a24fb529b0f071ffcfa69899abd9709e0d205b58af52030bd1c",
+      "modified_during_integration": true
     },
     "nagarseva/website/package-lock.json": {
       "bytes": 109135,
@@ -567,8 +567,8 @@
       "bytes": 734,
       "sha256": "552c6ca5671b0f2c205704f0145ae17e9ff64af573af681a4d68d661a2cd88d2",
       "upstream_git_sha": "7dd569ba36f90ff96cc3b610aceaf6b2b1385405",
-      "current_sha256": "552c6ca5671b0f2c205704f0145ae17e9ff64af573af681a4d68d661a2cd88d2",
-      "modified_during_integration": false
+      "current_sha256": "d3ac57f265695e7770f571a99240b6cd4a898a4103c01531ea1c4a8319933970",
+      "modified_during_integration": true
     },
     "nagarseva/website/postcss.config.js": {
       "bytes": 66,
@@ -588,8 +588,8 @@
       "bytes": 11815,
       "sha256": "0d9483ba83d6ebb04de886b6bf2df4c624d00fc66d4da91367d12ec9d95db443",
       "upstream_git_sha": "146a210b35c6aef4f11bbe25bdac624372c61e53",
-      "current_sha256": "0d9483ba83d6ebb04de886b6bf2df4c624d00fc66d4da91367d12ec9d95db443",
-      "modified_during_integration": false
+      "current_sha256": "f8fee551f859857e9907d8377e4411111039922deefd042afcf142ed661ae708",
+      "modified_during_integration": true
     },
     "nagarseva/website/src/components/PublicContext.tsx": {
       "bytes": 5105,
@@ -693,8 +693,8 @@
       "bytes": 220,
       "sha256": "449360d409ecbdd6aa7fb603226836ba7a6f3ed5cdcbb1a814397e7deb96a9bb",
       "upstream_git_sha": "4263911364bd2e67139ea1e79fbe2e641081df0c",
-      "current_sha256": "449360d409ecbdd6aa7fb603226836ba7a6f3ed5cdcbb1a814397e7deb96a9bb",
-      "modified_during_integration": false
+      "current_sha256": "303991cc0e5f0812b6794bf9efce995fd38643e6140ab424ca9683c15112566d",
+      "modified_during_integration": true
     },
     "nagarseva/website/src/pages/Admin.tsx": {
       "bytes": 8828,
