@@ -1,5 +1,7 @@
 # Research decision brief
 
+**18 October implementation update:** the focused application is now [UrbanSaarthi](../README.md), with a separate [aligned submission pack](../submission/README.md) and [prepared pilot kit](../pilot/README.md). The research findings and acquisition boundaries below retain their original 17 October date; the earlier workbench remains supporting material.
+
 Research/access date: **17 October 2026**. Prepared for a solo participant with approximately one week available. This package reviews **14 journal publications and one additional government impact study**, compares public systems and inventories **32 dataset/input candidates**. Full-text access varies and limitations are marked. The follow-up adds a [working local prototype](../prototype/README.md) and [executed software checks](prototype_validation.md); no field survey, real road-network ingestion or measured service impact is claimed.
 
 ## Build decision

@@ -1,37 +1,27 @@
-# Pitch scripts
+# UrbanSaarthi speaking scripts
 
-Prepared 17 October 2026. Read alongside the six-slide deck. Timings are rehearsal estimates; actual delivery has not been timed. Personal details are omitted at the applicant's request.
+Prepared 18 October 2026. The three-minute script is approximately 390 words. Rehearse aloud and adjust pauses to the actual speaking rate. The six slides follow the official template. Demonstrate the live app separately if the format allows it.
 
 ## Three-minute pitch
 
-Seva Evidence asks a practical question: before a ward team chooses its next service inspection, can it see which records are trustworthy, which reports conflict, and what still needs checking?
+A work can be marked complete while residents still lack a reliable service. UrbanSaarthi asks a practical question: what evidence should a ward reviewer use to choose the next inspection, compare an intervention and check whether the promised service actually functions?
 
-Housing delivery and reliable neighbourhood services require different evidence. Mumbai studies document problems with water reliability and post-relocation maintenance. Those historical findings do not tell us today's failure rate in a particular settlement. I have therefore avoided inventing a current baseline.
+Our proposed first task is a water-service review in one agreed Mumbai M-East cluster. Published Mumbai research supports attention to reliability, and the ward has a Water Works office. But we have not measured today's local failure rate or established that the current review process is inadequate. Those are validation questions, not claims in our pitch.
 
-The prototype begins with a real, narrow case. Three selected entries in the official SRA public listing identify distinct schemes in M/E, Deonar. Two show CTS 1-A. The third shows 1 A. Their proposal fields contain placeholders. The inspected table gives no status or update-date columns. These entries cannot justify a delay score or an automatic merge. Seva Evidence keeps the original rows separate, shows the source and retrieval date, and identifies the official crosswalk needed next.
+The working prototype has five connected screens. On Explore Settlements, a reviewer selects a cluster and sees indicators, source dates and missing information. Prioritize Needs shows every weight and contribution. With the example values 80, 70, 60, 50 and 40, the score is 65 out of 100. The weights are assumptions. If a required input is missing, the cluster gets an interval and no exact rank.
 
-That record audit is deliberately simple. A spreadsheet can perform it. Existing SRA GIS, SBM monitoring and Swachhata complaints are substantial prior art. The proposed contribution is whether an evidence brief with explicit uncertainty improves one actual review, compared with those existing processes.
+Compare Scenarios then contrasts an in-place improvement with redevelopment in place. Costs, temporary support and access assumptions remain editable and visible. Relocation is an explicitly enabled thought experiment, requiring a reason, rather than a recommendation to move residents.
 
-The local prototype also demonstrates graph access, missing-value score intervals, conflicting claims, hypothetical maintenance comparisons and cited research search. Real records and synthetic examples stay separate. Code and template checks pass. Browser testing remains blocked in this workspace. No current service survey, field pilot, resident benefit or government endorsement is claimed.
+The reviewer can draft a service work from the comparison. Completing the physical work does not verify the service. A separate review needs an evidence file, a measured target and a distinct reviewer name. A new complaint disputes verification. Recording a response alone cannot restore it. The export retains the score, assumptions and review evidence metadata.
 
-The proposed sponsor is BMC M/E ward administration with the relevant service department and actual operator. A 90-day trial would agree lawful inputs and a baseline review, then aim for twenty public assets and three observation rounds. An independent reviewer would compare critical evidence omissions, handling of unknowns and task time. Those are proposed measurements, not promised improvements.
+These are tested software behaviours. The mapped clusters and service inputs are synthetic. Self-entered names do not prove independent inspection. Existing SRA GIS, monitoring systems and complaint platforms are prior art, so our proposed advantage is the usefulness of one connected, traceable review, not the invention of GIS or an AI model.
 
-The illustrative trial budget is one lakh thirty-two thousand rupees, including contingency. Every rate is a planning assumption requiring quotations. Continued operation requires an identified payer and maintenance owner. Cost per household and social return remain unmeasured.
+We seek a domain mentor, permitted aggregate records and an independent field partner for a conditional 90-day trial. It proposes up to 20 public water assets and three review rounds. The illustrative INR 132,000 review-trial budget excludes construction and needs quotations. We would compare evidence omissions and review effort against the current process before expansion. If the current process already meets the need, we will adapt to it or stop.
 
-I am applying individually. I seek a domain mentor, a permitted review task and a community validation partner. Success means demonstrating useful evidence handling in one accountable public-service workflow, with a clear decision to continue, adapt or stop.
+## Thirty-second pitch
 
-## Thirty-second elevator pitch
+UrbanSaarthi helps a ward reviewer explain settlement priorities, compare hypothetical interventions and review whether a completed work delivers a functioning service. Its five-screen prototype keeps sources, missing inputs and assumptions visible. Completion and verification are separate, and complaints can dispute verification. The demonstration data is synthetic. We seek one authorised water-service review task and independent field evidence to test whether it improves the existing process.
 
-Seva Evidence helps a ward reviewer inspect sources, conflicting reports and missing evidence before choosing a service inspection. Its real SRA record case preserves three schemes with ambiguous CTS matches instead of merging them or inventing progress. The local prototype also demonstrates transparent analytical methods on labelled test data. I seek a BMC M/E review partner to compare the evidence brief with the existing process. Local usefulness, service impact and adoption remain to be validated.
+## Demo sequence
 
-## Demonstration sequence, approximately two minutes
-
-1. Overview: open **Real public-record demonstration**. Show primary source, raw CTS and unknown status/date fields.
-2. Explain exact collision versus tentative formatting association. Export the case. Emphasise zero automatic merges.
-3. Open Service access with Research references. It correctly withholds road distance without a network.
-4. Select Synthetic sandbox, calculate access and inspect the disconnected/restricted result. State that the geometry is invented.
-5. Open Inspection priorities. Show the missing-observation interval and conflicting claims.
-6. Search for SBM functional monitoring, then current M/E toilet reliability. Explain prior art and abstention.
-7. Export the review brief. End with the proposed trial and evidence boundary.
-
-If browser checks remain unavailable before presentation, use the deck and the attributed case file. Do not claim that unexecuted clicks or screenshots were verified.
+Select US-A, explain its 65.0 score, change weights, inspect missing US-E inputs, compare the two in-place scenarios, draft a work, complete it without verifying it, attach a harmless inspection file, show a failed then passing measurement, record a complaint and export the brief. Identify every synthetic input aloud. Avoid a full second product tour of the supporting evidence workbench.

@@ -64,6 +64,7 @@ def import_local_checkpoint():
 def merge():
     (ROOT / '.merge-work').mkdir(parents=True, exist_ok=True)
     import_local_checkpoint()
+    refresh_frontend_lock()
     metadata = json.loads(META.read_text())
     state_path = ROOT / 'integration/status.json'
     payload = ROOT / 'integration/local-materials.zip'
@@ -124,6 +125,35 @@ def merge():
     run(['git', 'commit', '-m', 'Add verified research, evidence workbench and submission materials'])
     run([sys.executable, 'scripts/merge_source.py'])
     print(f"Merged all {len(metadata['upstream_files'])} original files at {metadata['upstream_commit']}.")
+
+
+def refresh_frontend_lock():
+    """Resolve the explicitly reviewed package change once on a networked runner."""
+    request = ROOT / '.github/frontend-lock-refresh.json'
+    if not request.exists():
+        return
+    expected = json.loads(request.read_text())
+    website = ROOT / 'nagarseva/website'
+    if hashlib.sha256((website / 'package.json').read_bytes()).hexdigest() != expected['package_sha256']:
+        raise RuntimeError('Frontend refresh request does not match the reviewed package file.')
+    run(['npm', 'install', '--package-lock-only', '--ignore-scripts'], cwd=website)
+    for suffix, args in [('after', []), ('production', ['--omit=dev'])]:
+        result = subprocess.run(['npm', 'audit', '--json', '--package-lock-only', '--ignore-scripts', *args], cwd=website, capture_output=True, text=True)
+        audit = json.loads(result.stdout)
+        if 'error' in audit or 'metadata' not in audit:
+            raise RuntimeError('The advisory service did not return a usable audit result.')
+        receipt = {'checked_at': datetime.now(timezone.utc).isoformat(),
+                   'package_lock_sha256': hashlib.sha256((website/'package-lock.json').read_bytes()).hexdigest(),
+                   'scope': 'all dependencies' if suffix == 'after' else 'production dependencies',
+                   'exit_code': result.returncode, 'report': audit}
+        (ROOT / f'integration/security-audit-{suffix}.json').write_text(json.dumps(receipt, indent=2)+'\n')
+        print('FRONTEND_SECURITY', suffix, json.dumps(audit['metadata']['vulnerabilities']))
+        if audit['metadata']['vulnerabilities']['total']:
+            raise RuntimeError('Frontend advisories remain; review the recorded audit before continuing.')
+    request.unlink()
+    run(['git', 'add', 'nagarseva/website/package-lock.json', '.github/frontend-lock-refresh.json',
+         'integration/security-audit-after.json', 'integration/security-audit-production.json'])
+    run(['git', 'commit', '-m', 'Resolve reviewed frontend patches and record actual advisory checks'])
 
 
 def report():
