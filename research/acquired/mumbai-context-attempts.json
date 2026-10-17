@@ -1,0 +1,40 @@
+[
+  {
+    "accessed_at": "2026-10-17T19:59:42.869075+00:00",
+    "endpoint": "https://overpass-api.de/api/interpreter",
+    "query": "[out:json][timeout:25][maxsize:16777216];(way[highway](19.047,72.912,19.063,72.930);nwr[amenity~\"^(school|hospital|clinic|toilets|drinking_water)$\"](19.047,72.912,19.063,72.930);node[highway=bus_stop](19.047,72.912,19.063,72.930););out body geom;",
+    "bbox_wsen": [
+      72.912,
+      19.047,
+      72.93,
+      19.063
+    ],
+    "publisher": "OpenStreetMap contributors via Overpass API",
+    "licence": "ODbL 1.0",
+    "licence_url": "https://www.openstreetmap.org/copyright",
+    "attribution": "© OpenStreetMap contributors",
+    "purpose": "Small candidate Mumbai context extract. No settlement identification or household-service inference.",
+    "field_validation": false,
+    "status": "failed",
+    "error": "TimeoutError: The read operation timed out"
+  },
+  {
+    "accessed_at": "2026-10-17T20:05:27.503502+00:00",
+    "endpoint": "https://overpass.private.coffee/api/interpreter",
+    "query": "[out:json][timeout:25][maxsize:16777216];(way[highway](19.047,72.912,19.063,72.930);nwr[amenity~\"^(school|hospital|clinic|toilets|drinking_water)$\"](19.047,72.912,19.063,72.930);node[highway=bus_stop](19.047,72.912,19.063,72.930););out body geom;",
+    "bbox_wsen": [
+      72.912,
+      19.047,
+      72.93,
+      19.063
+    ],
+    "publisher": "OpenStreetMap contributors via Overpass API",
+    "licence": "ODbL 1.0",
+    "licence_url": "https://www.openstreetmap.org/copyright",
+    "attribution": "© OpenStreetMap contributors",
+    "purpose": "Small candidate Mumbai context extract. No settlement identification or household-service inference.",
+    "field_validation": false,
+    "status": "failed",
+    "error": "HTTPError: HTTP Error 500: Internal Server Error"
+  }
+]
