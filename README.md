@@ -39,6 +39,10 @@ Open **http://localhost:5173**. API documentation: http://localhost:8000/docs. I
 
 Set `NAGARSEVA_OFFICER_KEY` on the API and enter it through **Officer access** to protect server records. Do not put the key in a frontend build or commit it. This shared-key demo is not production identity or role management.
 
+## Deploy on AWS
+
+Use the [AWS CloudShell deployment guide](deploy/aws/README.md) for one EC2 instance, persistent encrypted-volume demo records and an HTTPS CloudFront address. Active credits must cover usage; this is not permanently free hosting. The guide and readiness CI do not imply that an AWS account has already been provisioned.
+
 ## Data and validation boundaries
 
 The five cluster polygons, normalized deficit indicators, roads, amenities and household/cost assumptions are **synthetic**. No current field-service baseline or permitted settlement boundary dataset has been acquired. The three attributed SRA listing records are a separate desk case with no geometry or service claims. Mumbai is a demonstration context; no ward-level pilot partnership has been secured.

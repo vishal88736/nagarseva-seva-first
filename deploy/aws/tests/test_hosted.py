@@ -1,0 +1,88 @@
+"""Exercise the actual mounted API/static wrapper without a listening socket."""
+import importlib.util
+from pathlib import Path
+import sys
+
+from fastapi.testclient import TestClient
+import pytest
+
+ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT / 'nagarseva'))
+
+
+@pytest.fixture
+def hosted(tmp_path, monkeypatch):
+    monkeypatch.setenv('URBANSAARTHI_DB_PATH', str(tmp_path / 'import.sqlite3'))
+    monkeypatch.setenv('URBANSAARTHI_ORIGIN_SECRET', 'a' * 64)
+    monkeypatch.setenv('NAGARSEVA_OFFICER_KEY', 'b' * 64)
+    monkeypatch.setenv('NAGARSEVA_MODE', 'hosted-demo')
+    spec = importlib.util.spec_from_file_location('urban_hosted', ROOT / 'deploy/aws/app.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    frontend = tmp_path / 'frontend'
+    frontend.mkdir()
+    (frontend / 'index.html').write_text('<html><title>UrbanSaarthi</title></html>')
+    return module, frontend, tmp_path / 'persistent.sqlite3'
+
+
+def client(hosted):
+    module, frontend, database = hosted
+    return TestClient(module.build_app(frontend, database))
+
+
+ORIGIN = {'X-Origin-Verify': 'a' * 64}
+OFFICER = {**ORIGIN, 'X-Officer-Key': 'b' * 64}
+WORK = {'cluster_id': 'US-A', 'title': 'AWS container persistence check', 'service': 'water',
+        'target': 2, 'due_date': '2100-01-01', 'actor': 'Demo tester'}
+
+
+@pytest.mark.parametrize('headers', [{}, {'X-Origin-Verify': 'wrong'}, {'X-Origin-Verify': b'\xff'}])
+def test_direct_origin_requests_are_denied(hosted, headers):
+    with client(hosted) as c:
+        assert c.get('/api/urban/health', headers=headers).status_code == 403
+        assert c.get('/', headers=headers).status_code == 403
+
+
+def test_frontend_and_api_share_origin_and_api_errors_stay_api_errors(hosted):
+    with client(hosted) as c:
+        assert '<title>UrbanSaarthi</title>' in c.get('/', headers=ORIGIN).text
+        health = c.get('/api/urban/health', headers=ORIGIN)
+        assert health.json()['officer_auth_required'] is True
+        assert health.headers['cache-control'] == 'no-store'
+        assert c.get('/api/urban/nonexistent', headers=ORIGIN).status_code == 404
+        assert c.post('/api/urban/priority', headers=ORIGIN, json={}).json()['items'][0]['score'] == 65
+
+
+def test_officer_protection_and_persistence_across_app_recreation(hosted):
+    with client(hosted) as c:
+        assert c.get('/api/urban/state', headers=ORIGIN).status_code == 401
+        assert c.post('/api/urban/works', headers=ORIGIN, json=WORK).status_code == 401
+        result = c.post('/api/urban/works', headers=OFFICER, json=WORK)
+        assert result.status_code == 200
+        work_id = result.json()['id']
+    with client(hosted) as c:
+        state = c.get('/api/urban/state', headers=OFFICER)
+        assert state.json()['works'][0]['id'] == work_id
+        assert state.headers['cache-control'] == 'no-store'
+
+
+def test_declared_and_chunked_oversize_bodies_are_rejected(hosted):
+    with client(hosted) as c:
+        response = c.post('/api/urban/priority', headers={**ORIGIN, 'Content-Length': '3000001'}, content=b'{}')
+        assert response.status_code == 413
+        chunks = (b'x' * 100_000 for _ in range(31))
+        assert c.post('/api/urban/priority', headers=ORIGIN, content=chunks).status_code == 413
+
+
+@pytest.mark.parametrize('name,value', [('NAGARSEVA_OFFICER_KEY', ''), ('URBANSAARTHI_ORIGIN_SECRET', ''), ('NAGARSEVA_OFFICER_KEY', 'a' * 64)])
+def test_insecure_startup_configuration_fails_closed(hosted, monkeypatch, name, value):
+    module, frontend, database = hosted
+    monkeypatch.setenv(name, value)
+    with pytest.raises(RuntimeError):
+        module.build_app(frontend, database)
+
+
+def test_missing_frontend_build_is_not_a_successful_deployment(hosted, tmp_path):
+    module, _, database = hosted
+    with pytest.raises(RuntimeError, match='Build the frontend'):
+        module.build_app(tmp_path / 'missing', database)

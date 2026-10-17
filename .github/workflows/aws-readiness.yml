@@ -1,0 +1,53 @@
+name: AWS deployment readiness
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - deploy/aws/**
+      - .dockerignore
+      - .github/workflows/aws-readiness.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check scripts and pinned API integration
+        run: |
+          bash -n deploy/aws/launch.sh deploy/aws/bootstrap.sh
+          python -m pip install -r nagarseva/model/requirements-urban.txt cfn-lint
+          python -m pytest deploy/aws/tests/test_hosted.py -q
+          python deploy/aws/build_template.py > /tmp/urban-template.json
+          cfn-lint --template /tmp/urban-template.json --regions ap-south-1
+      - name: Build the deployment image
+        run: docker build -f deploy/aws/Dockerfile -t urbansaarthi:readiness .
+      - name: Exercise actual container HTTP, uploads and restart persistence
+        env:
+          URBANSAARTHI_ORIGIN_SECRET: ci-origin-only-not-a-deployed-credential-012345678901234567890123456
+          NAGARSEVA_OFFICER_KEY: ci-officer-only-not-a-deployed-credential-01234567890123456789012345
+        run: |
+          mkdir -p /tmp/urban-aws-data
+          sudo chown 10001:10001 /tmp/urban-aws-data
+          docker run -d --name urbansaarthi -p 127.0.0.1:8080:8080 \
+            -e URBANSAARTHI_ORIGIN_SECRET -e NAGARSEVA_OFFICER_KEY \
+            --mount type=bind,source=/tmp/urban-aws-data,target=/data \
+            --read-only --tmpfs /tmp:rw,noexec,nosuid,size=32m \
+            --cap-drop ALL --security-opt no-new-privileges urbansaarthi:readiness
+          python deploy/aws/tests/smoke_container.py create
+          docker restart urbansaarthi
+          python deploy/aws/tests/smoke_container.py read
+      - name: Container logs on failure
+        if: failure()
+        run: docker logs urbansaarthi || true
+      - name: Clean up CI container
+        if: always()
+        run: docker rm -f urbansaarthi || true
