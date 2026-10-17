@@ -32,6 +32,7 @@ from model.src.service_records import SERVICES, service_record, utc_now  # noqa:
 from model.src.eligibility import screen  # noqa: E402
 from model.src.public_context import ForecastService  # noqa: E402
 from .store import RecordStore  # noqa: E402
+from .urban import create_router as urban_router  # noqa: E402
 from .schemas import (  # noqa: E402
     CostRequest, EligibilityRequest, FeasibilityRequest, GrievanceRequest,
     InterventionRequest, OptimizeRequest, PriorityRequest, ComplaintAction,
@@ -64,6 +65,9 @@ def officer_access(x_officer_key: str | None = Header(None)) -> None:
         raise HTTPException(401, "Officer access key required")
     if not expected and os.getenv("NAGARSEVA_MODE", "demo") != "demo":
         raise HTTPException(503, "Configure officer access before enabling a pilot")
+
+
+app.include_router(urban_router(lambda: STORE, officer_access))
 
 
 def _complaint_view(record: dict) -> dict:
