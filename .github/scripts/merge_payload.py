@@ -35,7 +35,13 @@ def merge():
     payload = ROOT / 'integration/local-materials.zip'
     if not payload.exists():
         if state_path.exists() and json.loads(state_path.read_text()).get('source_merged'):
-            print('The one-time source merge is already complete; no payload remains.')
+            print('The source merge is complete; checking the current evidence materials.')
+            run([sys.executable, 'prototype/scripts/verify.py'])
+            run([sys.executable, 'submission/scripts/prepare_pack.py'])
+            run([sys.executable, 'scripts/sync_evidence.py'])
+            run(['git', 'add', 'research', 'prototype', 'submission/file_manifest.json', 'nagarseva/website/public/evidence/index.html'])
+            if run(['git', 'diff', '--cached', '--name-only'], capture=True):
+                run(['git', 'commit', '-m', 'Refresh verified evidence materials'])
             return
         raise RuntimeError('The one-time merge payload is unavailable.')
     if hashlib.sha256(payload.read_bytes()).hexdigest() != metadata['payload_sha256']:
@@ -96,7 +102,7 @@ def report():
         'workflow_url': run_url,
         'source_commit': metadata['upstream_commit'],
         'original_files': len(metadata['upstream_files']),
-        'original_files_verified': True,
+        'upstream_snapshot_verified_at_acquisition': True,
         'backend_dependencies': os.environ.get('SEVA_DEPENDENCIES_OUTCOME', 'not_run'),
         'backend_tests': os.environ.get('SEVA_BACKEND_OUTCOME', 'not_run'),
         'backend_passed_count': int(matched.group(1)) if matched else None,
@@ -111,11 +117,16 @@ def report():
     state.update(state='MERGED_ON_GITHUB', source_complete=True, source_original_files=results['original_files'],
                  source_missing_files=[], original_application_tests=results['backend_tests'],
                  frontend_build=results['frontend_build'], workflow_url=run_url)
+    if any(results[key] != 'success' for key in ['backend_dependencies', 'backend_tests', 'frontend_build']):
+        state['state'] = 'MERGED_ON_GITHUB_VALIDATION_FAILED'
     state_path.write_text(json.dumps(state, indent=2) + '\n')
     manifest_path = ROOT / 'integration/source-manifest.json'
     manifest = json.loads(manifest_path.read_text())
     for name, item in metadata['upstream_files'].items():
         manifest['files'][name]['upstream_git_sha'] = item['git_sha']
+        current = (ROOT / name).read_bytes()
+        manifest['files'][name]['current_sha256'] = hashlib.sha256(current).hexdigest()
+        manifest['files'][name]['modified_during_integration'] = git_hash(current) != item['git_sha']
     manifest['acquisition'] = 'Pinned git clone on GitHub Actions; all original Git blob hashes verified'
     manifest_path.write_text(json.dumps(manifest, indent=2) + '\n')
     readme = ROOT / 'README.md'
