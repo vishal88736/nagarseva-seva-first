@@ -29,6 +29,9 @@ export function AssurancePage({ selected, workspace, scenario, onClearScenario }
   const evidence = state.evidence.filter(item => item.work_id === work?.id), issues = state.complaints.filter(item => item.work_id === work?.id)
   useEffect(() => { setObserved(localTime()); setMeasured(''); setFunctioning(false); setEvidenceId(''); setNotes(''); setError(''); setMessage('') }, [work?.id, work?.completed_at])
   useEffect(() => { if (scenario) setPlanning(true) }, [scenario])
+  useEffect(() => {
+    if (work?.verification === 'disputed') { setObserved(localTime()); setMeasured(''); setFunctioning(false); setEvidenceId(''); setNotes('') }
+  }, [work?.id, work?.verification])
   async function handle(operation: () => Promise<unknown>, success: string) {
     setError(''); setMessage('')
     try { await operation(); setMessage(success) } catch (problem) { setError((problem as Error).message) }

@@ -76,7 +76,7 @@ def main():
                 context = browser.new_context(viewport={"width": 1440, "height": 1000}, accept_downloads=True)
                 context.route("https://tile.openstreetmap.org/**", lambda route: route.abort())
                 page = context.new_page()
-                page.on("pageerror", lambda error: errors.append(str(error)))
+                page.on("pageerror", lambda error: errors.append(error.stack or str(error)))
 
                 def nav(label):
                     if page.viewport_size["width"] <= 800:
@@ -166,6 +166,8 @@ def main():
                 expect(page.get_by_text("Response recorded", exact=True)).to_be_visible()
                 expect(verified).to_have_text("00")
                 evidence("inspection-followup.txt", "Fresh synthetic inspection after the reported interruption.")
+                page.get_by_label("Measured service value", exact=True).fill("6")
+                page.get_by_label("Confirm service functioning", exact=True).check()
                 page.get_by_label("Update or review note").fill("Fresh inspection reviewed after the recorded service interruption.")
                 page.get_by_role("button", name="Record service verification", exact=False).click()
                 expect(verified).to_have_text("01")
@@ -177,18 +179,36 @@ def main():
                 brief = json.loads(brief_path.read_text())
                 assert brief["project"] == "UrbanSaarthi" and brief["works"][0]["verification"] == "verified"
                 assert brief["priority_report"]["items"][0]["score"] == 65
+                assert brief["scenario_comparison"]["assumptions"]["contingency_pct"] == 10
                 assert "content_base64" not in json.dumps(brief) and "officerKey" not in json.dumps(brief)
                 page.reload(wait_until="networkidle")
                 expect(page.get_by_role("heading", name="CI demo water improvement", exact=True)).to_be_visible()
                 expect(verified).to_have_text("01")
                 check("Exported brief contains scores, assumptions and evidence metadata; SQLite records persist after reload")
+                context.route("**/api/urban/state", lambda route: route.fulfill(status=401, content_type="application/json", body='{"detail":"Officer access key required."}'))
+                page.get_by_text("Officer access", exact=True).click()
+                page.get_by_label("API officer key", exact=True).fill("unaccepted-demo-key")
+                page.get_by_role("button", name="Apply key", exact=True).click()
+                expect(page.get_by_role("heading", name="CI demo water improvement", exact=True)).to_have_count(0)
+                expect(page.get_by_role("alert")).to_contain_text("Officer access key required")
+                context.unroute("**/api/urban/state")
+                page.get_by_label("API officer key", exact=True).fill("")
+                page.get_by_role("button", name="Apply key", exact=True).click()
+                expect(page.get_by_role("heading", name="CI demo water improvement", exact=True)).to_be_visible()
+                page.get_by_text("Officer access", exact=True).click()
+                check("A rejected state refresh clears earlier operational records instead of retaining a stale authorized view")
                 for width, height in [(1440, 1000), (768, 1024), (375, 812)]:
                     page.set_viewport_size({"width": width, "height": height})
                     for label in ["Overview", "Explore Settlements", "Prioritize Needs", "Compare Scenarios", "Service Assurance"]:
                         nav(label)
                         expect(page.locator("#us-main h1")).to_be_visible()
                         page.wait_for_timeout(150)
-                        assert page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"), f"Horizontal overflow: {width} / {label}"
+                        if not page.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"):
+                            result['overflow_elements'] = page.evaluate("Array.from(document.querySelectorAll('*')).filter(e => e.getBoundingClientRect().right > innerWidth + 1).slice(0, 12).map(e => ({tag:e.tagName,classes:e.className,width:e.getBoundingClientRect().width}))")
+                            failure = OUT / f"overflow-{width}.jpg"
+                            page.screenshot(path=failure, type="jpeg", quality=70, full_page=True)
+                            emit_preview(failure)
+                            raise AssertionError(f"Horizontal overflow: {width} / {label}")
                         check(f"Responsive navigation and no document overflow: {width}px / {label}")
                     if width in {1440, 375}:
                         nav("Overview")
@@ -198,7 +218,7 @@ def main():
                 offline = browser.new_context(viewport={"width": 1280, "height": 900})
                 offline.route("**/api/**", lambda route: route.abort())
                 sandbox = offline.new_page()
-                sandbox.on("pageerror", lambda error: errors.append(str(error)))
+                sandbox.on("pageerror", lambda error: errors.append(error.stack or str(error)))
                 sandbox.goto("http://127.0.0.1:4173/#assurance", wait_until="networkidle")
                 expect(sandbox.locator(".us-sandbox-banner")).to_contain_text("browser-only demonstration")
                 sandbox.get_by_role("button", name="Plan a service work", exact=False).click()

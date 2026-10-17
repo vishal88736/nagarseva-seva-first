@@ -6,6 +6,7 @@ No function makes eligibility, engineering-safety or relocation decisions.
 from __future__ import annotations
 
 import heapq
+from copy import deepcopy
 import json
 import math
 from pathlib import Path
@@ -155,5 +156,5 @@ def compare_scenarios(data: dict, cluster_id: str, assumptions: dict) -> dict:
                         "access": [{**end, "baseline_distance_m": start["distance_m"],
                                     "change_m": round(end["distance_m"] - start["distance_m"], 1) if end["distance_m"] is not None and start["distance_m"] is not None else None}
                                    for start, end in zip(before, after)], "assumed_service_coverage_pct": coverage})
-    return {"cluster_id": cluster_id, "options": results, "synthetic": True,
+    return {"cluster_id": cluster_id, "options": results, "assumptions": deepcopy(assumptions), "synthetic": True,
             "limits": "Hypothetical costs and coverage assumptions, not estimates from quotations. Distances use a synthetic graph. No engineering, financial, tenure or relocation approval is established."}

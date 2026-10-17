@@ -122,7 +122,7 @@ export function compareScenarios(data: Dataset, clusterId: string, assumptions: 
     return { ...option, households_assumed: households, construction_and_shared_inr: rounded(base, 2), temporary_support_inr: rounded(support, 2), total_cost_inr: rounded((base + support) * (1 + contingency / 100), 2), annual_maintenance_inr: rounded(households * maintenance, 2), disrupted_households: disrupted,
       access: after.map((amenity, i) => ({ ...amenity, baseline_distance_m: before[i].distance_m, change_m: amenity.distance_m !== null && before[i].distance_m !== null ? rounded(amenity.distance_m - before[i].distance_m!, 1) : null })) }
   })
-  return { cluster_id: clusterId, options, synthetic: true, limits: 'Hypothetical costs and coverage assumptions, not quotations. Distances use a synthetic graph. No engineering, financial, tenure or relocation approval is established.' }
+  return { cluster_id: clusterId, options, assumptions: structuredClone(assumptions), synthetic: true, limits: 'Hypothetical costs and coverage assumptions, not quotations. Distances use a synthetic graph. No engineering, financial, tenure or relocation approval is established.' }
 }
 export type ScenarioResult = ReturnType<typeof compareScenarios>
 export const SERVICES = {

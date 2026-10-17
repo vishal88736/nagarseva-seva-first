@@ -30,7 +30,9 @@ test('Shared-rank ties do not fabricate a correlation', () => {
 })
 test('Scenario cost matches the hand-worked 1,199 INR example', () => {
   const assumptions = { households: 10, contingency_pct: 10, temporary_rent_per_month: 20, annual_maintenance_per_household: 12, include_relocation: false, relocation_reason: '', options: ['upgrade', 'redevelop'].map(kind => ({ kind, unit_cost_inr: 100, shared_works_inr: 50, months: 6, temporary_months: 1, disrupted_share: .2, assumed_service_coverage_pct: 80 })) }
-  const result = compareScenarios(data, 'US-A', assumptions).options[0]
+  const comparison = compareScenarios(data, 'US-A', assumptions)
+  assert.deepEqual(comparison.assumptions, assumptions)
+  const result = comparison.options[0]
   assert.equal(result.total_cost_inr, 1199); assert.equal(result.temporary_support_inr, 40); assert.equal(result.annual_maintenance_inr, 120)
   assert.equal(result.disrupted_households, 2); assert.ok(result.access.every(row => row.change_m === 0))
 })

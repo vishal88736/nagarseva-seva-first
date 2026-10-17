@@ -8,7 +8,11 @@ import type { Cluster, Dataset, Key, Weights } from './engine'
 function Fit({ clusters }: { clusters: Cluster[] }) {
   const map = useMap()
   const bounds = useMemo(() => clusters.flatMap(cluster => cluster.geometry.coordinates[0].map(([lon, lat]) => [lat, lon] as [number, number])), [clusters])
-  useEffect(() => { if (bounds.length) map.fitBounds(bounds, { padding: [35, 35], maxZoom: 16 }); setTimeout(() => map.invalidateSize(), 50) }, [map, bounds])
+  useEffect(() => {
+    if (bounds.length) map.fitBounds(bounds, { padding: [35, 35], maxZoom: 16, animate: false })
+    const timer = setTimeout(() => map.invalidateSize({ animate: false }), 50)
+    return () => clearTimeout(timer)
+  }, [map, bounds])
   return null
 }
 export default function UrbanMap({ data, clusters, selected, onSelect, weights, layer = 'priority', roads = true, amenities = true, basemap = false, compact = false }: {
@@ -17,7 +21,7 @@ export default function UrbanMap({ data, clusters, selected, onSelect, weights, 
   const nodes = new Map(data.network.nodes.map(node => [node.id, node]))
   const tileUrl = import.meta.env.VITE_TILE_URL || 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
   return <div className={`us-map ${compact ? 'compact' : ''}`}>
-    <MapContainer center={[19.057, 72.920]} zoom={15} scrollWheelZoom={false} aria-label="Synthetic settlement cluster map">
+    <MapContainer center={[19.057, 72.920]} zoom={15} scrollWheelZoom={false} zoomAnimation={false} fadeAnimation={false} markerZoomAnimation={false} aria-label="Synthetic settlement cluster map">
       {basemap && <TileLayer url={tileUrl} attribution={import.meta.env.VITE_TILE_ATTRIBUTION || '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'} />}
       <Fit clusters={clusters} />
       {roads && data.network.edges.filter(edge => edge.walkable).map((edge, index) => { const a = nodes.get(edge.from)!, b = nodes.get(edge.to)!; return <Polyline key={index} positions={[[a.lat, a.lon], [b.lat, b.lon]]} pathOptions={{ color: '#8b9e98', weight: 3, opacity: .6, dashArray: '5 5' }}><Tooltip>Demonstration walking edge</Tooltip></Polyline> })}

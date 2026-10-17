@@ -69,7 +69,9 @@ def test_equal_scores_have_shared_rank_and_undefined_constant_correlation():
 
 
 def test_hypothetical_cost_is_hand_calculated_and_coverage_is_an_assumption():
-    result = compare_scenarios(dataset(), "US-A", assumptions())["options"][0]
+    comparison = compare_scenarios(dataset(), "US-A", assumptions())
+    assert comparison["assumptions"] == assumptions()
+    result = comparison["options"][0]
     assert result["construction_and_shared_inr"] == 1050
     assert result["temporary_support_inr"] == 40
     assert result["total_cost_inr"] == 1199

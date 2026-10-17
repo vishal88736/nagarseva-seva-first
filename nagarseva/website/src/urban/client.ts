@@ -32,6 +32,7 @@ export function useWorkspace() {
   const update = useCallback((next: State) => { current.current = next; setState(next) }, [])
   useEffect(() => {
     let active = true
+    setMode('connecting'); setError(''); update(emptyState())
     api<Dataset>('/settlements').then(async result => {
       if (!active) return
       setData(result); setMode('server')
