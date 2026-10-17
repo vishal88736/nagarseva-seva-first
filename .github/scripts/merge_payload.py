@@ -29,8 +29,41 @@ def git_hash(data):
     return hashlib.sha1(b'blob ' + str(len(data)).encode() + b'\0' + data).hexdigest()
 
 
+def import_local_checkpoint():
+    """Import an explicitly checksummed local Git checkpoint, preserving history."""
+    bundle_path = ROOT / 'integration/local-changes.bundle'
+    manifest_path = ROOT / 'integration/local-changes.json'
+    if not bundle_path.exists() and not manifest_path.exists():
+        return
+    metadata = json.loads(manifest_path.read_text())
+    raw = bundle_path.read_bytes()
+    if len(raw) > 10_000_000 or hashlib.sha256(raw).hexdigest() != metadata['sha256']:
+        raise RuntimeError('Local checkpoint bundle checksum mismatch.')
+    if not all(re.fullmatch(r'[0-9a-f]{40}', metadata[key]) for key in ['base_commit', 'checkpoint_commit']):
+        raise RuntimeError('Invalid local checkpoint references.')
+    run(['git', 'merge-base', '--is-ancestor', metadata['base_commit'], 'HEAD'])
+    run(['git', 'bundle', 'verify', str(bundle_path)])
+    run(['git', 'fetch', '--no-tags', str(bundle_path), 'refs/heads/main:refs/remotes/prepared/main'])
+    if run(['git', 'rev-parse', 'refs/remotes/prepared/main'], capture=True) != metadata['checkpoint_commit']:
+        raise RuntimeError('The imported local checkpoint differs from the reviewed commit.')
+    run(['git', 'merge-base', '--is-ancestor', metadata['base_commit'], metadata['checkpoint_commit']])
+    run(['git', 'merge', '--no-ff', 'refs/remotes/prepared/main', '-m', 'Merge the focused UrbanSaarthi implementation and local history'])
+    for name, checksum in metadata['files'].items():
+        path = Path(name)
+        if path.is_absolute() or '..' in path.parts or '.git' in path.parts:
+            raise RuntimeError('Unsafe local checkpoint manifest path.')
+        if hashlib.sha256((ROOT / path).read_bytes()).hexdigest() != checksum:
+            raise RuntimeError(f'Local checkpoint file mismatch: {name}')
+    bundle_path.unlink()
+    manifest_path.unlink()
+    run(['git', 'add', '-u', 'integration/local-changes.bundle', 'integration/local-changes.json'])
+    run(['git', 'commit', '-m', 'Remove verified one-time local source transport'])
+    print('Imported and verified the local UrbanSaarthi checkpoint with its commit history.')
+
+
 def merge():
     (ROOT / '.merge-work').mkdir(parents=True, exist_ok=True)
+    import_local_checkpoint()
     metadata = json.loads(META.read_text())
     state_path = ROOT / 'integration/status.json'
     payload = ROOT / 'integration/local-materials.zip'
