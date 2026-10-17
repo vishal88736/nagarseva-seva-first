@@ -1,0 +1,93 @@
+name: Merge original source and validate
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - integration/local-materials.zip
+      - .github/scripts/merge_payload.py
+      - .github/bootstrap-manifest.json
+      - .github/workflows/merge-original.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nagarseva-initial-merge
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Configure commit author
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+      - name: Verify payload and merge the pinned original source
+        id: merge
+        run: python .github/scripts/merge_payload.py merge
+      - name: Publish the combined project
+        run: git push origin HEAD:main
+      - name: Install backend dependencies
+        id: dependencies
+        continue-on-error: true
+        run: python -m pip install -r requirements.txt
+      - name: Run backend tests
+        id: backend
+        if: steps.dependencies.outcome == 'success'
+        continue-on-error: true
+        working-directory: nagarseva
+        run: |
+          set -o pipefail
+          python -m pytest model/tests -q 2>&1 | tee ../.merge-work/backend-tests.txt
+      - name: Install frontend dependencies and build
+        id: frontend
+        continue-on-error: true
+        working-directory: nagarseva/website
+        run: |
+          set -o pipefail
+          npm ci
+          npm run build 2>&1 | tee ../../.merge-work/frontend-build.txt
+      - name: Record actual validation outcomes
+        if: always() && steps.merge.outcome == 'success'
+        env:
+          SEVA_DEPENDENCIES_OUTCOME: ${{ steps.dependencies.outcome }}
+          SEVA_BACKEND_OUTCOME: ${{ steps.backend.outcome }}
+          SEVA_FRONTEND_OUTCOME: ${{ steps.frontend.outcome }}
+        run: |
+          python .github/scripts/merge_payload.py report
+          python submission/scripts/prepare_pack.py
+          git add integration/status.json integration/source-manifest.json integration/ci-validation.json README.md submission/file_manifest.json
+          git commit -m 'Record merged source and actual validation results'
+          git push origin HEAD:main
+      - name: Export the verified repository for local synchronization
+        if: always() && steps.merge.outcome == 'success'
+        run: python .github/scripts/merge_payload.py bundle
+      - name: Require successful application checks
+        if: always() && steps.merge.outcome == 'success'
+        env:
+          SEVA_DEPENDENCIES_OUTCOME: ${{ steps.dependencies.outcome }}
+          SEVA_BACKEND_OUTCOME: ${{ steps.backend.outcome }}
+          SEVA_FRONTEND_OUTCOME: ${{ steps.frontend.outcome }}
+        run: |
+          python - <<'PY'
+          import os
+          checks = ['SEVA_DEPENDENCIES_OUTCOME', 'SEVA_BACKEND_OUTCOME', 'SEVA_FRONTEND_OUTCOME']
+          failed = {name: os.environ.get(name) for name in checks if os.environ.get(name) != 'success'}
+          if failed:
+              raise SystemExit(f'Application checks did not all pass: {failed}')
+          print('Backend dependencies, backend tests and frontend build all passed.')
+          PY
