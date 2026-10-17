@@ -18,36 +18,63 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Check scripts and pinned API integration
         run: |
-          bash -n deploy/aws/launch.sh deploy/aws/bootstrap.sh
+          bash -n deploy/aws/launch.sh deploy/aws/bootstrap.sh deploy/aws/repair-permissions.sh
           python -m pip install -r nagarseva/model/requirements-urban.txt cfn-lint
           python -m pytest deploy/aws/tests/test_hosted.py -q
           python deploy/aws/build_template.py > /tmp/urban-template.json
-          cfn-lint --template /tmp/urban-template.json --regions ap-south-1
-      - name: Build the deployment image
-        run: docker build -f deploy/aws/Dockerfile -t urbansaarthi:readiness .
+          cfn-lint --template /tmp/urban-template.json --regions ap-south-1 us-east-1
+      - name: Reproduce the original restrictive-checkout permission failure and build the fixed image
+        run: |
+          umask 077
+          urban_context=$(mktemp -d)
+          git archive HEAD | tar --extract --no-same-permissions --directory="$urban_context"
+          find "$urban_context" -type d -exec chmod 0700 {} +
+          find "$urban_context" -type f -exec chmod 0600 {} +
+          git show 565906ed79bee74b101cc7384f58007139f13879:deploy/aws/Dockerfile > /tmp/urban-original.Dockerfile
+          docker build -f /tmp/urban-original.Dockerfile -t urbansaarthi:permission-regression "$urban_context"
+          if docker run --rm --entrypoint python urbansaarthi:permission-regression -c 'import hosted' > /tmp/urban-original-error.txt 2>&1; then
+            echo 'Original image unexpectedly imported; regression setup did not reproduce the reported failure.' >&2
+            exit 1
+          fi
+          grep -F "Permission denied: '/app/hosted.py'" /tmp/urban-original-error.txt
+          echo 'Original EC2 permission failure reproduced with restrictive checkout modes.'
+          docker build -f "$urban_context/deploy/aws/Dockerfile" -t urbansaarthi:readiness "$urban_context"
       - name: Exercise actual container HTTP, uploads and restart persistence
         env:
           URBANSAARTHI_ORIGIN_SECRET: ci-origin-only-not-a-deployed-credential-012345678901234567890123456
           NAGARSEVA_OFFICER_KEY: ci-officer-only-not-a-deployed-credential-01234567890123456789012345
         run: |
-          mkdir -p /tmp/urban-aws-data
-          sudo chown 10001:10001 /tmp/urban-aws-data
+          sudo install -d -m 750 -o 10001 -g 10001 /var/lib/urbansaarthi
+          sudo install -d -m 700 /etc/urbansaarthi
+          printf 'URBANSAARTHI_ORIGIN_SECRET=%s\nNAGARSEVA_OFFICER_KEY=%s\n' "$URBANSAARTHI_ORIGIN_SECRET" "$NAGARSEVA_OFFICER_KEY" | sudo tee /etc/urbansaarthi/runtime.env > /dev/null
+          sudo chmod 600 /etc/urbansaarthi/runtime.env
           docker run -d --name urbansaarthi -p 127.0.0.1:8080:8080 \
             -e URBANSAARTHI_ORIGIN_SECRET -e NAGARSEVA_OFFICER_KEY \
-            --mount type=bind,source=/tmp/urban-aws-data,target=/data \
+            --mount type=bind,source=/var/lib/urbansaarthi,target=/data \
             --read-only --tmpfs /tmp:rw,noexec,nosuid,size=32m \
             --cap-drop ALL --security-opt no-new-privileges urbansaarthi:readiness
           python deploy/aws/tests/smoke_container.py create
           docker restart urbansaarthi
           python deploy/aws/tests/smoke_container.py read
+          docker rm -f urbansaarthi
+          docker run -d --name urbansaarthi --restart unless-stopped \
+            --env-file /dev/null --mount type=bind,source=/var/lib/urbansaarthi,target=/data \
+            urbansaarthi:permission-regression
+          sudo bash deploy/aws/repair-permissions.sh
+          docker inspect --format '{{.Config.User}}' urbansaarthi | grep -Fx '10001:10001'
+          URBANSAARTHI_SMOKE_BASE_URL=http://127.0.0.1 python deploy/aws/tests/smoke_container.py read
       - name: Container logs on failure
         if: failure()
         run: docker logs urbansaarthi || true
       - name: Clean up CI container
         if: always()
-        run: docker rm -f urbansaarthi || true
+        run: |
+          docker rm -f urbansaarthi || true
+          docker ps -aq --filter name=urbansaarthi-before-permissions- | xargs -r docker rm -f

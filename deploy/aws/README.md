@@ -77,6 +77,27 @@ df -h
 
 The first build requires outbound access to Amazon Linux repositories, GitHub, Docker Hub and PyPI/npm registries. Rate limits, unavailable packages, build failure or account restrictions are deployment failures, not successful hosting. Inspect logs before retrying; the initial bootstrap is not safe to blindly rerun against an existing container. Do not post the runtime env file or secrets with logs.
 
+### Repair the initial image's `/app/hosted.py` permission failure
+
+The first deployment version (`565906ed79bee74b101cc7384f58007139f13879`) built from a root Git checkout made under `umask 077`. Its Dockerfile copied the resulting private source modes into a root-owned `/app`, then switched to UID 10001. This caused `PermissionError: [Errno 13] Permission denied: '/app/hosted.py'` on EC2. The original CI checkout was readable, so it did not expose that difference. The Dockerfile now explicitly grants read/traverse access to application assets before switching users. It does not grant access to the separate runtime secret file or saved database.
+
+For this exact error, run in the **existing EC2 Session Manager shell**:
+
+```bash
+sudo git -C /opt/urbansaarthi/source fetch origin main
+sudo git -C /opt/urbansaarthi/source show FETCH_HEAD:deploy/aws/repair-permissions.sh | sudo bash
+```
+
+The repair builds a permission-only layer from the installed image, probes imports as UID 10001, retains the stopped previous container, and starts the repaired image with the same private runtime env file, database bind mount and hardening. It does not rerun npm/pip, recreate the database, rotate keys or replace infrastructure. It validates the local frontend, health and operational `401`; public CloudFront readiness is a separate check.
+
+After it reports local checks passed, use `exit` to return to CloudShell. From the existing `urbansaarthi-aws` checkout, run:
+
+```bash
+URBANSAARTHI_AWS_REGION=us-east-1 bash deploy/aws/launch.sh
+```
+
+Use your actual region if different. The launcher verifies the existing stack's HTTPS endpoint without launching another instance. Do not rerun the entire bootstrap as a substitute for this targeted repair.
+
 ## Backup and shut down
 
 Before deleting or replacing the instance, create a consistent SQLite backup inside the container and copy it off the instance using an approved private transfer/storage path. In Session Manager, this creates a snapshot file in the persistent bind mount:
@@ -91,7 +112,7 @@ When you deliberately want to remove this demo, delete **only `urbansaarthi-demo
 
 ## Validation boundary and primary references
 
-[AWS readiness workflow](../../.github/workflows/aws-readiness.yml) performs pinned-runtime ASGI wrapper tests, CloudFormation schema lint, an actual Docker production build, HTTP/auth/calculation/upload checks and a container restart/persistence check. These checks use synthetic CI records and no AWS credentials; they do not launch EC2, validate this account's credits, test CloudFront networking or prove public availability. The normal app calculation/browser validation remains in `integration/`.
+[AWS readiness workflow](../../.github/workflows/aws-readiness.yml) performs pinned-runtime ASGI wrapper tests, CloudFormation schema lint for Mumbai and `us-east-1`, an actual Docker production build, HTTP/auth/calculation/upload checks and a container restart/persistence check. It now builds from deliberately restrictive 0600-file/0700-directory checkout modes, reproduces the original image's reported failure, validates the fixed Dockerfile, then exercises the actual repair script against the broken image while checking that seeded records, evidence and officer access survive. These checks use synthetic CI records and no AWS credentials; they do not launch EC2, validate this account's credits, test CloudFront networking or prove public availability. The normal app calculation/browser validation remains in `integration/`.
 
 Sources accessed **18 October 2026**:
 

@@ -8,7 +8,7 @@ import time
 import urllib.error
 import urllib.request
 
-BASE = 'http://127.0.0.1:8080'
+BASE = os.environ.get('URBANSAARTHI_SMOKE_BASE_URL', 'http://127.0.0.1:8080')
 ORIGIN = {'X-Origin-Verify': os.environ['URBANSAARTHI_ORIGIN_SECRET']}
 OFFICER = {**ORIGIN, 'X-Officer-Key': os.environ['NAGARSEVA_OFFICER_KEY']}
 RECEIPT = Path('/tmp/urban-aws-smoke.json')

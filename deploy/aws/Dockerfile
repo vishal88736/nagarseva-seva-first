@@ -19,6 +19,10 @@ COPY nagarseva/model/src/urban_planning.py ./model/src/
 COPY nagarseva/shared/ ./shared/
 COPY deploy/aws/app.py ./hosted.py
 COPY --from=frontend /source/nagarseva/website/dist/ ./frontend/
+# Root checkouts made with bootstrap's umask 077 contain 0600 files/0700
+# directories. COPY preserves modes; runtime UID 10001 must be able to read
+# application assets. Secrets and the live /data mount are not in /app.
+RUN chmod -R a+rX /app
 USER 10001:10001
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
