@@ -1,6 +1,6 @@
 PYTHON ?= python
 
-.PHONY: setup urban-setup data train api legacy-api web all test test-legacy docs clean
+.PHONY: setup urban-setup data acquire-public-data train api legacy-api web all test test-legacy docs clean
 
 urban-setup:
 	$(PYTHON) -m pip install -r model/requirements-urban.txt
@@ -13,6 +13,10 @@ setup:
 data:
 	$(PYTHON) model/src/generate_data.py
 	$(PYTHON) model/src/data_quality.py
+
+acquire-public-data:
+	$(PYTHON) -m pip install -r ../scripts/requirements-data.txt
+	$(PYTHON) ../scripts/acquire_data.py
 
 train: data
 	$(PYTHON) model/src/train_priority.py
@@ -31,12 +35,12 @@ web:
 
 # Builds the complete local demo, then starts API and Vite in the background.
 # Use `make api` / `make web` when foreground logs are preferred.
-all: setup train
-	@nohup $(PYTHON) -m uvicorn model.api.main:app --host 0.0.0.0 --port 8000 > api.log 2>&1 & echo "API started on http://localhost:8000"
+all: urban-setup
+	@nohup $(PYTHON) -m uvicorn model.api.urban:app --host 127.0.0.1 --port 8000 > api.log 2>&1 & echo "API started on http://localhost:8000"
 	@nohup npm --prefix website run dev > web.log 2>&1 & echo "Web started on http://localhost:5173"
 
 test:
-	$(PYTHON) -m pytest tests -q
+	$(PYTHON) -m pytest ../tests tests/test_urban.py -q
 	npm --prefix website test
 	npm --prefix website run build
 

@@ -1528,8 +1528,8 @@
     {
       "name": "README.md",
       "url": "./research/README.md",
-      "sha256": "7836c60ccad619a9e1d10973fa10cb3e2e8073f15342e1f9048a02bc61651441",
-      "bytes": 6983
+      "sha256": "dced178de4e249e40dd20f1bc14ef359fc8b99d39c75bc68064b2d2b84ad7b9f",
+      "bytes": 7589
     },
     {
       "name": "access_followup.md",
@@ -1538,10 +1538,40 @@
       "bytes": 9180
     },
     {
+      "name": "acquisition_results.json",
+      "url": "./research/acquisition_results.json",
+      "sha256": "c63949e8382caba750c7ad8afba5434e2c4ab11fb189e5af9a23c3cad1790502",
+      "bytes": 5275
+    },
+    {
+      "name": "cleanup.md",
+      "url": "./research/cleanup.md",
+      "sha256": "fc760e79fad9a3623a0d677faac2c41a4cc4a0a81ea3f97724843d5014185fb8",
+      "bytes": 2078
+    },
+    {
+      "name": "data_availability.md",
+      "url": "./research/data_availability.md",
+      "sha256": "515811d216c41d5460ccd09bd85556202e99afdddb383a58e2c82ef1f4dafbd9",
+      "bytes": 4391
+    },
+    {
+      "name": "data_quality_report.md",
+      "url": "./research/data_quality_report.md",
+      "sha256": "0eec77500ba89bbf2197e7d61e514cdff091069b80f27e86e65ab6fa816c2710",
+      "bytes": 5563
+    },
+    {
       "name": "dataset_inventory.csv",
       "url": "./research/dataset_inventory.csv",
-      "sha256": "ee26a32b091b2e93e4a86a82c67a3c692bdc090350ab937bcf4a8b17a542c217",
-      "bytes": 35428
+      "sha256": "49d52fbc1e94c514a705001e64827a3dd1139bd90cea50ac7c340be0b8c194bd",
+      "bytes": 7852
+    },
+    {
+      "name": "dataset_inventory_legacy.csv",
+      "url": "./research/dataset_inventory_legacy.csv",
+      "sha256": "a9c0f9ad3bdd4496661de665f71831a86882ae6930ce87504675d85e3581262e",
+      "bytes": 35395
     },
     {
       "name": "evaluation_plan.md",
@@ -1556,6 +1586,24 @@
       "bytes": 13294
     },
     {
+      "name": "final_report.md",
+      "url": "./research/final_report.md",
+      "sha256": "b14ec8968f78f327fe2f429a6a4baced763b94388a7801980450e350f486ad49",
+      "bytes": 11228
+    },
+    {
+      "name": "implementation_plan.md",
+      "url": "./research/implementation_plan.md",
+      "sha256": "66666cf7132597698a2ae0937d19bbe2b152db7334ff746f78d0114a219b36b7",
+      "bytes": 1889
+    },
+    {
+      "name": "join_strategy.md",
+      "url": "./research/join_strategy.md",
+      "sha256": "25881485cea8216afd82923ecac874f548d662a2669a01fb4c570ebb0c11700d",
+      "bytes": 2136
+    },
+    {
       "name": "literature_review.md",
       "url": "./research/literature_review.md",
       "sha256": "03cbc954bd9525f08a6eb5b9ebf3638344ca987d59cbf19a157bdf4e5d9e08aa",
@@ -1564,8 +1612,8 @@
     {
       "name": "official_sources.md",
       "url": "./research/official_sources.md",
-      "sha256": "6f4aea7511699c085f25fb75bfac05f44ec664da23c01565444cb96b7ebc5007",
-      "bytes": 25743
+      "sha256": "8c5a62e442beff571f864696ea506df44c9054a3a2e2e6d78ccc296ed881e7b5",
+      "bytes": 27580
     },
     {
       "name": "problem_evidence_matrix.csv",
@@ -1576,8 +1624,8 @@
     {
       "name": "prototype_validation.md",
       "url": "./research/prototype_validation.md",
-      "sha256": "e438ec6597be22b60f3255f7634784bff0257ac7fb31dfa69344f2928c373b2a",
-      "bytes": 7281
+      "sha256": "a68a59ca9dde758aa0361d505b63bc5b08304b7d0009134e16532aea4bfed4cc",
+      "bytes": 7253
     },
     {
       "name": "public_record_case.md",
@@ -1594,8 +1642,8 @@
     {
       "name": "research_gap.md",
       "url": "./research/research_gap.md",
-      "sha256": "b10a9c21ac4f52761968d18b638b965677a6a0281a08157de3b30a5713e9c7ed",
-      "bytes": 17912
+      "sha256": "e49afe712df29e89fdaed637b684239bf0f74fd97dc1d7b4836f4aad85b197a3",
+      "bytes": 18901
     },
     {
       "name": "research_summary.md",

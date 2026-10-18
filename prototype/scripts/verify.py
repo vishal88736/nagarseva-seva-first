@@ -77,7 +77,10 @@ def research_check():
     assert all((directory / p).is_file() for p in CORE)
     counts = {}
     for filename, id_col in [("dataset_inventory.csv", "dataset_id"), ("problem_evidence_matrix.csv", "problem_id")]:
-        with (directory / filename).open(newline="") as handle:
+        inventory_path = directory / filename
+        if filename == "dataset_inventory.csv" and (directory / "dataset_inventory_legacy.csv").exists():
+            inventory_path = directory / "dataset_inventory_legacy.csv"
+        with inventory_path.open(newline="") as handle:
             reader = csv.DictReader(handle)
             rows = list(reader)
         assert len({r[id_col] for r in rows}) == len(rows)
@@ -148,7 +151,7 @@ The initial retrieval run returned an answerable state for “how many people ..
 
 Run `python3 prototype/scripts/verify.py` from the project root. Engine tests explicitly use `--test-isolation=none`; this workspace's default subprocess-isolated invocation reported a file wrapper rather than the individual cases, so the pipeline verifies the declared/actual test counts match. Runtime versions: `{run(['node', '--version']).strip()}`; `{run([sys.executable, '--version']).strip()}`.
 
-Local HTTP-server creation failed with `PermissionError: [Errno 1] Operation not permitted`. The generated [standalone entry point](../prototype/dist/standalone.html) embeds the interface, methods, data and research text and does not require a local port or external runtime assets. Browser execution itself could not be verified here because socket restrictions also prevented Chromium launch; the optional browser script is retained for an unrestricted environment. No server was left running.
+The generated [standalone entry point](../prototype/dist/standalone.html) embeds the interface, methods, data and research text and does not require a local port or external runtime assets. Optional workbench browser-check status for this run: `{browser.get('status', 'not_attempted')}`. The default verifier performs source/template/packaging checks; actual UrbanSaarthi browser results are recorded separately in `research/verification/browser_results.json`. No field verification is implied.
 
 The static/template checks are a distinct, narrower validation layer. They do not establish pixel layout, keyboard/screen-reader behaviour, all file-import/download interactions, or production security. Field deployment additionally needs lawful current data, an approved operating owner, resident participation, independent labels, access controls, O&M funding and an actual workflow comparison.
 

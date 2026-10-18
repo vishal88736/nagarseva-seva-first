@@ -1,5 +1,31 @@
 # Official sources and access ledger
 
+## Follow-up acquisition: 18 October 2026
+
+Actual files, hashes and failed requests are now documented in
+[data_availability.md](data_availability.md), [dataset_inventory.csv](dataset_inventory.csv)
+and [acquisition_results.json](acquisition_results.json). Primary endpoints used:
+[SRA GIS-MIS](https://sra.gov.in/details/sub-category/gis-mis-slum-data),
+[SRA MapServer](https://umd.nic.in/sramap/rest/services/SRA/SRAMumbai/MapServer),
+[SRA FeatureServer layers](https://umd.nic.in/sramap/rest/services/SRA/SRAMumbai/FeatureServer/layers),
+[SRA 2024 map](https://media.sra.gov.in/sra-automation/category/docs/1731408978437_4524_slum_cluster_ca_2024%20%281%29.pdf),
+[public scheme listing](https://dms.sra.gov.in/SRAPUBLIC/),
+[OGD catalogue](https://www.data.gov.in/catalog/slum-rehabilitation-authority-brihanmumbai),
+[Geofabrik](https://download.geofabrik.de/asia/india.html) and
+[official OSM bounding-box API](https://www.openstreetmap.org/api/0.6/map?bbox=72.9,19.04,72.94,19.08).
+OSM reuse attribution: [OpenStreetMap copyright / ODbL](https://www.openstreetmap.org/copyright).
+
+No local numerical asset was obtained from Census catalogue IDs 6190, 11436, 11448
+or 11443; their direct HTTPS requests failed certificate-chain verification.
+The [HL-06 metadata](https://censusindia.gov.in/nada/index.php/catalog/11443/study-description)
+identifies historical 2011 India/state observations, not current household reliability.
+[Dataful](https://dataful.in/datasets/272/) was inspected as a convenience source only.
+For the optional collection proposal, official [Kobo export documentation](https://support.kobotoolbox.org/export_download.html)
+and [ODK form management](https://docs.getodk.org/central-forms/) were inspected.
+These are not sources of existing service observations.
+
+## Earlier ledger, retained with its original date
+
 All access attempts below: **2026-10-17**. Publication dates and underlying observation dates are separate. A failed research-tool fetch is not a finding that a government portal is globally unavailable. No authenticated functions were exercised.
 
 ## The seventeen supplied starting URLs

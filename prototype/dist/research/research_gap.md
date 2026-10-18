@@ -1,5 +1,22 @@
 # Problem evidence, candidate gaps and location decision
 
+## Acquisition update: 18 October 2026
+
+The current implementation has 7,106 valid OSM geometries, 156 exact M/E labels
+from a 2024 SRA PDF and 25 published scheme rows. It still lacks georeferenced
+settlement boundaries, a dated scheme crosswalk, current service observations and
+household denominators. Therefore it supports context review, missing-data-led
+assessment planning and traceable user-recorded assurance workflows; it does not
+establish current deficit rankings, redevelopment feasibility or service impact.
+See [the quality report](data_quality_report.md) and [join strategy](join_strategy.md).
+
+The research question remains whether source-aware planning and separately recorded
+inspection evidence improve a responsible agency's real workflow. Existing government
+GIS, complaints and monitoring systems remain prior art. No novelty, effectiveness,
+agency adoption or resident benefit has been demonstrated merely by building this app.
+
+## Earlier evidence and hypotheses
+
 Access date: **17 October 2026**. This document distinguishes verified observations, interpretations and untested product hypotheses. Confidence refers to the stated proposition, not to how useful a proposed application will be.
 
 ## The problem that is supported

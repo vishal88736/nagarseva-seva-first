@@ -69,7 +69,7 @@ def main():
     target.mkdir(parents=True, exist_ok=True)
     files = []
     for path in sorted(RESEARCH.iterdir()):
-        if path.is_file() and path.suffix in {".md", ".csv", ".bib"}:
+        if path.is_file() and path.suffix in {".md", ".csv", ".bib", ".json"}:
             shutil.copyfile(path, target / path.name)
             files.append(dict(name=path.name, url="./research/"+path.name, sha256=hashlib.sha256(path.read_bytes()).hexdigest(), bytes=path.stat().st_size))
     text = (RESEARCH / "literature_review.md").read_text()
@@ -84,7 +84,12 @@ def main():
             if match: fields[match[1]] = match[2]
         metadata = next((x for x in body.splitlines() if x.startswith("**")), "")
         papers.append(dict(id=id, title=title, metadata=metadata, doi=doi.group(1) if doi else None, url=doi.group(2) if doi else None, fields=fields))
-    with (RESEARCH / "dataset_inventory.csv").open(newline="") as f:
+    # The historical evidence workbench uses its original candidate schema.
+    # The current acquisition inventory is also copied above as a separate document.
+    inventory_path = RESEARCH / "dataset_inventory_legacy.csv"
+    if not inventory_path.exists():
+        inventory_path = RESEARCH / "dataset_inventory.csv"
+    with inventory_path.open(newline="") as f:
         datasets = list(csv.DictReader(f))
     with (RESEARCH / "problem_evidence_matrix.csv").open(newline="") as f:
         problems = list(csv.DictReader(f))

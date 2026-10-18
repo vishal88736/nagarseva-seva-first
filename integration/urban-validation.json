@@ -1,8 +1,8 @@
 {
   "status": "passed",
-  "checked_at": "2026-10-17T20:16:21.757418+00:00",
-  "tested_commit": "d3d8f7761f28b342adc77858d6dc2f8b93337e23",
-  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39065908279",
+  "checked_at": "2026-10-18T12:47:04.940727+00:00",
+  "tested_commit": "d1c173112172a5fdda0d4a1b6fdca74d86f0f320",
+  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/local",
   "browser": "Playwright Chromium",
   "data": "Synthetic demonstration only",
   "field_validation": false,
@@ -38,5 +38,7 @@
   "screenshots": [
     ".merge-work/urban-browser/overview-1440.jpg",
     ".merge-work/urban-browser/overview-375.jpg"
-  ]
+  ],
+  "worktree_modified": true,
+  "source_scope": "HEAD plus local uncommitted changes"
 }

@@ -1,0 +1,77 @@
+{
+  "checked_at": "2026-10-18T12:58:02.709476+00:00",
+  "python": {
+    "tests": 104,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest tests nagarseva/tests/test_urban.py nagarseva/model/tests deploy/aws/tests/test_hosted.py -q"
+  },
+  "node": {
+    "tests": 18,
+    "passed": 18,
+    "command": "npm --prefix nagarseva/website test"
+  },
+  "production_build": {
+    "status": "passed",
+    "command": "npm --prefix nagarseva/website run build"
+  },
+  "unused_typescript": {
+    "status": "passed",
+    "command": "nagarseva/website/node_modules/.bin/tsc -p nagarseva/website/tsconfig.app.json --noEmit --noUnusedLocals --noUnusedParameters"
+  },
+  "unused_python": {
+    "status": "passed",
+    "tool": "ruff F401,F841 on acquisition, new/modified API and tests"
+  },
+  "git_diff_check": "passed",
+  "docker": {
+    "status": "not_run",
+    "reason": "Permission denied connecting to unix:///var/run/docker.sock"
+  },
+  "field_validation": false,
+  "synthetic_browser": {
+    "status": "passed",
+    "checks": 25,
+    "report": "integration/urban-validation.json"
+  },
+  "workbench": {
+    "engine_tests": 32,
+    "converter_tests": 3,
+    "template_checks": 10,
+    "development_queries_correct": 25,
+    "browser_status": "not_attempted",
+    "standalone_packaging": "passed"
+  },
+  "acquisition_pipeline": {
+    "status": "completed",
+    "download_checksum_checks": 7,
+    "source_failures_remain_documented": true
+  },
+  "runtime": {
+    "python": "3.12.15",
+    "node": "v26.12.0",
+    "chromium": "System /usr/bin/chromium"
+  },
+  "public_browser": {
+    "status": "passed",
+    "report": "research/verification/browser_results.json",
+    "ui_spacing_followup": "Checked desktop and 390px mobile"
+  },
+  "local_launcher": {
+    "status": "passed",
+    "checked_at": "2026-10-18T13:07:30.948364+00:00",
+    "command": "bash start-local.sh",
+    "http_checks": {
+      "api_health": 200,
+      "acquired_overview": 200,
+      "frontend_5173": 200
+    },
+    "overview": {
+      "source_labels": 156,
+      "projects": 25,
+      "settlements_with_geometry": 0,
+      "sufficient_indicator_coverage": 0
+    }
+  }
+}

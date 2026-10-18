@@ -1,0 +1,189 @@
+{
+  "checked_at": "2026-10-18T12:55:53.078772+00:00",
+  "errors": [],
+  "downloads": [
+    {
+      "path": "data/raw/census/dataful-maharashtra-64cf58194ffe4c76.html",
+      "url": "https://dataful.in/datasets/272/",
+      "bytes": 135231,
+      "sha256": "64cf58194ffe4c763cbf408daea8243b0ab25a250e57c2246ae3a314792e1359",
+      "retrieved_at": "2026-10-18T10:46:18.558393+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/osm/geofabrik-india-5ba5a279ab369fd9.html",
+      "url": "https://download.geofabrik.de/asia/india.html",
+      "bytes": 19150,
+      "sha256": "5ba5a279ab369fd9bdc7877100fa47dd4df525e74d7090eb15d0d2c6c1e2c862",
+      "retrieved_at": "2026-10-18T10:42:08.163459+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/osm/pilot-map-api-642436ee702273aa.osm",
+      "url": "https://www.openstreetmap.org/api/0.6/map",
+      "bytes": 12908245,
+      "sha256": "642436ee702273aa0dca543c083e1c2e772688d754bd9611de4c849366dcf2b4",
+      "retrieved_at": "2026-10-18T10:45:14.757450+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/cluster-map-document-082b9b1406b91058.pdf",
+      "url": "https://media.sra.gov.in/sra-automation/category/docs/1731408978437_4524_slum_cluster_ca_2024%20%281%29.pdf",
+      "bytes": 7422603,
+      "sha256": "082b9b1406b91058799a5741fb2e138722d98bffa26ea4c59c2ac462a27f79ae",
+      "retrieved_at": "2026-10-18T10:42:33.101761+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/gis-page-9890a859ea7a1d5b.html",
+      "url": "https://sra.gov.in/details/sub-category/gis-mis-slum-data",
+      "bytes": 42831,
+      "sha256": "9890a859ea7a1d5b7d260856c6cbe2f794de632e854c30f57c7ed605b2ab8506",
+      "retrieved_at": "2026-10-18T10:42:27.258625+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/ogd-catalogue-1eee48a33bafd7ac.html",
+      "url": "https://www.data.gov.in/catalog/slum-rehabilitation-authority-brihanmumbai",
+      "bytes": 1138796,
+      "sha256": "1eee48a33bafd7ac6ebc0140c703040149e09d1a822bea3f6692d4f5d0f370ed",
+      "retrieved_at": "2026-10-18T10:43:10.302982+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-679b04a07aa2d7fc.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/",
+      "bytes": 69041,
+      "sha256": "679b04a07aa2d7fc7bf29b23813c1b16c7061e5bebbf3c6922fe42605f6fa7e7",
+      "retrieved_at": "2026-10-18T10:43:10.014842+00:00",
+      "checksum_valid": true
+    }
+  ],
+  "datasets": {
+    "osm_pilot.geojson": {
+      "record_count": 7106,
+      "valid_geometry_count": 7106,
+      "unique_id_count": 7106,
+      "fields": [
+        "category",
+        "clipped",
+        "name",
+        "observation_date",
+        "osm_edit_timestamp",
+        "source_id",
+        "source_url",
+        "synthetic",
+        "tags"
+      ],
+      "null_or_blank_counts": {
+        "name": 5872,
+        "observation_date": 7106
+      },
+      "crs": "EPSG:4326",
+      "errors": [],
+      "valid": true
+    },
+    "settlements": {
+      "record_count": 156,
+      "fields": [
+        "administrative_area",
+        "data_completeness",
+        "geometry",
+        "households",
+        "id",
+        "indicators",
+        "limitations",
+        "name",
+        "record_type",
+        "retrieved_at",
+        "source",
+        "source_date",
+        "source_date_basis",
+        "source_id",
+        "synthetic"
+      ],
+      "geometry_count": 0
+    },
+    "projects": {
+      "record_count": 25,
+      "fields": [
+        "address",
+        "administrative_area",
+        "cts_raw",
+        "geometry",
+        "id",
+        "join_status",
+        "project_status",
+        "retrieved_at",
+        "scheme_name",
+        "settlement_id",
+        "source_attributes",
+        "source_date",
+        "source_id",
+        "source_row_number",
+        "source_url",
+        "synthetic",
+        "village"
+      ],
+      "reliably_joined_count": 0,
+      "status_counts": {
+        "unknown": 25
+      },
+      "source_fields": [
+        "Address",
+        "Architect Name",
+        "CTS No",
+        "DCR No",
+        "Developer Name",
+        "Land Type",
+        "Proposal No",
+        "Scheme Name",
+        "Village",
+        "Ward Name"
+      ],
+      "blank_or_dash_source_counts": {
+        "Proposal No": 25,
+        "Village": 1
+      }
+    },
+    "indicators": {
+      "record_count": 0,
+      "fields": []
+    }
+  },
+  "osm_category_counts": {
+    "road": 2885,
+    "amenity": 168,
+    "transport": 93,
+    "residential_context": 266,
+    "building": 3692,
+    "water_infrastructure": 2
+  },
+  "osm_amenity_tags": {
+    "school": 34,
+    "doctors": 7,
+    "place_of_worship": 14,
+    "toilets": 18,
+    "drinking_water": 3,
+    "clinic": 23,
+    "hospital": 49,
+    "conference_centre": 1,
+    "bus_station": 4,
+    "library": 1,
+    "college": 3,
+    "kindergarten": 2,
+    "restaurant": 2,
+    "fuel": 2,
+    "bank": 1,
+    "cafe": 1,
+    "community_centre": 1,
+    "shelter": 2
+  },
+  "context_join": {
+    "method": "Whole geometry covered by exactly one mapped OSM residential polygon; no SRA or Census allocation",
+    "input_count": 263,
+    "unique_matches": 55,
+    "unmatched_or_ambiguous": 208
+  },
+  "valid": true
+}

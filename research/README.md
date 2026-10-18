@@ -1,5 +1,15 @@
 # Seva First research
 
+## Current acquisition and application: 18 October 2026
+
+Read [data_availability.md](data_availability.md), [data_quality_report.md](data_quality_report.md),
+[join_strategy.md](join_strategy.md), [the current acquisition inventory](dataset_inventory.csv),
+[machine-readable results](acquisition_results.json) and [the final implementation report](final_report.md).
+The previous 32-candidate inventory is preserved as [dataset_inventory_legacy.csv](dataset_inventory_legacy.csv)
+for the historical evidence workbench. It is distinct from the actual downloads.
+
+## Earlier policy and feasibility research
+
 Follow-up: [real primary-source SRA record case](public_record_case.md) and [submission, pitch and pilot pack](../submission/README.md). The case is a desk record-quality demonstration; current service measurements and adoption remain unvalidated.
 
 Research and access date: **17 October 2026**. Scope: Urban Development; affordable housing, slum redevelopment and basic-service assurance in Maharashtra.
@@ -16,7 +26,7 @@ Start with [research_summary.md](research_summary.md), then [research_gap.md](re
 | [literature_review.md](literature_review.md) | Fourteen academic papers, one additional government impact study, bibliographic verification, methods, limitations and access depth |
 | [existing_solutions.md](existing_solutions.md) | Existing government and nonprofit capabilities; observations distinguished from documented specifications |
 | [research_gap.md](research_gap.md) | Evidence, counterevidence and validation gates for five proposed gaps; city comparison |
-| [dataset_inventory.csv](dataset_inventory.csv) | Source, year, resolution, fields, format, licence, access test and prototype use for each dataset candidate |
+| [dataset_inventory_legacy.csv](dataset_inventory_legacy.csv) | Historical candidate inventory: source, year, resolution, fields, licence, access and readiness |
 | [problem_evidence_matrix.csv](problem_evidence_matrix.csv) | Housing and service problems, interventions, remaining questions and confidence |
 | [technical_feasibility.md](technical_feasibility.md) | Six technical directions, data dependencies, architecture choices and feasible submission scope |
 | [evaluation_plan.md](evaluation_plan.md) | Baselines, metric definitions, missing-data treatment and validation boundaries |

@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-18T12:52:47.134841+00:00",
+  "data": "Acquired SRA/OSM snapshot; test-only operational records in disposable SQLite",
+  "field_validation": false,
+  "checks": [
+    "Acquired dashboard counts/provenance loaded",
+    "GIS rendered; map/label/project search, geometry filters and empty states checked",
+    "Real records stay unranked; configurable priority CSV downloads",
+    "Scenario-to-plan, completion, evidence upload, independent review and complaint dispute/response executed",
+    "Mobile overview/map fit 390px; navigation opens and closes",
+    "Synthetic sandbox is explicitly selected and remains separate",
+    "Unavailable API displays error/retry without silently showing synthetic data"
+  ],
+  "browser_errors": []
+}
