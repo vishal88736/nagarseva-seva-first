@@ -156,6 +156,27 @@ def refresh_frontend_lock():
     run(['git', 'commit', '-m', 'Resolve reviewed frontend patches and record actual advisory checks'])
 
 
+def annotate_current_sources(manifest, metadata, root):
+    """Retain verified original blobs and record later edits/removals honestly."""
+    removed = []
+    for name, item in metadata['upstream_files'].items():
+        entry = manifest['files'][name]
+        entry['upstream_git_sha'] = item['git_sha']
+        path = root / name
+        entry['removed_since_acquisition'] = not path.is_file()
+        if path.is_file():
+            current = path.read_bytes()
+            entry['current_sha256'] = hashlib.sha256(current).hexdigest()
+            entry['modified_during_integration'] = git_hash(current) != item['git_sha']
+        else:
+            entry['current_sha256'] = None
+            entry['modified_during_integration'] = True
+            removed.append(name)
+    manifest['acquisition'] = 'Pinned git clone on GitHub Actions; all original Git blob hashes verified at acquisition'
+    manifest['source_files_removed_since_acquisition'] = removed
+    return removed
+
+
 def report():
     metadata = json.loads(META.read_text())
     run_url = f"https://github.com/{TARGET}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
@@ -178,20 +199,18 @@ def report():
     (ROOT / 'integration/ci-validation.json').write_text(json.dumps(results, indent=2) + '\n')
     state_path = ROOT / 'integration/status.json'
     state = json.loads(state_path.read_text())
-    state.update(state='MERGED_ON_GITHUB', source_complete=True, source_original_files=results['original_files'],
-                 source_missing_files=[], original_application_tests=results['backend_tests'],
+    removed_sources = [name for name in metadata['upstream_files'] if not (ROOT / name).is_file()]
+    state.update(state='MERGED_ON_GITHUB', source_complete=not removed_sources, source_original_files=results['original_files'],
+                 source_complete_at_acquisition=True, source_missing_files=removed_sources,
+                 source_files_removed_since_acquisition=removed_sources,
+                 original_application_tests=results['backend_tests'],
                  frontend_build=results['frontend_build'], workflow_url=run_url)
     if any(results[key] != 'success' for key in ['backend_dependencies', 'backend_tests', 'frontend_build', 'real_browser_checks']):
         state['state'] = 'MERGED_ON_GITHUB_VALIDATION_FAILED'
     state_path.write_text(json.dumps(state, indent=2) + '\n')
     manifest_path = ROOT / 'integration/source-manifest.json'
     manifest = json.loads(manifest_path.read_text())
-    for name, item in metadata['upstream_files'].items():
-        manifest['files'][name]['upstream_git_sha'] = item['git_sha']
-        current = (ROOT / name).read_bytes()
-        manifest['files'][name]['current_sha256'] = hashlib.sha256(current).hexdigest()
-        manifest['files'][name]['modified_during_integration'] = git_hash(current) != item['git_sha']
-    manifest['acquisition'] = 'Pinned git clone on GitHub Actions; all original Git blob hashes verified'
+    annotate_current_sources(manifest, metadata, ROOT)
     manifest_path.write_text(json.dumps(manifest, indent=2) + '\n')
     readme = ROOT / 'README.md'
     if 'integration/ci-validation.json' not in readme.read_text():

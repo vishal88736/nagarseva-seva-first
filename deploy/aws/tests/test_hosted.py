@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / 'nagarseva'))
 @pytest.fixture
 def hosted(tmp_path, monkeypatch):
     monkeypatch.setenv('URBANSAARTHI_DB_PATH', str(tmp_path / 'import.sqlite3'))
+    monkeypatch.setenv('URBANSAARTHI_DATA_DIR', str(tmp_path / 'no-acquired-snapshot'))
     monkeypatch.setenv('URBANSAARTHI_ORIGIN_SECRET', 'a' * 64)
     monkeypatch.setenv('NAGARSEVA_OFFICER_KEY', 'b' * 64)
     monkeypatch.setenv('NAGARSEVA_MODE', 'hosted-demo')
@@ -86,3 +87,18 @@ def test_missing_frontend_build_is_not_a_successful_deployment(hosted, tmp_path)
     module, _, database = hosted
     with pytest.raises(RuntimeError, match='Build the frontend'):
         module.build_app(tmp_path / 'missing', database)
+
+
+def test_hosted_public_data_empty_state_is_available_without_synthetic_substitution(hosted):
+    with client(hosted) as c:
+        health = c.get('/api/urban/data/health', headers=ORIGIN)
+        assert health.status_code == 200
+        assert health.json()['snapshot_loaded'] is False
+        assert health.json()['synthetic'] is False
+        settlements = c.get('/api/urban/data/settlements', headers=ORIGIN)
+        assert settlements.status_code == 200
+        assert settlements.json()['items'] == []
+        assert settlements.json()['total'] == 0
+        assert c.get('/api/urban/data/spatial', headers=ORIGIN).json()['features'] == []
+        assert c.get('/api/urban/data/interventions', headers=ORIGIN).status_code == 401
+        assert c.get('/api/urban/data/interventions', headers=OFFICER).json()['items'] == []

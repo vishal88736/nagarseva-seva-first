@@ -9,6 +9,36 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
 SUB = ROOT / "submission"
+FORBIDDEN = {'.git', '.aws', '.codex', '.agents', 'node_modules', '__pycache__',
+             'test-artifacts', '.build', '.runtime', '.merge-work'}
+
+
+def public_file(path):
+    """Reject private paths; allow only the explicitly public root env template."""
+    resolved = path.resolve()
+    if not resolved.is_relative_to(ROOT.resolve()):
+        raise ValueError("Submission material must remain inside the repository.")
+    relative = resolved.relative_to(ROOT.resolve())
+    if FORBIDDEN.intersection(relative.parts):
+        return False
+    if not any(part.startswith('.env') for part in relative.parts):
+        return True
+    if relative != Path('.env.example'):
+        return False
+    # The template is public, but real credentials must remain blank even if
+    # someone accidentally writes a value into this otherwise permitted file.
+    for line in resolved.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith('#'):
+            continue
+        match = re.fullmatch(r'([A-Z][A-Z0-9_]*)=(.*)', line)
+        if not match:
+            raise ValueError("Public environment template must contain plain assignments.")
+        name, value = match.groups()
+        if re.search(r'(?:KEY|SECRET|TOKEN|PASSWORD|CREDENTIAL)', name):
+            if value.strip() not in {'', '\"\"', "''"}:
+                raise ValueError("Public environment template must leave credentials blank.")
+    return True
 
 
 def words(text):
@@ -58,10 +88,9 @@ def main():
         for address, expected in [('B5',132000),('B6',162360),('B8',6600)]:
             c=sheet.find(f'.//m:c[@r="{address}"]/m:v',X)
             assert c is not None and abs(float(c.text)-expected)<1e-7,(address,ET.tostring(sheet)[:100])
-    forbidden={'.git','.aws','.codex','.agents','node_modules','__pycache__','test-artifacts','.build'}
     files=[ROOT/'README.md']
     for directory in ['research','prototype','submission','pilot']:
-        files += [p for p in (ROOT/directory).rglob('*') if p.is_file() and not any(x in forbidden for x in p.relative_to(ROOT).parts) and p.suffix not in {'.pyc','.zip'} and p.name not in {'file_manifest.json', 'seva-evidence-pitch.pptx'} and '.inspect.' not in p.name and not p.name.startswith('.env')]
+        files += [p for p in (ROOT/directory).rglob('*') if p.is_file() and public_file(p) and p.suffix not in {'.pyc','.zip'} and p.name not in {'file_manifest.json', 'seva-evidence-pitch.pptx'} and '.inspect.' not in p.name]
     # Include the public guides/validation receipts reached by primary pack navigation.
     # Generated dist/research markdown copies retain their original source context.
     tracked = set(subprocess.check_output(['git', 'ls-files'], cwd=ROOT, text=True).splitlines())
@@ -77,7 +106,7 @@ def main():
             assert linked.is_relative_to(ROOT), (md, target)
             relative = str(linked.relative_to(ROOT))
             assert linked.is_file() and relative in tracked, (md, target)
-            assert not forbidden.intersection(linked.relative_to(ROOT).parts) and not linked.name.startswith('.env')
+            assert public_file(linked), (md, target, 'Private files cannot enter the submission archive')
             if linked not in included:
                 included.add(linked)
                 if linked.suffix == '.md': queue.append(linked)
@@ -90,7 +119,7 @@ def main():
         z.write(SUB/'file_manifest.json','submission/file_manifest.json')
     with zipfile.ZipFile(archive) as z:
         assert z.testzip() is None
-        assert all(not any(x in forbidden for x in Path(n).parts) for n in z.namelist())
+        assert all(public_file(ROOT / n) for n in z.namelist())
         for n,item in manifest.items():assert hashlib.sha256(z.read(n)).hexdigest()==item['sha256'],n
     summary={'draft_answers':len(counts),'all_within_draft_budgets':True,'official_limits_verified':False,'slides':6,'native_tables':1,'artifact_package_checks':'passed','archive_members':len(manifest)+1,'archive_bytes':archive.stat().st_size,'browser_passed': json.loads((ROOT/'integration/urban-validation.json').read_text()).get('status') == 'passed','field_validation':False}
     print(json.dumps(summary,indent=2))

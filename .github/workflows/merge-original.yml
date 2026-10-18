@@ -9,9 +9,11 @@ on:
       - research/**
       - submission/**
       - scripts/**
+      - tests/**
       - requirements.txt
       - integration/local-materials.zip
       - .github/scripts/merge_payload.py
+      - .github/tests/**
       - .github/bootstrap-manifest.json
       - .github/workflows/merge-original.yml
   workflow_dispatch:
@@ -50,15 +52,14 @@ jobs:
       - name: Install backend dependencies
         id: dependencies
         continue-on-error: true
-        run: python -m pip install -r requirements.txt
+        run: python -m pip install -r requirements.txt -r scripts/requirements-data.txt
       - name: Run backend tests
         id: backend
         if: steps.dependencies.outcome == 'success'
         continue-on-error: true
-        working-directory: nagarseva
         run: |
           set -o pipefail
-          python -m pytest model/tests tests -q 2>&1 | tee ../.merge-work/backend-tests.txt
+          PYTHONPATH=nagarseva python -m pytest nagarseva/model/tests nagarseva/tests tests submission/scripts/tests deploy/aws/tests .github/tests -q 2>&1 | tee .merge-work/backend-tests.txt
       - name: Install frontend dependencies and build
         id: frontend
         continue-on-error: true

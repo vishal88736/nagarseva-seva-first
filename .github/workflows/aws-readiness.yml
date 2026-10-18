@@ -7,6 +7,12 @@ on:
       - deploy/aws/**
       - .dockerignore
       - .github/workflows/aws-readiness.yml
+      - .github/scripts/build_permission_fixture.py
+      - nagarseva/model/api/**
+      - nagarseva/model/src/urban_planning.py
+      - nagarseva/model/requirements-urban.txt
+      - nagarseva/shared/**
+      - nagarseva/website/**
   workflow_dispatch:
 
 permissions:
@@ -27,24 +33,24 @@ jobs:
         run: |
           bash -n deploy/aws/launch.sh deploy/aws/bootstrap.sh deploy/aws/repair-permissions.sh
           python -m pip install -r nagarseva/model/requirements-urban.txt cfn-lint
-          python -m pytest deploy/aws/tests/test_hosted.py -q
+          python -m pytest deploy/aws/tests -q
           python deploy/aws/build_template.py > /tmp/urban-template.json
           cfn-lint --template /tmp/urban-template.json --regions ap-south-1 us-east-1
-      - name: Reproduce the original restrictive-checkout permission failure and build the fixed image
+      - name: Reproduce restrictive-checkout permissions with complete current source and build the fixed image
         run: |
           umask 077
           urban_context=$(mktemp -d)
           git archive HEAD | tar --extract --no-same-permissions --directory="$urban_context"
           find "$urban_context" -type d -exec chmod 0700 {} +
           find "$urban_context" -type f -exec chmod 0600 {} +
-          git show 565906ed79bee74b101cc7384f58007139f13879:deploy/aws/Dockerfile > /tmp/urban-original.Dockerfile
+          python .github/scripts/build_permission_fixture.py "$urban_context/deploy/aws/Dockerfile" /tmp/urban-original.Dockerfile
           docker build -f /tmp/urban-original.Dockerfile -t urbansaarthi:permission-regression "$urban_context"
           if docker run --rm --entrypoint python urbansaarthi:permission-regression -c 'import hosted' > /tmp/urban-original-error.txt 2>&1; then
-            echo 'Original image unexpectedly imported; regression setup did not reproduce the reported failure.' >&2
+            echo 'Restrictive fixture unexpectedly imported; regression setup did not reproduce the reported failure.' >&2
             exit 1
           fi
           grep -F "Permission denied: '/app/hosted.py'" /tmp/urban-original-error.txt
-          echo 'Original EC2 permission failure reproduced with restrictive checkout modes.'
+          echo 'Original EC2 permission failure reproduced with complete current source and restrictive checkout modes.'
           docker build -f "$urban_context/deploy/aws/Dockerfile" -t urbansaarthi:readiness "$urban_context"
       - name: Exercise actual container HTTP, uploads and restart persistence
         env:

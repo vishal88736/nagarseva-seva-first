@@ -45,6 +45,16 @@ assert headers['cache-control'] == 'no-store'
 for secret in OFFICER.values():
     assert secret.encode() not in html
 
+# CI deliberately mounts no acquired source files. The active public API must
+# expose an honest empty state while the separately labelled sandbox still works.
+status, _, payload = request('/api/urban/data/health', ORIGIN)
+assert status == 200, payload
+health = json.loads(payload)
+assert health['synthetic'] is False and health['snapshot_loaded'] is False
+status, _, payload = request('/api/urban/data/settlements', ORIGIN)
+assert status == 200 and json.loads(payload)['total'] == 0
+assert request('/api/urban/data/interventions', ORIGIN)[0] == 401
+
 if sys.argv[1] == 'create':
     status, _, payload = request('/api/urban/priority', ORIGIN, {})
     assert status == 200 and json.loads(payload)['items'][0]['score'] == 65

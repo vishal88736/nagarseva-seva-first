@@ -14,9 +14,9 @@ COPY nagarseva/model/requirements-urban.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt \
     && groupadd --gid 10001 urban && useradd --uid 10001 --gid urban --no-create-home urban \
     && mkdir /data && chown urban:urban /data
-COPY nagarseva/model/api/urban.py nagarseva/model/api/store.py nagarseva/model/api/planning_schemas.py nagarseva/model/api/public_data.py nagarseva/model/api/public_store.py ./model/api/
-COPY nagarseva/model/api/migrations/ ./model/api/migrations/
-COPY nagarseva/model/api/field_survey.py ./model/api/
+# Keep the API source package complete when internal modules or migrations are added.
+# .dockerignore excludes credentials, local databases and bytecode.
+COPY nagarseva/model/api/ ./model/api/
 COPY nagarseva/model/src/urban_planning.py ./model/src/
 COPY nagarseva/shared/ ./shared/
 COPY deploy/aws/app.py ./hosted.py
