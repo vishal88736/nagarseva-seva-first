@@ -158,3 +158,7 @@ in the cleanup report. The existing SQLite database remains the development stor
 PostGIS, production identity and agency integrations are not implemented.
 
 The [prepared pilot kit](pilot/README.md) identifies a prospective BMC M-East water-domain owner and includes an unsent request, independent-baseline protocol, observation/indicator rules and blank quote templates. Prepared protocols are not completed field evidence.
+
+## Published source and checks
+
+The source merge and per-file hashes were verified in [this workflow](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39140508298). See [the recorded validation outcomes](integration/ci-validation.json) for backend, frontend and evidence-check results. Browser and field validation remain separate.

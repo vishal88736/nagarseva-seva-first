@@ -8,8 +8,8 @@
     "sha256": "8c1f94cbd6d76a144285cea9e365289c67a7e16034e042770f3a0d788fc8dae2"
   },
   "README.md": {
-    "bytes": 8894,
-    "sha256": "951f6a480dcb161f878101bc3bf5cb222271ad923aff533858037df34115a1ce"
+    "bytes": 9243,
+    "sha256": "220417547e9c0e66c8f452be20169830ae86961cfae918ed321e309331c0e441"
   },
   "deploy/aws/README.md": {
     "bytes": 14367,
@@ -20,8 +20,8 @@
     "sha256": "c6f0ebfa8faacf9fe12b2621eac551c5909d15ff9b40671425a0a77f5a05deb4"
   },
   "integration/ci-validation.json": {
-    "bytes": 552,
-    "sha256": "b1e3d34a98f9c7c77908cdaa79a67905328ce7e4c3241c597d6a936d78d76dd7"
+    "bytes": 553,
+    "sha256": "f52557d8bba6c8f6f66ea26d71e3b366b9dfb282e1e443f8ededfa64ebe106c7"
   },
   "integration/local-snapshot.json": {
     "bytes": 11211,
@@ -44,16 +44,16 @@
     "sha256": "e223179b51df936bba7143f639c9ad80f161db4ec821162fd405f27b2b5cec4d"
   },
   "integration/source-manifest.json": {
-    "bytes": 43556,
-    "sha256": "4e2d4a152ee2e6951aa366d8a5850283f6009ac81e0caa10810864624ec43909"
+    "bytes": 48152,
+    "sha256": "2e5020c2764e61075cede19572e5796fc1020a9137a35a8a35599aee0d4fbc7e"
   },
   "integration/status.json": {
-    "bytes": 1099,
-    "sha256": "57f94e104242a870ae0850e63ab26831d0df2080173b5050e909eeb2df2ea4af"
+    "bytes": 3546,
+    "sha256": "7d68476d96075c1e48007d396eb03dd8f417def7ee1dcd077b031c118600ad61"
   },
   "integration/urban-validation.json": {
-    "bytes": 2803,
-    "sha256": "a8095dda42468eda31f40de67c9fd89a096c2f79363783581e61f794fe9a6397"
+    "bytes": 2723,
+    "sha256": "c6b8bdd19b3ab486835a44dcc8332f7c8ede87dcf6f8f05e2d4a485a6507a89b"
   },
   "nagarseva/README.NagarSeva.md": {
     "bytes": 10869,
