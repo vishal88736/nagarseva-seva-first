@@ -1,0 +1,173 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "survey_id": {
+      "pattern": "^[a-zA-Z0-9:_-]{2,100}$",
+      "title": "Survey Id",
+      "type": "string"
+    },
+    "settlement_id": {
+      "title": "Settlement Id",
+      "type": "string"
+    },
+    "observed_at": {
+      "format": "date-time",
+      "title": "Observed At",
+      "type": "string"
+    },
+    "water_hours_per_day": {
+      "anyOf": [
+        {
+          "maximum": 24.0,
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Water Hours Per Day"
+    },
+    "functional_toilets_observed": {
+      "anyOf": [
+        {
+          "maximum": 10000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Functional Toilets Observed"
+    },
+    "blocked_drain_segments_observed": {
+      "anyOf": [
+        {
+          "maximum": 10000,
+          "minimum": 0,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Blocked Drain Segments Observed"
+    },
+    "sanitation_condition": {
+      "default": "not_observed",
+      "enum": [
+        "functioning",
+        "partly_functioning",
+        "not_functioning",
+        "not_observed"
+      ],
+      "title": "Sanitation Condition",
+      "type": "string"
+    },
+    "drainage_condition": {
+      "default": "not_observed",
+      "enum": [
+        "clear",
+        "partly_blocked",
+        "blocked",
+        "not_observed"
+      ],
+      "title": "Drainage Condition",
+      "type": "string"
+    },
+    "housing_or_infrastructure_observation": {
+      "default": "",
+      "maxLength": 2000,
+      "title": "Housing Or Infrastructure Observation",
+      "type": "string"
+    },
+    "gps_latitude": {
+      "anyOf": [
+        {
+          "maximum": 90.0,
+          "minimum": -90.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gps Latitude"
+    },
+    "gps_longitude": {
+      "anyOf": [
+        {
+          "maximum": 180.0,
+          "minimum": -180.0,
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gps Longitude"
+    },
+    "evidence_reference": {
+      "anyOf": [
+        {
+          "maxLength": 2000,
+          "pattern": "^https://\\S+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evidence Reference"
+    },
+    "evidence_consent": {
+      "default": false,
+      "title": "Evidence Consent",
+      "type": "boolean"
+    },
+    "inspector_reference": {
+      "maxLength": 80,
+      "minLength": 2,
+      "title": "Inspector Reference",
+      "type": "string"
+    },
+    "verification_status": {
+      "const": "reported",
+      "default": "reported",
+      "title": "Verification Status",
+      "type": "string"
+    },
+    "collection_platform": {
+      "enum": [
+        "KoboToolbox",
+        "ODK",
+        "authorized_manual"
+      ],
+      "title": "Collection Platform",
+      "type": "string"
+    },
+    "protocol_reference": {
+      "maxLength": 2000,
+      "minLength": 5,
+      "title": "Protocol Reference",
+      "type": "string"
+    }
+  },
+  "required": [
+    "survey_id",
+    "settlement_id",
+    "observed_at",
+    "inspector_reference",
+    "collection_platform",
+    "protocol_reference"
+  ],
+  "title": "FieldSurvey",
+  "type": "object"
+}
