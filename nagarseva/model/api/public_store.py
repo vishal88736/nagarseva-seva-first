@@ -1,0 +1,128 @@
+"""Public source data and operational records, isolated from the synthetic sandbox."""
+from __future__ import annotations
+from datetime import datetime, timezone, timedelta
+import hashlib
+import json
+from pathlib import Path
+
+from shapely.geometry import shape
+from model.src.urban_planning import KEYS, prioritize
+
+
+class PublicStore:
+    def __init__(self, store, data_dir):
+        self.store, self.data_dir = store, Path(data_dir)
+        migration = Path(__file__).parent / "migrations/001_public_data.sql"
+        with self.store.connection(write=True) as db:
+            db.executescript(migration.read_text())
+            db.execute("INSERT OR IGNORE INTO public_schema_migrations VALUES(1, ?)", (self.now(),))
+        self.sync_snapshot()
+
+    @staticmethod
+    def now():
+        return datetime.now(timezone.utc).isoformat()
+
+    @staticmethod
+    def encode(data):
+        return json.dumps(data, ensure_ascii=False, allow_nan=False)
+
+    def sync_snapshot(self):
+        path = self.data_dir / "urban_real.json"
+        if not path.exists():
+            return  # Retain the last imported snapshot when the acquisition mount is offline.
+        raw = path.read_bytes()
+        digest = hashlib.sha256(raw).hexdigest()
+        data = json.loads(raw)
+        if data.get("metadata", {}).get("synthetic") is not False:
+            raise ValueError("Public snapshot must be explicitly non-synthetic")
+        ids = [r["id"] for r in data["settlements"]]
+        if len(ids) != len(set(ids)):
+            raise ValueError("Duplicate settlement IDs in public snapshot")
+        with self.store.connection(write=True) as db:
+            active = db.execute("SELECT id FROM public_snapshots ORDER BY rowid DESC LIMIT 1").fetchone()
+            if active and active[0] == digest:
+                return
+            for item in data["settlements"]:
+                geom = item.get("geometry")
+                if geom:
+                    s = shape(geom)
+                    if s.is_empty or not s.is_valid or s.geom_type not in {"Polygon", "MultiPolygon"}:
+                        raise ValueError("Invalid public settlement polygon")
+                db.execute("INSERT INTO settlements VALUES(?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name, geometry=excluded.geometry, administrative_area=excluded.administrative_area, source_date=excluded.source_date, body=excluded.body",
+                           (item["id"], item["source_id"], item["name"], self.encode(geom) if geom else None, item.get("administrative_area"), item["source"], item.get("source_date"), item["data_completeness"], self.encode(item)))
+            for item in data["projects"]:
+                db.execute("INSERT INTO redevelopment_projects VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET body=excluded.body, project_status=excluded.project_status",
+                           (item["id"], item["source_id"], item["settlement_id"], item["scheme_name"], item["project_status"], item["source_date"], item["source_url"], self.encode(item)))
+            db.execute("DELETE FROM spatial_features")  # Source snapshot only; no operational/user records here.
+            for feature in data["spatial"]["features"]:
+                geom = shape(feature["geometry"])
+                if geom.is_empty or not geom.is_valid:
+                    raise ValueError("Invalid source geometry in snapshot")
+                db.execute("INSERT INTO spatial_features VALUES(?,?,?,?,?,?,?)", (str(feature["id"]), feature["properties"]["category"], *geom.bounds, self.encode(feature)))
+            metadata = {**data["metadata"], "snapshot_sha256": digest, "active_settlement_ids": ids, "active_project_ids": [r["id"] for r in data["projects"]]}
+            db.execute("INSERT INTO public_snapshots VALUES(?,?,?) ON CONFLICT(id) DO UPDATE SET imported_at=excluded.imported_at,body=excluded.body", (digest, self.now(), self.encode(metadata)))
+            # IDs removed from a source refresh are retained for existing interventions but excluded from the active view.
+
+    def metadata(self):
+        with self.store.connection() as db:
+            row = db.execute("SELECT body FROM public_snapshots ORDER BY imported_at DESC LIMIT 1").fetchone()
+        return json.loads(row[0]) if row else {"title": "No acquired snapshot loaded", "synthetic": False, "active_settlement_ids": [], "active_project_ids": [], "settlement_count": 0, "settlement_geometry_count": 0, "projects_count": 0, "mapped_objects_count": 0, "limitations": ["Run the documented ingestion pipeline and prepare_real_data.py, then restart the API."]}
+
+    def records(self, table, db=None):
+        allowed = {"settlements", "redevelopment_projects", "indicator_observations", "interventions", "inspection_evidence", "verification_records", "service_complaints", "geographic_units", "field_surveys"}
+        if table not in allowed:
+            raise ValueError("Unsupported table")
+        if db is None:
+            with self.store.connection() as connection:
+                return self.records(table, connection)
+        return [json.loads(row[0]) for row in db.execute(f"SELECT body FROM {table} ORDER BY id")]
+
+    def record(self, table, identifier, db=None):
+        item = next((r for r in self.records(table, db) if r["id"] == identifier), None)
+        if item is None:
+            raise LookupError("Record not found")
+        return item
+
+    def settlements(self):
+        ids = set(self.metadata()["active_settlement_ids"])
+        return [r for r in self.records("settlements") if r["id"] in ids]
+
+    def projects(self):
+        ids = set(self.metadata()["active_project_ids"])
+        return [r for r in self.records("redevelopment_projects") if r["id"] in ids]
+
+    def priority(self, weights=None):
+        observations = self.records("indicator_observations")
+        items = self.settlements()
+        now = datetime.now(timezone.utc)
+        for item in items:
+            item["indicators"] = {key: None for key in KEYS}
+            item["indicator_sources"] = {}
+            for key in KEYS:
+                candidates = [o for o in observations if o.get("settlement_id") == item["id"] and o["indicator_type"] == key and o["unit"] == "deficit_0_100" and o["value"] is not None and o["verification_status"] == "field_verified" and o["geographic_resolution"] == "settlement" and o.get("observation_date")]
+                candidates = [o for o in candidates if timedelta(0) <= now - datetime.fromisoformat(o["observation_date"]) <= timedelta(days=365)]
+                if candidates:
+                    best = max(candidates, key=lambda o: (o["observation_date"], o["id"]))
+                    latest = [o for o in candidates if o["observation_date"] == best["observation_date"]]
+                    if len({o["value"] for o in latest}) == 1:
+                        item["indicators"][key] = best["value"]
+                        item["indicator_sources"][key] = {k: best[k] for k in ("id", "source", "observation_date", "verification_status")}
+        report = prioritize(items, weights)
+        for row in report["items"]:
+            source = next(item for item in items if item["id"] == row["id"])
+            row["indicator_sources"] = source["indicator_sources"]
+            row["indicators"] = source["indicators"]
+            row["confidence"] = "Coverage of reviewed inputs only; predictive accuracy unvalidated" if row["rankable"] else "Insufficient evidence; further assessment required"
+        report.update(synthetic=False, freshness_rule="Only field_verified settlement deficit indices observed within 365 days; prototype review rule, not official policy", explanation="Default weights are design assumptions. Physical measurements need an approved normalization protocol. Historical aggregates are excluded.")
+        return report
+
+    def stats(self):
+        ranking = self.priority()
+        works = self.records("interventions")
+        return {"settlements_loaded": len(ranking["items"]), "settlements_with_geometry": self.metadata().get("settlement_geometry_count", 0),
+                "sufficient_indicator_coverage": sum(r["rankable"] for r in ranking["items"]),
+                "documented_deficits": sum(v is not None and v >= 60 for r in ranking["items"] for v in r["indicators"].values()),
+                "requires_assessment": sum(not r["rankable"] for r in ranking["items"]), "projects": len(self.projects()),
+                "awaiting_verification": sum(w["status"] in {"reported_complete", "awaiting_verification", "requiring_reinspection"} for w in works),
+                "overdue_interventions": sum(w["planned_end"] < self.now()[:10] and w["status"] != "verified" for w in works),
+                "synthetic": False, "deficit_threshold": "Index >=60; illustrative review threshold"}

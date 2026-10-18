@@ -13,10 +13,11 @@ from typing import Callable, Literal
 from fastapi import APIRouter, Depends, FastAPI, Header, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import Response
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import Field
 
-from model.src.urban_planning import KEYS, compare_scenarios, dataset, normalize_weights, prioritize
+from model.src.urban_planning import compare_scenarios, dataset, prioritize
 from .store import RecordStore
+from .planning_schemas import Request, PriorityInput, ScenarioInput, EvidenceInput
 
 SERVICES = {
     "water": {"unit": "hours/day", "direction": "at_least", "ceiling": 24},
@@ -36,34 +37,6 @@ def access(x_officer_key: str | None = Header(None)):
         raise HTTPException(401, "Officer access key required.")
     if not expected and os.getenv("NAGARSEVA_MODE", "demo") != "demo":
         raise HTTPException(503, "Configure officer access before enabling a pilot.")
-
-
-class Request(BaseModel):
-    model_config = ConfigDict(extra="forbid", allow_inf_nan=False, str_strip_whitespace=True)
-
-
-class PriorityInput(Request):
-    weights: dict[str, float] | None = None
-
-
-class Option(Request):
-    kind: Literal["upgrade", "redevelop", "relocate"]
-    unit_cost_inr: float = Field(ge=0, le=100_000_000)
-    shared_works_inr: float = Field(ge=0, le=100_000_000_000)
-    months: float = Field(ge=1, le=120)
-    temporary_months: float = Field(ge=0, le=120)
-    disrupted_share: float = Field(ge=0, le=1)
-    assumed_service_coverage_pct: float = Field(ge=0, le=100)
-
-
-class ScenarioInput(Request):
-    households: int | None = Field(None, ge=1, le=100_000, strict=True)
-    contingency_pct: float = Field(10, ge=0, le=100)
-    temporary_rent_per_month: float = Field(5000, ge=0, le=1_000_000)
-    annual_maintenance_per_household: float = Field(1200, ge=0, le=1_000_000)
-    include_relocation: bool = False
-    relocation_reason: str = Field("", max_length=2000)
-    options: list[Option] = Field(min_length=2, max_length=3)
 
 
 class WorkInput(Request):
@@ -86,14 +59,6 @@ class ActionInput(Request):
     functioning_confirmed: bool = False
 
 
-class EvidenceInput(Request):
-    filename: str = Field(min_length=1, max_length=160)
-    content_type: Literal["image/png", "image/jpeg", "application/pdf", "text/plain"]
-    content_base64: str = Field(min_length=1, max_length=2_800_000)
-    actor: str = Field(min_length=2, max_length=80)
-    notes: str = Field(min_length=5, max_length=2000)
-
-
 class ComplaintInput(Request):
     work_id: str
     text: str = Field(min_length=5, max_length=2000)
@@ -106,6 +71,32 @@ class ResolutionInput(Request):
 
 def history(record, action, actor, notes):
     record["history"].append({"at": now(), "action": action, "actor": actor, "notes": notes})
+
+
+def public_access(x_officer_key: str | None = Header(None)):
+    expected = os.getenv("NAGARSEVA_OFFICER_KEY")
+    if not expected:
+        raise HTTPException(503, "Configure NAGARSEVA_OFFICER_KEY before recording work against acquired source data")
+    if not secrets.compare_digest(expected, x_officer_key or ""):
+        raise HTTPException(401, "Officer access key required")
+
+
+def decode_evidence(payload: EvidenceInput) -> bytes:
+    try:
+        raw = base64.b64decode(payload.content_base64, validate=True)
+    except (ValueError, binascii.Error) as exc:
+        raise HTTPException(422, "Invalid base64 file content.") from exc
+    if not 0 < len(raw) <= 2_097_152:
+        raise HTTPException(422, "Files must be nonempty and at most 2 MiB.")
+    signatures = {"image/png": b"\x89PNG\r\n\x1a\n", "image/jpeg": b"\xff\xd8\xff", "application/pdf": b"%PDF-"}
+    if payload.content_type in signatures and not raw.startswith(signatures[payload.content_type]):
+        raise HTTPException(422, "File signature does not match its declared type.")
+    if payload.content_type == "text/plain":
+        try:
+            raw.decode("utf-8")
+        except UnicodeDecodeError as exc:
+            raise HTTPException(422, "Text evidence must be UTF-8.") from exc
+    return raw
 
 
 def create_router(store_provider: Callable[[], RecordStore], officer_access=access) -> APIRouter:
@@ -167,20 +158,7 @@ def create_router(store_provider: Callable[[], RecordStore], officer_access=acce
 
     @router.post("/works/{work_id}/evidence", dependencies=[Depends(officer_access)])
     def upload(work_id: str, payload: EvidenceInput):
-        try:
-            raw = base64.b64decode(payload.content_base64, validate=True)
-        except (ValueError, binascii.Error) as exc:
-            raise HTTPException(422, "Invalid base64 file content.") from exc
-        if not 0 < len(raw) <= 2_097_152:
-            raise HTTPException(422, "Files must be nonempty and at most 2 MiB.")
-        signatures = {"image/png": b"\x89PNG\r\n\x1a\n", "image/jpeg": b"\xff\xd8\xff", "application/pdf": b"%PDF-"}
-        if payload.content_type in signatures and not raw.startswith(signatures[payload.content_type]):
-            raise HTTPException(422, "File signature does not match its declared type.")
-        if payload.content_type == "text/plain":
-            try:
-                raw.decode("utf-8")
-            except UnicodeDecodeError as exc:
-                raise HTTPException(422, "Text evidence must be UTF-8.") from exc
+        raw = decode_evidence(payload)
         store = store_provider()
         try:
             with store.connection(write=True) as db:
@@ -295,13 +273,18 @@ def create_router(store_provider: Callable[[], RecordStore], officer_access=acce
     return router
 
 
-def create_app(db_path: str | Path | None = None) -> FastAPI:
+def create_app(db_path: str | Path | None = None, data_dir: str | Path | None = None) -> FastAPI:
+    from .public_store import PublicStore
+    from .public_data import create_public_router
     application = FastAPI(title="UrbanSaarthi", version="1.0.0",
                           description="Explainable settlement planning and demonstration service assurance. No eligibility or relocation decisions.")
     application.state.store = RecordStore(db_path or os.getenv("URBANSAARTHI_DB_PATH", str(Path(__file__).resolve().parents[1] / "data/local/urbansaarthi.sqlite3")))
     application.add_middleware(CORSMiddleware, allow_origins=os.getenv("NAGARSEVA_CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173").split(","),
-                               allow_methods=["GET", "POST"], allow_headers=["Content-Type", "X-Officer-Key"])
+                               allow_methods=["GET", "POST", "PATCH"], allow_headers=["Content-Type", "X-Officer-Key"])
     application.include_router(create_router(lambda: application.state.store))
+    source_dir = data_dir or os.getenv("URBANSAARTHI_DATA_DIR", str(Path(__file__).resolve().parents[3] / "data/processed"))
+    application.state.public = PublicStore(application.state.store, source_dir)
+    application.include_router(create_public_router(lambda: application.state.public, public_access, decode_evidence))
     return application
 
 

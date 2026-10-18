@@ -55,6 +55,7 @@ class RecordStore:
     @contextmanager
     def connection(self, write: bool = False) -> Iterator[sqlite3.Connection]:
         db = sqlite3.connect(self.path, timeout=15)
+        db.execute("PRAGMA foreign_keys=ON")
         try:
             if write:
                 db.execute("BEGIN IMMEDIATE")
