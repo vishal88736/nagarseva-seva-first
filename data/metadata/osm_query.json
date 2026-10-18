@@ -1,0 +1,13 @@
+{
+  "query": "[out:json][timeout:25][maxsize:20000000];\n(\n  way[highway](19.04,72.9,19.08,72.94);\n  way[building](19.04,72.9,19.08,72.94);\n  nwr[amenity~\"^(school|college|kindergarten|hospital|clinic|doctors|toilets|drinking_water|water_point|public_bath|bus_station)$\"](19.04,72.9,19.08,72.94);\n  nwr[public_transport](19.04,72.9,19.08,72.94);\n  nwr[railway~\"^(station|halt|tram_stop)$\"](19.04,72.9,19.08,72.94);\n  node[highway=bus_stop](19.04,72.9,19.08,72.94);\n  nwr[man_made~\"^(water_tap|water_well|water_works|wastewater_plant)$\"](19.04,72.9,19.08,72.94);\n  way[landuse=residential](19.04,72.9,19.08,72.94);\n);\nout geom meta;",
+  "bbox_wsen": [
+    72.9,
+    19.04,
+    72.94,
+    19.08
+  ],
+  "endpoints": [
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter"
+  ]
+}

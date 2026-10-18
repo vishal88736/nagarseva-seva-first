@@ -1,0 +1,5 @@
+-r ../nagarseva/model/requirements-urban.txt
+pyproj==3.7.2
+xlrd==2.0.2
+openpyxl==3.1.5
+beautifulsoup4==4.14.3

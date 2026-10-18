@@ -60,7 +60,16 @@ node_modules/
 prototype/test-artifacts/
 .env
 .env.*
+!.env.example
 .build/
+data/processed/
+data/metadata/inventory.lock
+data/metadata/requests/
+data/metadata/*ingestion.json
+data/metadata/sra_layers.json
+data/metadata/sra_pdf_extraction.json
+data/metadata/demo_validation.json
+data/metadata/validation.json
 
 # Local merge cache and generated delivery archives
 .merge-work/

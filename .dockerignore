@@ -13,6 +13,7 @@
 **/*.tar.gz
 .merge-work
 .build
+data
 research
 submission
 pilot
