@@ -7,6 +7,6 @@ export default defineConfig(({ mode }) => {
   plugins: [react()],
   server: { port: 5173, proxy: { '/api': { target, rewrite: path => path.replace(/^\/api/, '') } } },
   preview: { port: 4173, proxy: { '/api': { target, rewrite: path => path.replace(/^\/api/, '') } } },
-  build: { rollupOptions: { output: { manualChunks: { charts: ['recharts'], maps: ['leaflet', 'react-leaflet'] } } } },
+  build: { rollupOptions: { output: { manualChunks: { maps: ['leaflet', 'react-leaflet'] } } } },
 }
 })

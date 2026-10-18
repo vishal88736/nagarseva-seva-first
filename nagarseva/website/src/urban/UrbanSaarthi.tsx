@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { ScenarioResult } from './engine'
 import { DEFAULT_WEIGHTS, DEMO_HIGH_PRIORITY_THRESHOLD, prioritize } from './engine'
 import { api, downloadJson, useWorkspace } from './client'
-import { Compare, Explore, Overview, Prioritize, Tag } from './PlanningPages'
+import { Compare, Explore, Overview, Prioritize } from './PlanningPages'
 import { AssurancePage } from './AssurancePage'
 
 const PAGES = [

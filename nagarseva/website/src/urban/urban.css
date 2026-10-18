@@ -174,3 +174,12 @@ th { font-weight: 500; color: #718267; }thead { background: #f2f5eb; }thead th {
 @media print { .us-sidebar, .us-topbar, .us-context-bar, .us-footer, .us-button { display: none !important; }.us-workspace { margin: 0; }.us-content { padding: 0; }.us-panel { break-inside: avoid; } }
 
 @media (min-width: 981px) { .us-metrics.assurance { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.public-demo-return{position:sticky;top:0;z-index:1100;display:flex;gap:1rem;align-items:center;justify-content:center;padding:.5rem;background:#fff0cf;border-bottom:1px solid #d9c28a;font-size:.8rem}
+.public-fieldset{border:0;padding:0;margin:0;min-width:0}.public-fieldset>.us-panel{margin-bottom:1.2rem}.public-fieldset small{display:block}
+.public-layer-row{flex-wrap:wrap!important;gap:.6rem!important}.public-layer-row i{display:inline-block;width:.6rem;height:.6rem;border-radius:50%;margin-right:.3rem}
+.public-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.25rem 0}.public-label-list{display:flex;flex-wrap:wrap;gap:.4rem;max-height:280px;overflow:auto}.public-label-list .us-button{padding:.35rem .55rem;font-size:.75rem}
+.public-workspace table small{display:block;max-width:380px;margin-top:.3rem;line-height:1.5;color:#6b7975}.public-workspace .us-content>section{margin-top:1.25rem}.public-workspace textarea{min-height:80px}.public-workspace .us-note{line-height:1.6}
+.public-workspace .us-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.public-workspace .us-toolbar .us-field{min-width:min(320px,100%)}
+.public-workspace .us-overview-main{align-items:start;margin-bottom:0;gap:20px}.public-workspace .us-overview-main>.us-panel{margin-bottom:0}.public-workspace .us-table-wrap{max-height:480px;overflow:auto}.public-workspace .us-table-wrap thead{position:sticky;top:0;z-index:1;background:#f2f5eb}
+@media(max-width:850px){.public-detail-grid{grid-template-columns:1fr}.public-workspace .us-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.public-demo-return{flex-wrap:wrap;gap:.3rem}.public-workspace .us-header-actions .us-tag{display:none}}
+@media(max-width:800px){.us-sidebar:not(.open){visibility:hidden}.us-sidebar.open{visibility:visible}}

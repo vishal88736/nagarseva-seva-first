@@ -72,7 +72,7 @@ def main():
             wait_for("http://127.0.0.1:8000/urban/health", processes[0])
             wait_for("http://127.0.0.1:4173", processes[1])
             with sync_playwright() as playwright:
-                browser = playwright.chromium.launch()
+                browser = playwright.chromium.launch(**({"executable_path": os.environ["CHROMIUM_PATH"]} if os.getenv("CHROMIUM_PATH") else {}))
                 context = browser.new_context(viewport={"width": 1440, "height": 1000}, accept_downloads=True)
                 context.route("https://tile.openstreetmap.org/**", lambda route: route.abort())
                 page = context.new_page()
@@ -94,6 +94,7 @@ def main():
                         emit_preview(initial)
 
                 page.goto("http://127.0.0.1:4173", wait_until="networkidle")
+                page.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
                 expect(page.locator(".us-context-bar")).to_contain_text("Python calculation checked")
                 expect(page.get_by_role("heading", name="A clear path from need to service.")).to_be_visible()
                 expect(page.get_by_text("Official listing fact", exact=True)).to_have_count(3)
@@ -186,6 +187,7 @@ def main():
                 assert brief["scenario_comparison"]["assumptions"]["contingency_pct"] == 10
                 assert "content_base64" not in json.dumps(brief) and "officerKey" not in json.dumps(brief)
                 page.reload(wait_until="networkidle")
+                page.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
                 expect(page.get_by_role("heading", name="CI demo water improvement", exact=True)).to_be_visible()
                 expect(verified).to_have_text("01")
                 check("Exported brief contains scores, assumptions and evidence metadata; SQLite records persist after reload")
@@ -224,12 +226,14 @@ def main():
                 sandbox = offline.new_page()
                 sandbox.on("pageerror", lambda error: errors.append(error.stack or str(error)))
                 sandbox.goto("http://127.0.0.1:4173/#assurance", wait_until="networkidle")
+                sandbox.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
                 expect(sandbox.locator(".us-sandbox-banner")).to_contain_text("browser-only demonstration")
                 sandbox.get_by_role("button", name="Plan a service work", exact=False).click()
                 sandbox.get_by_label("Work title", exact=True).fill("Offline browser-only work")
                 sandbox.get_by_role("button", name="Save planned work", exact=False).click()
                 expect(sandbox.get_by_role("heading", name="Offline browser-only work", exact=True)).to_be_visible()
                 sandbox.reload(wait_until="networkidle")
+                sandbox.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
                 expect(sandbox.get_by_role("heading", name="Offline browser-only work", exact=True)).to_be_visible()
                 with urllib.request.urlopen("http://127.0.0.1:8000/urban/state") as response:
                     server = json.load(response)

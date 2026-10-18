@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import fixture from '../../../shared/urban-demo.json'
 import { actOnWork, emptyState, planWork, reportIssue, resolveIssue } from './engine'
 import type { ActionInput, Dataset, Evidence, State, Work, WorkInput } from './engine'
+import { encodeCsv } from './csv'
 
 const BASE = (import.meta.env.VITE_API_BASE_URL || '/api').replace(/\/$/, '')
 const STORAGE_KEY = 'urbansaarthi-demo-v1'
@@ -109,4 +110,8 @@ export type Workspace = ReturnType<typeof useWorkspace>
 export function downloadJson(filename: string, value: unknown) {
   const link = document.createElement('a'), url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' }))
   link.href = url; link.download = filename; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000)
+}
+export function downloadCsv(filename: string, rows: Record<string, unknown>[]) {
+  const url = URL.createObjectURL(new Blob([encodeCsv(rows)], { type: 'text/csv;charset=utf-8' }))
+  const link = document.createElement('a'); link.href = url; link.download = filename; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000)
 }

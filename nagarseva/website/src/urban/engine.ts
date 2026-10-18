@@ -13,7 +13,7 @@ export const INDICATORS: Record<Key, { label: string; short: string; color: stri
 }
 export type Cluster = {
   id: string; name: string; node_id: string; households: number | null; households_source: string; synthetic: boolean
-  geometry: { type: string; coordinates: number[][][] }
+  geometry: Polygon | MultiPolygon | null
   indicators: Record<Key, number | null>
   provenance: Record<Key, { kind: string; source_label: string; reference_date: string | null; unit: string }>
 }
@@ -196,3 +196,4 @@ export function resolveIssue(state: State, issueId: string, actor: string, notes
 }
 export function overdue(work: Work, today = new Date().toISOString().slice(0, 10)) { return work.status !== 'completed' && work.due_date < today }
 export function verifiedCount(state: State) { return state.works.filter(work => work.status === 'completed' && work.verification === 'verified' && !state.complaints.some(issue => issue.work_id === work.id && issue.status === 'open')).length }
+import type { Polygon, MultiPolygon } from 'geojson'
