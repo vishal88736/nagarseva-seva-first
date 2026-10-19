@@ -14,6 +14,7 @@ KEYS = ("water", "sanitation", "housing", "access", "risk")
 
 def build():
     settlements = []
+    map_source_sha256 = None
     pdfs = sorted((DATA / "raw/sra").glob("cluster-map-document-*.pdf"))
     if pdfs:
         # Select the manifest's active snapshot, not filename order when refreshed.
@@ -29,7 +30,8 @@ def build():
                       "retrieved_at": request.get("retrieved_at"), "reference_year": 2024, "reference_year_basis": "GPS Survey 2024 in map title; individual feature observation dates unknown",
                       "method": "Exact printed text tokens matching ME_[three digits]; unique labels, not a complete digital settlement registry",
                       "label_occurrences": len(labels), "unique_pilot_labels": len(identifiers), "geometries": 0,
-                      "limitations": "No georeferencing or boundary digitisation; missing map text is not evidence of settlement absence; names unavailable; no current administrative crosswalk"}
+                      "limitations": "Printed-text extraction supplies no analytical boundaries. Source GeoPDF controls and raster imagery are handled separately; missing labels are not evidence of settlement absence; no current administrative crosswalk"}
+        map_source_sha256 = extraction["sha256"]
         write_json(META / "sra_pdf_extraction.json", extraction)
         for identifier in identifiers:
             settlements.append({"id": "sra-map-" + identifier, "source_id": identifier, "name": "Map label " + identifier,
@@ -47,7 +49,7 @@ def build():
         inventory(dataset_name="SRA cluster-map-document", publisher="SRA Mumbai", source_url=request.get("url"), retrieved_at=request.get("retrieved_at"),
                   observation_date="2024 map title", publication_date="Publication unknown; PDF created 2024-05-30", geography="Greater Mumbai", resolution="1:40000 map; not imported vector polygons",
                   format="PDF", record_count=1, fields="Map title, legend, printed cluster labels", licence="Not established", access_status="downloaded",
-                  validation_status="Parsed with pdftotext and rendered for visual inspection", intended_use="Reference document and label extraction", limitations="PDF map is not a georeferenced GIS dataset; no digitised geometries")
+                  validation_status="Parsed with pdftotext and rendered for visual inspection", intended_use="Reference document and label extraction", limitations="Georeferenced cartographic PDF; map contents are rasterized. No analytical settlement feature vectors were obtained")
     register_path = PROCESSED / "sra_cluster_register.json"
     if register_path.exists():
         printed = {row["source_id"]: row for row in settlements}
@@ -91,11 +93,19 @@ def build():
     census_path = PROCESSED / "census_observations.json"
     census = json.loads(census_path.read_text()) if census_path.exists() else {}
     sys.path.insert(0, str(ROOT / "nagarseva"))
-    from model.api.snapshot_validation import published_context
+    from model.api.snapshot_validation import published_context, validate_snapshot
     units, indicators = published_context(census)
+    overlay_path = PROCESSED / "sra_pilot_overlay.json"
+    if overlay_path.exists():
+        from model.api.raster_validation import validate_overlay
+        overlay = json.loads(overlay_path.read_text())
+        validate_overlay(overlay, (PROCESSED / "sra_pilot_overlay.png").read_bytes(), map_source_sha256, PILOT_BBOX)
+        map_source_sha256 = overlay["source_sha256"]
+    source_references = sorted({s.get("source_date") or s.get("source_date_basis") or "Unknown date" for s in settlements})
     metadata = {"title": "UrbanSaarthi acquired public data", "built_at": utcnow(), "synthetic": False, "pilot_bbox": PILOT_BBOX,
                 "geographic_scope": "Govandi bounded OSM context; acquired Mumbai SRA register; Census 2011 original Maharashtra state/town geography",
                 "settlement_record_type": settlements[0]["record_type"] if settlements else "none",
+                "settlement_reference": "; ".join(source_references), "sra_map_source_sha256": map_source_sha256,
                 "settlement_count": len(settlements), "settlement_geometry_count": sum(s["geometry"] is not None for s in settlements),
                 "projects_count": len(projects), "mapped_objects_count": len(osm["features"]),
                 "project_acquisition": project_metadata, "geographic_unit_count": len(units), "historical_observation_count": len(indicators),
@@ -107,7 +117,9 @@ def build():
                                 "Published cluster names/areas and printed labels do not supply boundary geometries; names and CTS are not used as approximate geographic joins.", "Mapped objects do not establish facility operation or reliable household access.",
                                 "Published schemes have unknown phase and no defensible settlement join; inspect the recorded pagination scope.",
                                 "Census 2011 table universes and denominators differ; PCA and Houselisting counts must not be interchanged."]}
-    write_json(PROCESSED / "urban_real.json", {"metadata": metadata, "settlements": settlements, "projects": projects, "geographic_units": units, "indicators": indicators, "spatial": osm})
+    snapshot = {"metadata": metadata, "settlements": settlements, "projects": projects, "geographic_units": units, "indicators": indicators, "spatial": osm}
+    validate_snapshot(snapshot)
+    write_json(PROCESSED / "urban_real.json", snapshot)
     print(json.dumps(metadata, indent=2))
     return metadata
 

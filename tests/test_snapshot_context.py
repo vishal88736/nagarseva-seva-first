@@ -70,23 +70,44 @@ def test_public_source_exports_remain_public_but_survey_exports_are_protected(tm
     assert client.get("/urban/data/reports/surveys.csv", headers={"X-Officer-Key": "fixture-only-key"}).status_code == 200
 
 
+def test_historical_only_snapshot_is_loaded_without_inventing_settlements(tmp_path):
+    data = snapshot()
+    data["settlements"] = []
+    (tmp_path / "urban_real.json").write_text(json.dumps(data))
+    client = TestClient(create_app(tmp_path / "records.sqlite3", tmp_path))
+    assert client.get("/urban/data/health").json()["snapshot_loaded"] is True
+    assert client.get("/urban/data/settlements").json()["items"] == []
+    assert len(client.get("/urban/data/context").json()["observations"]) == 1
+
+
 def test_optional_historical_raster_is_checked_before_serving(tmp_path):
     import hashlib
+    import struct
+    import zlib
     (tmp_path / "urban_real.json").write_text(json.dumps(snapshot()))
     client = TestClient(create_app(tmp_path / "records.sqlite3", tmp_path))
     assert client.get("/urban/data/map-overlay").json()["available"] is False
     assert client.get("/urban/data/map-overlay/image").status_code == 404
     # This is a transport fixture, not geospatial source imagery.
-    image = b"\x89PNG\r\n\x1a\nfixture-image"
+    def chunk(kind, payload):
+        return struct.pack(">I", len(payload)) + kind + payload + struct.pack(">I", zlib.crc32(kind + payload) & 0xffffffff)
+    image = (b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", 1, 1, 8, 6, 0, 0, 0))
+             + chunk(b"IDAT", zlib.compress(b"\x00\x00\x00\x00\x00")) + chunk(b"IEND", b""))
     (tmp_path / "sra_pilot_overlay.png").write_bytes(image)
     metadata = {"image_file": "sra_pilot_overlay.png", "image_sha256": hashlib.sha256(image).hexdigest(), "image_bytes": len(image),
-                "bounds": [72.90, 19.04, 72.94, 19.08], "crs": "EPSG:3857", "analysis_allowed": False}
+                "bounds": [72.90, 19.04, 72.94, 19.08], "crs": "EPSG:3857", "analysis_allowed": False,
+                "width": 1, "height": 1, "source_url": "https://media.sra.gov.in/test-fixture.pdf", "source_date": "2024",
+                "source_sha256": "a" * 64, "control_point_residual_m": [0.1] * 4}
     (tmp_path / "sra_pilot_overlay.json").write_text(json.dumps(metadata))
     assert client.get("/urban/data/map-overlay").json()["available"] is True
     assert client.get("/urban/data/map-overlay/image").headers["content-type"] == "image/png"
     (tmp_path / "sra_pilot_overlay.png").write_bytes(b"modified source")
     assert client.get("/urban/data/map-overlay").status_code == 503
     assert client.get("/urban/data/map-overlay/image").status_code == 503
+    metadata.update(image_sha256=hashlib.sha256(b"modified source").hexdigest(), image_bytes=len(b"modified source"))
+    (tmp_path / "sra_pilot_overlay.json").write_text(json.dumps(metadata))
+    # Matching hashes do not make arbitrary bytes a PNG.
+    assert client.get("/urban/data/map-overlay").status_code == 503
 
 
 @pytest.mark.parametrize("change", [

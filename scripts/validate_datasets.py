@@ -21,51 +21,63 @@ def validate():
         if not valid:
             report["errors"].append("Missing or modified original: " + info["path"])
     for path in sorted(PROCESSED.glob("*.geojson")):
-        quality = validate_features(json.loads(path.read_text()))
+        try:
+            quality = validate_features(json.loads(path.read_text()))
+        except (ValueError, TypeError, KeyError) as exc:
+            quality = {"valid": False, "errors": [str(exc)]}
         report["datasets"][path.name] = quality
         if not quality["valid"]:
             report["errors"].append(path.name + ": geometry/ID validation failed")
     snapshot = PROCESSED / "urban_real.json"
     if snapshot.exists():
-        data = json.loads(snapshot.read_text())
-        for table in ("settlements", "projects", "geographic_units", "indicators"):
-            rows = data.get(table, [])
-            if len({r["id"] for r in rows}) != len(rows):
-                report["errors"].append("Duplicate snapshot IDs in " + table)
-            report["datasets"][table] = {"record_count": len(rows), "fields": sorted(set(k for row in rows for k in row))}
-        report["datasets"]["settlements"]["geometry_count"] = sum(r["geometry"] is not None for r in data["settlements"])
-        report["datasets"]["settlements"]["unique_source_id_count"] = len({r["source_id"] for r in data["settlements"]})
-        report["datasets"]["settlements"]["identifier_alias_links"] = sum(bool(r.get("source_aliases")) for r in data["settlements"])
-        report["datasets"]["indicators"]["reference_years"] = sorted({r["reference_year"] for r in data["indicators"]})
-        report["datasets"]["indicators"]["missing_value_count"] = sum(r["value"] is None for r in data["indicators"])
-        report["datasets"]["indicators"]["settlement_allocations"] = sum(r.get("settlement_id") is not None for r in data["indicators"])
-        from model.api.snapshot_validation import published_context
-        published_context(data)
-        report["datasets"]["projects"]["reliably_joined_count"] = sum(p["settlement_id"] is not None for p in data["projects"])
-        report["datasets"]["projects"]["status_counts"] = dict(Counter(p["project_status"] for p in data["projects"]))
-        report["datasets"]["projects"]["source_fields"] = sorted({k for p in data["projects"] for k in p.get("source_attributes", {})})
-        report["datasets"]["projects"]["blank_or_dash_source_counts"] = dict(Counter(k for p in data["projects"] for k, value in p.get("source_attributes", {}).items() if value in (None, "", "-")))
-        if any(r.get("synthetic") is not False for r in data["settlements"] + data["projects"]):
-            report["errors"].append("Unlabelled or synthetic records in acquired snapshot")
-        osm = data["spatial"]["features"]
-        report["osm_category_counts"] = dict(Counter(f["properties"]["category"] for f in osm))
-        report["osm_amenity_tags"] = dict(Counter(f["properties"]["tags"].get("amenity") for f in osm if f["properties"]["tags"].get("amenity")))
-        # Context-only QA join: exact, unique containment; never an SRA/household join.
-        units = [f for f in osm if f["properties"]["category"] == "residential_context" and f["geometry"]["type"] in ("Polygon", "MultiPolygon")]
-        for f in units:
-            f["properties"]["id"] = f["id"]
-        amenities = [f for f in osm if f["properties"]["category"] in ("amenity", "transport", "water_infrastructure")]
-        joined = strict_spatial_join(amenities, units)
-        report["context_join"] = {"method": "Whole geometry covered by exactly one mapped OSM residential polygon; no SRA or Census allocation", "input_count": len(joined),
-                                  "unique_matches": sum(r["unit_id"] is not None for r in joined), "unmatched_or_ambiguous": sum(r["unit_id"] is None for r in joined)}
-        write_json(PROCESSED / "osm_residential_context_join.json", {"metadata": report["context_join"], "rows": joined})
+        from model.api.snapshot_validation import validate_snapshot
+        try:
+            data = json.loads(snapshot.read_text())
+            validate_snapshot(data)
+        except (ValueError, TypeError, KeyError) as exc:
+            report["errors"].append("Source snapshot validation failed: " + str(exc))
+            data = None
+        if data is not None:
+            for table in ("settlements", "projects", "geographic_units", "indicators"):
+                rows = data.get(table, [])
+                if len({r["id"] for r in rows}) != len(rows):
+                    report["errors"].append("Duplicate snapshot IDs in " + table)
+                report["datasets"][table] = {"record_count": len(rows), "fields": sorted(set(k for row in rows for k in row))}
+            report["datasets"]["settlements"]["geometry_count"] = sum(r["geometry"] is not None for r in data["settlements"])
+            report["datasets"]["settlements"]["unique_source_id_count"] = len({r["source_id"] for r in data["settlements"]})
+            report["datasets"]["settlements"]["identifier_alias_links"] = sum(bool(r.get("source_aliases")) for r in data["settlements"])
+            report["datasets"]["indicators"]["reference_years"] = sorted({r["reference_year"] for r in data["indicators"]})
+            report["datasets"]["indicators"]["missing_value_count"] = sum(r["value"] is None for r in data["indicators"])
+            report["datasets"]["indicators"]["settlement_allocations"] = sum(r.get("settlement_id") is not None for r in data["indicators"])
+            report["datasets"]["projects"]["reliably_joined_count"] = sum(p["settlement_id"] is not None for p in data["projects"])
+            report["datasets"]["projects"]["status_counts"] = dict(Counter(p["project_status"] for p in data["projects"]))
+            report["datasets"]["projects"]["source_fields"] = sorted({k for p in data["projects"] for k in p.get("source_attributes", {})})
+            report["datasets"]["projects"]["blank_or_dash_source_counts"] = dict(Counter(k for p in data["projects"] for k, value in p.get("source_attributes", {}).items() if value in (None, "", "-")))
+            if any(r.get("synthetic") is not False for r in data["settlements"] + data["projects"]):
+                report["errors"].append("Unlabelled or synthetic records in acquired snapshot")
+            osm = data["spatial"]["features"]
+            report["osm_category_counts"] = dict(Counter(f["properties"]["category"] for f in osm))
+            report["osm_amenity_tags"] = dict(Counter(f["properties"]["tags"].get("amenity") for f in osm if f["properties"]["tags"].get("amenity")))
+            # Context-only QA join: exact, unique containment; never an SRA/household join.
+            units = [f for f in osm if f["properties"]["category"] == "residential_context" and f["geometry"]["type"] in ("Polygon", "MultiPolygon")]
+            for f in units:
+                f["properties"]["id"] = f["id"]
+            amenities = [f for f in osm if f["properties"]["category"] in ("amenity", "transport", "water_infrastructure")]
+            joined = strict_spatial_join(amenities, units)
+            report["context_join"] = {"method": "Whole geometry covered by exactly one mapped OSM residential polygon; no SRA or Census allocation", "input_count": len(joined),
+                                      "unique_matches": sum(r["unit_id"] is not None for r in joined), "unmatched_or_ambiguous": sum(r["unit_id"] is None for r in joined)}
+            write_json(PROCESSED / "osm_residential_context_join.json", {"metadata": report["context_join"], "rows": joined})
     overlay_path = PROCESSED / "sra_pilot_overlay.json"
     if overlay_path.exists():
         overlay = json.loads(overlay_path.read_text())
         image = PROCESSED / "sra_pilot_overlay.png"
-        valid = (image.is_file() and image.stat().st_size == overlay["image_bytes"]
-                 and hashlib.sha256(image.read_bytes()).hexdigest() == overlay["image_sha256"]
-                 and overlay.get("analysis_allowed") is False and overlay.get("crs") == "EPSG:3857")
+        from model.api.raster_validation import validate_overlay
+        try:
+            validate_overlay(overlay, image.read_bytes())
+            valid = True
+        except (ValueError, OSError) as exc:
+            valid = False
+            report["errors"].append("Historical SRA raster: " + str(exc))
         report["datasets"]["historical_sra_raster"] = {"valid": valid, "bounds": overlay["bounds"], "width": overlay["width"], "height": overlay["height"],
                                                        "source_date": overlay["source_date"], "crs": overlay["crs"], "analysis_allowed": False,
                                                        "source_sha256": overlay["source_sha256"], "image_sha256": overlay["image_sha256"],

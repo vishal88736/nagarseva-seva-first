@@ -6,7 +6,6 @@ from datetime import date, datetime, timedelta, timezone
 import hashlib
 import io
 import json
-import math
 import os
 from pathlib import Path
 import secrets
@@ -20,6 +19,7 @@ from shapely.geometry import box, shape
 from model.src.urban_planning import KEYS, compare_scenarios
 from .planning_schemas import PriorityInput, ScenarioInput, EvidenceInput
 from .field_survey import FieldSurvey
+from .raster_validation import validate_overlay
 
 
 class Input(BaseModel):
@@ -163,10 +163,13 @@ def create_public_router(provider, officer_access, decode_evidence):
     def audit(record, action, actor, notes):
         record.setdefault("history", []).append({"at": provider().now(), "action": action, "actor": actor, "notes": notes})
 
+    def public_observation(row):
+        return {k: v for k, v in row.items() if k not in {"inspector_reference", "reviewer_reference", "evidence_reference"}}
+
     @router.get("/health")
     def health():
         return {"status": "ok", "database": "SQLite", "schema_version": 1, "synthetic": False,
-                "snapshot_loaded": bool(provider().metadata()["active_settlement_ids"]), "officer_auth_required": True,
+                "snapshot_loaded": bool(provider().metadata().get("snapshot_sha256")), "officer_auth_required": True,
                 "evidence_storage": os.getenv("URBANSAARTHI_EVIDENCE_STORAGE") == "sqlite", "government_connected": False}
 
     @router.get("/metadata")
@@ -192,15 +195,11 @@ def create_public_router(provider, officer_access, decode_evidence):
         if not manifest.is_file() or not image.is_file():
             return {"available": False, "analysis_allowed": False, "reason": "Historical SRA raster has not been prepared locally"}
         try:
-            row = json.loads(manifest.read_text())
-            bounds = row["bounds"]
-            if (row.get("image_file") != image.name or row.get("analysis_allowed") is not False
-                    or row.get("crs") != "EPSG:3857" or len(bounds) != 4
-                    or any(type(v) not in (int, float) or not math.isfinite(v) for v in bounds)
-                    or not (-180 <= bounds[0] < bounds[2] <= 180 and -90 <= bounds[1] < bounds[3] <= 90)
-                    or image.stat().st_size > 10_000_000 or image.stat().st_size != row["image_bytes"]
-                    or hashlib.sha256(image.read_bytes()).hexdigest() != row["image_sha256"]):
-                raise ValueError("Invalid raster manifest or checksum")
+            if image.stat().st_size > 10_000_000:
+                raise ValueError("Raster exceeds serving limit")
+            snapshot = provider().metadata()
+            row = validate_overlay(json.loads(manifest.read_text()), image.read_bytes(),
+                                   snapshot.get("sra_map_source_sha256"), snapshot.get("pilot_bbox"))
             return {**row, "available": True}
         except (ValueError, TypeError, KeyError, OSError) as exc:
             raise HTTPException(503, "Historical raster failed validation; rebuild the source overlay") from exc
@@ -226,7 +225,7 @@ def create_public_router(provider, officer_access, decode_evidence):
     @router.get("/settlements/{settlement_id}")
     def settlement(settlement_id: str):
         item = find("settlements", settlement_id)
-        return {**item, "observations": [r for r in provider().records("indicator_observations") if r.get("settlement_id") == settlement_id],
+        return {**item, "observations": [public_observation(r) for r in provider().records("indicator_observations") if r.get("settlement_id") == settlement_id],
                 "projects": [r for r in provider().projects() if r.get("settlement_id") == settlement_id]}
 
     @router.get("/spatial")
@@ -268,7 +267,10 @@ def create_public_router(provider, officer_access, decode_evidence):
     @router.get("/projects")
     def projects(search: str = Query("", max_length=200), page: int = Query(1, ge=1), page_size: int = Query(100, ge=1, le=1000)):
         rows = [r for r in provider().projects() if search.casefold() in (r["scheme_name"] + " " + r.get("administrative_area", "")).casefold()]
-        return {"items": rows[(page - 1) * page_size:page * page_size], "total": len(rows), "scope": "First public listing page; status unknown; unjoined records retained"}
+        acquisition = provider().metadata().get("project_acquisition", {})
+        return {"items": rows[(page - 1) * page_size:page * page_size], "total": len(rows), "page": page, "page_size": page_size,
+                "scope": acquisition.get("scope", "Published listing; pagination scope unavailable; no current status inferred"),
+                "complete": acquisition.get("complete"), "pages_retrieved": acquisition.get("pages_retrieved")}
 
     @router.get("/geographic-units")
     def units():
@@ -287,7 +289,7 @@ def create_public_router(provider, officer_access, decode_evidence):
     def indicators(settlement_id: str | None = None, geographic_unit_id: str | None = None, page: int = Query(1, ge=1), page_size: int = Query(100, ge=1, le=1000)):
         rows = [r for r in provider().records("indicator_observations") if (not settlement_id or r.get("settlement_id") == settlement_id) and (not geographic_unit_id or r.get("geographic_unit_id") == geographic_unit_id)]
         # Inspector and evidence references are operational records; public fields are the observations and provenance.
-        public = [{k: v for k, v in r.items() if k not in {"inspector_reference", "reviewer_reference", "evidence_reference"}} for r in rows]
+        public = [public_observation(row) for row in rows]
         return {"items": public[(page - 1) * page_size:page * page_size], "total": len(rows)}
 
     @router.get("/surveys/schema")

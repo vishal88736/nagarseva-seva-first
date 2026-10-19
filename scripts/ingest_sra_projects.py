@@ -68,8 +68,17 @@ def next_public_page(raw, current, base=PORTAL):
     advertised = []
     for anchor in form.select("a[href]"):
         match = re.fullmatch(r"javascript:__doPostBack\('gvScheme','Page\$(\d+)'\)", anchor["href"])
+        if "__doPostBack('gvScheme','Page$" in anchor["href"] and match is None:
+            raise ValueError("Malformed advertised public page action")
         if match and int(match[1]) > current:
             advertised.append(int(match[1]))
+    grid = form.find("table", id="gvScheme")
+    if grid:
+        pager_cells = [cell for cell in grid.find_all("td", colspan=True) if cell.find("table")]
+        for pager in pager_cells:
+            active = [int(span.get_text(strip=True)) for span in pager.find_all("span") if span.get_text(strip=True).isdigit()]
+            if active != [current]:
+                raise ValueError("Public pager active-page marker missing or inconsistent")
     if not advertised:
         return None
     if current + 1 not in advertised:
@@ -88,19 +97,26 @@ def next_public_page(raw, current, base=PORTAL):
     return target, fields
 
 
-def read_public_pages(downloader, max_pages=200, delay_seconds=0.5):
-    if not 1 <= max_pages <= 400:
+def read_public_pages(downloader, max_pages=400, delay_seconds=0.5, max_rows=20_000):
+    if not isinstance(max_pages, int) or isinstance(max_pages, bool) or not 1 <= max_pages <= 400:
         raise ValueError("Public listing page limit must be between 1 and 400")
     if not 0 <= delay_seconds <= 10:
         raise ValueError("Public listing delay must be between zero and ten seconds")
+    if not isinstance(max_rows, int) or isinstance(max_rows, bool) or not 1 <= max_rows <= 20_000:
+        raise ValueError("Public listing row limit must be between 1 and 20000")
     started_at = utcnow()
     raw, request = downloader.fetch(PORTAL, "public-projects", suffix=".html")
-    requests, rows, ids, gaps, content_rows = [], [], set(), [], {}
+    requests, rows, ids, gaps, content_rows, page_hashes = [], [], set(), [], {}, set()
     names = None
     complete, error = False, None
     for page in range(1, max_pages + 1):
         try:
+            page_hash = hashlib.sha256(raw).hexdigest()
+            if page_hash in page_hashes:
+                raise ValueError("Repeated public response page; partial snapshot only")
             records, fields = parse_listing(raw, request["retrieved_at"], allow_duplicate_content=True)
+            if len(rows) + len(records) > max_rows:
+                raise ValueError("Public listing row limit reached; page retained raw but not partially imported")
             if names is not None and fields != names:
                 raise ValueError("Public listing columns changed across pages")
             names = fields
@@ -128,6 +144,7 @@ def read_public_pages(downloader, max_pages=200, delay_seconds=0.5):
                 ids.add(row["id"])
                 same.append(row)
             rows.extend(records)
+            page_hashes.add(page_hash)
             requests.append(request)
             following = next_public_page(raw, page, request.get("final_url", PORTAL))
             print(f"SRA listing page {page}: {len(records)} rows", flush=True)
@@ -148,12 +165,15 @@ def read_public_pages(downloader, max_pages=200, delay_seconds=0.5):
         raise ValueError(error or "Public listing contains no valid rows")
     duplicate_content = [{"content_hash": key, "displayed_source_rows": [row["source_row_number"] for row in items]} for key, items in content_rows.items() if len(items) > 1]
     return rows, names, {"requests": requests, "pages": len(requests), "pages_retrieved": len(requests), "complete": complete, "pagination_error": error, "displayed_serial_gaps": gaps,
+                         "configured_max_pages": max_pages, "configured_max_rows": max_rows, "unique_page_response_count": len(page_hashes),
+                         "retrieval_window": {"earliest_original_retrieved_at": min(item["retrieved_at"] for item in requests),
+                                              "latest_original_retrieved_at": max(item["retrieved_at"] for item in requests)},
                          "duplicate_content_groups": duplicate_content, "duplicate_content_rows": sum(len(item["displayed_source_rows"]) for item in duplicate_content),
                          "scope": "All advertised public listing pages reached at retrieval; not an ongoing-status registry" if complete else "Partial public listing; navigation stopped before confirmed final page",
                          "ordering_limitation": "Live listing can change during pagination; increasing displayed serials and unique local row IDs checked, source serial gaps and duplicate content preserved, no server snapshot guarantee"}
 
 
-def ingest(refresh=False, max_pages=200, delay_seconds=0.5):
+def ingest(refresh=False, max_pages=400, delay_seconds=0.5):
     downloader = Downloader("sra", refresh)
     report = {"attempted_at": utcnow(), "errors": []}
     try:
@@ -203,7 +223,7 @@ def ingest(refresh=False, max_pages=200, delay_seconds=0.5):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--refresh", action="store_true")
-    parser.add_argument("--max-pages", type=int, default=200, help="At most 400 public pages; continue only advertised sequential links")
+    parser.add_argument("--max-pages", type=int, default=400, help="At most 400 public pages; continue only advertised sequential links")
     parser.add_argument("--delay-seconds", type=float, default=0.5)
     args = parser.parse_args()
     ingest(args.refresh, args.max_pages, args.delay_seconds)

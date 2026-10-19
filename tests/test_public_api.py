@@ -229,3 +229,12 @@ def test_reviewed_observations_use_instants_not_timezone_string_order(client):
     equivalent = latest.astimezone(timezone(timedelta(hours=5, minutes=30)))
     assert client.post('/urban/data/indicators',json=obs(value=40,observation_date=equivalent.isoformat())).status_code==201
     assert client.post('/urban/data/priority',json={}).json()['items'][0]['indicators']['water'] is None
+
+
+def test_public_settlement_detail_redacts_operational_inspection_references(client):
+    assert client.post('/urban/data/indicators',json=obs()).status_code==201
+    for path in ['/urban/data/settlements/source-label','/urban/data/indicators?settlement_id=source-label']:
+        body=client.get(path,headers={'X-Officer-Key':''}).json()
+        rows=body.get('observations',body.get('items'))
+        assert rows
+        assert not {'inspector_reference','reviewer_reference','evidence_reference'} & rows[0].keys()

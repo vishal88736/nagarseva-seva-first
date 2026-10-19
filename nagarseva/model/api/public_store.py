@@ -7,7 +7,7 @@ from pathlib import Path
 
 from shapely.geometry import shape
 from model.src.urban_planning import KEYS, prioritize
-from .snapshot_validation import published_context
+from .snapshot_validation import validate_snapshot
 
 
 class PublicStore:
@@ -39,7 +39,7 @@ class PublicStore:
         ids = [r["id"] for r in data["settlements"]]
         if len(ids) != len(set(ids)):
             raise ValueError("Duplicate settlement IDs in public snapshot")
-        units, observations = published_context(data)
+        units, observations = validate_snapshot(data)
         with self.store.connection(write=True) as db:
             active = db.execute("SELECT id FROM public_snapshots ORDER BY imported_at DESC, rowid DESC LIMIT 1").fetchone()
             if active and active[0] == digest:
