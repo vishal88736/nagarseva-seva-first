@@ -22,9 +22,9 @@ model; the same schema is available at `/urban/data/surveys/schema`.
 | collection_platform / protocol_reference | KoboToolbox, ODK or authorized manual form, plus versioned measurement protocol |
 
 Before collection, agree the unit list, responsible owner, sampling/inspection
-protocol, consent, storage, retention and authorized reviewers. The printed PDF
-labels currently lack boundaries; selecting one does not establish a legally
-approved survey geography. No beneficiary names, phone numbers, Aadhaar, income,
+protocol, consent, storage, retention and authorized reviewers. The published register
+rows have no analytical boundaries; selecting a record or viewing the historical
+raster does not establish a legally approved survey geography. No beneficiary names, phone numbers, Aadhaar, income,
 religion, caste or household-level coordinates are required.
 
 In Kobo, create a private project in the form builder using the field names and
@@ -59,3 +59,17 @@ and its non-missing numerical spot observations are saved atomically. They remai
 indices. An independently reviewed normalization protocol and repeated evidence
 are required before a 0–100 service index is submitted through `/indicators`.
 Inspector references and private evidence are protected by officer access.
+
+## Authorized application entry
+
+Service Assurance now includes collapsed forms for an authorized field visit and a
+separately reviewed deficit index. Enter the configured officer key, choose the
+source record and approved protocol, record the actual timezone-bearing date and
+leave unobserved measurements blank. Reported visits persist through the same API
+as the CLI importer and never automatically fill the priority indices. The index
+form requires an explicit supplied value, normalization method, evidence permission
+and separate review acknowledgement when claiming a field-reviewed record. These
+are user-recorded references, not government identity authentication. Operational
+records and survey CSV exports remain protected; public observations redact inspector,
+reviewer and evidence references. No actual field baseline was collected by the
+software tests.

@@ -2,16 +2,19 @@
 
 Explainable settlement prioritization, hypothetical intervention comparison and basic-service assurance for a Maharashtra urban-development challenge prototype.
 
-**18 October 2026:** the default workspace now uses acquired public data: **7,106
-validated OSM geometries, 156 printed SRA M/E map labels and 25 published scheme
-rows**. The labels and schemes have no acquired georeferenced polygons. Current
-service indicators remain missing; no real cluster is ranked. The existing synthetic
-five-cluster sandbox remains available through an explicit mode switch.
+**19 October 2026:** acquired mode now loads **2,597 published SRA register
+rows, 5,677 scheme rows from all 228 advertised pages, 7,106 OSM geometries and
+456 Census 2011 observations across 190 original geographic units**. A georeferenced
+2024 SRA raster can be toggled on the map; it supplies no analytical settlement
+polygons. Current service indices remain missing and real clusters remain unranked.
+The five-cluster synthetic sandbox is explicitly separate.
 
 - [Acquisition results and source limitations](research/data_availability.md)
 - [Dataset inventory](research/dataset_inventory.csv), [quality report](research/data_quality_report.md), [join strategy](research/join_strategy.md)
 - [API, database migration and state transitions](nagarseva/docs/public-data-api.md)
-- [Optional Kobo/ODK field workflow](pilot/field_collection.md)
+- [Optional Kobo/ODK field workflow](pilot/field_collection.md), also available through the authorized Service Assurance forms
+- [Verified public-data bundle and server staging](research/data_staging.md)
+- [Configurable local/test ports](research/local_runtime.md)
 - [Executed results](research/final_report.md) and [dead-code cleanup](research/cleanup.md)
 
 ## Five screens, one workflow
@@ -26,7 +29,7 @@ The priority example in the brief is **65.0/100**, not 65.5. Unknown indicators 
 
 ## Run locally
 
-Use Python 3.12 and Node 24. No model training or API key is required for the focused demo.
+Use Python 3.12 and Node 24. Public data browsing requires no model training or source API key.
 
 ```bash
 cd nagarseva
@@ -53,6 +56,13 @@ From this existing checkout, `bash start-local.sh` installs missing runtime pack
 and starts both processes, with owned-process cleanup on exit. Acquired mode shows
 an error/retry when its API is unavailable; it never silently substitutes synthetic
 data. A fresh checkout needs the acquisition steps below before real records appear.
+To use explicit free ports without stopping another service:
+
+```bash
+URBANSAARTHI_API_PORT=8001 URBANSAARTHI_WEB_PORT=5174 bash start-local.sh
+```
+
+This prints the actual frontend/API URLs and sets the frontend proxy accordingly.
 
 For authorized work/complaint/inspection records, configure the API environment
 before running the launcher. Choose a private local key and enter the same value
@@ -76,7 +86,7 @@ From the repository root, after creating `nagarseva/.venv` as above:
 
 ```bash
 uv pip install --python nagarseva/.venv/bin/python -r scripts/requirements-data.txt
-# Poppler's pdftotext/pdfinfo are required for the SRA reference map.
+# Poppler (pdftotext/pdfinfo) and OpenSSL must be on PATH.
 nagarseva/.venv/bin/python scripts/acquire_data.py
 ```
 
@@ -85,14 +95,16 @@ It never treats a failed source as a successful dataset. Successful downloads ar
 cached with checked SHA-256 hashes; `--refresh` rechecks sources and preserves older
 content-addressed originals. No large Geofabrik extract is downloaded for this pilot.
 Raw files are in `data/raw/{sra,census,osm,other}` as applicable, cleaned files in
-`data/processed`, and request/quality manifests in `data/metadata`. Source files are
-not committed automatically. No source credentials are required or bypassed.
+`data/processed`, and request/quality manifests in `data/metadata`. Source originals and large processed assets are
+excluded from Git; the checked local handoff bundle is prepared separately. No source credentials are required or bypassed.
 
 Individual repeatable stages:
 
 ```bash
 nagarseva/.venv/bin/python scripts/inspect_sra_layers.py
 nagarseva/.venv/bin/python scripts/ingest_sra.py
+nagarseva/.venv/bin/python scripts/ingest_sra_register.py
+nagarseva/.venv/bin/python scripts/ingest_sra_pdf.py
 nagarseva/.venv/bin/python scripts/ingest_sra_projects.py
 nagarseva/.venv/bin/python scripts/ingest_osm.py
 nagarseva/.venv/bin/python scripts/ingest_census.py
@@ -100,6 +112,9 @@ nagarseva/.venv/bin/python scripts/prepare_real_data.py
 nagarseva/.venv/bin/python scripts/prepare_demo_data.py
 nagarseva/.venv/bin/python scripts/validate_datasets.py
 ```
+
+The Census trust repair is request-specific and does not disable TLS or change the
+system trust store. See [Census acquisition details](research/census_followup.md).
 
 Restart the API after preparing a new source snapshot. Set `URBANSAARTHI_DATA_DIR`
 to another processed directory if needed. The acquisition inventory records source
@@ -117,9 +132,12 @@ Use the [AWS CloudShell deployment guide](deploy/aws/README.md) for one EC2 inst
 
 The separate five-cluster sandbox's polygons, indices, routes and household/cost
 assumptions are **synthetic**. Acquired mode uses actual source records with nullable
-geometry and observations. SRA feature services timed out; Census assets could not
-be downloaded because HTTPS certificate validation failed. The 2024 PDF labels are
-not current boundaries, OSM mappings do not prove service operation, and a shared CTS
+geometry and observations. SRA feature services still timed out. The Census server's
+missing intermediate certificate was repaired using verified public CA material,
+with hostname and certificate verification retained; all four official table assets
+were downloaded. Historical 2011 state/town observations are not assigned to SRA
+clusters. The georeferenced 2024 source map is raster imagery, not current analytical
+boundaries. OSM mappings do not prove service operation, and a shared CTS
 string does not establish a project join. No current service baseline, official cost
 estimate, approved ward pilot or field impact is claimed.
 
@@ -131,16 +149,17 @@ artifacts in `integration/` retain their original dates and validation scope.
 Run checks from the repository root:
 
 ```bash
-PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest tests nagarseva/tests/test_urban.py deploy/aws/tests/test_hosted.py -q
+PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest tests nagarseva/tests/test_urban.py nagarseva/model/tests deploy/aws/tests submission/scripts/tests .github/tests -q
 npm --prefix nagarseva/website test
 npm --prefix nagarseva/website run build
 # System Chromium + Playwright; uses a disposable database and owned ports.
 uv pip install --python nagarseva/.venv/bin/python playwright==1.56.0
-nagarseva/.venv/bin/python tests/check_public_browser.py
+CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_public_browser.py
+CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_field_collection_browser.py
 ```
 
-Full retained model checks additionally require `nagarseva/model/requirements.txt`
-and `PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest nagarseva/model/tests -q`.
+The full Python command additionally requires `nagarseva/model/requirements.txt`.
+CI uses Playwright-managed Chromium; the local commands above select the installed system browser.
 The original synthetic-trained models are not used to rank acquired settlements.
 
 ## Project materials

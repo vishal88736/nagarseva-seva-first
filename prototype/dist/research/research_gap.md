@@ -1,19 +1,25 @@
 # Problem evidence, candidate gaps and location decision
 
-## Acquisition update: 18 October 2026
+## Acquisition update: 19 October 2026
 
-The current implementation has 7,106 valid OSM geometries, 156 exact M/E labels
-from a 2024 SRA PDF and 25 published scheme rows. It still lacks georeferenced
-settlement boundaries, a dated scheme crosswalk, current service observations and
-household denominators. Therefore it supports context review, missing-data-led
-assessment planning and traceable user-recorded assurance workflows; it does not
-establish current deficit rankings, redevelopment feasibility or service impact.
+The current implementation has 7,106 valid OSM geometries, 2,597 published 2024 SRA
+register rows, 5,677 public scheme rows from all 228 advertised pages, and 456 Census
+2011 observations at 190 original geographic units. All 156 earlier M/E map labels
+match unique register IDs. A properly georeferenced 2024 source raster is available
+for visual context; no analytical settlement polygons were extracted.
+
+Historical Census access is resolved, including the missing server certificate
+intermediate without a TLS bypass. This does not supply current settlement services.
+The source-aware application supports historical context review, missing-data-led
+assessment planning, hypothetical scenarios and traceable user-recorded assurance.
+It cannot establish current deficit rankings, redevelopment feasibility or impact
+without approved current observations, geographic crosswalks and verified estimates.
 See [the quality report](data_quality_report.md) and [join strategy](join_strategy.md).
 
-The research question remains whether source-aware planning and separately recorded
-inspection evidence improve a responsible agency's real workflow. Existing government
-GIS, complaints and monitoring systems remain prior art. No novelty, effectiveness,
-agency adoption or resident benefit has been demonstrated merely by building this app.
+The research question remains whether this evidence process improves a responsible
+agency's actual workflow. Government GIS, complaints and monitoring systems remain
+prior art; no novelty, independent ranking accuracy, agency adoption or resident
+benefit follows merely from the software implementation.
 
 ## Earlier evidence and hypotheses
 

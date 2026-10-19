@@ -1,10 +1,19 @@
 # Seva First research
 
-## Current acquisition and application: 18 October 2026
+## Current acquisition and application: 19 October 2026
 
 Read [data_availability.md](data_availability.md), [data_quality_report.md](data_quality_report.md),
 [join_strategy.md](join_strategy.md), [the current acquisition inventory](dataset_inventory.csv),
 [machine-readable results](acquisition_results.json) and [the final implementation report](final_report.md).
+Current acquired records: 2,597 SRA register rows, 5,677 public scheme rows from all
+228 advertised pages, 7,106 OSM geometries and 456 historical Census observations
+across 190 original units. The GeoPDF raster is display-only; current service indices
+and analytical settlement polygons remain missing.
+
+Follow-ups: [SRA register and GeoPDF](sra_followup.md), [scheme pagination](sra_projects_followup.md),
+[Census tables and verified TLS repair](census_followup.md), [public-data staging](data_staging.md)
+and [local runtime ports](local_runtime.md).
+
 The previous 32-candidate inventory is preserved as [dataset_inventory_legacy.csv](dataset_inventory_legacy.csv)
 for the historical evidence workbench. It is distinct from the actual downloads.
 

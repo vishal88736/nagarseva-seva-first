@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "scope": "Actual launcher, temporary SQLite, explicitly chosen unused ports; existing listeners untouched",
+  "api_port": 18710,
+  "web_port": 15174,
+  "api_docs_http": 200,
+  "web_proxy_overview_http": 200,
+  "settlements": 2597,
+  "projects": 5677,
+  "invalid_port_cases": 4,
+  "owned_collision_rejected": true,
+  "owned_servers_stopped_and_ports_released": true
+}

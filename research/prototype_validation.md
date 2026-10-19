@@ -1,6 +1,6 @@
 # Executed prototype validation
 
-Report generated: **2026-10-18T15:26:51.518262+00:00**. Source research access date: **2026-10-17**. This is software/development validation, not field evidence or an official service certification.
+Report generated: **2026-10-19T06:18:18.789872+00:00**. Source research access date: **2026-10-17**. This is software/development validation, not field evidence or an official service certification.
 
 ## Executed results
 
@@ -33,7 +33,7 @@ The initial retrieval run returned an answerable state for “how many people ..
 
 ## Reproduction and limits
 
-Run `python3 prototype/scripts/verify.py` from the project root. Engine tests explicitly use `--test-isolation=none`; this workspace's default subprocess-isolated invocation reported a file wrapper rather than the individual cases, so the pipeline verifies the declared/actual test counts match. Runtime versions: `v24.21.0`; `Python 3.12.15`.
+Run `python3 prototype/scripts/verify.py` from the project root. Engine tests explicitly use `--test-isolation=none`; this workspace's default subprocess-isolated invocation reported a file wrapper rather than the individual cases, so the pipeline verifies the declared/actual test counts match. Runtime versions: `v26.12.0`; `Python 3.12.15`.
 
 The generated [standalone entry point](../prototype/dist/standalone.html) embeds the interface, methods, data and research text and does not require a local port or external runtime assets. Optional workbench browser-check status for this run: `not_attempted`. The default verifier performs source/template/packaging checks; actual UrbanSaarthi browser results are recorded separately in `research/verification/browser_results.json`. No field verification is implied.
 

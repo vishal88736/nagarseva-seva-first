@@ -1,5 +1,5 @@
 {
-  "attempted_at": "2026-10-18T15:36:29.928405+00:00",
+  "attempted_at": "2026-10-19T06:03:41.214386+00:00",
   "errors": [],
   "overlay": {
     "title": "SRA GPS Survey 2024 historical map — cartographic context",
@@ -7,7 +7,7 @@
     "source_path": "data/raw/sra/cluster-map-document-082b9b1406b91058.pdf",
     "source_sha256": "082b9b1406b91058799a5741fb2e138722d98bffa26ea4c59c2ac462a27f79ae",
     "retrieved_at": "2026-10-18T10:42:33.101761+00:00",
-    "generated_at": "2026-10-18T15:36:31.425033+00:00",
+    "generated_at": "2026-10-19T06:03:42.140870+00:00",
     "source_date": "2024",
     "reference_year": 2024,
     "source_date_basis": "GPS Survey 2024 map title; individual feature dates unknown",

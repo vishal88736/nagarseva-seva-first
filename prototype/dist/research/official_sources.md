@@ -1,6 +1,6 @@
 # Official sources and access ledger
 
-## Follow-up acquisition: 18 October 2026
+## Follow-up acquisition: 19 October 2026
 
 Actual files, hashes and failed requests are now documented in
 [data_availability.md](data_availability.md), [dataset_inventory.csv](dataset_inventory.csv)
@@ -15,11 +15,23 @@ and [acquisition_results.json](acquisition_results.json). Primary endpoints used
 [official OSM bounding-box API](https://www.openstreetmap.org/api/0.6/map?bbox=72.9,19.04,72.94,19.08).
 OSM reuse attribution: [OpenStreetMap copyright / ODbL](https://www.openstreetmap.org/copyright).
 
-No local numerical asset was obtained from Census catalogue IDs 6190, 11436, 11448
-or 11443; their direct HTTPS requests failed certificate-chain verification.
-The [HL-06 metadata](https://censusindia.gov.in/nada/index.php/catalog/11443/study-description)
-identifies historical 2011 India/state observations, not current household reliability.
-[Dataful](https://dataful.in/datasets/272/) was inspected as a convenience source only.
+The four requested numerical Census assets were acquired after repairing the
+server's missing intermediate certificate using verified public CA material without
+disabling TLS or hostname checks: [PCA SLUM XLS](https://censusindia.gov.in/nada/index.php/catalog/6190/download/9267/slum_data_census_2011.xls),
+[housing HH-1](https://censusindia.gov.in/nada/index.php/catalog/11436/download/14549/SHH0101-crc.pdf),
+[household amenities HH-11](https://censusindia.gov.in/nada/index.php/catalog/11448/download/14561/SHH3711-crc.pdf)
+and [water HH-6](https://censusindia.gov.in/nada/index.php/catalog/11443/download/14556/SHH2206-crc.pdf).
+The source water filename is recorded exactly in [Census acquisition details](census_followup.md)
+and the inventory; all observations remain 2011 at their original geographic level.
+[Dataful](https://dataful.in/datasets/272/) remains a convenience metadata source only.
+The [official 2024 register](https://media.sra.gov.in/sra-automation/sra-website/content/1731566774802_3204_Slum%20Cluster%202024.pdf)
+adds 2,597 rows and exact map-ID links. The existing map is a georeferenced raster,
+not a feature export. [Scheme pagination](sra_projects_followup.md) reached all 228
+advertised public pages with 5,677 rows, unknown current status and no cluster join.
+
+The older dated access ledger below retains its original observations. It is
+superseded for the four acquired Census assets and the SRA follow-up described above;
+other unacquired assets such as catalogue 11441 remain separately unverified.
 For the optional collection proposal, official [Kobo export documentation](https://support.kobotoolbox.org/export_download.html)
 and [ODK form management](https://docs.getodk.org/central-forms/) were inspected.
 These are not sources of existing service observations.

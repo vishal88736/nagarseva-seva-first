@@ -1,186 +1,208 @@
-# UrbanSaarthi implementation results
+# UrbanSaarthi implementation and data-integration results
 
-Work executed locally on 18 October 2026 in the existing `nagarseva-seva-first`
-checkout. Existing UrbanSaarthi and evidence-workbench functionality was extended.
-No remote runtime deployment or agency submission was performed.
+Completed local engineering and public-source follow-up on **19 October 2026** in
+the existing `nagarseva-seva-first` repository. The five-screen application, legacy
+backend/model checks, evidence workbench and AWS deployment structure were retained.
+Unreachable frontend code was removed; blank dashboard/mobile gaps were tightened.
 
-## Acquired sources and files
+## 1. Sources accessed and files actually obtained
 
-Seven unique originals exist, were parsed, and pass recorded SHA-256 checks.
-Exact paths, source URLs, retrieval times, byte sizes and hashes are in
-[acquisition_results.json](acquisition_results.json).
+The final acquisition report checks **248 download receipts covering 247 unique
+original files**, all with matching SHA-256 hashes. Most are the **228 public scheme
+listing pages**, not 247 independent statistical datasets. The exact URLs, retrieval
+times, paths, byte sizes and hashes are in [acquisition_results.json](acquisition_results.json).
+The [29-entry inventory](dataset_inventory.csv) has the requested 16 columns and
+separates downloaded assets, metadata-only pages and failed services.
 
-| Original under `data/raw` | Result |
+| Source | Actual file/result |
 |---|---|
-| `sra/cluster-map-document-082b9b1406b91058.pdf` | 7,422,603 bytes; one A0 page; text parsed, full map rendered and inspected |
-| `sra/public-projects-679b04a07aa2d7fc.html` | 69,041 bytes; expected public listing columns and 25 distinct rows parsed |
-| `sra/gis-page-9890a859ea7a1d5b.html` | 42,831 bytes; dynamic HTML context, no feature export obtained |
-| `sra/ogd-catalogue-1eee48a33bafd7ac.html` | 1,138,796 bytes; catalogue metadata, no usable structured download in fetched page |
-| `osm/pilot-map-api-642436ee702273aa.osm` | 12,908,245 bytes; official bounded OSM XML; filtered/processed geometries validated |
-| `osm/geofabrik-india-5ba5a279ab369fd9.html` | 19,150 bytes; extract catalogue, not a country extract |
-| `census/dataful-maharashtra-64cf58194ffe4c76.html` | 135,231 bytes; secondary metadata only, no numerical table used |
+| SRA official 2024 cluster register | `data/raw/sra/cluster-list-2024-bd9081d656435571.pdf`, 872,732 bytes, 79 pages; 2,597 rows parsed |
+| SRA official 2024 map | `data/raw/sra/cluster-map-document-082b9b1406b91058.pdf`, 7,422,603 bytes; printed IDs and ISO GeoPDF control points parsed |
+| SRA public scheme portal | First page `public-projects-679b04a07aa2d7fc.html`, followed by checked `public-projects-page-*.html`; 228 advertised pages reached, 5,677 rows |
+| OSM official bounded map API | `data/raw/osm/pilot-map-api-642436ee702273aa.osm`, 12,908,245 bytes; 7,106 processed geometries |
+| Census PCA SLUM 6190 | `data/raw/census/table-6190-0-693dc15454e8ad53.xls`, 1,658,368 bytes; 2,645 rows × 88 columns |
+| Census housing 11436 | `data/raw/census/table-11436-0-b5bfd408fe469d33.pdf`, 187,584 bytes; 12 Maharashtra cells activated |
+| Census household amenities 11448 | `data/raw/census/table-11448-0-14772dbea735ffec.pdf`, 550,962 bytes; 20 Maharashtra cells activated |
+| Census drinking water 11443 | `data/raw/census/table-11443-0-8ba15f85577a5d79.pdf`, 249,697 bytes; 44 Maharashtra cells activated |
 
-The SRA GIS endpoints, two Overpass endpoints, all four requested Census catalogues
-and Population Finder were also attempted. The GIS service timed out. Overpass
-failed, followed by a successful official OSM map-API fallback. Census direct HTTPS
-requests failed certificate-chain verification; no numerical Census asset was
-downloaded. Kobo/ODK official documentation was inspected for a proposed collection
-workflow; no existing observations or platform account was acquired.
+The Census catalogues and Population Finder, SRA GIS page, OGD catalogue/resource
+pages, Geofabrik India and Dataful metadata were also retrieved. The Census server's
+missing intermediate certificate was repaired using a pinned public CA certificate
+verified against OS roots; TLS and hostname validation remain enabled. That public
+certificate is transport metadata, not a statistical observation.
 
-Optional portal triage: Maharashtra State GIS timed out, Bhuvan returned a loading
-shell, and Copernicus/WorldPop metadata were readable. No asset from these portals
-was downloaded, no satellite processing was added, and no gridded population was
-assigned to a cluster.
+SRA MapServer/FeatureServer and investigated official aliases still timed out. OGD
+structured CSV was not obtained; readable HTML does not establish a successful
+structured export. Overpass failed, and the bounded official OSM API fallback
+succeeded. State GIS failed; Bhuvan returned a loading shell; Copernicus/WorldPop
+metadata were readable but no useful additional asset was selected. Kobo/ODK were
+investigated as collection platforms, not existing observations.
 
-Raw source files and processed snapshots remain local and excluded from Git/Docker
-build contexts. Original downloads are content addressed and never overwritten.
-The compact inventory/results and reproducible scripts remain reviewable.
+Raw downloads, large processed files, databases, uploaded evidence and credentials
+are excluded from Git and Docker build contexts. See [availability](data_availability.md),
+[SRA follow-up](sra_followup.md), [scheme pagination](sra_projects_followup.md) and
+[Census source/transport details](census_followup.md).
 
-## Records, fields and geographic joins
+## 2. Parsed records and available fields
 
-- **156 exact M/E printed map labels:** source ID, title reference 2024, original
-  URL/retrieval and missing-data flags. No acquired geometry, official settlement
-  name, household count or current service observation. This is a text extract,
-  not a complete authoritative settlement register.
-- **25 SRA first-page scheme rows:** scheme name, ward, address, CTS, village,
-  developer, architect, land type, DCR, proposal and displayed row number. All have
-  unknown current status and source date; no official stable scheme key was found.
-- **7,106 OSM features/geometries:** 2,885 road-category, 3,692 building-category,
-  168 amenity-category, 93 transport, 266 residential-context and 2 water-infrastructure
-  objects. Tags, source IDs/URLs, nullable names, edit timestamps and clipping flags
-  are preserved. All processed geometries are nonempty, valid and WGS84; IDs unique.
-- **0 acquired numerical Census rows; 0 current cluster service observations.**
+- **SRA register:** 2,597 source rows, 2,596 distinct official `Cluster_ID` values.
+  Fields include published name, ward, village/division, taluka, printed area in m²,
+  source serial/page and 2024 reference. Preserve 79 missing names, 39 overflowing
+  name cells and the two `MW_041` rows; ambiguous IDs do not enter automatic joins.
+- **Schemes:** 5,677 rows, 228 pages; scheme, ward, address, CTS, village, developer,
+  architect, land type, DCR, proposal and displayed serial. Ten identical-content
+  groups comprising 25 rows remain visible. The source gap 99→101 is retained.
+  Official stable IDs, current status, observation dates, geometry and settlement
+  joins remain null/unknown. Complete means the advertised public pagination ended;
+  it does not establish all ongoing/approved schemes. Retrieval spans 18–19 October
+  and is not a server-atomic snapshot.
+- **OSM:** 7,106 valid, unique, nonempty WGS84 geometries: 2,885 road-category,
+  3,692 building-category, 168 amenity-category, 93 transport, 266 residential-context
+  and 2 water-infrastructure objects. Original IDs, tags, nullable names, edit times,
+  clipping flags and source URLs are retained. Tag objects are not deduplicated
+  operational facilities or proof of reliable household service.
+- **Census:** the full PCA workbook and 88 fields are preserved. The application
+  imports 190 original Maharashtra units (1 state + 189 towns) and **456 historical
+  observations: 452 numbers and four missing values**. These are 380 PCA population/
+  household counts, 12 housing cells, 44 water cells and 20 household-amenity cells.
+  Every reference year remains **2011**; none is allocated to a settlement.
+- **Historical raster:** a 1024×1083 EPSG:3857 PNG covers the Govandi pilot bounds.
+  The original PDF has georeferencing but rasterized map contents, not extractable
+  cluster feature vectors. Four controls have about 0.148 m internal fit residual;
+  this is not ground accuracy. The overlay is **display-only** and supplies **zero
+  analytical settlement polygons**.
 
-Original amenity tags include 34 schools, 49 hospitals, 23 clinics, 7 doctors,
-18 toilets and 3 drinking-water objects. Mapped presence does not establish facility
-operation, reliable water access, capacity or complete coverage. OSM observation
-dates remain unknown; timestamps represent edits/retrieval instead.
+PCA and Houselisting have different universes: Maharashtra household denominators
+are respectively 2,499,948 and 2,449,530. They are not interchanged. The exact Census
+label `Greater Mumbai (M Corp.) (Part)` and original code `27:802794` are retained;
+its 2011 totals do not establish a present municipal boundary or current households.
 
-No reliable SRA scheme-to-settlement or Census-to-cluster join is established.
-A context QA join found 55 of 263 amenity/transport/water objects uniquely covered
-by an OSM residential polygon; 208 were unmatched or ambiguous. It does not identify
-slum membership or allocate population/service statistics. All current five-indicator
-scores remain missing/unranked. See the [quality report](data_quality_report.md) and
-[join strategy](join_strategy.md) for fields, geography, dates and limitations.
+## 3. Defensible joins and current missing indicators
 
-## Functional application and pipeline
+All **156 printed M/E map tokens match unique register IDs** exactly. This is an
+identifier/provenance link, not a spatial boundary reconstruction. The original
+Census state/town keys link tables only at their reviewed original geography and
+reference year, with table-specific universes retained.
 
-The React/TypeScript/Leaflet frontend defaults to acquired mode. It includes a
-source/count/freshness dashboard, actual OSM vector layers and tag search, settlement
-label search and provenance, published scheme facts, configurable explainable
-priorities, CSV export, editable hypothetical scenarios and protected assurance.
-The existing synthetic sandbox remains explicitly selectable and separate.
+A separate QA join uniquely contains 55 of 263 OSM amenity/transport/water objects
+inside mapped residential polygons; 208 are unmatched/ambiguous. This is context
+only, with no slum membership or household-statistics allocation.
 
-Scenario arithmetic requires a supplied household assumption. Costs, coverage and
-disruption are hypothetical. Real settlement-origin/route/destination data are
-unavailable, so distance comparisons remain unavailable rather than zero.
+There is **no reliable scheme-to-settlement or Census-to-cluster crosswalk**.
+Current settlement-level W/S/H/A/R indices, household denominators, service uptime,
+facility capacity and measured route origins remain unavailable. Real records stay
+unranked; missing indicators are null. See [quality](data_quality_report.md) and
+[join strategy](join_strategy.md).
 
-The FastAPI/SQLite extension has migrated source/geography/indicator/project/spatial
-tables and separate intervention/evidence/verification/complaint/survey tables.
-It supports validated listing/detail/spatial/metadata/priority/scenario/report routes,
-authorized plan updates and status actions, configured evidence upload/reference
-storage, independent review records, complaints and immutable survey imports.
-Reported completion and complaint responses never automatically verify a service.
+## 4. Functional application, storage and pipeline
 
-Acquisition scripts have request timeouts, byte/record limits, checked caches,
-immutable originals, schema and geometry checks, source failures, ID batching,
-CRS transformation support and rerunnable processed snapshots. They discover SRA
-layers when available, rather than guessing IDs. The field form/schema/importer
-preserve missing answers, timezone and coarse GPS; raw measurements do not become
-fabricated 0–100 deficit indices.
+Acquired mode is the default. All source records load through bounded pagination.
+The five screens provide provenance/freshness metrics, OSM vectors and historical
+SRA raster, register/scheme search, historical Census context/CSV, transparent
+configurable priority calculations, hypothetical scenario comparison and protected
+service assurance. The explicitly selected synthetic sandbox remains separate.
 
-Cleanup removed **26 unreachable frontend files**, four orphan source directories,
-the unused chart dependency and 38 packages in its dependency tree. The legacy
-backend/model tests, directly referenced fixtures, evidence workbench, deployment
-code, research, presentation/submission materials and pilot protocols remain.
-No tests were removed. The UI spacing follow-up removes forced map height, stretched
-overview cards and duplicate spacing; long tables scroll within compact panels.
-[Cleanup evidence](cleanup.md).
+SQLite migrations retain source/geography/indicator/project/spatial tables and
+independent intervention/evidence/verification/complaint/survey records. Source
+refresh validates row flags, IDs, CRS, geometry bounds, references and counts before
+activation; rejected refreshes preserve operational records and the prior snapshot.
+Historical facts are immutable by source observation ID. Public observations redact
+inspector, reviewer and evidence references. Source CSV exports are public;
+operational exports require officer access.
 
-## Executed verification
+Authorized field forms now persist reported visits, retain blank answers as null,
+validate timezone/coarse GPS/consented evidence and collect no beneficiary details.
+Separately entered deficit indices require a supplied normalization method and
+explicit review. No raw reading automatically becomes a deficit or verified service.
+Completion, inspection, distinct review and complaint reopening remain separate.
 
-The combined Python suite passed **104 tests**: acquisition protocols, failures,
-schema/ID/geometry/CRS/joins, new SQLite/API workflows, missing/current/historical
-observations, priority/weight/scenario calculations, legacy model/backend tests and
-hosted-app middleware tests. Four dependency deprecation/future warnings were emitted.
-See [JUnit results](verification/pytest.xml).
+The pipeline is rerunnable with checked caches, immutable originals, request timeouts,
+byte/page/record limits, schema/CRS/geometry checks and recorded source failures.
+The complete staged runner was executed after the follow-up and passed local
+validation while keeping the inaccessible SRA GIS endpoints explicitly failed.
 
-Browser-engine tests passed **18/18**, including the hand-worked INR 1,199 scenario,
-65-point priority example, missing observations, formulas and workflow state rules.
-The TypeScript/Vite production build passed. Unused-import/variable checks and
-`git diff --check` were run; current execution summaries are in
-[verification/summary.json](verification/summary.json).
+[Safe staging](data_staging.md) creates a deterministic, content-addressed local
+bundle containing only the public snapshot/inventory and optional overlay. Final
+bundle verification and actual API loading with disposable SQLite confirmed all
+counts, historical context and raster availability. [Bundle receipt](verification/public_bundle.json)
+and [actual API check](verification/staged_api.json) retain the exact identity and results. No operational database,
+credentials, raw originals or field evidence are included.
 
-The retained synthetic-app Chromium suite passed **25 workflow/responsive checks**.
-The separate evidence workbench passed **32 engine tests**, **3 converter tests**,
-**10 template checks**, **25 development queries** and standalone packaging checks;
-its optional browser script was not run.
+## 5. Executed verification
 
-Actual system Chromium executed the acquired dashboard/map/filter/empty-state
-workflow, priority CSV, scenario-to-plan flow, completion/evidence/independent review,
-complaint response/dispute, mode separation and API-offline error state. The test
-used a disposable SQLite database with clearly test-only operational records; none
-were imported as field evidence. [Browser results](verification/browser_results.json).
-Screenshots are retained locally in `.runtime/public-browser/` for visual inspection.
+- Combined Python checks: **253 passed**, four existing dependency warnings. Includes
+  ingestion/failure/schema/CRS/joins, source refresh rollback, public privacy,
+  historical geography, priority/scenario/CRUD, packaging, staging, legacy model/API
+  and hosted middleware tests. [JUnit](verification/pytest.xml).
+- Frontend engine/pagination/CSV checks: **20 passed**. TypeScript unused checks and
+  the Vite production build passed.
+- Acquired-data Chromium: **10 grouped workflows passed**, zero JavaScript errors,
+  including all source pages, Census CSV/context, source raster, raw survey→actual
+  disposable API persistence, assurance/review/complaint workflows, mobile and
+  offline states. [Browser receipt](verification/browser_results.json).
+- Retained synthetic Chromium: **25 checks passed**, zero page errors, using explicit
+  isolated ports. Field-form fixture Chromium: **4 groups passed**; these are UI
+  contract checks, not real field observations. [Field UI receipt](verification/field_browser.json).
+- Actual launcher HTTP/proxy checks and owned-process cleanup passed; configurable
+  ports leave existing listeners untouched. Portable public bundle rerun, transfer
+  verification and disposable API loading passed.
+- Earlier repaired GitHub workflows passed for push `a4e8c07`:
+  [container readiness](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39140508288)
+  and [application validation](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39140508298).
+  These exercised Docker image build, HTTP/auth/upload/restart persistence,
+  restrictive-permission recovery and the regular application checks. The generated
+  [CI receipt](../integration/ci-validation.json) records the source actually tested
+  by its run, which may include workflow-generated changes after the triggering
+  commit. Final source changes require their own remote checks before delivery.
 
-The documented `bash start-local.sh` launcher was also executed. Both processes
-started, the API health and acquired overview requests returned HTTP 200, and the
-frontend on port 5173 returned HTTP 200. The overview returned 156 source labels,
-25 schemes and zero settlements with acquired polygons or sufficient indicators.
+Local Docker CLI access remains blocked by socket permissions; the remote GitHub
+runner performed container checks. No public AWS URL, real officer identity,
+independent ranking accuracy, agency adoption or field impact is claimed.
 
-Actual Docker image build/container execution was **not run**: the Docker CLI
-reported `permission denied while trying to connect to the docker API at
-unix:///var/run/docker.sock`. Hosted middleware/unit tests passed; that does not
-prove container startup, current AWS deployment or a public URL. No field reliability,
-independent ranking accuracy, production identity or government adoption was tested.
-
-## Run the application
-
-In the existing prepared checkout:
+## 6. Run and deploy the prepared application
 
 ```bash
 cd "/home/vishal/D DRIVE/seva first/nagarseva-seva-first"
 bash start-local.sh
 ```
 
-Open `http://localhost:5173`; API documentation is `http://127.0.0.1:8000/docs`.
-Set `NAGARSEVA_OFFICER_KEY` privately before launching and enter it through Officer
-access for assurance writes. Set `URBANSAARTHI_EVIDENCE_STORAGE=sqlite` only when
-consented local uploads are intended. Without it, approved evidence references are
-supported. [README setup and ingestion commands](../README.md) include fresh-checkout
-dependencies, individual stages, safe environment configuration and test commands.
-
-For separate terminals, from `nagarseva`:
+Default app: `http://localhost:5173`; API docs: `http://localhost:8000/docs`.
+If those ports belong to an existing session, use explicit unused ports:
 
 ```bash
-.venv/bin/python -m uvicorn model.api.urban:app --host 127.0.0.1 --port 8000
-npm --prefix website run dev
+URBANSAARTHI_API_PORT=8001 URBANSAARTHI_WEB_PORT=5174 bash start-local.sh
 ```
 
-SQLite migration and snapshot import are automatic. Source refresh requires preparing
-`data/processed/urban_real.json` and restarting the API. Reuse the existing database;
-do not discard operational records to refresh public data.
+That example serves `http://localhost:5174` and `http://localhost:8001/docs` and sets
+the Vite proxy correctly. Set a private `NAGARSEVA_OFFICER_KEY` in the API environment
+and enter it through Officer access for operational forms. Optional consented local
+uploads require `URBANSAARTHI_EVIDENCE_STORAGE=sqlite`. Shared keys are prototype
+access control, not government identity/RBAC. [Runtime details](local_runtime.md).
 
-## Deployment and remaining work
+Fresh-checkout dependencies, ingestion, environment and test commands are in the
+[root README](../README.md). Database initialization/migration is automatic. Rebuild
+public inputs and restart the API to refresh sources; retain the operational database.
 
-Delivery is organized into substantive Git commits for public acquisition, API
-workflows, the connected frontend and cleanup, optional field collection, and
-documentation/verification. Raw downloads, processed snapshots, local databases
-and generated credentials are excluded from these commits.
+For a server, prepare and verify the local bundle, mount its `processed` and
+`metadata` subdirectories read-only beside the existing writable database volume,
+and set `URBANSAARTHI_DATA_DIR=/data/processed`. [Staging instructions](data_staging.md)
+and the [existing AWS guide](../deploy/aws/README.md) give paths/checks. This task did
+not alter AWS resources, publish source-restricted assets or deploy a public site.
 
-The existing AWS Dockerfile now includes the new API modules and SQL migration,
-retaining the non-root permission repair. Data assets are excluded from the image.
-To include acquired mode in an authorized deployment, stage the processed snapshot
-and mirrored inventory in the persistent data volume (`/data/processed` and
-`/data/metadata/dataset_inventory.csv`), configure the officer secret and optional
-evidence storage, build/test the updated image, then follow the existing
-[AWS guide](../deploy/aws/README.md). Do not recreate or repin a live stack merely
-to view this local implementation. No deployment was performed by this task.
+## 7. Remaining external requirements
 
-Incomplete due to actual data/service limits: live SRA layer enumeration/export,
-georeferenced cluster/project polygons, complete or status-dated scheme records,
-downloaded Census numeric tables, official geographic crosswalks, household counts,
-current W/S/H/A/R observations, routable cluster origins, official estimates and
-engineering/resident feasibility evidence. These are explicitly missing in the app.
-PostGIS, production RBAC/identity, an object store, platform account sync, agency
-adoption and field validation remain future work, not implemented placeholders.
+Still unavailable: authoritative analytical cluster/project polygons and live GIS
+schemas, dated official project status/keys, original-boundary crosswalks, current
+verified settlement/household service measurements, actual household denominators,
+route origins and official cost/engineering/resident feasibility evidence. These
+require accessible government exports or an authorized field workflow; values and
+boundaries were not fabricated to fill them.
+
+Optional production work remains: real identity/roles, a managed evidence store,
+PostGIS when scale requires it, account-level Kobo/ODK synchronization, agency
+workflow acceptance and independent field validation. These are not described as
+working integrations. Wider source redistribution needs source-specific reuse review.
+
+Cleanup removed 26 unreachable frontend files and unused chart dependencies without
+removing tests or retained backend/workbench functionality. The layout changes keep
+long tables scrollable and remove forced map height/stretched cards. [Cleanup evidence](cleanup.md).

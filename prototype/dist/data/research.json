@@ -1528,8 +1528,8 @@
     {
       "name": "README.md",
       "url": "./research/README.md",
-      "sha256": "dced178de4e249e40dd20f1bc14ef359fc8b99d39c75bc68064b2d2b84ad7b9f",
-      "bytes": 7589
+      "sha256": "0f5fdabe0e3e3516eb7743e644742a162360d7a32883a284d0df7e8f80ac64f5",
+      "bytes": 8143
     },
     {
       "name": "access_followup.md",
@@ -1540,8 +1540,14 @@
     {
       "name": "acquisition_results.json",
       "url": "./research/acquisition_results.json",
-      "sha256": "c63949e8382caba750c7ad8afba5434e2c4ab11fb189e5af9a23c3cad1790502",
-      "bytes": 5275
+      "sha256": "3c4b6eb425773bcb3d191120ed0adf2b1c1ed03b392441ee59611da8337a8cfa",
+      "bytes": 92937
+    },
+    {
+      "name": "census_followup.md",
+      "url": "./research/census_followup.md",
+      "sha256": "e58dce62e7f5c19551316c5137fc94718c4dfde08cc292f69f6ce2b1ab4168e0",
+      "bytes": 8128
     },
     {
       "name": "cleanup.md",
@@ -1552,20 +1558,26 @@
     {
       "name": "data_availability.md",
       "url": "./research/data_availability.md",
-      "sha256": "515811d216c41d5460ccd09bd85556202e99afdddb383a58e2c82ef1f4dafbd9",
-      "bytes": 4391
+      "sha256": "61dca1be3b70d0e187c1911418cb369730573f0f06831d6c37b39daffe3e465e",
+      "bytes": 8955
     },
     {
       "name": "data_quality_report.md",
       "url": "./research/data_quality_report.md",
-      "sha256": "0eec77500ba89bbf2197e7d61e514cdff091069b80f27e86e65ab6fa816c2710",
-      "bytes": 5563
+      "sha256": "09dd35d3693b364c5415bc2a3750cbb7ec9b4949dcd24e1805b3cba01ecb92b9",
+      "bytes": 9845
+    },
+    {
+      "name": "data_staging.md",
+      "url": "./research/data_staging.md",
+      "sha256": "ed5eabc2d82a24fc3c827392e53dff254987f3bf0bc89c20fbf7ad3a90eca8a9",
+      "bytes": 5379
     },
     {
       "name": "dataset_inventory.csv",
       "url": "./research/dataset_inventory.csv",
-      "sha256": "49d52fbc1e94c514a705001e64827a3dd1139bd90cea50ac7c340be0b8c194bd",
-      "bytes": 7852
+      "sha256": "80fb09b02a296c6df0457b3569509e3bb78954a55bb9b980d29f32ddb91f8214",
+      "bytes": 19529
     },
     {
       "name": "dataset_inventory_legacy.csv",
@@ -1588,20 +1600,20 @@
     {
       "name": "final_report.md",
       "url": "./research/final_report.md",
-      "sha256": "b14ec8968f78f327fe2f429a6a4baced763b94388a7801980450e350f486ad49",
-      "bytes": 11228
+      "sha256": "c30b34749daa6b92235f4e52debf940d6e689db87a05bbf5679c54179d2a1794",
+      "bytes": 13675
     },
     {
       "name": "implementation_plan.md",
       "url": "./research/implementation_plan.md",
-      "sha256": "66666cf7132597698a2ae0937d19bbe2b152db7334ff746f78d0114a219b36b7",
-      "bytes": 1889
+      "sha256": "baa9ea41e57b7e888975f45148d79532a025705c8dee7e63f3cca0fc8614bdec",
+      "bytes": 2004
     },
     {
       "name": "join_strategy.md",
       "url": "./research/join_strategy.md",
-      "sha256": "25881485cea8216afd82923ecac874f548d662a2669a01fb4c570ebb0c11700d",
-      "bytes": 2136
+      "sha256": "0ca2c02c659f9ff46ae484ba005735d6a971f98f67ded9e2c7dd8aeb5ecddfd9",
+      "bytes": 5519
     },
     {
       "name": "literature_review.md",
@@ -1610,10 +1622,16 @@
       "bytes": 22284
     },
     {
+      "name": "local_runtime.md",
+      "url": "./research/local_runtime.md",
+      "sha256": "0bcab3d2862eff9e385a1fff3cd804bf226c0719bac8fac0961a879f0254cfed",
+      "bytes": 1519
+    },
+    {
       "name": "official_sources.md",
       "url": "./research/official_sources.md",
-      "sha256": "8c5a62e442beff571f864696ea506df44c9054a3a2e2e6d78ccc296ed881e7b5",
-      "bytes": 27580
+      "sha256": "a0a7117bc5a82911fda68713f1d349523aeb328fe86f79e23a77e504130456c1",
+      "bytes": 28681
     },
     {
       "name": "problem_evidence_matrix.csv",
@@ -1624,7 +1642,7 @@
     {
       "name": "prototype_validation.md",
       "url": "./research/prototype_validation.md",
-      "sha256": "4ba0cd56429cd86c21e4208e90af138a5041c35c70aafc65f8810d3def505b24",
+      "sha256": "cf1e1c3aa5bba5563f03677dea666266b6c69c8553790b96f6c3db334c43bc39",
       "bytes": 7253
     },
     {
@@ -1642,14 +1660,26 @@
     {
       "name": "research_gap.md",
       "url": "./research/research_gap.md",
-      "sha256": "e49afe712df29e89fdaed637b684239bf0f74fd97dc1d7b4836f4aad85b197a3",
-      "bytes": 18901
+      "sha256": "d04442d7efae07a29ea443fb34188f03563610638754ebfb747413ac46f9c2f6",
+      "bytes": 19286
     },
     {
       "name": "research_summary.md",
       "url": "./research/research_summary.md",
       "sha256": "382bea832a5f42b09bc569fe6121553aff3e1fe1b7af9358b42ded8fc48774e0",
       "bytes": 10297
+    },
+    {
+      "name": "sra_followup.md",
+      "url": "./research/sra_followup.md",
+      "sha256": "57d2e6862dc513e25599bb92b82eacc6fa6f7612ed9ff55bd3fc049ccaf9ff60",
+      "bytes": 8307
+    },
+    {
+      "name": "sra_projects_followup.md",
+      "url": "./research/sra_projects_followup.md",
+      "sha256": "82a6a9498d49589f1cedd54781140395af5ac8a14e7c0e393212ca5c6077cd3d",
+      "bytes": 6223
     },
     {
       "name": "technical_feasibility.md",

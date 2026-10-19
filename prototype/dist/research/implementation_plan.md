@@ -1,10 +1,11 @@
 # UrbanSaarthi real-data implementation
 
-Started 2026-10-18. Extend the existing React/Leaflet and FastAPI/SQLite application.
+Started 2026-10-18; completed local follow-up 2026-10-19. Extend the existing React/Leaflet and FastAPI/SQLite application.
 Preserve the active interface, evidence workbench, AWS deployment and labelled demo.
 
 Status: local implementation, acquisition attempts, data validation, API/database,
-five connected screens, optional field schema/import, cleanup and verification
+five connected screens, historical Census context, georeferenced source raster,
+authorized field forms/imports, safe data staging, cleanup and verification
 executed. The active UrbanSaarthi sandbox, backend and workbench are preserved;
 unreachable frontend files were removed. External source/field/deployment limits
 are itemized in [final_report.md](final_report.md).

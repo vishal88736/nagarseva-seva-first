@@ -1,0 +1,34 @@
+{
+  "bundle_id": "916514dd188caa9cf9316090fac07167dabc84c6023d25f56d4c76e824949d47",
+  "directory": ".runtime/public-data-bundles/916514dd188caa9cf9316090fac07167dabc84c6023d25f56d4c76e824949d47",
+  "archive": ".runtime/public-data-bundles/916514dd188caa9cf9316090fac07167dabc84c6023d25f56d4c76e824949d47.tar.gz",
+  "archive_bytes": 1785775,
+  "archive_sha256": "463ef7e74c8f12713dd382597cb6fb1fa2c155d443b004051b6cd48acc4166a4",
+  "files": {
+    "metadata/dataset_inventory.csv": {
+      "bytes": 19529,
+      "sha256": "80fb09b02a296c6df0457b3569509e3bb78954a55bb9b980d29f32ddb91f8214"
+    },
+    "processed/sra_pilot_overlay.json": {
+      "bytes": 4063,
+      "sha256": "ac68bd245e5c9e73562faa10f05e1dde8d98a473c8ef864ae5b03c4d106dbb3a"
+    },
+    "processed/sra_pilot_overlay.png": {
+      "bytes": 440631,
+      "sha256": "a8a1d8827ef43a1487edec5a13a97a4bbb73696dfac9531ed03e82b77b4291b1"
+    },
+    "processed/urban_real.json": {
+      "bytes": 20837133,
+      "sha256": "4f3ed9104889c06aee0c33ecf96b833fb04cde0f87aef5383916fadca2ce4118"
+    }
+  },
+  "snapshot_counts": {
+    "settlement_count": 2597,
+    "settlement_geometry_count": 0,
+    "projects_count": 5677,
+    "mapped_objects_count": 7106,
+    "geographic_unit_count": 190,
+    "historical_observation_count": 456
+  },
+  "originals_checked": 247
+}

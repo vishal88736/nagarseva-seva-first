@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-19T06:17:00.917398+00:00",
+  "scope": "Actual API with immutable public bundle and disposable SQLite; no deployment or field validation",
+  "bundle_id": "916514dd188caa9cf9316090fac07167dabc84c6023d25f56d4c76e824949d47",
+  "snapshot_sha256": "4f3ed9104889c06aee0c33ecf96b833fb04cde0f87aef5383916fadca2ce4118",
+  "counts": {
+    "settlements_loaded": 2597,
+    "settlements_with_geometry": 0,
+    "sufficient_indicator_coverage": 0,
+    "documented_deficits": 0,
+    "requires_assessment": 2597,
+    "projects": 5677,
+    "awaiting_verification": 0,
+    "overdue_interventions": 0,
+    "synthetic": false,
+    "deficit_threshold": "Index >=60; illustrative review threshold"
+  },
+  "historical_units": 190,
+  "historical_observations": 456,
+  "missing_historical_values": 4,
+  "historical_settlement_allocations": 0,
+  "raster_available": true,
+  "raster_analysis_allowed": false,
+  "inventory_rows": 29,
+  "http_statuses": {
+    "health": 200,
+    "overview": 200,
+    "context": 200,
+    "map-overlay": 200,
+    "map-overlay/image": 200,
+    "metadata": 200
+  }
+}

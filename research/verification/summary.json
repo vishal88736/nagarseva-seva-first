@@ -1,15 +1,18 @@
 {
-  "checked_at": "2026-10-18T12:58:02.709476+00:00",
+  "checked_at": "2026-10-19T06:18:08.390434+00:00",
+  "scope": "Local software/data checks; remote CI is recorded separately with its actual source revision; no field validation",
   "python": {
-    "tests": 104,
+    "tests": 253,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest tests nagarseva/tests/test_urban.py nagarseva/model/tests deploy/aws/tests/test_hosted.py -q"
+    "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest tests nagarseva/tests/test_urban.py nagarseva/model/tests deploy/aws/tests submission/scripts/tests .github/tests -q --junitxml=research/verification/pytest.xml",
+    "warnings": 4,
+    "report": "research/verification/pytest.xml"
   },
   "node": {
-    "tests": 18,
-    "passed": 18,
+    "tests": 20,
+    "passed": 20,
     "command": "npm --prefix nagarseva/website test"
   },
   "production_build": {
@@ -22,12 +25,16 @@
   },
   "unused_python": {
     "status": "passed",
-    "tool": "ruff F401,F841 on acquisition, new/modified API and tests"
+    "tool": "ruff F401,F841 on scripts, tests and changed public API modules"
   },
   "git_diff_check": "passed",
   "docker": {
-    "status": "not_run",
-    "reason": "Permission denied connecting to unix:///var/run/docker.sock"
+    "local_status": "not_run",
+    "local_reason": "Permission denied connecting to unix:///var/run/docker.sock",
+    "previous_remote_status": "passed",
+    "previous_remote_source": "a4e8c073793fe0b019bc39af31305085a36f6d26",
+    "previous_remote_run_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39140508288",
+    "current_remote_receipt": "integration/ci-validation.json"
   },
   "field_validation": false,
   "synthetic_browser": {
@@ -35,43 +42,51 @@
     "checks": 25,
     "report": "integration/urban-validation.json"
   },
+  "field_browser": {
+    "status": "passed",
+    "groups": 4,
+    "scope": "Synthetic API fixtures with real Chromium UI",
+    "report": "research/verification/field_browser.json"
+  },
   "workbench": {
-    "engine_tests": 32,
+    "engine": {
+      "tests": 32,
+      "passed": 32,
+      "failed": 0
+    },
     "converter_tests": 3,
     "template_checks": 10,
-    "development_queries_correct": 25,
+    "development_queries": 25,
+    "development_status_correct": 25,
     "browser_status": "not_attempted",
-    "standalone_packaging": "passed"
+    "research_counts": {
+      "dataset_inventory.csv": 32,
+      "problem_evidence_matrix.csv": 13
+    },
+    "standalone_bytes": 666423,
+    "field_validation": false
   },
   "acquisition_pipeline": {
     "status": "completed",
-    "download_checksum_checks": 7,
-    "source_failures_remain_documented": true
+    "checked_at": "2026-10-19T06:03:53.970774+00:00",
+    "download_checksum_checks": 248,
+    "unique_originals_checked": 247,
+    "source_failures_remain_documented": true,
+    "report": "research/acquisition_results.json"
   },
-  "runtime": {
-    "python": "3.12.15",
-    "node": "v26.12.0",
-    "chromium": "System /usr/bin/chromium"
+  "public_bundle": {
+    "status": "passed",
+    "report": "research/verification/public_bundle.json",
+    "actual_api_report": "research/verification/staged_api.json"
   },
   "public_browser": {
     "status": "passed",
+    "groups": 10,
     "report": "research/verification/browser_results.json",
     "ui_spacing_followup": "Checked desktop and 390px mobile"
   },
   "local_launcher": {
     "status": "passed",
-    "checked_at": "2026-10-18T13:07:30.948364+00:00",
-    "command": "bash start-local.sh",
-    "http_checks": {
-      "api_health": 200,
-      "acquired_overview": 200,
-      "frontend_5173": 200
-    },
-    "overview": {
-      "source_labels": 156,
-      "projects": 25,
-      "settlements_with_geometry": 0,
-      "sufficient_indicator_coverage": 0
-    }
+    "report": "research/verification/local_runtime.json"
   }
 }

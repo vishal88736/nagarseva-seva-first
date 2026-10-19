@@ -1,12 +1,15 @@
 {
   "status": "passed",
-  "checked_at": "2026-10-18T12:52:47.134841+00:00",
+  "checked_at": "2026-10-19T06:10:57.251532+00:00",
   "data": "Acquired SRA/OSM snapshot; test-only operational records in disposable SQLite",
   "field_validation": false,
   "checks": [
-    "Acquired dashboard counts/provenance loaded",
+    "Historical Census units/2011 values and public CSV are connected without settlement allocation",
+    "Acquired dashboard counts/provenance and all paginated source records loaded",
+    "Checksummed georeferenced 2024 SRA raster renders as imagery, not vector polygons",
     "GIS rendered; map/label/project search, geometry filters and empty states checked",
     "Real records stay unranked; configurable priority CSV downloads",
+    "Field form persists unverified raw readings; blank answers remain null in disposable API database",
     "Scenario-to-plan, completion, evidence upload, independent review and complaint dispute/response executed",
     "Mobile overview/map fit 390px; navigation opens and closes",
     "Synthetic sandbox is explicitly selected and remains separate",
