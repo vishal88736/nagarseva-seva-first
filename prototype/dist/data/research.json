@@ -1600,8 +1600,8 @@
     {
       "name": "final_report.md",
       "url": "./research/final_report.md",
-      "sha256": "c30b34749daa6b92235f4e52debf940d6e689db87a05bbf5679c54179d2a1794",
-      "bytes": 13675
+      "sha256": "4021d75f044f420a7403bccca16484f1b42908eda44e7efc6e37973c01d48a61",
+      "bytes": 13830
     },
     {
       "name": "implementation_plan.md",
@@ -1642,7 +1642,7 @@
     {
       "name": "prototype_validation.md",
       "url": "./research/prototype_validation.md",
-      "sha256": "3e0c24ecb2ab5922ddff2fbfd49ae666fa7c3e7ce03d95d57d1b4d830ca33eba",
+      "sha256": "dca075e671b24f142b21799c37bbf52d1ae31830d49ec9788c3e999de8215f0e",
       "bytes": 7253
     },
     {

@@ -177,15 +177,35 @@ def annotate_current_sources(manifest, metadata, root):
     return removed
 
 
+def validation_provenance(metadata):
+    """Separate the acquired upstream, the tested checkout and the event trigger."""
+    checkout = run(['git', 'rev-parse', 'HEAD'], capture=True)
+    if not isinstance(checkout, str) or not re.fullmatch(r'[0-9a-fA-F]{40}', checkout):
+        raise ValueError('Cannot identify the validated checkout with a full Git SHA-1')
+    trigger = os.environ.get('GITHUB_SHA', '')
+    trigger = trigger.lower() if re.fullmatch(r'[0-9a-fA-F]{40}', trigger) else None
+    return {
+        # Retain the historical field for consumers of the acquisition receipt.
+        'source_commit': metadata['upstream_commit'],
+        'source_commit_scope': 'Pinned original upstream snapshot verified at acquisition; not the checkout validated by this workflow',
+        'upstream_source_commit': metadata['upstream_commit'],
+        'validated_checkout_commit': checkout.lower(),
+        'validated_checkout_commit_scope': 'Git HEAD of the workflow checkout at report time, before the later report-only commit',
+        'triggering_commit': trigger,
+        'triggering_commit_scope': 'GitHub event GITHUB_SHA when it is a full SHA-1; null when missing or invalid; checkout preparation can advance HEAD',
+    }
+
+
 def report():
     metadata = json.loads(META.read_text())
     run_url = f"https://github.com/{TARGET}/actions/runs/{os.environ['GITHUB_RUN_ID']}"
     tests = ROOT / '.merge-work/backend-tests.txt'
     matched = re.search(r'(\d+) passed', tests.read_text() if tests.exists() else '')
+    provenance = validation_provenance(metadata)
     results = {
         'checked_at': datetime.now(timezone.utc).isoformat(),
         'workflow_url': run_url,
-        'source_commit': metadata['upstream_commit'],
+        **provenance,
         'original_files': len(metadata['upstream_files']),
         'upstream_snapshot_verified_at_acquisition': True,
         'backend_dependencies': os.environ.get('SEVA_DEPENDENCIES_OUTCOME', 'not_run'),
@@ -200,7 +220,7 @@ def report():
     state_path = ROOT / 'integration/status.json'
     state = json.loads(state_path.read_text())
     removed_sources = [name for name in metadata['upstream_files'] if not (ROOT / name).is_file()]
-    state.update(state='MERGED_ON_GITHUB', source_complete=not removed_sources, source_original_files=results['original_files'],
+    state.update(**provenance, state='MERGED_ON_GITHUB', source_complete=not removed_sources, source_original_files=results['original_files'],
                  source_complete_at_acquisition=True, source_missing_files=removed_sources,
                  source_files_removed_since_acquisition=removed_sources,
                  original_application_tests=results['backend_tests'],
@@ -215,7 +235,7 @@ def report():
     readme = ROOT / 'README.md'
     if 'integration/ci-validation.json' not in readme.read_text():
         with readme.open('a') as handle:
-            handle.write(f'\n## Published source and checks\n\nThe source merge and per-file hashes were verified in [this workflow]({run_url}). See [the recorded validation outcomes](integration/ci-validation.json) for backend, frontend and evidence-check results. Browser and field validation remain separate.\n')
+            handle.write(f'\n## Published source and checks\n\nThe source merge and per-file hashes were verified in [this workflow]({run_url}). See [the recorded validation outcomes](integration/ci-validation.json) for backend, frontend and evidence-check results. `validated_checkout_commit` identifies the checked workflow checkout; `triggering_commit` identifies the event when available; `upstream_source_commit` and the compatibility field `source_commit` identify the original acquired source, not the validated checkout. Browser and field validation remain separate.\n')
 
 
 def bundle():

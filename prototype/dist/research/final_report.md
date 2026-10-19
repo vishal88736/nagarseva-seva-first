@@ -130,7 +130,7 @@ credentials, raw originals or field evidence are included.
 
 ## 5. Executed verification
 
-- Combined Python checks: **253 passed**, four existing dependency warnings. Includes
+- Combined Python checks: **262 passed**, four existing dependency warnings. Includes
   ingestion/failure/schema/CRS/joins, source refresh rollback, public privacy,
   historical geography, priority/scenario/CRUD, packaging, staging, legacy model/API
   and hosted middleware tests. [JUnit](verification/pytest.xml).
@@ -146,14 +146,16 @@ credentials, raw originals or field evidence are included.
 - Actual launcher HTTP/proxy checks and owned-process cleanup passed; configurable
   ports leave existing listeners untouched. Portable public bundle rerun, transfer
   verification and disposable API loading passed.
-- Earlier repaired GitHub workflows passed for push `a4e8c07`:
-  [container readiness](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39140508288)
-  and [application validation](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39140508298).
+- GitHub workflows passed for application push `c84bcc1`:
+  [container readiness](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39209217898)
+  and [application validation](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39209217806).
   These exercised Docker image build, HTTP/auth/upload/restart persistence,
   restrictive-permission recovery and the regular application checks. The generated
-  [CI receipt](../integration/ci-validation.json) records the source actually tested
-  by its run, which may include workflow-generated changes after the triggering
-  commit. Final source changes require their own remote checks before delivery.
+  [CI receipt](../integration/ci-validation.json) distinguishes the pinned imported
+  upstream revision (`upstream_source_commit`, with legacy `source_commit` scoped
+  to that import), `validated_checkout_commit` and `triggering_commit`. The checked
+  checkout can include workflow-generated changes after the trigger. Subsequent
+  CI-receipt changes receive their own application checks before delivery.
 
 Local Docker CLI access remains blocked by socket permissions; the remote GitHub
 runner performed container checks. No public AWS URL, real officer identity,

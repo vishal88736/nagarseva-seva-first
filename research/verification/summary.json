@@ -1,8 +1,8 @@
 {
-  "checked_at": "2026-10-19T06:18:08.390434+00:00",
+  "checked_at": "2026-10-19T06:24:32.967387+00:00",
   "scope": "Local software/data checks; remote CI is recorded separately with its actual source revision; no field validation",
   "python": {
-    "tests": 253,
+    "tests": 262,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
@@ -32,8 +32,8 @@
     "local_status": "not_run",
     "local_reason": "Permission denied connecting to unix:///var/run/docker.sock",
     "previous_remote_status": "passed",
-    "previous_remote_source": "a4e8c073793fe0b019bc39af31305085a36f6d26",
-    "previous_remote_run_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39140508288",
+    "previous_remote_source": "c84bcc13398f0549054d90f8d9aa8db3d903ba51",
+    "previous_remote_run_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39209217898",
     "current_remote_receipt": "integration/ci-validation.json"
   },
   "field_validation": false,
@@ -63,7 +63,7 @@
       "dataset_inventory.csv": 32,
       "problem_evidence_matrix.csv": 13
     },
-    "standalone_bytes": 666423,
+    "standalone_bytes": 666580,
     "field_validation": false
   },
   "acquisition_pipeline": {
