@@ -12,6 +12,7 @@ import json
 import os
 from pathlib import Path
 import re
+import socket
 import subprocess
 import sys
 import tempfile
@@ -49,28 +50,50 @@ def wait_for(url, process):
     raise RuntimeError(f"Preview readiness timeout: {url}")
 
 
+def configured_ports():
+    ports = []
+    for name, default in [('URBANSAARTHI_TEST_API_PORT', 8000), ('URBANSAARTHI_TEST_WEB_PORT', 4173)]:
+        raw = os.environ.get(name, str(default))
+        if not re.fullmatch(r'[0-9]{1,5}', raw) or not 1 <= int(raw) <= 65535:
+            raise ValueError(f'{name} must be an integer from 1 to 65535')
+        ports.append(int(raw))
+    if ports[0] == ports[1]:
+        raise ValueError('Test API and web ports must be different')
+    for port in ports:
+        with socket.socket() as listener:
+            listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            try:
+                listener.bind(('127.0.0.1', port))
+            except OSError as exc:
+                raise ValueError(f'Test port {port} is occupied; choose explicit unused test ports. Existing listeners are left untouched.') from exc
+    return ports
+
+
 def main():
+    api_port, web_port = configured_ports()
+    api_base, web_base = f'http://127.0.0.1:{api_port}', f'http://127.0.0.1:{web_port}'
     OUT.mkdir(parents=True, exist_ok=True)
     checks, screenshots, errors = [], [], []
     result = {"status": "failed", "checked_at": datetime.now(timezone.utc).isoformat(),
               "tested_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
               "workflow_url": f"https://github.com/{os.getenv('GITHUB_REPOSITORY', 'vishal88736/nagarseva-seva-first')}/actions/runs/{os.getenv('GITHUB_RUN_ID', 'local')}",
-              "browser": "Playwright Chromium", "data": "Synthetic demonstration only", "field_validation": False}
+              "browser": "Playwright Chromium", "data": "Synthetic demonstration only", "field_validation": False,
+              "runtime_ports": {"api": api_port, "web": web_port}}
     processes, logs = [], []
     try:
         with tempfile.TemporaryDirectory(prefix="urban-browser-") as folder:
             env = os.environ.copy()
-            env.update(URBANSAARTHI_DB_PATH=str(Path(folder) / "test.sqlite3"), NAGARSEVA_MODE="demo")
+            env.update(URBANSAARTHI_DB_PATH=str(Path(folder) / "test.sqlite3"), NAGARSEVA_MODE="demo", NAGARSEVA_API_TARGET=api_base)
             env.pop("NAGARSEVA_OFFICER_KEY", None)
             for name, args, cwd in [
-                ("api", [sys.executable, "-m", "uvicorn", "model.api.urban:app", "--host", "127.0.0.1", "--port", "8000"], APP),
-                ("web", ["npm", "run", "preview", "--", "--host", "127.0.0.1", "--port", "4173", "--strictPort"], APP / "website"),
+                ("api", [sys.executable, "-m", "uvicorn", "model.api.urban:app", "--host", "127.0.0.1", "--port", str(api_port)], APP),
+                ("web", ["node", "node_modules/vite/bin/vite.js", "preview", "--host", "127.0.0.1", "--port", str(web_port), "--strictPort"], APP / "website"),
             ]:
                 log = (OUT / f"{name}.log").open("w")
                 logs.append(log)
                 processes.append(subprocess.Popen(args, cwd=cwd, env=env, stdout=log, stderr=subprocess.STDOUT))
-            wait_for("http://127.0.0.1:8000/urban/health", processes[0])
-            wait_for("http://127.0.0.1:4173", processes[1])
+            wait_for(api_base + "/urban/health", processes[0])
+            wait_for(web_base, processes[1])
             with sync_playwright() as playwright:
                 browser = playwright.chromium.launch(**({"executable_path": os.environ["CHROMIUM_PATH"]} if os.getenv("CHROMIUM_PATH") else {}))
                 context = browser.new_context(viewport={"width": 1440, "height": 1000}, accept_downloads=True)
@@ -93,7 +116,7 @@ def main():
                         page.screenshot(path=initial, type="jpeg", quality=70, full_page=True, animations="disabled")
                         emit_preview(initial)
 
-                page.goto("http://127.0.0.1:4173", wait_until="networkidle")
+                page.goto(web_base, wait_until="networkidle")
                 page.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
                 expect(page.locator(".us-context-bar")).to_contain_text("Python calculation checked")
                 expect(page.get_by_role("heading", name="A clear path from need to service.")).to_be_visible()
@@ -225,7 +248,7 @@ def main():
                 offline.route("**/api/**", lambda route: route.abort())
                 sandbox = offline.new_page()
                 sandbox.on("pageerror", lambda error: errors.append(error.stack or str(error)))
-                sandbox.goto("http://127.0.0.1:4173/#assurance", wait_until="networkidle")
+                sandbox.goto(web_base + "/#assurance", wait_until="networkidle")
                 sandbox.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
                 expect(sandbox.locator(".us-sandbox-banner")).to_contain_text("browser-only demonstration")
                 sandbox.get_by_role("button", name="Plan a service work", exact=False).click()
@@ -235,7 +258,7 @@ def main():
                 sandbox.reload(wait_until="networkidle")
                 sandbox.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
                 expect(sandbox.get_by_role("heading", name="Offline browser-only work", exact=True)).to_be_visible()
-                with urllib.request.urlopen("http://127.0.0.1:8000/urban/state") as response:
+                with urllib.request.urlopen(api_base + "/urban/state") as response:
                     server = json.load(response)
                 assert all(work["title"] != "Offline browser-only work" for work in server["works"])
                 check("Browser sandbox persists locally and never silently writes its records to the API")

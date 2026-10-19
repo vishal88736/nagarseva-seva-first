@@ -6,8 +6,10 @@ The actual component is served by Vite; no real observations are created.
 from datetime import datetime, timezone
 import json
 import os
+import shutil
 from pathlib import Path
 import subprocess
+import tempfile
 import time
 import urllib.parse
 import urllib.request
@@ -21,29 +23,25 @@ SELECTED = {'id': 'fixture-source-label', 'source_id': 'TEST_ONLY_LABEL', 'name'
             'geometry': None, 'administrative_area': None, 'source': 'https://example.test',
             'source_date': None, 'source_date_basis': 'test fixture', 'retrieved_at': '',
             'record_type': 'test fixture', 'limitations': ['Not actual field data']}
-HTML = '''<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><div id="root"></div>
-<script type="module">
-import RefreshRuntime from '/@react-refresh';
-RefreshRuntime.injectIntoGlobalHook(window);
-window.$RefreshReg$ = () => {};
-window.$RefreshSig$ = () => type => type;
-window.__vite_plugin_react_preamble_installed__ = true;
-</script>
-<script type="module">
-import React from '/node_modules/.vite/deps/react.js';
-import ReactDOM from '/node_modules/.vite/deps/react-dom_client.js';
-import PublicFieldCollection from '/src/urban/PublicFieldCollection.tsx';
-import '/src/urban/urban.css';
-ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(PublicFieldCollection, {
- selected: SELECTED_FIXTURE, officerKey: 'test-only-key', onChanged: () => { window.changes = (window.changes || 0) + 1; }
+HTML = '<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body><div id="root"></div><script type="module" src="./main.tsx"></script></body></html>'
+ENTRY = """
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import PublicFieldCollection from '../src/urban/PublicFieldCollection';
+import '../src/urban/urban.css';
+createRoot(document.getElementById('root')!).render(React.createElement(PublicFieldCollection, {
+ selected: SELECTED_FIXTURE, officerKey: 'test-only-key', onChanged: () => { (window as any).changes = ((window as any).changes || 0) + 1; }
 }));
-</script></body></html>'''.replace('SELECTED_FIXTURE', json.dumps(SELECTED))
+""".replace('SELECTED_FIXTURE', json.dumps(SELECTED))
 
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     records, indices, errors, checks = [], [], [], []
     fail = {'surveys': True}
+    harness = Path(tempfile.mkdtemp(prefix='.field-browser-', dir=ROOT / 'nagarseva/website'))
+    (harness / 'index.html').write_text(HTML)
+    (harness / 'main.tsx').write_text(ENTRY)
     with (OUT / 'vite.log').open('w') as log:
         server = subprocess.Popen(['npm', 'run', 'dev', '--', '--port', '14273', '--strictPort'], cwd=ROOT / 'nagarseva/website', stdout=log, stderr=subprocess.STDOUT)
         try:
@@ -59,10 +57,9 @@ def main():
             else:
                 raise RuntimeError('Vite readiness timeout')
             with sync_playwright() as pw:
-                browser = pw.chromium.launch(executable_path=os.environ.get('CHROMIUM_PATH', '/usr/bin/chromium'))
+                browser = pw.chromium.launch(**({'executable_path': os.environ['CHROMIUM_PATH']} if os.environ.get('CHROMIUM_PATH') else {}))
                 page = browser.new_page(viewport={'width': 1200, 'height': 1000}, accept_downloads=True)
                 page.on('pageerror', lambda error: (errors.append(str(error)), print('BROWSER_ERROR', str(error))))
-                page.route('**/field-test', lambda route: route.fulfill(status=200, content_type='text/html', body=HTML))
 
                 def api(route):
                     request = route.request
@@ -93,7 +90,7 @@ def main():
                     else:
                         raise AssertionError(path)
                 page.route('**/api/urban/data/**', api)
-                page.goto(URL + '/field-test')
+                page.goto(URL + '/' + harness.name + '/index.html')
                 expect(page.get_by_role('heading', name='Optional field collection')).to_be_visible()
                 expect(page.get_by_role('alert')).to_contain_text('temporary survey service failure')
                 page.get_by_role('button', name='Retry field records').click()
@@ -197,7 +194,10 @@ def main():
             print(json.dumps(result, indent=2))
         finally:
             server.terminate()
-            server.wait(timeout=15)
+            try:
+                server.wait(timeout=15)
+            finally:
+                shutil.rmtree(harness)
 
 
 if __name__ == '__main__':

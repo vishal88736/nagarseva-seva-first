@@ -11,6 +11,8 @@ on:
       - scripts/**
       - tests/**
       - requirements.txt
+      - start-local.sh
+      - .env.example
       - integration/local-materials.zip
       - .github/scripts/merge_payload.py
       - .github/tests/**
@@ -77,6 +79,7 @@ jobs:
           python -m pip install -r nagarseva/tests/requirements-browser.txt
           python -m playwright install --with-deps chromium
           python nagarseva/tests/check_urban_browser.py
+          python tests/check_field_collection_browser.py
       - name: Record actual validation outcomes
         if: always() && steps.merge.outcome == 'success'
         env:
