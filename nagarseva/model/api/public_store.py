@@ -7,6 +7,7 @@ from pathlib import Path
 
 from shapely.geometry import shape
 from model.src.urban_planning import KEYS, prioritize
+from .snapshot_validation import published_context
 
 
 class PublicStore:
@@ -38,8 +39,9 @@ class PublicStore:
         ids = [r["id"] for r in data["settlements"]]
         if len(ids) != len(set(ids)):
             raise ValueError("Duplicate settlement IDs in public snapshot")
+        units, observations = published_context(data)
         with self.store.connection(write=True) as db:
-            active = db.execute("SELECT id FROM public_snapshots ORDER BY rowid DESC LIMIT 1").fetchone()
+            active = db.execute("SELECT id FROM public_snapshots ORDER BY imported_at DESC, rowid DESC LIMIT 1").fetchone()
             if active and active[0] == digest:
                 return
             for item in data["settlements"]:
@@ -48,18 +50,33 @@ class PublicStore:
                     s = shape(geom)
                     if s.is_empty or not s.is_valid or s.geom_type not in {"Polygon", "MultiPolygon"}:
                         raise ValueError("Invalid public settlement polygon")
-                db.execute("INSERT INTO settlements VALUES(?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name, geometry=excluded.geometry, administrative_area=excluded.administrative_area, source_date=excluded.source_date, body=excluded.body",
+                db.execute("INSERT INTO settlements VALUES(?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET source_id=excluded.source_id, name=excluded.name, geometry=excluded.geometry, administrative_area=excluded.administrative_area, source=excluded.source, source_date=excluded.source_date, data_completeness=excluded.data_completeness, body=excluded.body",
                            (item["id"], item["source_id"], item["name"], self.encode(geom) if geom else None, item.get("administrative_area"), item["source"], item.get("source_date"), item["data_completeness"], self.encode(item)))
             for item in data["projects"]:
-                db.execute("INSERT INTO redevelopment_projects VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET body=excluded.body, project_status=excluded.project_status",
+                db.execute("INSERT INTO redevelopment_projects VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET source_id=excluded.source_id, settlement_id=excluded.settlement_id, scheme_name=excluded.scheme_name, project_status=excluded.project_status, source_date=excluded.source_date, source_url=excluded.source_url, body=excluded.body",
                            (item["id"], item["source_id"], item["settlement_id"], item["scheme_name"], item["project_status"], item["source_date"], item["source_url"], self.encode(item)))
+            for item in units:
+                existing = db.execute("SELECT body FROM geographic_units WHERE id=?", (item["id"],)).fetchone()
+                if existing and json.loads(existing[0]) != item:
+                    raise ValueError("Published geographic unit ID changed; retain a versioned source identifier")
+                db.execute("INSERT OR IGNORE INTO geographic_units VALUES(?,?,?,?,?,?)",
+                           (item["id"], item["source_id"], item["name"], item["resolution"], item["reference_year"], self.encode(item)))
+            for item in observations:
+                existing = db.execute("SELECT body FROM indicator_observations WHERE id=?", (item["id"],)).fetchone()
+                facts = lambda row: {k: v for k, v in row.items() if k != "retrieved_at"}
+                if existing and facts(json.loads(existing[0])) != facts(item):
+                    raise ValueError("Published observation ID changed; source revisions require a new identifier")
+                db.execute("INSERT OR IGNORE INTO indicator_observations VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+                           tuple(item.get(k) for k in ("id", "settlement_id", "geographic_unit_id", "indicator_type", "value", "unit", "reference_year", "observation_date", "geographic_resolution", "source", "verification_status")) + (self.encode(item),))
             db.execute("DELETE FROM spatial_features")  # Source snapshot only; no operational/user records here.
             for feature in data["spatial"]["features"]:
                 geom = shape(feature["geometry"])
                 if geom.is_empty or not geom.is_valid:
                     raise ValueError("Invalid source geometry in snapshot")
                 db.execute("INSERT INTO spatial_features VALUES(?,?,?,?,?,?,?)", (str(feature["id"]), feature["properties"]["category"], *geom.bounds, self.encode(feature)))
-            metadata = {**data["metadata"], "snapshot_sha256": digest, "active_settlement_ids": ids, "active_project_ids": [r["id"] for r in data["projects"]]}
+            metadata = {**data["metadata"], "snapshot_sha256": digest, "active_settlement_ids": ids, "active_project_ids": [r["id"] for r in data["projects"]],
+                        "active_geographic_unit_ids": [r["id"] for r in units], "active_published_observation_ids": [r["id"] for r in observations],
+                        "historical_observation_count": len(observations), "geographic_unit_count": len(units)}
             db.execute("INSERT INTO public_snapshots VALUES(?,?,?) ON CONFLICT(id) DO UPDATE SET imported_at=excluded.imported_at,body=excluded.body", (digest, self.now(), self.encode(metadata)))
             # IDs removed from a source refresh are retained for existing interventions but excluded from the active view.
 
@@ -91,6 +108,15 @@ class PublicStore:
         ids = set(self.metadata()["active_project_ids"])
         return [r for r in self.records("redevelopment_projects") if r["id"] in ids]
 
+    def context(self):
+        metadata = self.metadata()
+        ids = set(metadata.get("active_published_observation_ids", []))
+        units = set(metadata.get("active_geographic_unit_ids", []))
+        return {"geographic_units": [r for r in self.records("geographic_units") if r["id"] in units],
+                "observations": [r for r in self.records("indicator_observations") if r["id"] in ids],
+                "limitations": "Historical aggregates at their original geography. Not allocated to SRA settlements and excluded from current deficit rankings.",
+                "synthetic": False}
+
     def priority(self, weights=None):
         observations = self.records("indicator_observations")
         items = self.settlements()
@@ -102,8 +128,9 @@ class PublicStore:
                 candidates = [o for o in observations if o.get("settlement_id") == item["id"] and o["indicator_type"] == key and o["unit"] == "deficit_0_100" and o["value"] is not None and o["verification_status"] == "field_verified" and o["geographic_resolution"] == "settlement" and o.get("observation_date")]
                 candidates = [o for o in candidates if timedelta(0) <= now - datetime.fromisoformat(o["observation_date"]) <= timedelta(days=365)]
                 if candidates:
-                    best = max(candidates, key=lambda o: (o["observation_date"], o["id"]))
-                    latest = [o for o in candidates if o["observation_date"] == best["observation_date"]]
+                    best = max(candidates, key=lambda o: (datetime.fromisoformat(o["observation_date"]), o["id"]))
+                    latest_time = datetime.fromisoformat(best["observation_date"])
+                    latest = [o for o in candidates if datetime.fromisoformat(o["observation_date"]) == latest_time]
                     if len({o["value"] for o in latest}) == 1:
                         item["indicators"][key] = best["value"]
                         item["indicator_sources"][key] = {k: best[k] for k in ("id", "source", "observation_date", "verification_status")}

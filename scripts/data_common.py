@@ -8,6 +8,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import ssl
 import tempfile
 
 import httpx
@@ -45,15 +46,17 @@ class Downloader:
     """Reuse a checksum-verified cache; --refresh creates a new dated snapshot.
 
     Raw response bytes are content addressed and never overwritten. Failures never
-    replace a successful cache entry. No credentials/cookies or TLS overrides.
+    replace a successful cache entry. No credentials/cookies or TLS bypass.
     """
-    def __init__(self, source, refresh=False, transport=None, max_bytes=25_000_000):
+    def __init__(self, source, refresh=False, transport=None, max_bytes=25_000_000, verify=True):
+        if verify is False or isinstance(verify, ssl.SSLContext) and (not verify.check_hostname or verify.verify_mode != ssl.CERT_REQUIRED):
+            raise ValueError("TLS certificate and hostname verification are required")
         self.source, self.refresh, self.max_bytes = source, refresh, max_bytes
         self.raw = DATA / "raw" / source
         self.raw.mkdir(parents=True, exist_ok=True)
         self.client = httpx.Client(timeout=httpx.Timeout(35, connect=10), follow_redirects=True,
                                    headers={"User-Agent": "UrbanSaarthiResearch/1.0 (public data pilot; bounded requests)"},
-                                   transport=transport)
+                                   transport=transport, verify=verify)
 
     def close(self):
         self.client.close()

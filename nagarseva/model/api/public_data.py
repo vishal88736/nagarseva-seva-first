@@ -6,13 +6,14 @@ from datetime import date, datetime, timedelta, timezone
 import hashlib
 import io
 import json
+import math
 import os
 from pathlib import Path
 import secrets
 from typing import Literal
 
-from fastapi import APIRouter, Depends, HTTPException, Query
-from fastapi.responses import Response
+from fastapi import APIRouter, Depends, Header, HTTPException, Query
+from fastapi.responses import FileResponse, Response
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from shapely.geometry import box, shape
 
@@ -38,7 +39,7 @@ class Observation(Input):
     id: str | None = Field(None, pattern=r"^[a-zA-Z0-9:_-]{2,100}$")
     settlement_id: str | None = None
     geographic_unit_id: str | None = None
-    indicator_type: Literal["water", "sanitation", "drainage", "housing", "access", "risk", "population", "households", "water_hours", "functional_toilets", "blocked_drains"]
+    indicator_type: Literal["water", "sanitation", "drainage", "housing", "access", "risk", "population", "households", "household_amenities", "water_hours", "functional_toilets", "blocked_drains"]
     value: float | None = Field(None, ge=0)
     unit: str = Field(min_length=1, max_length=80)
     reference_year: int = Field(ge=1900, le=2100)
@@ -181,6 +182,41 @@ def create_public_router(provider, officer_access, decode_evidence):
     def overview():
         return provider().stats()
 
+    @router.get("/context")
+    def published_context():
+        return provider().context()
+
+    def map_overlay():
+        directory = provider().data_dir
+        manifest, image = directory / "sra_pilot_overlay.json", directory / "sra_pilot_overlay.png"
+        if not manifest.is_file() or not image.is_file():
+            return {"available": False, "analysis_allowed": False, "reason": "Historical SRA raster has not been prepared locally"}
+        try:
+            row = json.loads(manifest.read_text())
+            bounds = row["bounds"]
+            if (row.get("image_file") != image.name or row.get("analysis_allowed") is not False
+                    or row.get("crs") != "EPSG:3857" or len(bounds) != 4
+                    or any(type(v) not in (int, float) or not math.isfinite(v) for v in bounds)
+                    or not (-180 <= bounds[0] < bounds[2] <= 180 and -90 <= bounds[1] < bounds[3] <= 90)
+                    or image.stat().st_size > 10_000_000 or image.stat().st_size != row["image_bytes"]
+                    or hashlib.sha256(image.read_bytes()).hexdigest() != row["image_sha256"]):
+                raise ValueError("Invalid raster manifest or checksum")
+            return {**row, "available": True}
+        except (ValueError, TypeError, KeyError, OSError) as exc:
+            raise HTTPException(503, "Historical raster failed validation; rebuild the source overlay") from exc
+
+    @router.get("/map-overlay")
+    def overlay_metadata():
+        return map_overlay()
+
+    @router.get("/map-overlay/image", response_class=FileResponse)
+    def overlay_image():
+        metadata = map_overlay()
+        if not metadata["available"]:
+            raise HTTPException(404, "Historical raster is not available")
+        return FileResponse(provider().data_dir / "sra_pilot_overlay.png", media_type="image/png",
+                            headers={"Cache-Control": "no-store", "X-Content-Type-Options": "nosniff"})
+
     @router.get("/settlements")
     def settlements(search: str = Query("", max_length=200), page: int = Query(1, ge=1), page_size: int = Query(100, ge=1, le=1000)):
         rows = [r for r in provider().settlements() if search.casefold() in (r["name"] + " " + r["source_id"]).casefold()]
@@ -259,8 +295,9 @@ def create_public_router(provider, officer_access, decode_evidence):
         return FieldSurvey.model_json_schema()
 
     @router.get("/surveys", dependencies=[Depends(officer_access)])
-    def surveys():
-        return {"items": provider().records("field_surveys")}
+    def surveys(settlement_id: str | None = None, page: int = Query(1, ge=1), page_size: int = Query(100, ge=1, le=1000)):
+        rows = [r for r in provider().records("field_surveys") if not settlement_id or r["settlement_id"] == settlement_id]
+        return {"items": rows[(page - 1) * page_size:page * page_size], "total": len(rows), "page": page, "page_size": page_size}
 
     @router.post("/surveys", dependencies=[Depends(officer_access)], status_code=201)
     def add_survey(payload: FieldSurvey):
@@ -476,8 +513,12 @@ def create_public_router(provider, officer_access, decode_evidence):
             save_body(db, "service_complaints", item)
         return item
 
+    def report_access(kind: str, x_officer_key: str | None = Header(None)):
+        if kind in {"interventions", "complaints", "surveys"}:
+            officer_access(x_officer_key)
+
     @router.get("/reports/{kind}.csv")
-    def report(kind: Literal["priority", "settlements", "projects", "datasets", "interventions", "complaints"], auth=Depends(officer_access)):
+    def report(kind: Literal["priority", "settlements", "projects", "datasets", "historical", "interventions", "complaints", "surveys"], auth=Depends(report_access)):
         if kind == "priority":
             rows = provider().priority()["items"]
         elif kind == "settlements":
@@ -486,8 +527,10 @@ def create_public_router(provider, officer_access, decode_evidence):
             rows = provider().projects()
         elif kind == "datasets":
             rows = metadata()["datasets"]
+        elif kind == "historical":
+            rows = provider().context()["observations"]
         else:
-            rows = provider().records("interventions" if kind == "interventions" else "service_complaints")
+            rows = provider().records({"interventions": "interventions", "complaints": "service_complaints", "surveys": "field_surveys"}[kind])
         out = io.StringIO(newline="")
         fields = list(dict.fromkeys(k for row in rows for k in row)) or ["id", "status"]
         writer = csv.DictWriter(out, fieldnames=fields)

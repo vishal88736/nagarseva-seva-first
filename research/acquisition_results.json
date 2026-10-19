@@ -1,13 +1,93 @@
 {
-  "checked_at": "2026-10-18T12:55:53.078772+00:00",
+  "checked_at": "2026-10-18T15:33:35.420452+00:00",
   "errors": [],
   "downloads": [
+    {
+      "path": "data/raw/census/catalogue-11436-2f11516c0b1daa83.html",
+      "url": "https://censusindia.gov.in/nada/index.php/catalog/11436",
+      "bytes": 74757,
+      "sha256": "2f11516c0b1daa83b3fd890a05e69efc79d394cca8e3140fb67bd7b5440e05ca",
+      "retrieved_at": "2026-10-18T15:23:50.821652+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/census/catalogue-11443-96fb3bed3a2ee010.html",
+      "url": "https://censusindia.gov.in/nada/index.php/catalog/11443",
+      "bytes": 73995,
+      "sha256": "96fb3bed3a2ee01063cacd1183b45185b4683a732c4252ff85c3546871fe5c4b",
+      "retrieved_at": "2026-10-18T15:23:50.825033+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/census/catalogue-11448-f81e9aaddd379f25.html",
+      "url": "https://censusindia.gov.in/nada/index.php/catalog/11448",
+      "bytes": 73210,
+      "sha256": "f81e9aaddd379f2544249510fa4eebf17660810c86927029af801fdd187853cc",
+      "retrieved_at": "2026-10-18T15:23:50.823061+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/census/catalogue-6190-fe87c15c41e262a3.html",
+      "url": "https://censusindia.gov.in/nada/index.php/catalog/6190",
+      "bytes": 2924833,
+      "sha256": "fe87c15c41e262a336628a2eff600b5b7dcfd5903c1bc855f26a16c46e8d8f12",
+      "retrieved_at": "2026-10-18T15:23:22.154973+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/census/census-emsign-intermediate-47b2efbc3670e7db.crt",
+      "url": "https://repository.emsign.com/certs/emSignSSLCAG1.crt",
+      "bytes": 1158,
+      "sha256": "47b2efbc3670e7db4b41f22c51fc02ee84fb2dbf3082a49f2c2688122e9210a1",
+      "retrieved_at": "2026-10-18T15:23:21.950491+00:00",
+      "checksum_valid": true
+    },
     {
       "path": "data/raw/census/dataful-maharashtra-64cf58194ffe4c76.html",
       "url": "https://dataful.in/datasets/272/",
       "bytes": 135231,
       "sha256": "64cf58194ffe4c763cbf408daea8243b0ab25a250e57c2246ae3a314792e1359",
       "retrieved_at": "2026-10-18T10:46:18.558393+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/census/population-finder-29d41f4b783bbfb2.html",
+      "url": "https://censusindia.gov.in/census.website/data/population-finder",
+      "bytes": 166099,
+      "sha256": "29d41f4b783bbfb213a70a6e6be4f81bdace2e1d4c437d693040529c6ef369fb",
+      "retrieved_at": "2026-10-18T15:26:47.358355+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/census/table-11436-0-b5bfd408fe469d33.pdf",
+      "url": "https://censusindia.gov.in/nada/index.php/catalog/11436/download/14549/SHH0101-crc.pdf",
+      "bytes": 187584,
+      "sha256": "b5bfd408fe469d33719707a8126c6065765a418af3500168cf9b8d2428a8d4f4",
+      "retrieved_at": "2026-10-18T15:23:51.283268+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/census/table-11443-0-8ba15f85577a5d79.pdf",
+      "url": "https://censusindia.gov.in/nada/index.php/catalog/11443/download/14556/SHH2206-crc.pdf",
+      "bytes": 249697,
+      "sha256": "8ba15f85577a5d79cda88fc778e7e46f75e934534c3a97c0b8f37083ba260259",
+      "retrieved_at": "2026-10-18T15:23:51.278525+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/census/table-11448-0-14772dbea735ffec.pdf",
+      "url": "https://censusindia.gov.in/nada/index.php/catalog/11448/download/14561/SHH3711-crc.pdf",
+      "bytes": 550962,
+      "sha256": "14772dbea735ffec63ee6124b921df200a8278c781a4434f96e11d91963a4165",
+      "retrieved_at": "2026-10-18T15:23:51.241591+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/census/table-6190-0-693dc15454e8ad53.xls",
+      "url": "https://censusindia.gov.in/nada/index.php/catalog/6190/download/9267/slum_data_census_2011.xls",
+      "bytes": 1658368,
+      "sha256": "693dc15454e8ad53cffd74cac7f5cea792beae73a018365b2e6b4e1a72e1598e",
+      "retrieved_at": "2026-10-18T15:23:29.604880+00:00",
       "checksum_valid": true
     },
     {
@@ -24,6 +104,14 @@
       "bytes": 12908245,
       "sha256": "642436ee702273aa0dca543c083e1c2e772688d754bd9611de4c849366dcf2b4",
       "retrieved_at": "2026-10-18T10:45:14.757450+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/cluster-list-2024-bd9081d656435571.pdf",
+      "url": "https://media.sra.gov.in/sra-automation/sra-website/content/1731566774802_3204_Slum%20Cluster%202024.pdf",
+      "bytes": 872732,
+      "sha256": "bd9081d656435571c1299b1d82d2dccbf284f3fe7898643fafa278c442625667",
+      "retrieved_at": "2026-10-18T15:21:26.115751+00:00",
       "checksum_valid": true
     },
     {
@@ -51,11 +139,1627 @@
       "checksum_valid": true
     },
     {
+      "path": "data/raw/sra/ogd-ongoing-mirror-b6a2cfae4d3843c0.html",
+      "url": "https://kerala.data.gov.in/resource/ongoing-projects-under-slum-rehabilitation-authority-brihanmumbai",
+      "bytes": 1108346,
+      "sha256": "b6a2cfae4d3843c007a291ded9cb52ab81ac3abdcea74e0a2ab383ee76316c6c",
+      "retrieved_at": "2026-10-18T15:30:28.152411+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/ogd-ongoing-resource-8faa5c356ca7279f.html",
+      "url": "https://www.data.gov.in/resource/ongoing-projects-under-slum-rehabilitation-authority-brihanmumbai",
+      "bytes": 1119481,
+      "sha256": "8faa5c356ca7279f6cb21247440add79415d58886f9938204fa3080d3753282d",
+      "retrieved_at": "2026-10-18T15:30:28.153172+00:00",
+      "checksum_valid": true
+    },
+    {
       "path": "data/raw/sra/public-projects-679b04a07aa2d7fc.html",
       "url": "https://dms.sra.gov.in/SRAPUBLIC/",
       "bytes": 69041,
       "sha256": "679b04a07aa2d7fc7bf29b23813c1b16c7061e5bebbf3c6922fe42605f6fa7e7",
       "retrieved_at": "2026-10-18T10:43:10.014842+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-679b04a07aa2d7fc.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/",
+      "bytes": 69041,
+      "sha256": "679b04a07aa2d7fc7bf29b23813c1b16c7061e5bebbf3c6922fe42605f6fa7e7",
+      "retrieved_at": "2026-10-18T15:21:36.198335+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-10-e5f97431b7bb3a9f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69733,
+      "sha256": "e5f97431b7bb3a9ff4903efd8333dcd936a511f68392165cae6e083a2b6ef58d",
+      "retrieved_at": "2026-10-18T15:27:19.000029+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-100-d9033c753e33d72e.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69166,
+      "sha256": "d9033c753e33d72e6b16ab02ca9cf2f48feb1c1a05524713ab2e4cc47f28aeb0",
+      "retrieved_at": "2026-10-18T15:30:51.519365+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-101-a4e193c132cf8091.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68717,
+      "sha256": "a4e193c132cf8091e55f647a0036ccd3d7935823a9ce0659e6a8f24e1c9ba5da",
+      "retrieved_at": "2026-10-18T15:30:52.194447+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-102-458203266f8d3f42.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67957,
+      "sha256": "458203266f8d3f42eb8ad277e6c1654a48e94e1f12a88180f638d1dc4a2af6e9",
+      "retrieved_at": "2026-10-18T15:30:52.863037+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-103-b53b971c262a7e42.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68059,
+      "sha256": "b53b971c262a7e42592fe624bd499709159292915e74299bca619c06ad8dcbb2",
+      "retrieved_at": "2026-10-18T15:30:53.541559+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-104-1f7c9e3e3170d8b9.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67899,
+      "sha256": "1f7c9e3e3170d8b9f3d09944423655ad4024832bf9e024f2010ce745d7ff1d98",
+      "retrieved_at": "2026-10-18T15:30:54.216301+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-105-174f6ff1a0c43b29.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67267,
+      "sha256": "174f6ff1a0c43b29c5aaefecc8d9e0fdd88d0f8bd93d5dcf7027f9ac5ce6efc5",
+      "retrieved_at": "2026-10-18T15:30:54.933160+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-106-940ae0407bfc0a96.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67667,
+      "sha256": "940ae0407bfc0a964c51c14eeddee8597c3ddd8afd989e470cc2a0a377ae8650",
+      "retrieved_at": "2026-10-18T15:30:55.619384+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-107-9af832cb8882408c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67897,
+      "sha256": "9af832cb8882408c8987fd08a948aac6a1660ac9146e35886e6c9466614c8f70",
+      "retrieved_at": "2026-10-18T15:30:56.292690+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-108-41ec85fe59dc48e9.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66612,
+      "sha256": "41ec85fe59dc48e9fdaa7ee73d7f994ae27673c07742f3165d33c372906c1ddc",
+      "retrieved_at": "2026-10-18T15:30:57.023784+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-109-7f70870f35d4a64e.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67528,
+      "sha256": "7f70870f35d4a64e5d0451f442ca75650747d163eb6d55cba88745314cbabaa9",
+      "retrieved_at": "2026-10-18T15:30:57.679336+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-11-985e94e92dc92218.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 71187,
+      "sha256": "985e94e92dc922184e4cfad46a578ba7457f943dd538a9d344c716e6c012f524",
+      "retrieved_at": "2026-10-18T15:27:19.888267+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-110-dca1affb5a631cce.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67317,
+      "sha256": "dca1affb5a631cced39da92fd8616cf4ef0713cce3482ae7b0ea3ec5f88fb3d5",
+      "retrieved_at": "2026-10-18T15:30:58.357546+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-111-e454ff3d2394541f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66834,
+      "sha256": "e454ff3d2394541f88d5d30443ed3f233922c390180cc90e732fe8a973042729",
+      "retrieved_at": "2026-10-18T15:30:59.018446+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-112-5ab595ab5cd670e3.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66945,
+      "sha256": "5ab595ab5cd670e3763e69381c88e9bfd3a7fa615a4700c0b8fdf1d73f241b59",
+      "retrieved_at": "2026-10-18T15:30:59.750992+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-113-f43efbdc2e2ae158.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67023,
+      "sha256": "f43efbdc2e2ae158fa88ad90ddc53e307b2443c6303641f67e5019de2fb58499",
+      "retrieved_at": "2026-10-18T15:31:00.515499+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-114-458872654155921d.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67577,
+      "sha256": "458872654155921d4438ddf35be1df5ab080e22fcefd0a90ce82fc141cb7bd53",
+      "retrieved_at": "2026-10-18T15:31:01.211902+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-115-c0c22ed21512dd66.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67225,
+      "sha256": "c0c22ed21512dd66d2b99dfcbac55f13456dbc3ec2dca02a1e6165dbf06084a4",
+      "retrieved_at": "2026-10-18T15:31:01.881724+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-116-5a585475bef3dc60.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67788,
+      "sha256": "5a585475bef3dc60740a62c3b1ef12e67728eea7b828fc56b395e7e707b11d08",
+      "retrieved_at": "2026-10-18T15:31:02.555867+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-117-7615a8013fa1eba8.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67744,
+      "sha256": "7615a8013fa1eba8ccfa4f284cf01c304369ae97e0d8e5b7a95a7f967e9ed147",
+      "retrieved_at": "2026-10-18T15:31:03.252050+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-118-74bd4c5febdc071b.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68653,
+      "sha256": "74bd4c5febdc071b878016960bbae6a6969dd35c43b68acaad51129f6e5edb30",
+      "retrieved_at": "2026-10-18T15:31:03.918456+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-119-b567e0f02f03fc16.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67856,
+      "sha256": "b567e0f02f03fc168936818f88aeef867d9a1b6653bf813cfa6b207cd93ab727",
+      "retrieved_at": "2026-10-18T15:31:04.598633+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-12-d37addbe6cacab42.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69725,
+      "sha256": "d37addbe6cacab427b2f30f95b5b49315971029963fde9780963b5d525f9efcf",
+      "retrieved_at": "2026-10-18T15:28:20.542037+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-120-4bd1238b252039a2.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66637,
+      "sha256": "4bd1238b252039a266cdc7ee444f1fb31e871a2c83f7ba411f95bc4fe60f0990",
+      "retrieved_at": "2026-10-18T15:31:05.278386+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-121-1195ae2865e4dcfa.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66813,
+      "sha256": "1195ae2865e4dcfa1cf6319211d591652a600b3f0cf07f25d37bf4932ee97835",
+      "retrieved_at": "2026-10-18T15:31:06.036223+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-122-56a1fe0fba0687b8.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67945,
+      "sha256": "56a1fe0fba0687b8c820c71c969540c88d1c6d9422386dbe9d4a96ae64753ec6",
+      "retrieved_at": "2026-10-18T15:31:08.065453+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-123-0352c6da26f1b185.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68290,
+      "sha256": "0352c6da26f1b185fa105d1aa27f2815a6e8d833cf8a11418673dd48bea15778",
+      "retrieved_at": "2026-10-18T15:31:08.880799+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-124-cec712a065bfdc52.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67478,
+      "sha256": "cec712a065bfdc52f928ef7c81f2854f0e688b3c8cb81d8ff4fac4cbc87b1e7f",
+      "retrieved_at": "2026-10-18T15:31:10.940272+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-125-e7d3abab979f931f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67386,
+      "sha256": "e7d3abab979f931f3c7566bfd31baff64a75a59cb8482af06d876628e4ee8130",
+      "retrieved_at": "2026-10-18T15:31:11.726678+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-126-46bffd965648af83.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66974,
+      "sha256": "46bffd965648af83fc9ac9fa0c026506966804936cc2558897e0d42ff7d1d5f8",
+      "retrieved_at": "2026-10-18T15:31:12.536761+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-127-34b223779f511e01.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66876,
+      "sha256": "34b223779f511e01449f98f7f647970a6c992c752e5c03db313e5ebbde09532f",
+      "retrieved_at": "2026-10-18T15:31:13.222619+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-128-a5a2ce46e8defc4f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67157,
+      "sha256": "a5a2ce46e8defc4f338f6894d8209b5376d38c0d466384d8d956b6f4a1753276",
+      "retrieved_at": "2026-10-18T15:31:13.979739+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-129-73fe6e11366308e5.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67293,
+      "sha256": "73fe6e11366308e547209e9cb1ac93cf4b5f64449006ab46282c0857dcdb663c",
+      "retrieved_at": "2026-10-18T15:31:14.737567+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-13-42cf49d422a77ede.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68359,
+      "sha256": "42cf49d422a77ede99f732d902641f9f72615ef675741aceb0b29b21ea5d6e4c",
+      "retrieved_at": "2026-10-18T15:28:21.425298+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-130-35e4800c470734f0.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66063,
+      "sha256": "35e4800c470734f049c07de3e9ea81ac70195a0af20a8887a9a9aad6d195e028",
+      "retrieved_at": "2026-10-18T15:31:15.527352+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-131-e7e4292aa526a8cc.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64840,
+      "sha256": "e7e4292aa526a8cc3d283c88974f7e2dc8cdf51b474071feb9c3a09970cce30c",
+      "retrieved_at": "2026-10-18T15:31:16.287403+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-132-6f9f5daa3c879b42.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64719,
+      "sha256": "6f9f5daa3c879b4228c2ce51f62000e4e7a526f10e1943d5a9982b6d7056ef8d",
+      "retrieved_at": "2026-10-18T15:31:17.039567+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-133-042d9d9bb7eb9922.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64963,
+      "sha256": "042d9d9bb7eb99222790d03be54f00fc721ae21bd0ba2e232bf8b0034dfcc74f",
+      "retrieved_at": "2026-10-18T15:31:20.625747+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-134-e12c5c83231900bf.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65438,
+      "sha256": "e12c5c83231900bfa1523e2f67a65fe46ccdd60f44f2914644d46157aaaa886e",
+      "retrieved_at": "2026-10-18T15:31:21.618867+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-135-c5f20683348629a9.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65720,
+      "sha256": "c5f20683348629a91c672fb8021d51b4c4ed804756e3350b930c1bc60839912a",
+      "retrieved_at": "2026-10-18T15:31:24.551106+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-136-f4ee1c15b04732ba.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66524,
+      "sha256": "f4ee1c15b04732baadee85c4602ce22e7fa4d1087edacc2a06a37675dedf1f2a",
+      "retrieved_at": "2026-10-18T15:31:25.414431+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-137-83f486b97b9ec2d5.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65481,
+      "sha256": "83f486b97b9ec2d5392a55f7c72cf5ca63c00b7708e98f1414d7d29c36fe1157",
+      "retrieved_at": "2026-10-18T15:31:26.194224+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-138-ebc148b05b7d8d2c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65280,
+      "sha256": "ebc148b05b7d8d2cecc3f3cd4b774f22350d55993593c7a89cf2c7ff701f72a1",
+      "retrieved_at": "2026-10-18T15:31:27.972021+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-139-9b4fe632d486ba08.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64993,
+      "sha256": "9b4fe632d486ba08043537055048ad8fa0b168afb4cbbc6567986e741e71747a",
+      "retrieved_at": "2026-10-18T15:31:28.796632+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-14-d0ad38228859d3c4.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70269,
+      "sha256": "d0ad38228859d3c4b460caa2d315499e9ff5bac7a29d1c4539fda9c4ca60162d",
+      "retrieved_at": "2026-10-18T15:28:22.081341+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-140-ca4b581239ad1f43.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64339,
+      "sha256": "ca4b581239ad1f4370a35e45129e5f0df510bbc10d27b01c3e9ab30362d5104b",
+      "retrieved_at": "2026-10-18T15:31:29.504754+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-141-2f87c2448246c1ba.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64626,
+      "sha256": "2f87c2448246c1ba178fcba43374880d7c9a134312a8adc8f48488bd6ebb3158",
+      "retrieved_at": "2026-10-18T15:31:30.196588+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-142-6ecb09eb920695bf.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64535,
+      "sha256": "6ecb09eb920695bfcaaf09d6d34c859a8d428e0149a94da467f8a25c1358bb0f",
+      "retrieved_at": "2026-10-18T15:31:30.846622+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-143-ae637130f9da7876.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64521,
+      "sha256": "ae637130f9da787690aa5b0eed6eb45e4dd772df7ac4b95543736599274600ac",
+      "retrieved_at": "2026-10-18T15:31:31.492791+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-144-d24bbbf031097640.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64614,
+      "sha256": "d24bbbf0310976403641d32afaa1df77d8ec52c8e8e45f15ae6f481129eb8c5c",
+      "retrieved_at": "2026-10-18T15:31:32.166691+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-145-d8137bfe06cb775c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64572,
+      "sha256": "d8137bfe06cb775c36ddab338e90d2259763540f5b39b342f4d8b508ef99bc78",
+      "retrieved_at": "2026-10-18T15:31:32.814544+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-146-500e27dcd6446e31.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65189,
+      "sha256": "500e27dcd6446e3117dc87ec43c0a1544a5ae814326acb3dc78a97e092b82c51",
+      "retrieved_at": "2026-10-18T15:31:33.526911+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-147-e4f73f1057b3aee4.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64173,
+      "sha256": "e4f73f1057b3aee44d809ec8d07a62fb2c977c845bd5439b3adc67779ad56848",
+      "retrieved_at": "2026-10-18T15:31:34.223280+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-148-29eb9d4e99934072.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64248,
+      "sha256": "29eb9d4e99934072678c9faba7c87dbbd853cb0e502169942d6882d66cd6ef5b",
+      "retrieved_at": "2026-10-18T15:31:34.888398+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-149-d856b3a47958be3c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 63948,
+      "sha256": "d856b3a47958be3c0381872b2e936074c52d719fe5e7bf6aabc3c56bf23fb62a",
+      "retrieved_at": "2026-10-18T15:31:35.548731+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-15-c7df177fe8ff2c71.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69481,
+      "sha256": "c7df177fe8ff2c715235bc4bcea14dc890f64a0258cf3e3b233ef9098fd1dc52",
+      "retrieved_at": "2026-10-18T15:28:22.755561+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-150-cd0cec28a4e888b1.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65849,
+      "sha256": "cd0cec28a4e888b1d6f84d865d4d6f441a7ce80d382f796a9cf085ec3e9f4dc5",
+      "retrieved_at": "2026-10-18T15:31:36.204109+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-151-ec00f50ded87f677.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65222,
+      "sha256": "ec00f50ded87f67720c92eb78a1bf6dbaae4f09c59ae2aa6b7add13943e83070",
+      "retrieved_at": "2026-10-18T15:31:36.862460+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-152-1747c39dc36eca88.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66285,
+      "sha256": "1747c39dc36eca8820a998230ef5ccce876c354d858951f83d17a33643ddbe4b",
+      "retrieved_at": "2026-10-18T15:31:37.517809+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-153-6ebf8227cf285e2d.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65424,
+      "sha256": "6ebf8227cf285e2d3a1502b1a11ef19e02fcfa07ec76fc53aa53e358e6ab2d11",
+      "retrieved_at": "2026-10-18T15:31:38.540803+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-154-8d1110f06845b27c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65432,
+      "sha256": "8d1110f06845b27cf1d543952bcfa455f4dc91cdf89d6227fee2914bc8dc336a",
+      "retrieved_at": "2026-10-18T15:31:39.202588+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-155-133f5f93d5cad747.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66564,
+      "sha256": "133f5f93d5cad747dd9bdf3fc2885b6183a5bbde81ee45bb923fa6da74bd43a0",
+      "retrieved_at": "2026-10-18T15:31:39.896860+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-156-be1dc25793a4d44a.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65746,
+      "sha256": "be1dc25793a4d44af7a11570c52af9d278d2bc14298e3be32905524cc856c561",
+      "retrieved_at": "2026-10-18T15:31:40.561903+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-157-af56fd28c1d4c6e6.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66189,
+      "sha256": "af56fd28c1d4c6e64c44856cb05f55bf1f71bf28465e615dc1ba2f55cd7a8496",
+      "retrieved_at": "2026-10-18T15:31:41.233757+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-158-6e99f10bf9854a4c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65874,
+      "sha256": "6e99f10bf9854a4c5784666169c2e48430fcb812179648ba2ac27492b2061cf4",
+      "retrieved_at": "2026-10-18T15:31:41.902429+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-159-6476b069e4a4b84a.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66040,
+      "sha256": "6476b069e4a4b84a9ff01be7f21869b6e58385c70938996826a0c986ce695b12",
+      "retrieved_at": "2026-10-18T15:31:42.564092+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-16-0c2483cf3d5cc679.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68870,
+      "sha256": "0c2483cf3d5cc679a7434909732f92a4a92d295fcc61a9d79347619a178be5c7",
+      "retrieved_at": "2026-10-18T15:28:23.410447+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-160-39978bb7697703e7.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66797,
+      "sha256": "39978bb7697703e78fcc683920ed08f460b18e20021e9da313c75525130dd5d9",
+      "retrieved_at": "2026-10-18T15:31:43.239262+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-161-d4a4364bd1a5a6a3.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66223,
+      "sha256": "d4a4364bd1a5a6a39131b2e91ea4f0e13fb08b1f345bb135df8d865bac68304a",
+      "retrieved_at": "2026-10-18T15:31:43.908430+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-162-48239d8dcc14843c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66123,
+      "sha256": "48239d8dcc14843c5473c29d0dd3e1c14313513446401590d8f85d731c7acade",
+      "retrieved_at": "2026-10-18T15:31:44.563406+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-163-1dfbb00759283332.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65334,
+      "sha256": "1dfbb007592833329336a24fd5a904a7573cebfe9cf19b43caa7d357f537e83a",
+      "retrieved_at": "2026-10-18T15:31:45.245466+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-164-a66d08558e03afad.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66474,
+      "sha256": "a66d08558e03afad69172196a8c7c2a25fbe19739e643567320b0c41a2ae0711",
+      "retrieved_at": "2026-10-18T15:31:45.943893+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-165-262bfb73fa6f8ddc.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66838,
+      "sha256": "262bfb73fa6f8ddc349ae69c3ed03c3ef9687174526a78e2a89d7cb14b8864e0",
+      "retrieved_at": "2026-10-18T15:31:46.610783+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-166-7c0b40c10765cb16.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66421,
+      "sha256": "7c0b40c10765cb16c9c59623d544e7a98de75d59dc4c8cf8c676db6a6a31d87f",
+      "retrieved_at": "2026-10-18T15:31:47.284045+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-167-adc0700ace612fd3.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65463,
+      "sha256": "adc0700ace612fd31923c049d7e00dfc3f481d4b5c18ef600604b0a26aed3004",
+      "retrieved_at": "2026-10-18T15:31:47.951004+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-168-bb9ce106d1851060.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65580,
+      "sha256": "bb9ce106d185106054a44b4996e08acb3f34fc492ffe9a8a91b292c001c5a5be",
+      "retrieved_at": "2026-10-18T15:31:48.691267+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-169-cb3ed1702ef938c9.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65146,
+      "sha256": "cb3ed1702ef938c91dbbe06940df737b050113e26db3a66160457bb2e3eb7dd4",
+      "retrieved_at": "2026-10-18T15:31:49.348276+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-17-b6aead1ee6fe4259.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69354,
+      "sha256": "b6aead1ee6fe425987e7446367ae728e272a3af4ad6c4e2ce6d69f0a2dc669fb",
+      "retrieved_at": "2026-10-18T15:28:24.108606+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-170-a080a240407d9c89.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65655,
+      "sha256": "a080a240407d9c896757a3e656a2ba6986a81f7a67d1582a4b30881ed6e9cc21",
+      "retrieved_at": "2026-10-18T15:31:50.005798+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-171-7a4a107d439b61ff.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64957,
+      "sha256": "7a4a107d439b61ff20ee251cf27453ee912dcb1b61dfaac32b1eb314f01a6462",
+      "retrieved_at": "2026-10-18T15:31:50.688379+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-172-638f0285893780e3.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66376,
+      "sha256": "638f0285893780e3fa7aa9b809360ebc257c9b45a8b340582216bbc955b167b5",
+      "retrieved_at": "2026-10-18T15:31:51.387503+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-173-872f3afbb6d9a997.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65830,
+      "sha256": "872f3afbb6d9a997988add7d0a4f6ff21a1305b5d8276b77ec9c3c979490e244",
+      "retrieved_at": "2026-10-18T15:31:52.062466+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-174-d2c4c5459b6955ee.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66475,
+      "sha256": "d2c4c5459b6955eed42efd4455d15484c22c73b74a6f3e4c1d5823eb23e4aaa9",
+      "retrieved_at": "2026-10-18T15:31:52.748256+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-175-b4f1212cdfe712ea.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67412,
+      "sha256": "b4f1212cdfe712ea3820514f982a207cdd40a5232d0f174bfce56722cfcd93d6",
+      "retrieved_at": "2026-10-18T15:31:53.406054+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-176-5c30a0ff934a3168.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67237,
+      "sha256": "5c30a0ff934a316864096fc9845ad5e00c563213f785d54e53b8e49645306ab8",
+      "retrieved_at": "2026-10-18T15:31:54.090739+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-177-d7d823f9203cd46c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67084,
+      "sha256": "d7d823f9203cd46c994e927e4c7aa5e30a7fd9f37015164042d0dbbfc1295cbf",
+      "retrieved_at": "2026-10-18T15:31:54.747359+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-178-7b7fc6872bb1744b.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66964,
+      "sha256": "7b7fc6872bb1744b97b7e212247739e4ff242042903527a5ef76a1c1dcd5420b",
+      "retrieved_at": "2026-10-18T15:31:55.406546+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-179-535192e969944163.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65348,
+      "sha256": "535192e9699441637f254a79048823136962140b5f47bb46cdb70381f3b8aeb9",
+      "retrieved_at": "2026-10-18T15:31:56.123823+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-18-4440337b24891189.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70291,
+      "sha256": "4440337b24891189057f8cf21c3eb40ea92aaeb5e56ee10dbc014b5a99581ea2",
+      "retrieved_at": "2026-10-18T15:28:24.770199+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-180-8527d2ce92a9ffe6.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66462,
+      "sha256": "8527d2ce92a9ffe6188a862b3cc466df1b50c7f4e6680cd80d0bb34ae5d008a0",
+      "retrieved_at": "2026-10-18T15:31:56.786345+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-181-f6ede297d36dc128.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65123,
+      "sha256": "f6ede297d36dc128ea88a1ca94c9ea552ec6771f12e08abbf07caf5c39b14e27",
+      "retrieved_at": "2026-10-18T15:31:57.742234+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-182-7c6c2bdea264f357.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64992,
+      "sha256": "7c6c2bdea264f35798ff6470e896482806b7e16993f5cf232af7666e2dcaf36f",
+      "retrieved_at": "2026-10-18T15:31:58.403409+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-183-dc8335ad6e6d22ba.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64341,
+      "sha256": "dc8335ad6e6d22babecbcc8819b535488d8a7e389dbe60eec885d777ae8f6617",
+      "retrieved_at": "2026-10-18T15:31:59.052580+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-184-775ea8ee8c7495d9.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65949,
+      "sha256": "775ea8ee8c7495d989460c461d73c791963c1bce5c68b9854ccc6a8dfebc3d4e",
+      "retrieved_at": "2026-10-18T15:31:59.797494+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-185-6ce2200898da847f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 62946,
+      "sha256": "6ce2200898da847f06bc6404a50cf694e6ab6a13494c0aa64d5c9590e47b8e8f",
+      "retrieved_at": "2026-10-18T15:32:00.452326+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-186-a6e698d7d1727e74.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 63318,
+      "sha256": "a6e698d7d1727e74702cb3ee8ec83f2fae46de1c7a3a067baab9921fc8f8792a",
+      "retrieved_at": "2026-10-18T15:32:01.106065+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-187-f749f750e157e653.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 63838,
+      "sha256": "f749f750e157e653337ad0ee0005c62c3e482bc2951e538de80258faaea35ea4",
+      "retrieved_at": "2026-10-18T15:32:01.762714+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-188-e033f21f6a709a36.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64851,
+      "sha256": "e033f21f6a709a366929bd622ba41eaec4a59ace8ec288f463acb0737793788d",
+      "retrieved_at": "2026-10-18T15:32:02.434907+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-189-e083b2e4841fd859.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 64719,
+      "sha256": "e083b2e4841fd859e5f002d30ef3c21f010f394ac7418dcc6bb9e98d0efa21ea",
+      "retrieved_at": "2026-10-18T15:32:03.125440+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-19-57e0bc168415e258.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69389,
+      "sha256": "57e0bc168415e258fcbd6c793b0771e3baa7582916580671f66d606dc7facbba",
+      "retrieved_at": "2026-10-18T15:28:25.434677+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-190-a4a95af2f1a89b33.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65179,
+      "sha256": "a4a95af2f1a89b3335815d7059754c9750e79122d19ccd9c65385e295aa663f6",
+      "retrieved_at": "2026-10-18T15:32:03.786314+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-191-add101fd11e90441.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65425,
+      "sha256": "add101fd11e90441517be5e7c993b81a1e51399725911a32a1a78ec2f2b14eba",
+      "retrieved_at": "2026-10-18T15:32:04.449688+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-192-d4336865ecc84fe3.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67848,
+      "sha256": "d4336865ecc84fe348eca2c2fe081838b54fcb461e29f079203de153a2a0b7e0",
+      "retrieved_at": "2026-10-18T15:32:05.102872+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-193-44b85b385036e2a3.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67539,
+      "sha256": "44b85b385036e2a365b81a0172472ac852355868b46d8a4b5d2a35110a916919",
+      "retrieved_at": "2026-10-18T15:32:05.751535+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-194-2be6c20ab7b039c5.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65427,
+      "sha256": "2be6c20ab7b039c559825022fa2c880da0cf312c496cc919343ff6c7d6db1245",
+      "retrieved_at": "2026-10-18T15:32:06.405029+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-195-924f2c3716e6da8f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68723,
+      "sha256": "924f2c3716e6da8f3921c920faf65edc1825ec14c93c6d7c2bcbded493772ed3",
+      "retrieved_at": "2026-10-18T15:32:07.207739+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-196-8e25bf81df27c84e.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67857,
+      "sha256": "8e25bf81df27c84edd08e380130b9466193256dcf4f76254068fb203b519324d",
+      "retrieved_at": "2026-10-18T15:32:07.886160+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-197-06296f2271d6aa57.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67308,
+      "sha256": "06296f2271d6aa571e889bd1d948b82b89355b9931c4d0181569c0b3b420d4c3",
+      "retrieved_at": "2026-10-18T15:32:08.548580+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-198-721a8210b46af211.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66643,
+      "sha256": "721a8210b46af2110bd51083715266b8564753fb0ca6901e226d6837fecc1f23",
+      "retrieved_at": "2026-10-18T15:32:09.243052+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-199-6315ad11f2564a76.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 65959,
+      "sha256": "6315ad11f2564a7643d40eff6797968e291f7230d3a923139865152394898dbb",
+      "retrieved_at": "2026-10-18T15:32:09.902500+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-2-9065615eb6b8a0eb.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69629,
+      "sha256": "9065615eb6b8a0ebec9600c134bb8d7bb57728c8705808d34c18c37d5d3ac45c",
+      "retrieved_at": "2026-10-18T15:21:46.163772+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-20-4ee8810bbe34e0fe.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69507,
+      "sha256": "4ee8810bbe34e0fe33aa912d591473f77527f258814a0fcc321df5b7f7426a8c",
+      "retrieved_at": "2026-10-18T15:28:26.137969+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-200-94d11d09a1be6d34.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67385,
+      "sha256": "94d11d09a1be6d34f786276d040a0c5f0996fd615632f1887f06ad7ce9d7dec3",
+      "retrieved_at": "2026-10-18T15:32:10.548620+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-21-f6b05b8438d0de07.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69122,
+      "sha256": "f6b05b8438d0de07284df1a4c25e2ad92854effa972d2d84e2475a37eb02391d",
+      "retrieved_at": "2026-10-18T15:28:26.808926+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-22-0a6c1a6e3c8e4f4c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70168,
+      "sha256": "0a6c1a6e3c8e4f4cc09f751b6a33c0052f614be5233d294c318ab21486cebf9b",
+      "retrieved_at": "2026-10-18T15:28:27.471820+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-23-5e99195aae7f0137.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69422,
+      "sha256": "5e99195aae7f01370a544cc691b7b38053ef139727c2b7876c1dce4dab33ab95",
+      "retrieved_at": "2026-10-18T15:28:28.151025+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-24-c2f46b36faee22f3.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69727,
+      "sha256": "c2f46b36faee22f31615db57c373e9df24f2bd4af7c17cbb3493b25975be3cfd",
+      "retrieved_at": "2026-10-18T15:28:28.819639+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-25-cfbc2f564a06281d.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69675,
+      "sha256": "cfbc2f564a06281d3a8fed40ca76537ed2a9cc8856927abda4ce5e1fcab47b86",
+      "retrieved_at": "2026-10-18T15:28:29.573448+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-26-b0449db6caec3c36.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69262,
+      "sha256": "b0449db6caec3c36d52eebe8500b63c8d548137fa7db88a4b034a7487ff5d319",
+      "retrieved_at": "2026-10-18T15:28:30.239232+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-27-21c353ebd95748aa.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69925,
+      "sha256": "21c353ebd95748aacbd13ff6db8d40d979865ea805927e5b16b84a2970ea61f6",
+      "retrieved_at": "2026-10-18T15:28:30.978394+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-28-c17cac8514a83939.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70682,
+      "sha256": "c17cac8514a83939f4ff4ae2383f363fbb80b1296184ab78f38b1285f7cce816",
+      "retrieved_at": "2026-10-18T15:28:31.689415+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-29-b27f40373f4e2a5f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69424,
+      "sha256": "b27f40373f4e2a5f86c626b8b06435654d04f47089098098eb291f43c36a2fd4",
+      "retrieved_at": "2026-10-18T15:28:32.359845+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-3-b28d2e4ed3190d87.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69599,
+      "sha256": "b28d2e4ed3190d8766dd6163e9628a464217af1cfbfce4de897961617542f55a",
+      "retrieved_at": "2026-10-18T15:26:29.829212+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-30-4bb0f3bb587573c3.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69936,
+      "sha256": "4bb0f3bb587573c34f38750c238a71eb48cc4bb0ef3c450882507bd883578968",
+      "retrieved_at": "2026-10-18T15:28:33.018864+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-31-da627fdd71b77504.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70277,
+      "sha256": "da627fdd71b775047784102fe1f7f207f952a6566e54f18e38d27ed962a712c4",
+      "retrieved_at": "2026-10-18T15:28:33.693065+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-32-3974d5f09e9d095f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70503,
+      "sha256": "3974d5f09e9d095f430e52dd04bec2e8ea7606991f6b40e4622b5178fc7f5e70",
+      "retrieved_at": "2026-10-18T15:28:34.368812+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-33-3971121f2c4e1aec.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69843,
+      "sha256": "3971121f2c4e1aec163a6eae5e9719d1f315a9e1ceea41bdbb1550b10bb93d11",
+      "retrieved_at": "2026-10-18T15:28:35.088520+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-34-1c480cd5e9c10931.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70124,
+      "sha256": "1c480cd5e9c109319e8acaeaa3f168e8186e16befa738a41deff49f9d086145c",
+      "retrieved_at": "2026-10-18T15:28:35.768757+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-35-a35e7755bc0cc977.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68751,
+      "sha256": "a35e7755bc0cc977ffd6d888f1ca7d2ff6f928422495b2c23b72be81e4aae62e",
+      "retrieved_at": "2026-10-18T15:28:36.448097+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-36-d8993e4abd53d6c2.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69425,
+      "sha256": "d8993e4abd53d6c274f062ce9050c16fdf261228eba9cbb0357069859396f055",
+      "retrieved_at": "2026-10-18T15:28:37.146562+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-37-41af20423c704277.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68811,
+      "sha256": "41af20423c704277358626f942c99ed15dd73d6e87b8ea424b7aab6434c9a5fa",
+      "retrieved_at": "2026-10-18T15:28:37.849445+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-38-d301cf7a4132df76.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69709,
+      "sha256": "d301cf7a4132df76442ba37d964fdf205340c0b39d705143634ef25ddf57c0b7",
+      "retrieved_at": "2026-10-18T15:28:38.512848+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-39-fecc447a1890bf38.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 71041,
+      "sha256": "fecc447a1890bf38915fc97d72d8e0a4395ac44380ba6a651e929435ea03bec0",
+      "retrieved_at": "2026-10-18T15:28:39.223220+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-4-7b999e8c258efc5f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70264,
+      "sha256": "7b999e8c258efc5ff9d31d71461f67d6c60e21b1c000f37f5be596fb2c3e97b5",
+      "retrieved_at": "2026-10-18T15:26:30.672431+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-40-5311b03a4e373f36.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70005,
+      "sha256": "5311b03a4e373f363ef2098db4f25fe84978aff2b7e945c6def3452292acfe2f",
+      "retrieved_at": "2026-10-18T15:28:39.897676+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-41-42e21d23b8180e81.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70466,
+      "sha256": "42e21d23b8180e816d13dfedeba5f07cd9c2fce260944b8b0b6807864057c88e",
+      "retrieved_at": "2026-10-18T15:28:40.565456+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-42-c7b3ff574789e69f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69131,
+      "sha256": "c7b3ff574789e69fad0d3d00590c0d4b177f1427c68fbf21101123ccf372c285",
+      "retrieved_at": "2026-10-18T15:28:41.249365+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-43-4a65a39e2280acee.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69912,
+      "sha256": "4a65a39e2280aceec617aefc82165fd439f4ee7db8a9b8cec0a17a460a8f6e8c",
+      "retrieved_at": "2026-10-18T15:28:41.913401+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-44-ef85160217edce7f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 71082,
+      "sha256": "ef85160217edce7ff2fde585645bd4e34fcdadd72bda2894f95d4757b6f33c3a",
+      "retrieved_at": "2026-10-18T15:28:42.575755+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-45-89245ea33a80ec5f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70516,
+      "sha256": "89245ea33a80ec5f63b1e61ee9bc32b2661514ce0c4ab1b41a651e0617e1e1dc",
+      "retrieved_at": "2026-10-18T15:28:43.286535+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-46-edda8e7de64bc716.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69811,
+      "sha256": "edda8e7de64bc716531ed37a19000581cb43ed5156e6fb5098cbb5a61f878d3a",
+      "retrieved_at": "2026-10-18T15:28:43.962100+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-47-03995d5d58d27778.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 71788,
+      "sha256": "03995d5d58d27778a8a286dad687437f4cd01832c9ae242c50de96067951ec79",
+      "retrieved_at": "2026-10-18T15:28:44.660459+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-48-de71ae53074c771d.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70383,
+      "sha256": "de71ae53074c771d843f991770150d60fd947b2f73778a9638467ac184368995",
+      "retrieved_at": "2026-10-18T15:28:45.324530+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-49-f1243e7ac5f25324.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70692,
+      "sha256": "f1243e7ac5f2532489af99109111709b646c59c43d9660f1855b1421f1661b62",
+      "retrieved_at": "2026-10-18T15:28:46.001987+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-5-17668eca93ef4cc8.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70152,
+      "sha256": "17668eca93ef4cc897ec67067882fdd1cb564aa4afe31198eb20438b2113d3bf",
+      "retrieved_at": "2026-10-18T15:27:15.416857+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-50-e88a5b3abb01678f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70084,
+      "sha256": "e88a5b3abb01678feee9107ab39ad5646fd6f2c3ddc208de56f71ad285b2d51b",
+      "retrieved_at": "2026-10-18T15:28:46.678145+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-51-0ae05230371738f0.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70297,
+      "sha256": "0ae05230371738f061121422033302298de43e905a87c5752f849f5d82c385fb",
+      "retrieved_at": "2026-10-18T15:28:47.354094+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-52-67660b126a4e38f4.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70490,
+      "sha256": "67660b126a4e38f43536c2c3575cab031bed38005e9e958defc084f886592c79",
+      "retrieved_at": "2026-10-18T15:28:48.017944+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-53-d788f8132e50cc5e.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70775,
+      "sha256": "d788f8132e50cc5e25d95948d36c0064e7b6b39553cbf37f0091fdab014ebd2d",
+      "retrieved_at": "2026-10-18T15:28:48.699819+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-54-fa15c2a1b1a601d4.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70244,
+      "sha256": "fa15c2a1b1a601d4ec995eae6f3210288759ed6bb119ebd52ec8d77c781bda76",
+      "retrieved_at": "2026-10-18T15:28:49.407282+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-55-7da883555d38341f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69627,
+      "sha256": "7da883555d38341fba46922d1db0146b273a78c76251310b00d35933979c8f2c",
+      "retrieved_at": "2026-10-18T15:28:50.073055+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-56-71aacb74f961977b.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68618,
+      "sha256": "71aacb74f961977baae02f9fe006e6696eeeec385d7f3929f7922aab94dac5d2",
+      "retrieved_at": "2026-10-18T15:28:50.764739+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-57-26adebc1a9d9f449.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66688,
+      "sha256": "26adebc1a9d9f4490c7dbbe0ef829be68ae47fcb99b9ef025dcf251596eb3fb8",
+      "retrieved_at": "2026-10-18T15:28:51.449648+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-58-9bd2616c2a5d2f7d.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67921,
+      "sha256": "9bd2616c2a5d2f7d39c23c21b1bb45f2eb799bae1e7b6bd547b052305c5f1317",
+      "retrieved_at": "2026-10-18T15:28:52.148025+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-59-a201e4d6485ba3ba.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70203,
+      "sha256": "a201e4d6485ba3babcb7fcd14ddaf8189c32024ee57c36f2fcee32fc1d1f444d",
+      "retrieved_at": "2026-10-18T15:28:52.888242+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-6-9b692341e85277d6.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 71076,
+      "sha256": "9b692341e85277d6b88f7daaf5a06b78ca0639f39de1a26c8ab9950337f26cf4",
+      "retrieved_at": "2026-10-18T15:27:16.275907+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-60-7aee3e95f62eb96a.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67739,
+      "sha256": "7aee3e95f62eb96ab8cd67057209120432f472b200f2303dd8e6249f56e6886a",
+      "retrieved_at": "2026-10-18T15:28:53.557244+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-61-329556f526b0c4bb.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68353,
+      "sha256": "329556f526b0c4bb186c91ba72834d0e56ed15c81736b6155d0abd8740e1071d",
+      "retrieved_at": "2026-10-18T15:28:54.219285+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-62-62b7d36f8dc031e1.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70034,
+      "sha256": "62b7d36f8dc031e11bee8ebb7f68bda649c7430e8da671674f1682ef8207a946",
+      "retrieved_at": "2026-10-18T15:28:54.953753+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-63-97527d1303de983a.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69173,
+      "sha256": "97527d1303de983a2af7284c308dc58a60ff64975a20d7cd3136e34480d433ba",
+      "retrieved_at": "2026-10-18T15:28:55.615238+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-64-256d1d3e5bcf3843.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69262,
+      "sha256": "256d1d3e5bcf3843e527d62d6145f3d82f1dc76eae50d44eb73955151bf49f0f",
+      "retrieved_at": "2026-10-18T15:28:56.295764+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-65-e428cfb226587b57.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70053,
+      "sha256": "e428cfb226587b5798c0523ecd2a391d7449e59a48dc9ebf0e3cddfc776974c6",
+      "retrieved_at": "2026-10-18T15:28:56.967232+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-66-6297445c3e9c54e5.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69135,
+      "sha256": "6297445c3e9c54e57095cffe6578e7948b46c0f6fe7c85809483e6701c08d929",
+      "retrieved_at": "2026-10-18T15:30:28.046489+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-67-63ab020f60f88985.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69942,
+      "sha256": "63ab020f60f8898574f40967a1d5370aa8b618717485c8479021e5c0464f4683",
+      "retrieved_at": "2026-10-18T15:30:28.903567+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-68-0d6737029a4288d8.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68402,
+      "sha256": "0d6737029a4288d882de398a5d9b55c28572bf8dc53bf22577c6820c8d3ad943",
+      "retrieved_at": "2026-10-18T15:30:29.566336+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-69-4f2b9098073b668c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68950,
+      "sha256": "4f2b9098073b668cd79fef1091252bba9268554f675b3ce17230857f205fa1e7",
+      "retrieved_at": "2026-10-18T15:30:30.248599+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-7-7515883d64492346.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69986,
+      "sha256": "7515883d644923468d69ffa3f7a8b178a4d45d873555230929d1ae3adfdd07a4",
+      "retrieved_at": "2026-10-18T15:27:16.972867+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-70-e0adb47b166df909.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67988,
+      "sha256": "e0adb47b166df909af453f10961e66233e1126c7ddddd5578feb714a17114e34",
+      "retrieved_at": "2026-10-18T15:30:30.912788+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-71-625656601794fa61.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69194,
+      "sha256": "625656601794fa61572354392a2b44d806a74abbe0e78bb52f7658a2a1c6706c",
+      "retrieved_at": "2026-10-18T15:30:31.650095+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-72-1e10d7c6e1ade029.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69753,
+      "sha256": "1e10d7c6e1ade029b3ebfc3c52ef37bcb07641d1da75bec9f391fd13d8cdb833",
+      "retrieved_at": "2026-10-18T15:30:32.317561+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-73-a7f3fe47a8717ef9.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69005,
+      "sha256": "a7f3fe47a8717ef9cd6ca3637aa13d3a80b6dd5fb588dc8e874a2d0548b0202f",
+      "retrieved_at": "2026-10-18T15:30:33.072537+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-74-d34ca11cb87ed67a.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 70831,
+      "sha256": "d34ca11cb87ed67a0c7ade519bd45712c7475718254973b2f7b5a87d79cf015f",
+      "retrieved_at": "2026-10-18T15:30:33.752013+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-75-c4613907729a55af.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69902,
+      "sha256": "c4613907729a55af4e850e5a39dd07e844b681ab350090480924b429262ed097",
+      "retrieved_at": "2026-10-18T15:30:34.414881+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-76-050c735a6d6c01db.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67786,
+      "sha256": "050c735a6d6c01dbe1a2f5639316ff4917a214a0436e7999042ab1dee729ba23",
+      "retrieved_at": "2026-10-18T15:30:35.119541+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-77-773b34883115be33.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68130,
+      "sha256": "773b34883115be335792cb87bfc69cdd9e77f3ac72b74994798e53767d20b835",
+      "retrieved_at": "2026-10-18T15:30:35.791840+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-78-66f3943b43dab26a.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67934,
+      "sha256": "66f3943b43dab26a4497860630cfebc8cf067f0d5ca6519bec545b542e3a36bd",
+      "retrieved_at": "2026-10-18T15:30:36.456480+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-79-3665534ad65770ba.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67408,
+      "sha256": "3665534ad65770ba6a5bf499ded8ff159a171672bb0b4ecc01dbf8c1e77bf8ea",
+      "retrieved_at": "2026-10-18T15:30:37.156853+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-8-ddfa5a70d84d95b5.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69299,
+      "sha256": "ddfa5a70d84d95b59764b034001b7278133c526287cc2b579e5911880224eb22",
+      "retrieved_at": "2026-10-18T15:27:17.664991+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-80-2914d75c2efbdbd5.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68658,
+      "sha256": "2914d75c2efbdbd595437d97dcf4cd1f13264f90852939596bb28105ba54fc19",
+      "retrieved_at": "2026-10-18T15:30:37.817853+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-81-f89a7ef5ead1d9f4.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68604,
+      "sha256": "f89a7ef5ead1d9f4f21eede0036cd833d4d3bda427ae6d97825571ce8b3d6d51",
+      "retrieved_at": "2026-10-18T15:30:38.497760+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-82-64825a4f99e862db.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67862,
+      "sha256": "64825a4f99e862dbbfe6cad5f54aac95c1384bb70f587f1459c7f84d70978197",
+      "retrieved_at": "2026-10-18T15:30:39.173820+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-83-7ae731e0b85b788e.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68130,
+      "sha256": "7ae731e0b85b788e7f66580792fcf8d164e022c8fb41d17f245e1a95b80dc1f5",
+      "retrieved_at": "2026-10-18T15:30:39.853665+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-84-ecaf48974916d451.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68578,
+      "sha256": "ecaf48974916d45125ca4ad209bf80bd37597b0409820db576f60c7b194cd99d",
+      "retrieved_at": "2026-10-18T15:30:40.519196+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-85-2a880796f48b0431.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 66868,
+      "sha256": "2a880796f48b043177fb836c8668c29e5eadb8774cb5ae96b9c9710a6734cbb2",
+      "retrieved_at": "2026-10-18T15:30:41.197814+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-86-d7b157ac9b20e8c6.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67206,
+      "sha256": "d7b157ac9b20e8c6f581894078284e88c4f72b9d701be029e950accdb11c67f1",
+      "retrieved_at": "2026-10-18T15:30:41.859773+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-87-b885fd8eca2e7d51.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67527,
+      "sha256": "b885fd8eca2e7d51e5d5a9f8e6f6b75de39c9f3e05ad09786e498dd86f4b9b0f",
+      "retrieved_at": "2026-10-18T15:30:42.540549+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-88-055c0b23fa5771e6.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67584,
+      "sha256": "055c0b23fa5771e67267ff10f8780ad7f93f903f3d1529504dc7ce4912b48d31",
+      "retrieved_at": "2026-10-18T15:30:43.321547+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-89-30224528aaf83fe9.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67143,
+      "sha256": "30224528aaf83fe9e7f393284ee63ed7dda1b23571c4db938b475904e37b41e5",
+      "retrieved_at": "2026-10-18T15:30:43.993775+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-9-7975b274a0e6ac34.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68950,
+      "sha256": "7975b274a0e6ac348dbb84d6d4ba21756c29de44e20ba24968884441a31a2db1",
+      "retrieved_at": "2026-10-18T15:27:18.328130+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-90-99c6f13db93352f8.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69423,
+      "sha256": "99c6f13db93352f8b28d04d8ae7ab0b6e621eff75c6acb450afdf5ac074501eb",
+      "retrieved_at": "2026-10-18T15:30:44.674504+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-91-06763f4d451d5ba4.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68299,
+      "sha256": "06763f4d451d5ba4d97ad9482737bca3c4535107b550c19da3eefbec1c73d853",
+      "retrieved_at": "2026-10-18T15:30:45.354157+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-92-98e3cfb7a6ce97c0.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68258,
+      "sha256": "98e3cfb7a6ce97c0d48c120b3915589fb4aa409bece66d4a4e531ed2ac52c1bf",
+      "retrieved_at": "2026-10-18T15:30:46.024526+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-93-36db568ce7377a3c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67476,
+      "sha256": "36db568ce7377a3c3285da7d6da88583bd57cc284f2a71e6dc05149b012a776d",
+      "retrieved_at": "2026-10-18T15:30:46.688998+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-94-f24c585a41708f7c.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68110,
+      "sha256": "f24c585a41708f7cae9a2c983f44b073be596132b1b843f29dd05f0ad705d434",
+      "retrieved_at": "2026-10-18T15:30:47.362761+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-95-9cb7018c13df8e04.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 67059,
+      "sha256": "9cb7018c13df8e0451386ebe5ec3996764c966e350631753cb4425be36e3efe4",
+      "retrieved_at": "2026-10-18T15:30:48.054322+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-96-2d369684114ee2d5.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 69036,
+      "sha256": "2d369684114ee2d58f34ed85840e70910fadc0576a350426075ae70dd2b1d99a",
+      "retrieved_at": "2026-10-18T15:30:48.759854+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-97-b6f21168c85dcf32.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68573,
+      "sha256": "b6f21168c85dcf3228a59b90926ab57c698ce2e6913e364174c59855c7135309",
+      "retrieved_at": "2026-10-18T15:30:49.491531+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-98-7f1a6321589c3c0f.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68552,
+      "sha256": "7f1a6321589c3c0f62d6d1f4bf51acfb230469ccb3b9ae40bf1aeec7ab2cd449",
+      "retrieved_at": "2026-10-18T15:30:50.161834+00:00",
+      "checksum_valid": true
+    },
+    {
+      "path": "data/raw/sra/public-projects-page-99-301cb895cde58840.html",
+      "url": "https://dms.sra.gov.in/SRAPUBLIC/MainNewExplorer.aspx",
+      "bytes": 68328,
+      "sha256": "301cb895cde58840f68d42a084cd91ec83cc6fa84ba72e18298ec77d1872f2e5",
+      "retrieved_at": "2026-10-18T15:30:50.852621+00:00",
       "checksum_valid": true
     }
   ],
@@ -84,7 +1788,7 @@
       "valid": true
     },
     "settlements": {
-      "record_count": 156,
+      "record_count": 2597,
       "fields": [
         "administrative_area",
         "data_completeness",
@@ -94,18 +1798,32 @@
         "indicators",
         "limitations",
         "name",
+        "name_overflow_in_source",
+        "name_raw",
         "record_type",
         "retrieved_at",
+        "shape_area_sq_m",
         "source",
+        "source_aliases",
         "source_date",
         "source_date_basis",
         "source_id",
-        "synthetic"
+        "source_id_unique",
+        "source_name",
+        "source_page",
+        "source_serial",
+        "source_url",
+        "synthetic",
+        "taluka",
+        "village",
+        "ward"
       ],
-      "geometry_count": 0
+      "geometry_count": 0,
+      "unique_source_id_count": 2596,
+      "identifier_alias_links": 156
     },
     "projects": {
-      "record_count": 25,
+      "record_count": 5000,
       "fields": [
         "address",
         "administrative_area",
@@ -118,8 +1836,12 @@
         "scheme_name",
         "settlement_id",
         "source_attributes",
+        "source_content_hash",
+        "source_content_unique",
         "source_date",
         "source_id",
+        "source_page",
+        "source_raw_path",
         "source_row_number",
         "source_url",
         "synthetic",
@@ -127,7 +1849,7 @@
       ],
       "reliably_joined_count": 0,
       "status_counts": {
-        "unknown": 25
+        "unknown": 5000
       },
       "source_fields": [
         "Address",
@@ -142,13 +1864,69 @@
         "Ward Name"
       ],
       "blank_or_dash_source_counts": {
-        "Proposal No": 25,
-        "Village": 1
+        "Proposal No": 4999,
+        "Village": 571,
+        "Architect Name": 2621,
+        "Land Type": 1,
+        "Developer Name": 2109,
+        "Scheme Name": 23,
+        "Address": 95,
+        "CTS No": 182
       }
     },
+    "geographic_units": {
+      "record_count": 190,
+      "fields": [
+        "geographic_key_system",
+        "geometry",
+        "id",
+        "limitations",
+        "name",
+        "parent_id",
+        "reference_year",
+        "resolution",
+        "source",
+        "source_id",
+        "state_code",
+        "synthetic",
+        "town_code"
+      ]
+    },
     "indicators": {
-      "record_count": 0,
-      "fields": []
+      "record_count": 456,
+      "fields": [
+        "catalogue_id",
+        "denominator",
+        "denominator_reference_year",
+        "evidence_reference",
+        "geographic_resolution",
+        "geographic_unit_id",
+        "id",
+        "indicator_type",
+        "inspector_reference",
+        "method",
+        "missing_value_semantics",
+        "observation_date",
+        "raw_path",
+        "raw_sha256",
+        "reference_year",
+        "retrieved_at",
+        "settlement_id",
+        "source",
+        "source_field",
+        "source_label",
+        "synthetic",
+        "table_phase",
+        "unit",
+        "universe",
+        "value",
+        "verification_status"
+      ],
+      "reference_years": [
+        2011
+      ],
+      "missing_value_count": 4,
+      "settlement_allocations": 0
     }
   },
   "osm_category_counts": {

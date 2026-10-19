@@ -1,0 +1,22 @@
+{
+  "source_url": "https://repository.emsign.com/certs/emSignSSLCAG1.crt",
+  "sha256": "47b2efbc3670e7db4b41f22c51fc02ee84fb2dbf3082a49f2c2688122e9210a1",
+  "request": {
+    "url": "https://repository.emsign.com/certs/emSignSSLCAG1.crt",
+    "params": null,
+    "method": "GET",
+    "retrieved_at": "2026-10-18T15:23:21.950491+00:00",
+    "http_status": 200,
+    "final_url": "https://repository.emsign.com/certs/emSignSSLCAG1.crt",
+    "content_type": "application/x-x509-ca-cert",
+    "last_modified": "Sat, 17 Oct 2026 05:19:06 GMT",
+    "path": "data/raw/census/census-emsign-intermediate-47b2efbc3670e7db.crt",
+    "sha256": "47b2efbc3670e7db4b41f22c51fc02ee84fb2dbf3082a49f2c2688122e9210a1",
+    "bytes": 1158,
+    "access_status": "downloaded"
+  },
+  "verification": "/home/vishal/D DRIVE/seva first/nagarseva-seva-first/data/raw/census/census-emsign-intermediate-47b2efbc3670e7db.crt: OK",
+  "method": "OS-root verified intermediate completes the server chain; hostname validation and CERT_REQUIRED retained",
+  "check_hostname": true,
+  "verify_mode": "CERT_REQUIRED"
+}

@@ -328,8 +328,12 @@
     "sha256": "63815e2570128f91efd0ab80389b44d798dd64f4d118e6ba92932757c8be4a62"
   },
   "research/acquisition_results.json": {
-    "bytes": 5275,
-    "sha256": "c63949e8382caba750c7ad8afba5434e2c4ab11fb189e5af9a23c3cad1790502"
+    "bytes": 82332,
+    "sha256": "0a022b7b9a3a02b69fd84f5a8236f13457a3ec9ed7454383c2ad7b2207f80a40"
+  },
+  "research/census_followup.md": {
+    "bytes": 8128,
+    "sha256": "e58dce62e7f5c19551316c5137fc94718c4dfde08cc292f69f6ce2b1ab4168e0"
   },
   "research/cleanup.md": {
     "bytes": 2078,
@@ -344,8 +348,8 @@
     "sha256": "0eec77500ba89bbf2197e7d61e514cdff091069b80f27e86e65ab6fa816c2710"
   },
   "research/dataset_inventory.csv": {
-    "bytes": 7852,
-    "sha256": "49d52fbc1e94c514a705001e64827a3dd1139bd90cea50ac7c340be0b8c194bd"
+    "bytes": 19360,
+    "sha256": "63adc877b8f09cf17f58ee18259ebdd95002104f0e5285e9c57cdc146b99de6f"
   },
   "research/dataset_inventory_legacy.csv": {
     "bytes": 35395,
@@ -402,6 +406,10 @@
   "research/research_summary.md": {
     "bytes": 10297,
     "sha256": "382bea832a5f42b09bc569fe6121553aff3e1fe1b7af9358b42ded8fc48774e0"
+  },
+  "research/sra_followup.md": {
+    "bytes": 8307,
+    "sha256": "57d2e6862dc513e25599bb92b82eacc6fa6f7612ed9ff55bd3fc049ccaf9ff60"
   },
   "research/technical_feasibility.md": {
     "bytes": 17615,

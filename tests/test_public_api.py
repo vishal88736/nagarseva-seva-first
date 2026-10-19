@@ -216,3 +216,16 @@ def test_conflicting_equal_time_observations_remain_missing(client):
     assert client.post('/urban/data/indicators',json=obs(value=20,observation_date=timestamp)).status_code==201
     row=client.post('/urban/data/priority',json={}).json()['items'][0]
     assert row['coverage_pct']==0 and row['indicators']['water'] is None
+
+
+def test_reviewed_observations_use_instants_not_timezone_string_order(client):
+    from datetime import timedelta
+    latest = datetime.now(timezone.utc) - timedelta(minutes=5)
+    earlier = (latest - timedelta(minutes=20)).astimezone(timezone(timedelta(hours=5, minutes=30)))
+    assert client.post('/urban/data/indicators',json=obs(value=80,observation_date=earlier.isoformat())).status_code==201
+    assert client.post('/urban/data/indicators',json=obs(value=20,observation_date=latest.isoformat())).status_code==201
+    assert client.post('/urban/data/priority',json={}).json()['items'][0]['indicators']['water']==20
+    # The same instant in another timezone is still a conflict, not a newer reading.
+    equivalent = latest.astimezone(timezone(timedelta(hours=5, minutes=30)))
+    assert client.post('/urban/data/indicators',json=obs(value=40,observation_date=equivalent.isoformat())).status_code==201
+    assert client.post('/urban/data/priority',json={}).json()['items'][0]['indicators']['water'] is None

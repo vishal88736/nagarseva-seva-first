@@ -10,7 +10,7 @@ def main():
     parser.add_argument("--refresh", action="store_true", help="Recheck sources while preserving content-addressed originals")
     args = parser.parse_args()
     failures = []
-    sources = ["inspect_sra_layers.py", "ingest_sra.py", "ingest_sra_projects.py", "ingest_osm.py", "ingest_census.py"]
+    sources = ["inspect_sra_layers.py", "ingest_sra.py", "ingest_sra_register.py", "ingest_sra_pdf.py", "ingest_sra_projects.py", "ingest_osm.py", "ingest_census.py"]
     stages = sources + ["prepare_demo_data.py", "prepare_real_data.py", "validate_datasets.py"]
     for script in stages:
         command = [sys.executable, str(ROOT / "scripts" / script)]

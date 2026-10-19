@@ -1,0 +1,141 @@
+{
+  "attempted_at": "2026-10-18T15:36:29.928405+00:00",
+  "errors": [],
+  "overlay": {
+    "title": "SRA GPS Survey 2024 historical map — cartographic context",
+    "source_url": "https://media.sra.gov.in/sra-automation/category/docs/1731408978437_4524_slum_cluster_ca_2024%20%281%29.pdf",
+    "source_path": "data/raw/sra/cluster-map-document-082b9b1406b91058.pdf",
+    "source_sha256": "082b9b1406b91058799a5741fb2e138722d98bffa26ea4c59c2ac462a27f79ae",
+    "retrieved_at": "2026-10-18T10:42:33.101761+00:00",
+    "generated_at": "2026-10-18T15:36:31.425033+00:00",
+    "source_date": "2024",
+    "reference_year": 2024,
+    "source_date_basis": "GPS Survey 2024 map title; individual feature dates unknown",
+    "source_crs": "EPSG:32643",
+    "crs": "EPSG:3857",
+    "bounds": [
+      72.9,
+      19.04,
+      72.94,
+      19.08
+    ],
+    "bounds_3857": [
+      8115190.878829644,
+      2159645.8334177444,
+      8119643.658461374,
+      2164356.886653335
+    ],
+    "width": 1024,
+    "height": 1083,
+    "path": "data/processed/sra_pilot_overlay.png",
+    "filename": "sra_pilot_overlay.png",
+    "image_file": "sra_pilot_overlay.png",
+    "sha256": "a8a1d8827ef43a1487edec5a13a97a4bbb73696dfac9531ed03e82b77b4291b1",
+    "image_sha256": "a8a1d8827ef43a1487edec5a13a97a4bbb73696dfac9531ed03e82b77b4291b1",
+    "bytes": 440631,
+    "image_bytes": 440631,
+    "pixel_resolution_3857_m": [
+      4.348417609111493,
+      4.350002987618152
+    ],
+    "approximate_ground_resolution_m": [
+      4.110024845595655,
+      4.111523309091522
+    ],
+    "source_clip_pdf_points": [
+      1337.8145086807706,
+      1800.3062246139339,
+      1641.9384984350872,
+      2119.6635941786053
+    ],
+    "source_viewport_pdf_points": [
+      38.52039,
+      221.9978799999999,
+      2341.22341,
+      3337.04803
+    ],
+    "source_render_scale": 4.0,
+    "source_render_pixels": [
+      1217,
+      1278
+    ],
+    "source_pixel_affine_32643": [
+      3.52765319030555,
+      -3.810847929215335e-05,
+      278973.9027270897,
+      -2.8048186112672514e-05,
+      -3.5276936854099374,
+      2111018.2943292945
+    ],
+    "controls": [
+      {
+        "local": [
+          0.0,
+          1.0
+        ],
+        "latitude": 18.88223,
+        "longitude": 72.72787,
+        "easting": 260640.89020154887,
+        "northing": 2089333.0426969316,
+        "affine_fit_residual_m": 0.14825859630428412
+      },
+      {
+        "local": [
+          0.0,
+          0.0
+        ],
+        "latitude": 19.27917,
+        "longitude": 72.72245,
+        "easting": 260641.06974239263,
+        "northing": 2133288.7868160415,
+        "affine_fit_residual_m": 0.148258595761384
+      },
+      {
+        "local": [
+          1.0,
+          0.0
+        ],
+        "latitude": 19.28276,
+        "longitude": 73.03148,
+        "easting": 293133.9156601622,
+        "northing": 2133288.55532592,
+        "affine_fit_residual_m": 0.14825859616196302
+      },
+      {
+        "local": [
+          1.0,
+          1.0
+        ],
+        "latitude": 18.88574,
+        "longitude": 73.03616,
+        "easting": 293133.1455224132,
+        "northing": 2089332.7574939104,
+        "affine_fit_residual_m": 0.14825859540298134
+      }
+    ],
+    "maximum_control_fit_residual_m": 0.14825859630428412,
+    "control_point_residual_m": [
+      0.14825859630428412,
+      0.148258595761384,
+      0.14825859616196302,
+      0.14825859540298134
+    ],
+    "source_image_count": 964,
+    "source_vector_drawing_type_counts": {
+      "clip": 2834,
+      "s": 302,
+      "f": 13
+    },
+    "method": "All four ISO GeoPDF controls transformed from WGS84 latitude/longitude to declared UTM43N; affine fit; bounded RGB map render; rasterio bilinear warp to Web Mercator image grid",
+    "synthetic": false,
+    "analysis_allowed": false,
+    "settlement_geometry_count": 0,
+    "licence": "Not established; retain locally pending SRA reuse permission review",
+    "limitations": [
+      "Historical cartographic raster, not settlement vector boundaries; no feature IDs attached to pixels",
+      "Do not use for boundary area, legal recognition, routing origins or cluster-to-facility measurement",
+      "Control-fit residual measures internal transform consistency, not surveyed ground accuracy; map scale and registration limits remain",
+      "Rasterized symbols, labels and administrative context remain as printed; no segmentation or digitization performed"
+    ]
+  }
+}

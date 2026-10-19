@@ -6,6 +6,8 @@ import json
 import sys
 from data_common import META, PROCESSED, ROOT, strict_spatial_join, utcnow, validate_features, write_json
 
+sys.path.insert(0, str(ROOT / "nagarseva"))
+
 
 def validate():
     report = {"checked_at": utcnow(), "errors": [], "downloads": [], "datasets": {}}
@@ -26,12 +28,19 @@ def validate():
     snapshot = PROCESSED / "urban_real.json"
     if snapshot.exists():
         data = json.loads(snapshot.read_text())
-        for table in ("settlements", "projects", "indicators"):
-            rows = data[table]
+        for table in ("settlements", "projects", "geographic_units", "indicators"):
+            rows = data.get(table, [])
             if len({r["id"] for r in rows}) != len(rows):
                 report["errors"].append("Duplicate snapshot IDs in " + table)
             report["datasets"][table] = {"record_count": len(rows), "fields": sorted(set(k for row in rows for k in row))}
         report["datasets"]["settlements"]["geometry_count"] = sum(r["geometry"] is not None for r in data["settlements"])
+        report["datasets"]["settlements"]["unique_source_id_count"] = len({r["source_id"] for r in data["settlements"]})
+        report["datasets"]["settlements"]["identifier_alias_links"] = sum(bool(r.get("source_aliases")) for r in data["settlements"])
+        report["datasets"]["indicators"]["reference_years"] = sorted({r["reference_year"] for r in data["indicators"]})
+        report["datasets"]["indicators"]["missing_value_count"] = sum(r["value"] is None for r in data["indicators"])
+        report["datasets"]["indicators"]["settlement_allocations"] = sum(r.get("settlement_id") is not None for r in data["indicators"])
+        from model.api.snapshot_validation import published_context
+        published_context(data)
         report["datasets"]["projects"]["reliably_joined_count"] = sum(p["settlement_id"] is not None for p in data["projects"])
         report["datasets"]["projects"]["status_counts"] = dict(Counter(p["project_status"] for p in data["projects"]))
         report["datasets"]["projects"]["source_fields"] = sorted({k for p in data["projects"] for k in p.get("source_attributes", {})})
@@ -50,6 +59,20 @@ def validate():
         report["context_join"] = {"method": "Whole geometry covered by exactly one mapped OSM residential polygon; no SRA or Census allocation", "input_count": len(joined),
                                   "unique_matches": sum(r["unit_id"] is not None for r in joined), "unmatched_or_ambiguous": sum(r["unit_id"] is None for r in joined)}
         write_json(PROCESSED / "osm_residential_context_join.json", {"metadata": report["context_join"], "rows": joined})
+    overlay_path = PROCESSED / "sra_pilot_overlay.json"
+    if overlay_path.exists():
+        overlay = json.loads(overlay_path.read_text())
+        image = PROCESSED / "sra_pilot_overlay.png"
+        valid = (image.is_file() and image.stat().st_size == overlay["image_bytes"]
+                 and hashlib.sha256(image.read_bytes()).hexdigest() == overlay["image_sha256"]
+                 and overlay.get("analysis_allowed") is False and overlay.get("crs") == "EPSG:3857")
+        report["datasets"]["historical_sra_raster"] = {"valid": valid, "bounds": overlay["bounds"], "width": overlay["width"], "height": overlay["height"],
+                                                       "source_date": overlay["source_date"], "crs": overlay["crs"], "analysis_allowed": False,
+                                                       "source_sha256": overlay["source_sha256"], "image_sha256": overlay["image_sha256"],
+                                                       "control_point_residual_m": overlay["control_point_residual_m"],
+                                                       "limitations": "Control-fit residual is not ground accuracy; raster supplies no analytical polygons"}
+        if not valid:
+            report["errors"].append("Historical SRA raster manifest or checksum failed")
     report["valid"] = not report["errors"]
     write_json(META / "validation.json", report)
     # A portable manifest contains no raw source data, private records or secrets.

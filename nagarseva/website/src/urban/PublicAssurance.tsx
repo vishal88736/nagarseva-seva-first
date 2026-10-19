@@ -3,6 +3,7 @@ import type { FormEvent } from 'react'
 import { dataApi, exportPublicCsv } from './publicClient'
 import type { Complaint, Evidence, Health, Intervention, PublicSettlement, Verification } from './publicClient'
 import { Field, formatMoney, Heading, Panel, Tag } from './PlanningPages'
+import PublicFieldCollection from './PublicFieldCollection'
 
 const STATUS: Record<string, string> = { planned: 'Planned', in_progress: 'In progress', reported_complete: 'Reported complete', awaiting_verification: 'Awaiting verification', verified: 'Verified (recorded review)', requiring_reinspection: 'Requiring reinspection', cancelled: 'Cancelled' }
 const today = () => new Date().toISOString().slice(0, 10)
@@ -40,6 +41,7 @@ export default function PublicAssurance({ selected, officerKey, health, draft, o
     {!officerKey ? <Panel title="Officer access required"><p>Enter the configured API officer key above to create or inspect operational records. Public source records and maps remain available.</p></Panel> : <>
       {error && <div className="us-alert" role="alert">{error}</div>}
       {!loaded && !error && <p role="status">Loading intervention records…</p>}
+      <PublicFieldCollection selected={selected} officerKey={officerKey} onChanged={onChanged} />
       <fieldset disabled={busy} className="public-fieldset">
       <Panel title={draft ? 'Draft from hypothetical scenario' : 'Plan an intervention'} note="All costs are user assumptions until an approved estimate is provided. No work is automatically approved.">
         <form onSubmit={create}><div className="us-form-grid four"><Field label="Actor / inspector reference"><input required minLength={2} aria-label="Record actor" value={actor} onChange={e => setActor(e.target.value)} /></Field><Field label="Service"><select value={service} onChange={e => setService(e.target.value)}>{['water','sanitation','drainage','waste','housing','other'].map(s => <option key={s}>{s}</option>)}</select></Field><Field label="Planned start"><input aria-label="Planned start" required type="date" value={start} onChange={e => setStart(e.target.value)} /></Field><Field label="Planned end"><input aria-label="Planned end" required type="date" min={start} value={end} onChange={e => setEnd(e.target.value)} /></Field></div>

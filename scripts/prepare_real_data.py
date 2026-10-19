@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+import sys
 from data_common import DATA, META, PROCESSED, ROOT, PILOT_BBOX, inventory, utcnow, validate_features, write_json
 
 KEYS = ("water", "sanitation", "housing", "access", "risk")
@@ -47,6 +48,18 @@ def build():
                   observation_date="2024 map title", publication_date="Publication unknown; PDF created 2024-05-30", geography="Greater Mumbai", resolution="1:40000 map; not imported vector polygons",
                   format="PDF", record_count=1, fields="Map title, legend, printed cluster labels", licence="Not established", access_status="downloaded",
                   validation_status="Parsed with pdftotext and rendered for visual inspection", intended_use="Reference document and label extraction", limitations="PDF map is not a georeferenced GIS dataset; no digitised geometries")
+    register_path = PROCESSED / "sra_cluster_register.json"
+    if register_path.exists():
+        printed = {row["source_id"]: row for row in settlements}
+        register = json.loads(register_path.read_text())
+        settlements = []
+        for row in register["records"]:
+            alias = printed.get(row["source_id"]) if row.get("source_id_unique", True) else None
+            settlements.append({**row, "source_name": row.get("name"),
+                                "name": row.get("name") or "Cluster " + row["source_id"] + " (source name missing)",
+                                "data_completeness": 0, "indicators": {key: None for key in KEYS}, "households": None,
+                                "source_aliases": [{"source_id": alias["source_id"], "source_url": alias["source"],
+                                                    "method": "Exact unique published Cluster_ID equals printed map token; identifier link only"}] if alias else []})
     # Prefer an acquired vector cluster layer over PDF-only records, without merging vintages.
     sra_path = META / "sra_ingestion.json"
     if sra_path.exists():
@@ -67,24 +80,34 @@ def build():
                                     "synthetic": False, "record_type": "source_polygon", "data_completeness": 0,
                                     "indicators": {key: None for key in KEYS}, "households": None, "limitations": ["Layer currency and reuse terms require confirmation; not legal recognition"]})
     projects_path = PROCESSED / "sra_projects.json"
-    projects = json.loads(projects_path.read_text())["records"] if projects_path.exists() else []
+    project_document = json.loads(projects_path.read_text()) if projects_path.exists() else {}
+    projects = project_document.get("records", [])
+    project_metadata = project_document.get("metadata", {})
     osm_path = PROCESSED / "osm_pilot.geojson"
     osm = json.loads(osm_path.read_text()) if osm_path.exists() else {"type": "FeatureCollection", "features": []}
     if not validate_features(osm)["valid"]:
         raise ValueError("OSM snapshot validation failed")
-    # Real observations require a reviewed geography adapter; no current cluster measurements acquired.
-    indicators = []
+    # Retain the original Census unit/year; no areal allocation to SRA clusters.
+    census_path = PROCESSED / "census_observations.json"
+    census = json.loads(census_path.read_text()) if census_path.exists() else {}
+    sys.path.insert(0, str(ROOT / "nagarseva"))
+    from model.api.snapshot_validation import published_context
+    units, indicators = published_context(census)
     metadata = {"title": "UrbanSaarthi acquired public data", "built_at": utcnow(), "synthetic": False, "pilot_bbox": PILOT_BBOX,
-                "geographic_scope": "Govandi bounded OSM context; M/E printed map labels; Mumbai SRA first-page scheme facts",
+                "geographic_scope": "Govandi bounded OSM context; acquired Mumbai SRA register; Census 2011 original Maharashtra state/town geography",
                 "settlement_record_type": settlements[0]["record_type"] if settlements else "none",
                 "settlement_count": len(settlements), "settlement_geometry_count": sum(s["geometry"] is not None for s in settlements),
                 "projects_count": len(projects), "mapped_objects_count": len(osm["features"]),
+                "project_acquisition": project_metadata, "geographic_unit_count": len(units), "historical_observation_count": len(indicators),
+                "register_identifier_links": sum(bool(s.get("source_aliases")) for s in settlements),
+                "census_context": census.get("metadata", {}),
                 "mapped_object_categories": dict(Counter(f["properties"]["category"] for f in osm["features"])),
                 "real_pilot_approved": False, "licence": "Source-specific; SRA reuse rights not established; OSM ODbL-1.0",
                 "limitations": ["No current cluster water, sanitation, drainage, housing or risk baseline acquired.", "Historical source dates remain historical. No Census values assigned to clusters.",
-                                "Printed labels have no acquired geometry; they are not geocoded using names or CTS strings.", "Mapped objects do not establish facility operation or reliable household access.",
-                                "Projects are first-page published facts with unknown phase and no defensible settlement join."]}
-    write_json(PROCESSED / "urban_real.json", {"metadata": metadata, "settlements": settlements, "projects": projects, "indicators": indicators, "spatial": osm})
+                                "Published cluster names/areas and printed labels do not supply boundary geometries; names and CTS are not used as approximate geographic joins.", "Mapped objects do not establish facility operation or reliable household access.",
+                                "Published schemes have unknown phase and no defensible settlement join; inspect the recorded pagination scope.",
+                                "Census 2011 table universes and denominators differ; PCA and Houselisting counts must not be interchanged."]}
+    write_json(PROCESSED / "urban_real.json", {"metadata": metadata, "settlements": settlements, "projects": projects, "geographic_units": units, "indicators": indicators, "spatial": osm})
     print(json.dumps(metadata, indent=2))
     return metadata
 
