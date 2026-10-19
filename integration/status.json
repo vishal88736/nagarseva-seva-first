@@ -49,7 +49,7 @@
     "nagarseva/website/src/styles.css"
   ],
   "frontend_build": "success",
-  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39140508298",
+  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39209217806",
   "source_complete_at_acquisition": true,
   "source_files_removed_since_acquisition": [
     "nagarseva/website/src/components/PublicContext.tsx",
