@@ -21,7 +21,7 @@
   },
   "integration/ci-validation.json": {
     "bytes": 1173,
-    "sha256": "640244d6c0e91fe158a0da7a5f2867a693d12ffaab5a99fe9389a6dc8bc776af"
+    "sha256": "0bc7187a611436fffd8fd250f7d07206938f8aebcdf23c4bfcafe2b11e4743c1"
   },
   "integration/local-snapshot.json": {
     "bytes": 11211,
@@ -49,11 +49,11 @@
   },
   "integration/status.json": {
     "bytes": 4166,
-    "sha256": "09ee5b437aa5dae3e5b633ee7fb598d99920d390270924e474836818cc8d1e14"
+    "sha256": "4b2622b0a2bb5cf4320327788ba10e493d460faf7c26b9c5950a4ecdc8d25951"
   },
   "integration/urban-validation.json": {
-    "bytes": 2778,
-    "sha256": "fc25fc4563ee203357cdba0243535d16fd201c3f22af33d13bc739d184db63a4"
+    "bytes": 2782,
+    "sha256": "4f82d9cc95ee0fbe105d2bbe6696fb917a8ecb04499ff68daeab4f0592122981"
   },
   "nagarseva/README.NagarSeva.md": {
     "bytes": 10869,
