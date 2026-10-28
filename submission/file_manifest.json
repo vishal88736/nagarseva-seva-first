@@ -1,15 +1,15 @@
 {
   ".env.example": {
-    "bytes": 686,
-    "sha256": "8b182bc3ba2c4ea34ad8ca6b1d6b0abdaddd24b1bc2a91dac4e55b0b27a582c8"
+    "bytes": 699,
+    "sha256": "60aecdb7b854ee309a81bad70bea70791e7d90651b22e2e252a22f56e224b63a"
   },
   ".github/workflows/aws-readiness.yml": {
     "bytes": 4415,
     "sha256": "8c1f94cbd6d76a144285cea9e365289c67a7e16034e042770f3a0d788fc8dae2"
   },
   "README.md": {
-    "bytes": 11028,
-    "sha256": "9d6145fceb671d41041b65022824a47b2a9b48ee4db5a2abb5784ec7f92a1bdc"
+    "bytes": 11512,
+    "sha256": "6d0d634c0f2fd2f09bba11f6738f22f7be2dd4561a1934c9302611b7d6c7cb83"
   },
   "deploy/aws/README.md": {
     "bytes": 14367,
@@ -52,8 +52,8 @@
     "sha256": "09ee5b437aa5dae3e5b633ee7fb598d99920d390270924e474836818cc8d1e14"
   },
   "integration/urban-validation.json": {
-    "bytes": 2782,
-    "sha256": "394572ee85cdbdd61944664d409ab7f676d21dfee290a4de8ec07f2851f87660"
+    "bytes": 2778,
+    "sha256": "fc25fc4563ee203357cdba0243535d16fd201c3f22af33d13bc739d184db63a4"
   },
   "nagarseva/README.NagarSeva.md": {
     "bytes": 10869,
@@ -70,6 +70,10 @@
   "nagarseva/docs/PUBLIC_INTEGRATIONS.md": {
     "bytes": 5353,
     "sha256": "710090af66b847c1b57ca9f1c122fad7ed8355e0b255bc573d97f63eb337dbec"
+  },
+  "nagarseva/docs/product.md": {
+    "bytes": 9747,
+    "sha256": "b1838a92777d830f799015e204e87a77139de338e635df343411b698ea851820"
   },
   "nagarseva/docs/public-data-api.md": {
     "bytes": 7904,
@@ -473,7 +477,7 @@
   },
   "research/verification/historical_boundaries_browser.json": {
     "bytes": 1276,
-    "sha256": "194ab9d814d36b3a6ead2e379b11cd741c16e3e5f92c392a0c8bfdd73e3c8b23"
+    "sha256": "ff5e14c2aaff372b38f589ddcb0cc21d108b1c3c60e991dc8791732a5ec6d374"
   },
   "research/verification/historical_boundaries_validation.json": {
     "bytes": 1388,
@@ -482,6 +486,22 @@
   "research/verification/local_runtime.json": {
     "bytes": 393,
     "sha256": "27a6a6b2675c5b93f4664ed4385fca5ef8399e58554d8b45216bdc05a6d8ae78"
+  },
+  "research/verification/product_browser.json": {
+    "bytes": 1204,
+    "sha256": "1cde190906fa61d9c2ce568b9f26cee0a996a67289bb9a94f992db436efa5a7c"
+  },
+  "research/verification/product_live_browser.json": {
+    "bytes": 465,
+    "sha256": "aa7298ce80e2ee77e47a788e0fa77569484e70f5b8e991a342b1608d8b6f6cfa"
+  },
+  "research/verification/product_real_browser.json": {
+    "bytes": 1211,
+    "sha256": "5ecb3f7c647a376da0ecbd4ba00941edd30d69d078d229a076f475e45d8db479"
+  },
+  "research/verification/product_validation.json": {
+    "bytes": 3512,
+    "sha256": "04ec0ec2ad7b73b3b10b89d32e1237d355f3c4883dd9ee37e4eb4bc07bcbe92b"
   },
   "research/verification/public_bundle.json": {
     "bytes": 1315,
@@ -500,12 +520,12 @@
     "sha256": "e8d59508370ab831f599cac14b80658d1a871bf438894845163d7178cdc2d1aa"
   },
   "research/verification/workspace_browser.json": {
-    "bytes": 1034,
-    "sha256": "d8358480440024d839ec1f30b4a07b03dad773a3de928b62c74bc5820d42ed0e"
+    "bytes": 1050,
+    "sha256": "f36ad62a2a2250027a7cdadde11ca0e504a3252f16be49c3f7c374c38e744757"
   },
   "research/verification/workspace_field_browser.json": {
     "bytes": 647,
-    "sha256": "fc5d141e123df836dcf6246c2b312c75658f39368015115098201a95eda06542"
+    "sha256": "828861eaa26ce140c0d7c166608561e1d598568224108e7af27fd4011f84efec"
   },
   "research/verification/workspace_pytest.xml": {
     "bytes": 41576,

@@ -1,15 +1,15 @@
 {
   "status": "passed",
-  "checked_at": "2026-10-28T07:34:15.786639+00:00",
+  "checked_at": "2026-10-28T14:00:15.652265+00:00",
   "scope": "Actual Chromium and API using user-uploaded synthetic software fixtures in disposable SQLite",
   "field_validation": false,
   "checks": [
-    "Empty app has five planning screens and a clear data entry path; no research tables on the dashboard",
+    "Empty product dashboard has a clear data entry path and keeps legacy planning tools accessible",
     "Template download, malformed-file recovery, nonmutating preview and actual authorized GeoJSON/observation/project import pass",
     "Map fits imported geometries outside the old fixed viewport; selection, keyboard boundary access and exact project joins are connected",
     "Hand-worked 51-point score, water-only80, zero-weight rejection, missing-data separation and CSV pass",
     "Imported120 households feed scenarios; hand-worked \u20b91199 matches API; due-date edit, plan/completion/evidence/review and correct complaint service execute",
-    "Reload retains imported data; five screens and Data fit390px; offline API shows retry without switching datasets"
+    "Reload retains imported data; primary explorer and retained planning tools fit390px; offline API shows retry without substituting data"
   ],
   "browser_errors": []
 }

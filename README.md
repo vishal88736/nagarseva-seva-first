@@ -1,92 +1,89 @@
 # UrbanSaarthi
 
-Explainable settlement prioritization, hypothetical intervention comparison and basic-service assurance for a Maharashtra urban-development challenge prototype.
+A working multilingual prototype for affordable housing, settlement exploration and
+basic-service issue reporting in Mumbai, built for the Seva First Maharashtra Zone
+problem statement. The application uses React/TypeScript/Leaflet, FastAPI and SQLite.
+It does not claim official municipal submission or government integration.
 
-The main application contains five planning screens. **Data & access** holds your
-imports, officer access and optional reference material. Research catalogues and
-historical source tables are kept out of the main workflow.
+## Four primary sections
 
-**Bring your own data:** upload a GeoJSON settlement collection or a workspace JSON
-from **Data & access → Validate file → Import validated dataset**. Download the
-in-app template first. [Dataset format and import instructions](nagarseva/docs/workspace-data.md).
-Household counts, boundaries, observations and explicit project joins feed the same
-selected settlement across the map, scoring, scenarios and service assurance.
+- **Dashboard** (`/dashboard`): sourced dataset counts, historical map preview and recent reports.
+- **Explore Settlements** (`/settlements`): independent 2015 polygons and the 2024 register, with source-supported filters.
+- **Report an Issue** (`/report-issue`): validated, persisted anonymous reports and stable references.
+- **Projects & Reports** (`/projects`): sourced project records, details, filters and downloads.
 
-- [API, database and state transitions](nagarseva/docs/public-data-api.md)
-- [Optional field collection](pilot/field_collection.md)
-- [Historical acquisition archive](research/final_report.md) and [dataset inventory](research/dataset_inventory.csv)
-- [Local/test port configuration](research/local_runtime.md)
+English, हिंदी and मराठी use the existing translation provider, with feature dictionaries
+in `nagarseva/website/src/i18n/locales/`. Changing language preserves forms and filters.
+Published names and original source values are retained rather than machine-translated.
 
-The interface has an **English / हिंदी / मराठी** selector. Language changes retain
-the current page and in-progress form values; imported source text stays as supplied.
+Existing prioritization, hypothetical scenarios, officer service assurance and Data &
+access remain secondary tools under Projects & Reports. Legacy hash links still work.
+[Product, routing, source and API contract](nagarseva/docs/product.md).
 
-The settlement map also includes a separate **2015 Reference Boundaries** layer:
-2,542 supplied historical polygons, 2,517 displayed after topology validation,
-25 excluded without repair. It is never joined to current services or 2024 records.
-[Source provenance, limitations and validation](research/historical_boundaries_2015.md).
+## Data currently connected in the local workspace
 
-## Five screens, one workflow
+| Dataset | Actual imported count | Scope |
+| --- | --- | --- |
+| Historical 2015 boundaries | 2,542 source polygons; 2,517 displayed | 25 topology-invalid polygons excluded without repair |
+| SRA 2024 register | 2,597 source rows | No verified join to 2015 polygons |
+| SRA scheme listings | 5,677 records | Unknown status/progress stays unknown |
+| OSM context | 7,106 mapped objects | Mapping does not establish operation or household access |
+| Census 2011 | 456 observations across 190 state/town units | No cluster allocation; historical reference year retained |
 
-1. **Overview** — settlement coverage, data gaps and services awaiting verification.
-2. **Settlement map** — imported boundaries, name/ward search, indicator details, explicitly linked projects and a separate historical 2015 reference layer.
-3. **Priorities** — configurable weights, a paginated ranking and the five input contributions; missing evidence stays unranked.
-4. **Scenarios** — compare improvement and redevelopment costs, coverage and disruption using editable assumptions.
-5. **Service Assurance** — planned works, physical completion, uploaded evidence, measurements, review, issues and audit history.
-
-The priority example in the brief is **65.0/100**, not 65.5. Unknown indicators stay missing; clusters with missing positive-weight inputs receive an interval and no rank. No eligibility or resident-relocation decision is automated.
+The supplied GeoJSON has only `polyno`, null in every feature. It provides no verified
+settlement names or SRA IDs. Geometry, register records, project listings, Census
+observations and user reports remain distinct. [Boundary validation and limitations](research/historical_boundaries_2015.md).
+The original retrieval date and independently verified SRA reuse terms remain unknown.
 
 ## Run locally
 
-Use Python 3.12 and Node 24. Public data browsing requires no model training or source API key.
+Use Python 3.12 and Node 24. From the repository root:
 
 ```bash
-cd nagarseva
-python3.12 -m venv .venv
-.venv/bin/python -m pip install -r model/requirements-urban.txt
-npm --prefix website ci
+python3.12 -m venv nagarseva/.venv
+nagarseva/.venv/bin/python -m pip install -r nagarseva/model/requirements-urban.txt
+npm --prefix nagarseva/website ci
+bash start-local.sh
 ```
 
-Start the API:
-
-```bash
-.venv/bin/python -m uvicorn model.api.urban:app --host 127.0.0.1 --port 8000
-```
-
-In another terminal, from `nagarseva`:
-
-```bash
-npm --prefix website run dev
-```
-
-Open **http://localhost:5173**. API documentation: http://localhost:8000/docs. If the API is unavailable, the app explicitly offers a browser sandbox; those records remain separate from server records. Uploads accept consented demo files, up to 2 MiB. SQLite operational files are ignored by Git.
-
-From this existing checkout, `bash start-local.sh` installs missing runtime packages
-and starts both processes, with owned-process cleanup on exit. The workspace shows
-an error/retry when its API is unavailable; it never silently substitutes synthetic
-data. A fresh checkout can import your own data without running the acquisition pipeline.
-To use explicit free ports without stopping another service:
+Open **http://localhost:5173/dashboard**. API documentation: **http://localhost:8000/docs**.
+The launcher reuses installed dependencies and reports occupied ports without stopping
+unrelated processes. To use the current alternate ports:
 
 ```bash
 URBANSAARTHI_API_PORT=8001 URBANSAARTHI_WEB_PORT=5174 bash start-local.sh
 ```
 
-This prints the actual frontend/API URLs and sets the frontend proxy accordingly.
+A fresh checkout already includes the 2015 static layer. The other acquired source files
+remain local and are not silently downloaded or replaced. When `data/processed` and its
+validated originals are available, connect them reproducibly:
 
-For authorized work/complaint/inspection records, configure the API environment
-before running the launcher. Choose a private local key and enter the same value
-through **Data & access** in the application:
+```bash
+nagarseva/.venv/bin/python -m pip install -r scripts/requirements-data.txt
+nagarseva/.venv/bin/python scripts/activate_public_data.py
+export URBANSAARTHI_DB_PATH="$PWD/.runtime/my-workspace/workspace.sqlite3"
+export URBANSAARTHI_DATA_DIR="$PWD/.runtime/my-workspace/input"
+URBANSAARTHI_API_PORT=8001 URBANSAARTHI_WEB_PORT=5174 bash start-local.sh
+```
+
+Activation verifies source hashes, backs up an existing database, preserves operational
+records and refuses to replace a user import. Repeated identical activation is safe.
+[Bring-your-own-data import format](nagarseva/docs/workspace-data.md) also remains available.
+
+Public issue creation requires no officer key. For operator actions and private evidence:
 
 ```bash
 read -rsp 'Choose a private local officer key: ' NAGARSEVA_OFFICER_KEY
 export NAGARSEVA_OFFICER_KEY
 export NAGARSEVA_MODE=pilot-prototype
-export URBANSAARTHI_EVIDENCE_STORAGE=sqlite  # optional consented uploads
+export URBANSAARTHI_EVIDENCE_STORAGE=sqlite  # optional consented image storage
 bash start-local.sh
 ```
 
-See [.env.example](.env.example). Do not place the officer key in a frontend variable.
-SQLite and the versioned schema are initialized automatically. Keep the API bound
-to loopback for local development; shared keys are not production identity/RBAC.
+See [.env.example](.env.example). Never put officer keys in VITE_* variables or commit
+runtime databases, images or real credentials. Schema migrations are applied at API
+startup. Reports are saved in SQLite and explicitly marked as prototype self-reports;
+they are not forwarded to a municipality. Shared keys are not production identity/RBAC.
 
 ## Acquire and validate data
 
@@ -149,22 +146,28 @@ boundaries. OSM mappings do not prove service operation, and a shared CTS
 string does not establish a project join. No current service baseline, official cost
 estimate, approved ward pilot or field impact is claimed.
 
-Calculations run deterministically in Python and the browser. Current local results
-are recorded in [the final report](research/final_report.md) and
-[Chromium workflow results](research/verification/browser_results.json). Prior CI
-artifacts in `integration/` retain their original dates and validation scope.
+Calculations run deterministically in Python and the browser. The four-section product's
+current checks are recorded in [product validation](research/verification/product_validation.json),
+including a browser run with the acquired register and project records. Earlier acquisition
+findings remain in [the research report](research/final_report.md). CI artifacts in
+`integration/` retain their own dates, source revisions and validation scope.
 
 Run checks from the repository root:
 
 ```bash
 PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest tests nagarseva/tests/test_urban.py nagarseva/model/tests deploy/aws/tests submission/scripts/tests .github/tests -q
 npm --prefix nagarseva/website test
+npm --prefix nagarseva/website run lint
+nagarseva/website/node_modules/.bin/tsc -p nagarseva/website/tsconfig.app.json --noEmit --noUnusedLocals --noUnusedParameters
 npm --prefix nagarseva/website run build
 # System Chromium + Playwright; uses a disposable database and owned ports.
 uv pip install --python nagarseva/.venv/bin/python playwright==1.56.0
+CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_product_browser.py
 CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_historical_boundaries_browser.py
 CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_public_browser.py
 CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_field_collection_browser.py
+# Optional: requires the locally acquired data/processed/urban_real.json.
+URBANSAARTHI_BROWSER_REAL_DATA=1 CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_product_browser.py
 ```
 
 The full Python command additionally requires `nagarseva/model/requirements.txt`.

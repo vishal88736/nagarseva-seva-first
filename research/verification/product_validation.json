@@ -1,0 +1,92 @@
+{
+  "checked_at": "2026-10-28T14:02:06.177608+00:00",
+  "implementation_commit": "6a36b4f902dd952fffeedbd912987d5f41eb801c",
+  "scope": "Local software, acquired source records and actual local app; disposable issue/field fixtures are not observations",
+  "python": {
+    "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest nagarseva/model/tests nagarseva/tests tests submission/scripts/tests deploy/aws/tests .github/tests -q",
+    "passed": 318,
+    "warnings": 4
+  },
+  "frontend": {
+    "command": "npm --prefix nagarseva/website test",
+    "passed": 30
+  },
+  "lint": {
+    "command": "npm --prefix nagarseva/website run lint",
+    "status": "passed"
+  },
+  "strict_typecheck": {
+    "command": "nagarseva/website/node_modules/.bin/tsc --noEmit --noUnusedLocals --noUnusedParameters -p nagarseva/website/tsconfig.app.json",
+    "status": "passed"
+  },
+  "build": {
+    "command": "npm --prefix nagarseva/website run build",
+    "status": "passed"
+  },
+  "browser_receipts": {
+    "product_browser.json": {
+      "status": "passed",
+      "checked_at": "2026-10-28T13:59:16.106956+00:00",
+      "checks": 6,
+      "scope": "Actual Chromium and API in disposable SQLite; saved issue reports are software fixtures"
+    },
+    "product_real_browser.json": {
+      "status": "passed",
+      "checked_at": "2026-10-28T13:59:50.467049+00:00",
+      "checks": 6,
+      "scope": "Actual Chromium and API in disposable SQLite; saved issue reports are software fixtures"
+    },
+    "product_live_browser.json": {
+      "status": "passed",
+      "checked_at": "2026-10-28T14:00:19.538013+00:00",
+      "checks": 0,
+      "scope": "Read-only browser check of the actual local running app; no issue or field records submitted"
+    },
+    "historical_boundaries_browser.json": {
+      "status": "passed",
+      "checked_at": "2026-10-28T14:00:15.652068+00:00",
+      "checks": 6,
+      "scope": "Actual Chromium, bundled historical GeoJSON and disposable API; no field validation"
+    },
+    "workspace_browser.json": {
+      "status": "passed",
+      "checked_at": "2026-10-28T14:00:15.652265+00:00",
+      "checks": 6,
+      "scope": "Actual Chromium and API using user-uploaded synthetic software fixtures in disposable SQLite"
+    },
+    "workspace_field_browser.json": {
+      "status": "passed",
+      "checked_at": "2026-10-28T10:18:56.254933+00:00",
+      "checks": 4,
+      "scope": "Actual Chromium UI with synthetic API fixtures; no field or backend validation"
+    }
+  },
+  "sandbox_browser": {
+    "status": "passed",
+    "checks": 25,
+    "report": "integration/urban-validation.json",
+    "synthetic": true
+  },
+  "source_counts": {
+    "historical_polygons": 2542,
+    "topology_valid_displayed": 2517,
+    "invalid_excluded": 25,
+    "register_rows": 2597,
+    "project_listings": 5677,
+    "osm_objects": 7106,
+    "census_2011_observations": 456,
+    "census_geographic_units": 190
+  },
+  "originals_checksum_validated": 247,
+  "reliable_historical_register_joins": 0,
+  "current_service_indices_added": 0,
+  "dependencies_added": [],
+  "field_validation": false,
+  "public_deployment_verified": false,
+  "limitations": [
+    "Census values remain at their original 2011 state/town geography.",
+    "The historical map has no verified join to 2024 register rows.",
+    "Source listing counts do not establish current project phases, service coverage or housing eligibility.",
+    "The acquired-data snapshot is mounted locally, not bundled into Git or proven deployed publicly."
+  ]
+}

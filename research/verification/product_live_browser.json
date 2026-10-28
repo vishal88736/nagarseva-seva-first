@@ -1,0 +1,18 @@
+{
+  "checked_at": "2026-10-28T14:00:19.538013+00:00",
+  "scope": "Read-only browser check of the actual local running app; no issue or field records submitted",
+  "status": "passed",
+  "dashboard_metrics": [
+    "2,517",
+    "2,597",
+    "0",
+    "0"
+  ],
+  "source_features": 2542,
+  "rendered_polygons": 2517,
+  "basemap_tiles_requested": 10,
+  "basemap_tiles_loaded": 10,
+  "page_errors": [],
+  "public_deployment_verified": false,
+  "field_validation": false
+}

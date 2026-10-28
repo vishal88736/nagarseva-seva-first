@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-28T13:59:16.106956+00:00",
+  "scope": "Actual Chromium and API in disposable SQLite; saved issue reports are software fixtures",
+  "checks": [
+    "Four routes and real dataset KPIs render; historical polygons are distinct from register records and four desktop metrics share one row",
+    "Polygon highlight and source-only details work; register selection does not move the map; ward/village/search, language persistence and browser back/forward pass",
+    "Anonymous issue form preserves translated drafts, validates image consent, persists one report with stable reference across reload, and separates review from service verification",
+    "Project search, genuine fields, provenance dialog and issue CSV exports pass without invented costs, progress or cluster links",
+    "All four sections render in English, Hindi and Marathi at390px without page overflow or untranslated navigation keys",
+    "Network failure does not show a success confirmation or create an issue"
+  ],
+  "browser_errors": [],
+  "field_validation": false,
+  "source_counts": {
+    "settlements": 2,
+    "projects": 1,
+    "indicators": 0
+  },
+  "real_source_records": false
+}

@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "checked_at": "2026-10-28T07:34:15.786645+00:00",
+  "checked_at": "2026-10-28T14:00:15.652068+00:00",
   "scope": "Actual Chromium, bundled historical GeoJSON and disposable API; no field validation",
   "checks": [
     "All 2542 original features are parsed; 2517 topology-valid polygons render at the Mumbai extent, with source-only click/keyboard popups, translated open popups and a working toggle in English, Hindi and Marathi",
@@ -11,7 +11,7 @@
     "Imported settlement names remain original; the 2015 layer adds no settlement, household or service observations and no identifier joins"
   ],
   "browser_errors": [],
-  "tested_commit": "b1011fe1c90aff5cf48334521a3d6d708a8e8ae6",
+  "tested_commit": "a86e2cc65217f3f146d94da84ef0871bcb82cae7",
   "working_tree_dirty": true,
   "source_features": 2542,
   "rendered_features": 2517,
