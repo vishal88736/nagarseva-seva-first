@@ -1,0 +1,40 @@
+{
+  "checked_at": "2026-10-28T07:36:21.724684+00:00",
+  "scope": "Local software validation of the supplied historical reference layer; no current service or field validation",
+  "python": {
+    "passed": 293,
+    "warnings": 4,
+    "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest nagarseva/model/tests nagarseva/tests tests submission/scripts/tests deploy/aws/tests .github/tests -q"
+  },
+  "frontend": {
+    "passed": 28,
+    "command": "npm --prefix nagarseva/website test"
+  },
+  "lint": "passed",
+  "application_typecheck_with_unused_checks": "passed",
+  "production_build": "passed",
+  "browser_checks": {
+    "historical_reference": 6,
+    "existing_workspace": 6,
+    "field_collection": 4,
+    "synthetic_sandbox": 25
+  },
+  "browser_errors": [],
+  "new_dependencies": [],
+  "field_validation": false,
+  "limitations": [
+    "25 topology-invalid polygons excluded without repair",
+    "All supplied GeoJSON polyno values null",
+    "Original retrieval date unknown",
+    "No 2024 cluster or Census joins",
+    "Catalogue licence claim is not independently verified SRA permission"
+  ],
+  "live_local_map": {
+    "url": "http://localhost:5174/#explore",
+    "rendered_polygons": 2517,
+    "tile_http_statuses": {
+      "200": 15
+    },
+    "reference_notice": "Historical reference boundaries — 2015. Not verified against the 2024 SRA cluster list."
+  }
+}

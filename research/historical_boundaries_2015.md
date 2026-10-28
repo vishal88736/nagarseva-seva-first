@@ -116,3 +116,38 @@ CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_historica
 
 Open **Settlement map → Layers → 2015 Reference Boundaries**. Inspection evidence,
 service calculations and user-import data remain outside this historical layer.
+
+## Checked implementation files
+
+- `scripts/stage_historical_boundaries.py`: immutable raw preservation and topology QA.
+- `website/public/data/` under `nagarseva/`: unchanged GeoJSON and separate source manifest.
+- `src/urban/historicalBoundaries.ts`, `HistoricalReferenceLayer.tsx`, `PublicMap.tsx` and
+  `LocalizedMapControls.tsx` under the website: loader, presentation and localized map controls.
+- `PublicWorkspace.tsx` and existing `urban.css`: map placement, API-independent display
+  and responsive source notice, reusing the existing light-themed layout.
+- Existing `src/i18n/` and screen localization work: shared English/Hindi/Marathi
+  text and preserved application state; source names and records remain unchanged.
+- Frontend, staging, browser and hosted/container checks, plus the existing CI workflow.
+- README, inventory and geographic-join/quality reports. No dependency or database
+  migration was added.
+
+## Actual local validation results
+
+- Full Python suite: **293 passed**, with four existing dependency warnings.
+- Frontend suite: **28 passed**. Lint, strict application type checking (including
+  unused locals/parameters), production build and diff whitespace checks passed.
+- Actual Chromium: **6 historical-layer checks**, 6 existing workspace checks,
+  4 field-entry checks and 25 synthetic-sandbox checks passed. New map checks cover
+  all three languages, visible polygons, click/keyboard and translated open popups,
+  toggle, preserved viewport/search, mobile layout, API-offline access, failed/empty/
+  malformed loads, retry, and separation from imported names and statistics.
+- A separate read-only check of the running local app rendered 2,517 polygons and
+  received HTTP 200 for 15 live OpenStreetMap tile responses. Source extent, local
+  screenshots and responsive layouts were inspected. Basemap availability may vary.
+- The hosted ASGI wrapper serves the exact static file hash while the settlement
+  API stays empty. The existing AWS container workflow now also checks both assets
+  and source counts over actual container HTTP. Local ASGI checks do not claim a
+  deployed AWS site.
+
+See the [browser receipt](verification/historical_boundaries_browser.json) and
+[validation summary](verification/historical_boundaries_validation.json).
