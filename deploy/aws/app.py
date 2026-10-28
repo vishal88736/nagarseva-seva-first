@@ -68,6 +68,17 @@ class OriginGuard:
         await self.app(scope, replay, private_response)
 
 
+
+class SPAFiles(StaticFiles):
+    """Serve only known client routes through the SPA; missing assets stay 404."""
+    routes = {'dashboard','settlements','report-issue','projects','projects/data','projects/priorities','projects/scenarios','projects/assurance'}
+
+    async def get_response(self, path, scope):
+        if scope['method'] in {'GET','HEAD'} and path.strip('/') in self.routes:
+            return await super().get_response('index.html',scope)
+        return await super().get_response(path,scope)
+
+
 def build_app(frontend_dir: str | Path | None = None, db_path=None):
     origin_secret = os.environ.get("URBANSAARTHI_ORIGIN_SECRET", "")
     officer_key = os.environ.get("NAGARSEVA_OFFICER_KEY", "")
@@ -80,7 +91,7 @@ def build_app(frontend_dir: str | Path | None = None, db_path=None):
         raise RuntimeError("Build the frontend before starting the hosted app.")
     application = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
     application.mount("/api", create_app(db_path))
-    application.mount("/", StaticFiles(directory=directory, html=True))
+    application.mount("/", SPAFiles(directory=directory, html=True))
     return OriginGuard(application, origin_secret)
 
 

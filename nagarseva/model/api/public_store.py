@@ -173,5 +173,6 @@ class PublicStore:
                 "documented_deficits": sum(v is not None and v >= 60 for r in ranking["items"] for v in r["indicators"].values()),
                 "requires_assessment": sum(not r["rankable"] for r in ranking["items"]), "projects": len(self.projects()),
                 "awaiting_verification": sum(w["status"] in {"reported_complete", "awaiting_verification", "requiring_reinspection"} for w in works),
+                "verified_interventions": sum(w["status"] == "verified" for w in works),
                 "overdue_interventions": sum(w["planned_end"] < self.now()[:10] and w["status"] != "verified" for w in works),
                 "synthetic": False, "deficit_threshold": "Index >=60; illustrative review threshold"}

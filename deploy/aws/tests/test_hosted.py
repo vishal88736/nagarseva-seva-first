@@ -150,3 +150,12 @@ def test_import_limit_also_rejects_oversized_chunked_bodies(hosted):
     finally:
         c.close()
     assert response.status_code == 413
+
+
+@pytest.mark.parametrize('path',['/dashboard','/settlements','/report-issue','/projects','/projects/data','/projects/priorities','/projects/scenarios','/projects/assurance'])
+def test_known_product_routes_support_direct_navigation_and_refresh(hosted,path):
+    with client(hosted) as c:
+        response=c.get(path,headers=ORIGIN)
+        assert response.status_code==200 and '<title>UrbanSaarthi</title>' in response.text
+        assert c.get('/data/missing.geojson',headers=ORIGIN).status_code==404
+        assert c.get('/api/missing',headers=ORIGIN).status_code==404

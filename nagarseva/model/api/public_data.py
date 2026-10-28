@@ -175,7 +175,7 @@ def create_public_router(provider, officer_access, decode_evidence):
 
     @router.get("/health")
     def health():
-        return {"status": "ok", "database": "SQLite", "schema_version": 1, "synthetic": False,
+        return {"status": "ok", "database": "SQLite", "schema_version": 2, "synthetic": False,
                 "snapshot_loaded": bool(provider().metadata().get("snapshot_sha256")), "officer_auth_required": True,
                 "evidence_storage": os.getenv("URBANSAARTHI_EVIDENCE_STORAGE") == "sqlite", "government_connected": False}
 
@@ -186,6 +186,9 @@ def create_public_router(provider, officer_access, decode_evidence):
             path = provider().data_dir.parent / "metadata/dataset_inventory.csv"
         rows = list(csv.DictReader(path.open())) if path.exists() else []
         meta = {k: v for k, v in provider().metadata().items() if not k.startswith("active_")}
+        # Detailed Census source requests contain local processing paths; public
+        # observations and the inventory already retain URL/year provenance.
+        meta.pop("census_context", None)
         if meta.get("source_type") == "user_import":
             rows = []
         return {"snapshot": meta, "datasets": rows}
@@ -295,11 +298,13 @@ def create_public_router(provider, officer_access, decode_evidence):
                 "attribution": "OpenStreetMap contributors; ODbL 1.0. Source-specific attribution for SRA layers.", "limitations": "Mapped features do not prove operation; absent map features do not prove absence"}
 
     @router.get("/projects")
-    def projects(search: str = Query("", max_length=200), settlement_id: str | None = Query(None, max_length=100), page: int = Query(1, ge=1), page_size: int = Query(100, ge=1, le=1000)):
-        rows = [r for r in provider().projects() if search.casefold() in (r["scheme_name"] + " " + (r.get("administrative_area") or "")).casefold()
-                and (settlement_id is None or r.get("settlement_id") == settlement_id)]
+    def projects(search: str = Query("", max_length=200), ward: str = Query("",max_length=120), settlement_id: str | None = Query(None, max_length=100), page: int = Query(1, ge=1), page_size: int = Query(100, ge=1, le=1000)):
+        all_rows=provider().projects()
+        rows = [r for r in all_rows if search.casefold() in (r["scheme_name"] + " " + r["id"] + " " + (r.get("source_id") or "") + " " + (r.get("administrative_area") or "")).casefold()
+                and (settlement_id is None or r.get("settlement_id") == settlement_id) and (not ward or r.get("administrative_area")==ward)]
         acquisition = provider().metadata().get("project_acquisition", {})
         return {"items": rows[(page - 1) * page_size:page * page_size], "total": len(rows), "page": page, "page_size": page_size,
+                "wards":sorted({r["administrative_area"] for r in all_rows if r.get("administrative_area")}),
                 "scope": acquisition.get("scope", "Published listing; pagination scope unavailable; no current status inferred"),
                 "complete": acquisition.get("complete"), "pages_retrieved": acquisition.get("pages_retrieved")}
 
