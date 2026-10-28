@@ -10,6 +10,10 @@ from model.src.urban_planning import KEYS, prioritize
 from .snapshot_validation import validate_snapshot
 
 
+class SnapshotConflict(ValueError):
+    pass
+
+
 class PublicStore:
     def __init__(self, store, data_dir):
         self.store, self.data_dir = store, Path(data_dir)
@@ -28,20 +32,29 @@ class PublicStore:
         return json.dumps(data, ensure_ascii=False, allow_nan=False)
 
     def sync_snapshot(self):
+        if self.metadata().get("source_type") == "user_import":
+            return  # An imported workspace remains active across server restarts.
         path = self.data_dir / "urban_real.json"
         if not path.exists():
             return  # Retain the last imported snapshot when the acquisition mount is offline.
         raw = path.read_bytes()
         digest = hashlib.sha256(raw).hexdigest()
         data = json.loads(raw)
+        self.activate_snapshot(data, digest)
+
+    def activate_snapshot(self, data, digest, imported_observations=None, expected_snapshot=None):
         if data.get("metadata", {}).get("synthetic") is not False:
             raise ValueError("Public snapshot must be explicitly non-synthetic")
         ids = [r["id"] for r in data["settlements"]]
         if len(ids) != len(set(ids)):
             raise ValueError("Duplicate settlement IDs in public snapshot")
         units, observations = validate_snapshot(data)
+        published_observations = observations
+        observations = [*observations, *(imported_observations or [])]
         with self.store.connection(write=True) as db:
             active = db.execute("SELECT id FROM public_snapshots ORDER BY imported_at DESC, rowid DESC LIMIT 1").fetchone()
+            if imported_observations is not None and (active[0] if active else None) != expected_snapshot:
+                raise SnapshotConflict("Dataset changed after preview. Preview the file again before importing.")
             if active and active[0] == digest:
                 return
             for item in data["settlements"]:
@@ -63,7 +76,7 @@ class PublicStore:
                            (item["id"], item["source_id"], item["name"], item["resolution"], item["reference_year"], self.encode(item)))
             for item in observations:
                 existing = db.execute("SELECT body FROM indicator_observations WHERE id=?", (item["id"],)).fetchone()
-                facts = lambda row: {k: v for k, v in row.items() if k != "retrieved_at"}
+                facts = lambda row: {k: v for k, v in row.items() if k not in {"retrieved_at", "import_id"}}
                 if existing and facts(json.loads(existing[0])) != facts(item):
                     raise ValueError("Published observation ID changed; source revisions require a new identifier")
                 db.execute("INSERT OR IGNORE INTO indicator_observations VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -75,15 +88,18 @@ class PublicStore:
                     raise ValueError("Invalid source geometry in snapshot")
                 db.execute("INSERT INTO spatial_features VALUES(?,?,?,?,?,?,?)", (str(feature["id"]), feature["properties"]["category"], *geom.bounds, self.encode(feature)))
             metadata = {**data["metadata"], "snapshot_sha256": digest, "active_settlement_ids": ids, "active_project_ids": [r["id"] for r in data["projects"]],
-                        "active_geographic_unit_ids": [r["id"] for r in units], "active_published_observation_ids": [r["id"] for r in observations],
-                        "historical_observation_count": len(observations), "geographic_unit_count": len(units)}
+                        "active_geographic_unit_ids": [r["id"] for r in units], "active_published_observation_ids": [r["id"] for r in published_observations],
+                        "historical_observation_count": len(published_observations),
+                        "active_import_id": digest if imported_observations is not None else None,
+                        "active_imported_observation_ids": [row["id"] for row in (imported_observations or [])],
+                        "geographic_unit_count": len(units)}
             db.execute("INSERT INTO public_snapshots VALUES(?,?,?) ON CONFLICT(id) DO UPDATE SET imported_at=excluded.imported_at,body=excluded.body", (digest, self.now(), self.encode(metadata)))
             # IDs removed from a source refresh are retained for existing interventions but excluded from the active view.
 
     def metadata(self):
         with self.store.connection() as db:
-            row = db.execute("SELECT body FROM public_snapshots ORDER BY imported_at DESC LIMIT 1").fetchone()
-        return json.loads(row[0]) if row else {"title": "No acquired snapshot loaded", "synthetic": False, "active_settlement_ids": [], "active_project_ids": [], "settlement_count": 0, "settlement_geometry_count": 0, "projects_count": 0, "mapped_objects_count": 0, "limitations": ["Run the documented ingestion pipeline and prepare_real_data.py, then restart the API."]}
+            row = db.execute("SELECT body FROM public_snapshots ORDER BY imported_at DESC, rowid DESC LIMIT 1").fetchone()
+        return json.loads(row[0]) if row else {"title": "No dataset loaded", "synthetic": False, "active_settlement_ids": [], "active_project_ids": [], "settlement_count": 0, "settlement_geometry_count": 0, "projects_count": 0, "mapped_objects_count": 0, "limitations": ["Import your dataset from Data & access."]}
 
     def records(self, table, db=None):
         allowed = {"settlements", "redevelopment_projects", "indicator_observations", "interventions", "inspection_evidence", "verification_records", "service_complaints", "geographic_units", "field_surveys"}
@@ -118,14 +134,18 @@ class PublicStore:
                 "synthetic": False}
 
     def priority(self, weights=None):
-        observations = self.records("indicator_observations")
+        active_imported_ids = set(self.metadata().get("active_imported_observation_ids", []))
+        observations = [o for o in self.records("indicator_observations") if not o.get("import_id") or o["id"] in active_imported_ids]
+        grouped = {}
+        for observation in observations:
+            grouped.setdefault((observation.get("settlement_id"), observation["indicator_type"]), []).append(observation)
         items = self.settlements()
         now = datetime.now(timezone.utc)
         for item in items:
             item["indicators"] = {key: None for key in KEYS}
             item["indicator_sources"] = {}
             for key in KEYS:
-                candidates = [o for o in observations if o.get("settlement_id") == item["id"] and o["indicator_type"] == key and o["unit"] == "deficit_0_100" and o["value"] is not None and o["verification_status"] == "field_verified" and o["geographic_resolution"] == "settlement" and o.get("observation_date")]
+                candidates = [o for o in grouped.get((item["id"], key), []) if o["unit"] == "deficit_0_100" and o["value"] is not None and o["verification_status"] == "field_verified" and o["geographic_resolution"] == "settlement" and o.get("observation_date")]
                 candidates = [o for o in candidates if timedelta(0) <= now - datetime.fromisoformat(o["observation_date"]) <= timedelta(days=365)]
                 if candidates:
                     best = max(candidates, key=lambda o: (datetime.fromisoformat(o["observation_date"]), o["id"]))
@@ -135,8 +155,9 @@ class PublicStore:
                         item["indicators"][key] = best["value"]
                         item["indicator_sources"][key] = {k: best[k] for k in ("id", "source", "observation_date", "verification_status")}
         report = prioritize(items, weights)
+        by_id = {item["id"]: item for item in items}
         for row in report["items"]:
-            source = next(item for item in items if item["id"] == row["id"])
+            source = by_id[row["id"]]
             row["indicator_sources"] = source["indicator_sources"]
             row["indicators"] = source["indicators"]
             row["confidence"] = "Coverage of reviewed inputs only; predictive accuracy unvalidated" if row["rankable"] else "Insufficient evidence; further assessment required"
@@ -145,7 +166,8 @@ class PublicStore:
 
     def stats(self):
         ranking = self.priority()
-        works = self.records("interventions")
+        active_ids = {row["id"] for row in ranking["items"]}
+        works = [w for w in self.records("interventions") if w["settlement_id"] in active_ids]
         return {"settlements_loaded": len(ranking["items"]), "settlements_with_geometry": self.metadata().get("settlement_geometry_count", 0),
                 "sufficient_indicator_coverage": sum(r["rankable"] for r in ranking["items"]),
                 "documented_deficits": sum(v is not None and v >= 60 for r in ranking["items"] for v in r["indicators"].values()),

@@ -12,6 +12,7 @@ from starlette.responses import JSONResponse
 from model.api.urban import create_app
 
 MAX_BODY_BYTES = 3_000_000
+MAX_DATASET_REQUEST_BYTES = 12 * 1024 * 1024
 
 
 class OriginGuard:
@@ -25,11 +26,13 @@ class OriginGuard:
         supplied = headers.get(b"x-origin-verify", b"")
         if not secrets.compare_digest(supplied, self.secret.encode("ascii")):
             return await JSONResponse({"detail": "Origin access denied."}, status_code=403)(scope, receive, send)
+        import_paths = {"/api/urban/data/workspace/preview", "/api/urban/data/workspace/import"}
+        limit = MAX_DATASET_REQUEST_BYTES if scope.get("method") == "POST" and scope.get("path") in import_paths else MAX_BODY_BYTES
         try:
             length = int(headers.get(b"content-length", b"0"))
         except ValueError:
             length = -1
-        if length < 0 or length > MAX_BODY_BYTES:
+        if length < 0 or length > limit:
             return await JSONResponse({"detail": "Request body exceeds the hosted demo limit."}, status_code=413)(scope, receive, send)
         # Enforce the limit for chunked bodies too, before the JSON parser runs.
         chunks, count = [], 0
@@ -38,7 +41,7 @@ class OriginGuard:
             if message["type"] == "http.disconnect":
                 return
             count += len(message.get("body", b""))
-            if count > MAX_BODY_BYTES:
+            if count > limit:
                 return await JSONResponse({"detail": "Request body exceeds the hosted demo limit."}, status_code=413)(scope, receive, send)
             chunks.append(message)
             if not message.get("more_body", False):

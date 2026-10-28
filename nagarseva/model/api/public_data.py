@@ -20,6 +20,8 @@ from model.src.urban_planning import KEYS, compare_scenarios
 from .planning_schemas import PriorityInput, ScenarioInput, EvidenceInput
 from .field_survey import FieldSurvey
 from .raster_validation import validate_overlay
+from .public_store import SnapshotConflict
+from .workspace_import import compile_workspace
 
 
 class Input(BaseModel):
@@ -33,6 +35,11 @@ class GeographicUnit(Input):
     resolution: Literal["country", "state", "district", "city", "town", "ward"]
     reference_year: int = Field(ge=1900, le=2100)
     source: str = Field(min_length=5, max_length=2000)
+
+
+class WorkspaceUpload(Input):
+    dataset: dict
+    expected_snapshot: str | None = Field(None, pattern=r"^[a-f0-9]{64}$")
 
 
 class Observation(Input):
@@ -148,7 +155,7 @@ def new_id(prefix):
 
 
 def create_public_router(provider, officer_access, decode_evidence):
-    router = APIRouter(prefix="/urban/data", tags=["Acquired public data"])
+    router = APIRouter(prefix="/urban/data", tags=["Workspace data and service assurance"])
 
     def find(table, identifier, db=None):
         try:
@@ -179,17 +186,40 @@ def create_public_router(provider, officer_access, decode_evidence):
             path = provider().data_dir.parent / "metadata/dataset_inventory.csv"
         rows = list(csv.DictReader(path.open())) if path.exists() else []
         meta = {k: v for k, v in provider().metadata().items() if not k.startswith("active_")}
+        if meta.get("source_type") == "user_import":
+            rows = []
         return {"snapshot": meta, "datasets": rows}
 
     @router.get("/overview")
     def overview():
         return provider().stats()
 
+    @router.post("/workspace/preview", dependencies=[Depends(officer_access)])
+    def preview_workspace(payload: WorkspaceUpload):
+        try:
+            _, _, summary = compile_workspace(payload.dataset, Observation)
+        except (ValueError, TypeError) as exc:
+            raise HTTPException(422, str(exc)) from exc
+        return {**summary, "expected_snapshot": provider().metadata().get("snapshot_sha256")}
+
+    @router.post("/workspace/import", dependencies=[Depends(officer_access)], status_code=201)
+    def import_workspace(payload: WorkspaceUpload):
+        try:
+            snapshot, observations, summary = compile_workspace(payload.dataset, Observation)
+            provider().activate_snapshot(snapshot, summary["dataset_id"], observations, payload.expected_snapshot)
+        except SnapshotConflict as exc:
+            raise HTTPException(409, str(exc)) from exc
+        except (ValueError, TypeError) as exc:
+            raise HTTPException(422, str(exc)) from exc
+        return summary
+
     @router.get("/context")
     def published_context():
         return provider().context()
 
     def map_overlay():
+        if provider().metadata().get("source_type") == "user_import":
+            return {"available": False, "analysis_allowed": False, "reason": "Historical source imagery is separate from your imported dataset"}
         directory = provider().data_dir
         manifest, image = directory / "sra_pilot_overlay.json", directory / "sra_pilot_overlay.png"
         if not manifest.is_file() or not image.is_file():
@@ -265,8 +295,9 @@ def create_public_router(provider, officer_access, decode_evidence):
                 "attribution": "OpenStreetMap contributors; ODbL 1.0. Source-specific attribution for SRA layers.", "limitations": "Mapped features do not prove operation; absent map features do not prove absence"}
 
     @router.get("/projects")
-    def projects(search: str = Query("", max_length=200), page: int = Query(1, ge=1), page_size: int = Query(100, ge=1, le=1000)):
-        rows = [r for r in provider().projects() if search.casefold() in (r["scheme_name"] + " " + r.get("administrative_area", "")).casefold()]
+    def projects(search: str = Query("", max_length=200), settlement_id: str | None = Query(None, max_length=100), page: int = Query(1, ge=1), page_size: int = Query(100, ge=1, le=1000)):
+        rows = [r for r in provider().projects() if search.casefold() in (r["scheme_name"] + " " + (r.get("administrative_area") or "")).casefold()
+                and (settlement_id is None or r.get("settlement_id") == settlement_id)]
         acquisition = provider().metadata().get("project_acquisition", {})
         return {"items": rows[(page - 1) * page_size:page * page_size], "total": len(rows), "page": page, "page_size": page_size,
                 "scope": acquisition.get("scope", "Published listing; pagination scope unavailable; no current status inferred"),

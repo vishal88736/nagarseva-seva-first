@@ -102,3 +102,34 @@ def test_hosted_public_data_empty_state_is_available_without_synthetic_substitut
         assert c.get('/api/urban/data/spatial', headers=ORIGIN).json()['features'] == []
         assert c.get('/api/urban/data/interventions', headers=ORIGIN).status_code == 401
         assert c.get('/api/urban/data/interventions', headers=OFFICER).json()['items'] == []
+
+@pytest.mark.parametrize('path,expected', [('/api/urban/data/workspace/preview', 200), ('/api/urban/data/workspace/import', 200), ('/api/urban/data/complaints', 413)])
+def test_large_import_envelope_does_not_relax_other_request_limits(hosted, path, expected):
+    from starlette.responses import JSONResponse
+    module, _, _ = hosted
+    async def body_echo(scope, receive, send):
+        size = 0
+        while True:
+            message = await receive(); size += len(message.get('body', b''))
+            if not message.get('more_body', False): break
+        await JSONResponse({'bytes': size})(scope, receive, send)
+    c = TestClient(module.OriginGuard(body_echo, 'a' * 64))
+    try:
+        response = c.post(path, content=b'x' * (module.MAX_BODY_BYTES + 1), headers=ORIGIN)
+    finally:
+        c.close()
+    assert response.status_code == expected
+    if expected == 200: assert response.json()['bytes'] == module.MAX_BODY_BYTES + 1
+
+
+def test_import_limit_also_rejects_oversized_chunked_bodies(hosted):
+    from starlette.responses import JSONResponse
+    module, _, _ = hosted
+    async def unreachable(scope, receive, send):
+        await JSONResponse({'unexpected': True})(scope, receive, send)
+    c = TestClient(module.OriginGuard(unreachable, 'a' * 64))
+    try:
+        response = c.post('/api/urban/data/workspace/import', content=iter([b'x' * 1_000_000] * 13), headers=ORIGIN)
+    finally:
+        c.close()
+    assert response.status_code == 413
