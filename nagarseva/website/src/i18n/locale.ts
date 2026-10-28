@@ -28,7 +28,7 @@ export function translate(language: Language, key: string, params: Params = {}):
   return text.replace(/\{(\w+)\}/g, (original, name: string) => values[name] === undefined || values[name] === null ? original : String(values[name]))
 }
 export const t = (key: string, params?: Params) => translate(currentLanguage, key, params)
-export function formatNumber(value: number | null | undefined, digits = 1) { return value === null || value === undefined ? t('Unavailable') : new Intl.NumberFormat(LOCALE[currentLanguage], { maximumFractionDigits: digits }).format(value) }
+export function formatNumber(value: number | null | undefined, digits = 1, minimumIntegerDigits = 1) { return value === null || value === undefined ? t('Unavailable') : new Intl.NumberFormat(LOCALE[currentLanguage], { maximumFractionDigits: digits, minimumIntegerDigits }).format(value) }
 export function formatDecimal(value: number | null | undefined, digits = 1) { return value === null || value === undefined ? t('Unavailable') : new Intl.NumberFormat(LOCALE[currentLanguage], { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(value) }
 export function formatMoney(value: number) { return new Intl.NumberFormat(LOCALE[currentLanguage], { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(value) }
 export function formatDate(value: string | null | undefined, time = false) {

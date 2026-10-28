@@ -20,9 +20,9 @@ test('Direct, interpolated and already-formatted errors translate without changi
   setLanguage('en')
 })
 test('Locale-aware numbers, money, dates and statuses retain machine data semantics', () => {
-  setLanguage('en'); assert.equal(formatDecimal(51),'51.0'); assert.equal(formatMoney(1199),'₹1,199'); assert.equal(formatNumber(null),'Unavailable')
+  setLanguage('en'); assert.equal(formatNumber(2,0,2),'02'); assert.equal(formatDecimal(51),'51.0'); assert.equal(formatMoney(1199),'₹1,199'); assert.equal(formatNumber(null),'Unavailable')
   setLanguage('hi'); assert.equal(statusText('reported_complete'),translate('hi','Reported complete')); assert.match(formatDate('2015-12-31'),/2015/)
-  setLanguage('mr'); assert.equal(formatDecimal(51),'५१.०'); assert.equal(formatDate('2015'),'२०१५'); assert.equal(getLanguage(),'mr')
+  setLanguage('mr'); assert.equal(formatNumber(2,0,2),'०२'); assert.equal(formatDecimal(51),'५१.०'); assert.equal(formatDate('2015'),'२०१५'); assert.equal(getLanguage(),'mr')
   assert.equal(validLanguage('xx'),false); assert.equal(validLanguage('hi'),true); assert.equal(storedLanguage(),'en')
   setLanguage('en')
 })
