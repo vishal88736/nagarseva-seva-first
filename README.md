@@ -17,10 +17,18 @@ selected settlement across the map, scoring, scenarios and service assurance.
 - [Historical acquisition archive](research/final_report.md) and [dataset inventory](research/dataset_inventory.csv)
 - [Local/test port configuration](research/local_runtime.md)
 
+The interface has an **English / हिंदी / मराठी** selector. Language changes retain
+the current page and in-progress form values; imported source text stays as supplied.
+
+The settlement map also includes a separate **2015 Reference Boundaries** layer:
+2,542 supplied historical polygons, 2,517 displayed after topology validation,
+25 excluded without repair. It is never joined to current services or 2024 records.
+[Source provenance, limitations and validation](research/historical_boundaries_2015.md).
+
 ## Five screens, one workflow
 
 1. **Overview** — settlement coverage, data gaps and services awaiting verification.
-2. **Settlement map** — imported boundaries, name/ward search, indicator details and explicitly linked projects.
+2. **Settlement map** — imported boundaries, name/ward search, indicator details, explicitly linked projects and a separate historical 2015 reference layer.
 3. **Priorities** — configurable weights, a paginated ranking and the five input contributions; missing evidence stays unranked.
 4. **Scenarios** — compare improvement and redevelopment costs, coverage and disruption using editable assumptions.
 5. **Service Assurance** — planned works, physical completion, uploaded evidence, measurements, review, issues and audit history.
@@ -154,6 +162,7 @@ npm --prefix nagarseva/website test
 npm --prefix nagarseva/website run build
 # System Chromium + Playwright; uses a disposable database and owned ports.
 uv pip install --python nagarseva/.venv/bin/python playwright==1.56.0
+CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_historical_boundaries_browser.py
 CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_public_browser.py
 CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_field_collection_browser.py
 ```

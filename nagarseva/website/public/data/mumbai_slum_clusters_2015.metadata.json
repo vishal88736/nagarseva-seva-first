@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "id": "mumbai-slum-reference-2015",
+  "reference_year": 2015,
+  "record_type": "historical_reference_boundaries",
+  "crs": "EPSG:4326",
+  "analysis_allowed": false,
+  "source_url": "https://data.opencity.in/dataset/14d06506-9463-446a-b28f-d2ce0fd0c131/resource/b85ea681-22c8-406d-9fae-8c0bd28387cf/download/5d6f72ed-a290-4931-821f-5476c148407b.kml",
+  "source_catalog_url": "https://data.opencity.in/dataset/14d06506-9463-446a-b28f-d2ce0fd0c131/resource/b85ea681-22c8-406d-9fae-8c0bd28387cf",
+  "publisher": "SRA Mumbai (as attributed by the supplied OpenCity catalogue metadata)",
+  "source_attribution_key": "SRA Mumbai, via OpenCity (catalogue attribution)",
+  "retrieved_at": null,
+  "publication_date": null,
+  "catalogue_modified_at": "2025-11-25T15:23:19.544256",
+  "licence_claim": "Public Domain",
+  "licence_basis": "Supplied OpenCity catalogue claim; not an independently verified SRA licence",
+  "sha256": "4c83541ace7197e2193584438c31a9684c91bb4776aa7d94772a4d72e5e5970d",
+  "bytes": 3064224,
+  "kml_sha256": "b4541a74213588ce4294435c9c7a1541af8511de35ecc09930de4a5da8ac76c3",
+  "kml_bytes": 3631082,
+  "staged_at": "2026-10-28T07:05:02.942442+00:00",
+  "limitations": [
+    "Historical reference boundaries — 2015. Not verified against the 2024 SRA cluster list.",
+    "No verified settlement names, SRA cluster IDs, ward IDs or village IDs in the supplied GeoJSON.",
+    "These boundaries do not establish current conditions, housing eligibility, redevelopment progress or service coverage.",
+    "No match to 2024 records or Census aggregates; polyno is only a technical source reference when present.",
+    "Topology-invalid source polygons are excluded without repair; original coordinates and attributes are retained."
+  ],
+  "source_feature_count": 2542,
+  "valid_feature_count": 2517,
+  "excluded_features": [
+    {
+      "source_feature_number": 6,
+      "reason": "Ring Self-intersection[72.8885134397929 19.0983921395447]"
+    },
+    {
+      "source_feature_number": 80,
+      "reason": "Self-intersection[72.9169943154716 19.1022699876079]"
+    },
+    {
+      "source_feature_number": 107,
+      "reason": "Ring Self-intersection[72.9057868398606 19.0972890124571]"
+    },
+    {
+      "source_feature_number": 231,
+      "reason": "Self-intersection[72.93780219593 19.1489323140677]"
+    },
+    {
+      "source_feature_number": 918,
+      "reason": "Too few points in geometry component[72.8620779566784 19.2250636705097]"
+    },
+    {
+      "source_feature_number": 1044,
+      "reason": "Ring Self-intersection[72.874169362035 19.2467003309318]"
+    },
+    {
+      "source_feature_number": 1049,
+      "reason": "Self-intersection[72.857686467706 19.2589371998088]"
+    },
+    {
+      "source_feature_number": 1183,
+      "reason": "Ring Self-intersection[72.9043528533934 19.0724715691361]"
+    },
+    {
+      "source_feature_number": 1309,
+      "reason": "Self-intersection[72.910141050914 19.0680411187838]"
+    },
+    {
+      "source_feature_number": 1382,
+      "reason": "Ring Self-intersection[72.850774366494 19.0348603353547]"
+    },
+    {
+      "source_feature_number": 1385,
+      "reason": "Ring Self-intersection[72.8513658132927 19.037015009531]"
+    },
+    {
+      "source_feature_number": 1657,
+      "reason": "Self-intersection[72.8483187713305 19.0919783865774]"
+    },
+    {
+      "source_feature_number": 1749,
+      "reason": "Self-intersection[72.8572831868534 19.1296314975594]"
+    },
+    {
+      "source_feature_number": 1979,
+      "reason": "Ring Self-intersection[72.8258940501477 19.0754354307892]"
+    },
+    {
+      "source_feature_number": 1997,
+      "reason": "Self-intersection[72.8354377773021 19.0512408969685]"
+    },
+    {
+      "source_feature_number": 2174,
+      "reason": "Ring Self-intersection[72.8496363215761 19.0426673892433]"
+    },
+    {
+      "source_feature_number": 2208,
+      "reason": "Ring Self-intersection[72.8603858585367 19.1345421835919]"
+    },
+    {
+      "source_feature_number": 2343,
+      "reason": "Self-intersection[72.8514304041114 19.0835518590652]"
+    },
+    {
+      "source_feature_number": 2349,
+      "reason": "Ring Self-intersection[72.8370461802821 19.0144530001461]"
+    },
+    {
+      "source_feature_number": 2408,
+      "reason": "Ring Self-intersection[72.8487844134518 19.0633829933465]"
+    },
+    {
+      "source_feature_number": 2413,
+      "reason": "Ring Self-intersection[72.8393688573833 19.0865693510528]"
+    },
+    {
+      "source_feature_number": 2448,
+      "reason": "Ring Self-intersection[72.883473923463 19.0747628486758]"
+    },
+    {
+      "source_feature_number": 2461,
+      "reason": "Self-intersection[72.8197415189541 19.1948746928294]"
+    },
+    {
+      "source_feature_number": 2488,
+      "reason": "Self-intersection[72.8275389352242 19.1210422254673]"
+    },
+    {
+      "source_feature_number": 2527,
+      "reason": "Self-intersection[72.9193751830704 19.1353205034622]"
+    }
+  ],
+  "coordinate_count": 70404,
+  "bounds": [
+    72.78274625762192,
+    18.90863286362999,
+    72.97183173366705,
+    19.26385248981887
+  ],
+  "fields": [
+    "polyno"
+  ],
+  "polyno_non_null_count": 0,
+  "topology_validator": "Shapely 2.1.2"
+}

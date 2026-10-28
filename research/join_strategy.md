@@ -33,3 +33,11 @@ PCA and Houselisting household universes differ: Maharashtra has **2,499,948 PCA
 No acquired settlement entrance, origin or defensible street connection exists. Scenario responses therefore keep access_available=false and empty distance arrays; missing access is not zero metres. Current households, W/S/H/A/R indices, land/infrastructure constraints and official costs remain unavailable, while hypothetical assumptions are labelled.
 
 Additional joins require a permitted dated vector extract/stable IDs, original Census geography boundaries or crosswalks where needed, an authoritative scheme/parcel link and checked settlement entrances. Compatible geometry alone does not resolve different reference years, legal definitions or household universes.
+
+## Supplied 2015 reference polygons
+
+The 2,542 supplied historical polygons have no verified cluster or administrative
+identifiers; every GeoJSON `polyno` is null. The 2,517 topology-valid display
+polygons are not joined to the separate 2,597-row 2024 cluster register or to Census
+2011 state/town aggregates. Neither source row order, printed area nor KML `polyno`
+is an official crosswalk. See [the 2015 layer audit](historical_boundaries_2015.md).

@@ -1,6 +1,8 @@
+import { formatDecimal, t } from '../i18n/locale'
 import { useEffect, useMemo } from 'react'
 import { CircleMarker, GeoJSON, MapContainer, Polyline, TileLayer, Tooltip, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
+import LocalizedMapControls from './LocalizedMapControls'
 import { score } from './engine'
 import type { Cluster, Dataset, Key, Weights } from './engine'
 
@@ -24,19 +26,19 @@ export default function UrbanMap({ data, clusters, selected, onSelect, weights, 
   const nodes = new Map(data.network.nodes.map(node => [node.id, node]))
   const tileUrl = import.meta.env.VITE_TILE_URL || 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
   return <div className={`us-map ${compact ? 'compact' : ''}`}>
-    <MapContainer center={[19.057, 72.920]} zoom={15} scrollWheelZoom={false} zoomAnimation={false} fadeAnimation={false} markerZoomAnimation={false} aria-label="Synthetic settlement cluster map">
+    <MapContainer center={[19.057, 72.920]} zoom={15} scrollWheelZoom={false} zoomControl={false} zoomAnimation={false} fadeAnimation={false} markerZoomAnimation={false} aria-label={t("Synthetic settlement cluster map")}>
       {basemap && <TileLayer url={tileUrl} attribution={import.meta.env.VITE_TILE_ATTRIBUTION || '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'} />}
-      <Fit clusters={clusters} />
-      {roads && data.network.edges.filter(edge => edge.walkable).map((edge, index) => { const a = nodes.get(edge.from)!, b = nodes.get(edge.to)!; return <Polyline key={index} positions={[[a.lat, a.lon], [b.lat, b.lon]]} pathOptions={{ color: '#8b9e98', weight: 3, opacity: .6, dashArray: '5 5' }}><Tooltip>Demonstration walking edge</Tooltip></Polyline> })}
+      <LocalizedMapControls label="Synthetic settlement cluster map" /><Fit clusters={clusters} />
+      {roads && data.network.edges.filter(edge => edge.walkable).map((edge, index) => { const a = nodes.get(edge.from)!, b = nodes.get(edge.to)!; return <Polyline key={index} positions={[[a.lat, a.lon], [b.lat, b.lon]]} pathOptions={{ color: '#8b9e98', weight: 3, opacity: .6, dashArray: '5 5' }}><Tooltip>{t("Demonstration walking edge")}</Tooltip></Polyline> })}
       {clusters.filter(cluster => cluster.geometry).map(cluster => {
         const value = layer === 'priority' ? score(cluster.indicators, weights).score : cluster.indicators[layer]
         const color = value === null ? '#7e8c90' : value >= 60 ? '#c56c49' : value >= 45 ? '#c49a4d' : '#4b8b76'
         return <GeoJSON key={`${cluster.id}-${cluster.id === selected}-${color}`} data={cluster.geometry!} style={{ color: cluster.id === selected ? '#173f3b' : color, fillColor: color, fillOpacity: cluster.id === selected ? .68 : .36, weight: cluster.id === selected ? 3 : 1.5 }} eventHandlers={{ click: () => onSelect(cluster.id) }}>
-          <Tooltip direction="center" permanent className="us-map-label">{cluster.id}<span>{value === null ? 'Unassessed' : value.toFixed(1)}</span></Tooltip>
+          <Tooltip direction="center" permanent className="us-map-label">{cluster.id}<span>{value === null ? t("Unassessed") : formatDecimal(value, 1)}</span></Tooltip>
         </GeoJSON>
       })}
-      {amenities && data.amenities.map(amenity => { const node = nodes.get(amenity.node_id)!; return <CircleMarker key={amenity.id} center={[node.lat, node.lon]} radius={6} pathOptions={{ color: '#fff', weight: 2, fillColor: '#294b5a', fillOpacity: 1 }}><Tooltip>{amenity.name} · synthetic</Tooltip></CircleMarker> })}
+      {amenities && data.amenities.map(amenity => { const node = nodes.get(amenity.node_id)!; return <CircleMarker key={amenity.id} center={[node.lat, node.lon]} radius={6} pathOptions={{ color: '#fff', weight: 2, fillColor: '#294b5a', fillOpacity: 1 }}><Tooltip>{amenity.name} {t("· synthetic")}</Tooltip></CircleMarker> })}
     </MapContainer>
-    <div className="us-map-caption"><span><i className="us-dot rust" />Higher demo deficit</span><span><i className="us-dot green" />Lower demo deficit</span><span><i className="us-dot gray" />Missing data</span><b>Synthetic boundaries & routes</b></div>
+    <div className="us-map-caption"><span><i className="us-dot rust" />{t("Higher demo deficit")}</span><span><i className="us-dot green" />{t("Lower demo deficit")}</span><span><i className="us-dot gray" />{t("Missing data")}</span><b>{t("Synthetic boundaries & routes")}</b></div>
   </div>
 }

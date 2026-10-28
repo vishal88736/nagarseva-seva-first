@@ -57,3 +57,12 @@ Suitable uses are historical lookup, original-geography Census context, mapped-t
 Planning still needs permitted dated vector boundaries/stable IDs, an authoritative scheme/parcel crosswalk, current household denominators, repeated water reliability/quality observations, toilet/drainage inspections, engineering/risk assessments, verified facility entrances/capacity, quotations and resident/livelihood consultation. These require an authorized government request and/or field work. A proposed field form is not collected evidence.
 
 OSM attribution and **ODbL-1.0** requirements remain applicable. SRA reuse permission is not established and source assets remain local; no additional third-party licence is asserted for official Census tables.
+
+## Supplied historical 2015 layer, checked 28 October 2026
+
+The unchanged supplied GeoJSON contains 2,542 Polygon features and 70,404 coordinate
+positions in the Mumbai WGS84 extent. All `polyno` values are null. Closed rings
+do not imply valid topology: Shapely found 25 invalid source polygons. The separate
+reference map layer renders 2,517 valid polygons and excludes 25 without repair;
+no settlement/service/project joins were made. Exact hashes, exclusions and source
+qualifications are in [the layer audit](historical_boundaries_2015.md).
