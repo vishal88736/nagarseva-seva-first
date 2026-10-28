@@ -1,14 +1,14 @@
 {
   "status": "passed",
-  "checked_at": "2026-10-28T05:42:41.779438+00:00",
-  "tested_commit": "3885a41a7392d9c342e91c9c3f0f042ec000a725",
-  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/local",
+  "checked_at": "2026-10-28T05:58:57.938400+00:00",
+  "tested_commit": "84f88cb1b4fb88f2d283840e04383ea3d70cdf0c",
+  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/40640967931",
   "browser": "Playwright Chromium",
   "data": "Synthetic demonstration only",
   "field_validation": false,
   "runtime_ports": {
-    "api": 18700,
-    "web": 14174
+    "api": 8000,
+    "web": 4173
   },
   "checks": [
     "Overview separates synthetic and official records and counts only rankable scores above the explicit demo threshold",

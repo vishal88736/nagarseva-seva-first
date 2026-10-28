@@ -49,7 +49,7 @@
     "nagarseva/website/src/styles.css"
   ],
   "frontend_build": "success",
-  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39209744944",
+  "workflow_url": "https://github.com/vishal88736/nagarseva-seva-first/actions/runs/40640967931",
   "source_complete_at_acquisition": true,
   "source_files_removed_since_acquisition": [
     "nagarseva/website/src/components/PublicContext.tsx",
@@ -80,8 +80,8 @@
   ],
   "source_commit_scope": "Pinned original upstream snapshot verified at acquisition; not the checkout validated by this workflow",
   "upstream_source_commit": "f1049b6b274be996a9e09bf11011a724905c0c76",
-  "validated_checkout_commit": "48c87e1f9113f00b7b9b4a679498b79c9f5fa42e",
+  "validated_checkout_commit": "84f88cb1b4fb88f2d283840e04383ea3d70cdf0c",
   "validated_checkout_commit_scope": "Git HEAD of the workflow checkout at report time, before the later report-only commit",
-  "triggering_commit": "ff45a9f03848e3039243a58bab566db821519f0b",
+  "triggering_commit": "e0ce7db743a6ef5c71d1a94fa1de0029ad0448b2",
   "triggering_commit_scope": "GitHub event GITHUB_SHA when it is a full SHA-1; null when missing or invalid; checkout preparation can advance HEAD"
 }
