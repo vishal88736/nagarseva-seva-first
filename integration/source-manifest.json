@@ -671,7 +671,7 @@
       "bytes": 11815,
       "sha256": "0d9483ba83d6ebb04de886b6bf2df4c624d00fc66d4da91367d12ec9d95db443",
       "upstream_git_sha": "146a210b35c6aef4f11bbe25bdac624372c61e53",
-      "current_sha256": "1b82bda5b0e269a994f92853b553646851e5c48e198cc05c6f6ae80551b36747",
+      "current_sha256": "84bbcc428c901f2f7e934e6b9c9c5ce5b7737459a1ae01be550e50848a99517b",
       "modified_during_integration": true,
       "removed_since_acquisition": false
     },
@@ -791,7 +791,7 @@
       "bytes": 220,
       "sha256": "449360d409ecbdd6aa7fb603226836ba7a6f3ed5cdcbb1a814397e7deb96a9bb",
       "upstream_git_sha": "4263911364bd2e67139ea1e79fbe2e641081df0c",
-      "current_sha256": "303991cc0e5f0812b6794bf9efce995fd38643e6140ab424ca9683c15112566d",
+      "current_sha256": "ad59cf7db56283eaaf83eaebc5420a8b3a19503c62af848f37d647c317e3b9a4",
       "modified_during_integration": true,
       "removed_since_acquisition": false
     },
@@ -911,8 +911,8 @@
       "bytes": 463,
       "sha256": "b8eaed22731e99440ee34d691b9fe1a4da99ad2d0d26e3f0f20916d2d6393c07",
       "upstream_git_sha": "6f64aaba3329cbeda942327c707a78d7f05b9936",
-      "current_sha256": "b8eaed22731e99440ee34d691b9fe1a4da99ad2d0d26e3f0f20916d2d6393c07",
-      "modified_during_integration": false,
+      "current_sha256": "9f07c9644336f28e1206c4c9745c2f21135753519ac65b29221e233a49f95bbe",
+      "modified_during_integration": true,
       "removed_since_acquisition": false
     },
     "nagarseva/website/tsconfig.json": {
