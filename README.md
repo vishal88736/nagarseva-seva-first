@@ -2,27 +2,27 @@
 
 Explainable settlement prioritization, hypothetical intervention comparison and basic-service assurance for a Maharashtra urban-development challenge prototype.
 
-**19 October 2026:** acquired mode now loads **2,597 published SRA register
-rows, 5,677 scheme rows from all 228 advertised pages, 7,106 OSM geometries and
-456 Census 2011 observations across 190 original geographic units**. A georeferenced
-2024 SRA raster can be toggled on the map; it supplies no analytical settlement
-polygons. Current service indices remain missing and real clusters remain unranked.
-The five-cluster synthetic sandbox is explicitly separate.
+The main application contains five planning screens. **Data & access** holds your
+imports, officer access and optional reference material. Research catalogues and
+historical source tables are kept out of the main workflow.
 
-- [Acquisition results and source limitations](research/data_availability.md)
-- [Dataset inventory](research/dataset_inventory.csv), [quality report](research/data_quality_report.md), [join strategy](research/join_strategy.md)
-- [API, database migration and state transitions](nagarseva/docs/public-data-api.md)
-- [Optional Kobo/ODK field workflow](pilot/field_collection.md), also available through the authorized Service Assurance forms
-- [Verified public-data bundle and server staging](research/data_staging.md)
-- [Configurable local/test ports](research/local_runtime.md)
-- [Executed results](research/final_report.md) and [dead-code cleanup](research/cleanup.md)
+**Bring your own data:** upload a GeoJSON settlement collection or a workspace JSON
+from **Data & access → Validate file → Import validated dataset**. Download the
+in-app template first. [Dataset format and import instructions](nagarseva/docs/workspace-data.md).
+Household counts, boundaries, observations and explicit project joins feed the same
+selected settlement across the map, scoring, scenarios and service assurance.
+
+- [API, database and state transitions](nagarseva/docs/public-data-api.md)
+- [Optional field collection](pilot/field_collection.md)
+- [Historical acquisition archive](research/final_report.md) and [dataset inventory](research/dataset_inventory.csv)
+- [Local/test port configuration](research/local_runtime.md)
 
 ## Five screens, one workflow
 
-1. **Overview** — acquired record coverage, rankability and services awaiting review.
-2. **Explore Settlements** — interactive Leaflet map, deficit filters, source cards and missing data.
-3. **Prioritize Needs** — configurable weighted scores, explanations, uncertainty intervals and ranking sensitivity.
-4. **Compare Scenarios** — two in-place options, conditional relocation thought experiment, cost/access/disruption assumptions.
+1. **Overview** — settlement coverage, data gaps and services awaiting verification.
+2. **Settlement map** — imported boundaries, name/ward search, indicator details and explicitly linked projects.
+3. **Priorities** — configurable weights, a paginated ranking and the five input contributions; missing evidence stays unranked.
+4. **Scenarios** — compare improvement and redevelopment costs, coverage and disruption using editable assumptions.
 5. **Service Assurance** — planned works, physical completion, uploaded evidence, measurements, review, issues and audit history.
 
 The priority example in the brief is **65.0/100**, not 65.5. Unknown indicators stay missing; clusters with missing positive-weight inputs receive an interval and no rank. No eligibility or resident-relocation decision is automated.
@@ -53,9 +53,9 @@ npm --prefix website run dev
 Open **http://localhost:5173**. API documentation: http://localhost:8000/docs. If the API is unavailable, the app explicitly offers a browser sandbox; those records remain separate from server records. Uploads accept consented demo files, up to 2 MiB. SQLite operational files are ignored by Git.
 
 From this existing checkout, `bash start-local.sh` installs missing runtime packages
-and starts both processes, with owned-process cleanup on exit. Acquired mode shows
+and starts both processes, with owned-process cleanup on exit. The workspace shows
 an error/retry when its API is unavailable; it never silently substitutes synthetic
-data. A fresh checkout needs the acquisition steps below before real records appear.
+data. A fresh checkout can import your own data without running the acquisition pipeline.
 To use explicit free ports without stopping another service:
 
 ```bash
@@ -66,7 +66,7 @@ This prints the actual frontend/API URLs and sets the frontend proxy accordingly
 
 For authorized work/complaint/inspection records, configure the API environment
 before running the launcher. Choose a private local key and enter the same value
-through **Officer access** in the application:
+through **Data & access** in the application:
 
 ```bash
 read -rsp 'Choose a private local officer key: ' NAGARSEVA_OFFICER_KEY

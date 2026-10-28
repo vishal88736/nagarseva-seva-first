@@ -33,7 +33,7 @@ export default function WorkspaceData({ metadata, officerKey, onKey, onImported,
   }
   function template() {
     const value = { title: 'My housing workspace', source: 'Replace with your data source', source_date: null,
-      settlements: { type: 'FeatureCollection', features: [{ type: 'Feature', properties: { id: '', name: '', administrative_area: '', households: null, source: '', source_date: null }, geometry: null }] }, observations: [], projects: [], spatial: { type: 'FeatureCollection', features: [] } }
+      settlements: { type: 'FeatureCollection', features: [{ type: 'Feature', properties: { id: '', name: '', administrative_area: '', households: null }, geometry: null }] }, observations: [], projects: [], spatial: { type: 'FeatureCollection', features: [] } }
     const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' })), link = document.createElement('a')
     link.href = url; link.download = 'urbansaarthi-workspace-template.json'; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1000)
   }

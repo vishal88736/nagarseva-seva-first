@@ -68,6 +68,14 @@ def main():
                 with page.expect_download() as download:
                     page.get_by_role('button',name='Download template',exact=True).click()
                 assert download.value.suggested_filename == 'urbansaarthi-workspace-template.json'
+                filled_template = json.loads(Path(download.value.path()).read_text())
+                filled_template['source'] = 'Software template validation'
+                filled_template['source_date'] = datetime.now(timezone.utc).date().isoformat()
+                filled_template['settlements']['features'][0]['properties'].update(id='TEMPLATE-TEST',name='Template software test')
+                page.get_by_label('Dataset file').set_input_files({'name':'filled-template.json','mimeType':'application/json','buffer':json.dumps(filled_template).encode()})
+                page.get_by_role('button',name='Validate file',exact=True).click()
+                expect(page.get_by_role('button',name='Import validated dataset',exact=True)).to_be_visible()
+                assert api('/overview')['settlements_loaded'] == 0
                 page.get_by_label('Dataset file').set_input_files({'name':'bad.json','mimeType':'application/json','buffer':b'{bad'})
                 expect(page.get_by_role('alert')).to_be_visible()
                 fixture = workspace_fixture()

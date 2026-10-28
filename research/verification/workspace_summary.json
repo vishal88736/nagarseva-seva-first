@@ -1,0 +1,50 @@
+{
+  "checked_at": "2026-10-28T05:50:02.621159+00:00",
+  "scope": "User-supplied workspace and UI repair; local synthetic software fixtures with actual API/browser; no new source acquisition or field validation",
+  "python": {
+    "passed": 284,
+    "warnings": 4,
+    "report": "workspace_pytest.xml"
+  },
+  "frontend": {
+    "passed": 20,
+    "build": "passed",
+    "typescript_unused": "passed"
+  },
+  "browsers": {
+    "workspace": {
+      "groups": 6,
+      "errors": 0,
+      "report": "workspace_browser.json"
+    },
+    "field_form": {
+      "groups": 4,
+      "errors": 0,
+      "report": "workspace_field_browser.json"
+    },
+    "retained_demo": {
+      "checks": 25,
+      "report": "../../integration/urban-validation.json"
+    }
+  },
+  "hand_worked_examples": {
+    "priority": 51,
+    "water_only_priority": 80,
+    "scenario_cost_inr": 1199
+  },
+  "source_files_sha256": {
+    "nagarseva/model/api/workspace_import.py": "bf17fafa4251500ffc647906d57c5ca667063f993827411754a0ef67ad91eb5c",
+    "nagarseva/model/api/public_store.py": "69db6bc00eacbe9e26bc72afae923c156d75479a3cfce77c5d1becfdf432ae6e",
+    "nagarseva/model/api/public_data.py": "36a54ad89836951b8ff9bc0abb4cf3dcd300bfdacfca9881d736e428314eeca7",
+    "nagarseva/website/src/urban/PublicWorkspace.tsx": "39e52105c64a1d3984dce0908d1df58384650dfffb7349635b497697e81624d2",
+    "nagarseva/website/src/urban/PublicMap.tsx": "957589e8cc4fed8b2a6094ae5ac7b3142aafb56b8921ee0094a81854ddd08ebe",
+    "nagarseva/website/src/urban/publicClient.ts": "847c95f6c33448bc560ecef4ced4bf71789e4051b0070764e16b994bd2303208",
+    "nagarseva/website/src/urban/WorkspaceData.tsx": "d6dc7868ed960fe7660b5337ae92da5abe748da1393378af5cc41e33a50e6c1d",
+    "nagarseva/website/src/urban/WorkspacePriorities.tsx": "2e0334e368cc368c12c53305a9cb69bfaf29d57f5ca97832fdc9e00539092fe0",
+    "nagarseva/website/src/urban/PublicAssurance.tsx": "1a86b4ebe8627dd3708116cfc4a45cafc7d84ee25b648a894a61bfcc4043b3ee",
+    "nagarseva/website/src/urban/PlanningPages.tsx": "aa79e82a79f14deb51857dbc2f55534a5f56e1024b1b175ce5d9ccbdfd058f72",
+    "nagarseva/website/src/urban/urban.css": "38645672024b509efd1fce2f6ab520b5ec6e4309941259a3c743a2f1277c0a79"
+  },
+  "field_validation": false,
+  "public_deployment": false
+}

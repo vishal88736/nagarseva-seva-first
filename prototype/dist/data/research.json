@@ -1600,8 +1600,8 @@
     {
       "name": "final_report.md",
       "url": "./research/final_report.md",
-      "sha256": "4021d75f044f420a7403bccca16484f1b42908eda44e7efc6e37973c01d48a61",
-      "bytes": 13830
+      "sha256": "a2edb4b9faf773076096522a504e765c723aada1a70af978a36fc9fd68d718e9",
+      "bytes": 14107
     },
     {
       "name": "implementation_plan.md",
@@ -1642,7 +1642,7 @@
     {
       "name": "prototype_validation.md",
       "url": "./research/prototype_validation.md",
-      "sha256": "1834099d24f3c7908008eda43029b33ef35819539fd1b3625354f8291fca32dd",
+      "sha256": "3f61fdf5850f1a0e8c728cc42948af5e210741234d18f0df70707a40ee534d2d",
       "bytes": 7253
     },
     {
@@ -1686,6 +1686,12 @@
       "url": "./research/technical_feasibility.md",
       "sha256": "a60fe8143c7e8afb3408ebb8fe28f8be1375d53c05933c0c23662514969ab2e0",
       "bytes": 17615
+    },
+    {
+      "name": "workspace_repair.md",
+      "url": "./research/workspace_repair.md",
+      "sha256": "20f1513c88b8e0aabd70d2381c3681a3df4d9e27d4f22825719d01640cc345c0",
+      "bytes": 2719
     }
   ],
   "counts": {

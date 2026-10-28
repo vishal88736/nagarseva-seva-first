@@ -1,5 +1,9 @@
 # UrbanSaarthi implementation and data-integration results
 
+This is the historical acquisition report for 19 October 2026. The current application
+uses the focused five-screen workflow and user data import described in
+[workspace-data.md](https://github.com/vishal88736/nagarseva-seva-first/blob/main/nagarseva/docs/workspace-data.md).
+
 Completed local engineering and public-source follow-up on **19 October 2026** in
 the existing `nagarseva-seva-first` repository. The five-screen application, legacy
 backend/model checks, evidence workbench and AWS deployment structure were retained.

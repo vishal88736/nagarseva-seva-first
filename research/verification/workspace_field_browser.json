@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "checked_at": "2026-10-28T05:41:21.352819+00:00",
+  "scope": "Actual Chromium UI with synthetic API fixtures; no field or backend validation",
+  "field_validation": false,
+  "checks": [
+    "Actual component renders compact closed forms and recovers a failed survey request",
+    "Raw payload distinguishes zero/missing; timezone, paired GPS, consent and duplicate ID checks; no index POST generated",
+    "Reviewed index requires a distinct reviewer and explicit acknowledgement, retaining source/time/protocol",
+    "Protected CSV download and 390px layout checked without browser errors"
+  ],
+  "browser_errors": []
+}
