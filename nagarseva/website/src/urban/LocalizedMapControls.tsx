@@ -1,3 +1,4 @@
+import L from 'leaflet'
 import { useEffect } from 'react'
 import { useMap, ZoomControl } from 'react-leaflet'
 import { useLanguage } from '../i18n/LanguageProvider'
@@ -16,6 +17,7 @@ export default function LocalizedMapControls({ label }: { label: string }) {
       }
     }
     update(); map.on('popupopen', update)
+    if(!import.meta.env.VITE_TILE_ATTRIBUTION)map.eachLayer(layer=>{if(layer instanceof L.TileLayer){const previous=layer.getAttribution();const next=t('map.attribution');if(previous!==next){if(previous)map.attributionControl.removeAttribution(previous);layer.options.attribution=next;map.attributionControl.addAttribution(next)}}})
     return () => { map.off('popupopen', update) }
   }, [map, language, label])
   return <ZoomControl />

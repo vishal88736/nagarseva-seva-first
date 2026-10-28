@@ -291,3 +291,5 @@ th { font-weight: 500; color: #718267; }thead { background: #f2f5eb; }thead th {
 @media(max-width:580px){.workspace-reference-layer{padding:12px;font-size:12px}.reference-boundary-popup{max-width:230px}}
 
 .workspace-explorer.workspace-reference-only{grid-template-columns:minmax(0,1fr)}
+
+.workspace-source-records{margin-top:16px}.workspace-source-records>summary{cursor:pointer;font-weight:600;line-height:1.7}.workspace-project-records{margin-top:14px}.workspace-project-records table td{vertical-align:top}.workspace-project-records .us-toolbar input{min-width:0;flex:1}

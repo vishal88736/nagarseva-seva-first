@@ -25,7 +25,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 }
 export function LanguageSwitcher() {
   const { language, changeLanguage } = useLanguage()
-  return <label className="us-language"><span>{language === 'en' ? 'Language' : 'भाषा'}</span><select aria-label="Language / भाषा" value={language} onChange={event => changeLanguage(event.target.value as Language)}>{LANGUAGES.map(code => <option key={code} value={code} lang={code}>{LANGUAGE_LABELS[code]}</option>)}</select></label>
+  return <label className="us-language"><span>{t('language.label')}</span><select aria-label="Language / भाषा" value={language} onChange={event => changeLanguage(event.target.value as Language)}>{LANGUAGES.map(code => <option key={code} value={code} lang={code}>{LANGUAGE_LABELS[code]}</option>)}</select></label>
 }
 export function FileInput({ fileName, onChange, ...props }: InputHTMLAttributes<HTMLInputElement> & { fileName?: string }) {
   const [selected, setSelected] = useState(''), input = useRef<HTMLInputElement>(null)

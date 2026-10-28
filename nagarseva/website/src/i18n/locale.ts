@@ -1,4 +1,4 @@
-import { messages } from './catalog.ts'
+import { messages } from './messages.ts'
 
 export const LANGUAGES = ['en', 'hi', 'mr'] as const
 export type Language = typeof LANGUAGES[number]
@@ -24,7 +24,7 @@ export function translate(language: Language, key: string, params: Params = {}):
       if (match) { entry = messages[pattern.key]; values = { ...Object.fromEntries(pattern.names.map((name, i) => [name, match[i + 1]])), ...params }; break }
     }
   }
-  const text = language === 'en' ? key : entry?.[language] || key
+  const text = language === 'en' ? entry?.en || key : entry?.[language] || key
   return text.replace(/\{(\w+)\}/g, (original, name: string) => values[name] === undefined || values[name] === null ? original : String(values[name]))
 }
 export const t = (key: string, params?: Params) => translate(currentLanguage, key, params)

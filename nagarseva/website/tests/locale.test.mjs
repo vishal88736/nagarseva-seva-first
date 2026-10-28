@@ -1,12 +1,12 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { messages } from '../src/i18n/catalog.ts'
+import { messages } from '../src/i18n/messages.ts'
 import { errorText, formatDate, formatDecimal, formatMoney, formatNumber, getLanguage, setLanguage, statusText, storedLanguage, translate, validLanguage } from '../src/i18n/locale.ts'
 
 test('Every catalogue message has Hindi and Marathi text with matching parameters', () => {
   const params = value => [...new Set(value.match(/\{\w+\}/g))].sort()
   for (const [key,values] of Object.entries(messages)) for (const lang of ['hi','mr']) {
-    assert.equal(typeof values[lang],'string', key); assert.ok(values[lang].trim(),key); assert.deepEqual(params(values[lang]),params(key),key)
+    assert.equal(typeof values[lang],'string', key); assert.ok(values[lang].trim(),key); assert.deepEqual(params(values[lang]),params(values.en||key),key)
   }
 })
 test('Direct, interpolated and already-formatted errors translate without changing unknown source text', () => {

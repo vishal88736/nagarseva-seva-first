@@ -6,12 +6,14 @@ import type { Metadata } from './publicClient'
 import { dataApi, exportPublicCsv } from './publicClient'
 import { Field, Heading, Panel } from './PlanningPages'
 import PublicContext from './PublicContext'
+import PublicProjectRecords from './PublicProjectRecords'
+import ReferenceBoundaryCount from './ReferenceBoundaryCount'
 
 type Preview = { dataset_id: string; title: string; settlements: number; polygons: number; projects: number; observations: number; context_features: number; warnings: string[]; expected_snapshot: string | null }
 
 export default function WorkspaceData({ metadata, officerKey, onKey, onImported, onDemo }: { metadata: Metadata | null; officerKey: string; onKey: (key: string) => void; onImported: () => Promise<void>; onDemo: () => void }) {
   const [key, setKey] = useState(officerKey), [dataset, setDataset] = useState<Record<string, unknown> | null>(null), [filename, setFilename] = useState('')
-  const [preview, setPreview] = useState<Preview | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState(''), [references, setReferences] = useState(false)
+  const [preview, setPreview] = useState<Preview | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState(''), [message, setMessage] = useState(''), [projectsOpen, setProjectsOpen] = useState(false)
   async function read(file?: File) {
     setDataset(null); setPreview(null); setError(''); setMessage(''); setFilename(file?.name || '')
     if (!file) return
@@ -54,9 +56,15 @@ export default function WorkspaceData({ metadata, officerKey, onKey, onImported,
       </Panel>
       <div>
         <Panel title={t("Officer access")}><form onSubmit={event => { event.preventDefault(); onKey(key); setPreview(null) }}><Field label={t("Officer key")}><input aria-label={t("Public data officer key")} type="password" autoComplete="off" value={key} onChange={event => setKey(event.target.value)} /></Field><button className="us-button" type="submit">{t("Apply officer key")}</button><p className="us-small">{t("Required for imports, interventions, inspections and complaints. Stored for this browser session.")}</p></form></Panel>
-        <Panel title={t("Active dataset")}><h3>{metadata?.snapshot.snapshot_sha256 ? metadata.snapshot.title : t("No dataset loaded")}</h3><p>{metadata?.snapshot.snapshot_sha256 ? metadata.snapshot.source_label || metadata.snapshot.geographic_scope : t("Import your data to begin.")}</p><dl className="us-facts"><div><dt>{t("Source date")}</dt><dd>{formatDate(metadata?.snapshot.settlement_reference)}</dd></div><div><dt>{t("Loaded")}</dt><dd>{metadata?.snapshot.snapshot_sha256 ? formatDate(metadata.snapshot.built_at) : '—'}</dd></div></dl><button className="us-button" disabled={!metadata} onClick={() => exportPublicCsv('settlements', officerKey).catch(e => setError(e.message))}>{t("Export settlements CSV")}</button></Panel>
+        <Panel title={t("Active dataset")}><h3>{metadata?.snapshot.snapshot_sha256 ? metadata.snapshot.title : t("No dataset loaded")}</h3><p>{metadata?.snapshot.snapshot_sha256 ? metadata.snapshot.source_label || metadata.snapshot.geographic_scope : t("Import your data to begin.")}</p><dl className="us-facts"><div><dt>{t("Source date")}</dt><dd>{formatDate(metadata?.snapshot.settlement_reference)}</dd></div><div><dt>{t("Loaded")}</dt><dd>{metadata?.snapshot.snapshot_sha256 ? formatDate(metadata.snapshot.built_at) : '—'}</dd></div></dl><button className="us-button" disabled={busy} onClick={async () => { setBusy(true); setError(''); try { await onImported() } catch (problem) { setError((problem as Error).message) } finally { setBusy(false) } }}>{t("Refresh connected data")}</button> <button className="us-button" disabled={!metadata} onClick={() => exportPublicCsv('settlements', officerKey).catch(e => setError(e.message))}>{t("Export settlements CSV")}</button></Panel>
       </div>
     </div>
-    <details className="workspace-reference" onToggle={event => setReferences(event.currentTarget.open)}><summary>{t("Reference data & demonstration")}</summary><p>{t("Optional historical reference tables and the separate synthetic workspace.")}</p><button className="us-button" onClick={onDemo}>{t("Open synthetic sandbox")}</button>{references && metadata?.snapshot.historical_observation_count ? <PublicContext /> : null}<a href="/evidence/" target="_blank" rel="noreferrer">{t("Open research workbench")}</a></details>
+    {metadata?.snapshot.snapshot_sha256 && metadata.snapshot.source_type !== 'user_import' && <Panel title={t("Connected source records")}>
+      <dl className="us-facts"><div><dt>{t("2024 register records")}</dt><dd>{formatNumber(metadata.snapshot.settlement_count, 0)}</dd></div><div><dt>{t("Redevelopment projects")}</dt><dd>{formatNumber(metadata.snapshot.projects_count, 0)}</dd></div><div><dt>{t("Mapped context objects")}</dt><dd>{formatNumber(metadata.snapshot.mapped_objects_count, 0)}</dd></div><div><dt>{t("Census 2011 observations")}</dt><dd>{formatNumber(metadata.snapshot.historical_observation_count, 0)}</dd></div><div><dt>{t("Original Census geographic units")}</dt><dd>{formatNumber(metadata.snapshot.geographic_unit_count, 0)}</dd></div><div><dt>{t("2015 Reference Boundaries")}</dt><dd><ReferenceBoundaryCount /></dd></div></dl>
+      <p className="us-small">{t("Source records are loaded. Current service measurements and 2015-to-2024 boundary matches have not been established.")}</p>
+      <details className="workspace-source-records" onToggle={event => setProjectsOpen(event.currentTarget.open)}><summary>{t("Browse published project records")}</summary>{projectsOpen && <PublicProjectRecords />}</details>
+      {metadata.snapshot.historical_observation_count ? <PublicContext /> : null}
+    </Panel>}
+    <details className="workspace-reference"><summary>{t("Reference data & demonstration")}</summary><p>{t("Separate synthetic workspace and research documents.")}</p><button className="us-button" onClick={onDemo}>{t("Open synthetic sandbox")}</button></details>
   </>
 }

@@ -82,6 +82,7 @@ jobs:
           python tests/check_field_collection_browser.py
           python tests/check_public_browser.py
           python tests/check_historical_boundaries_browser.py
+          python tests/check_product_browser.py
       - name: Record actual validation outcomes
         if: always() && steps.merge.outcome == 'success'
         env:

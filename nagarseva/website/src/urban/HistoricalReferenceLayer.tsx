@@ -9,7 +9,7 @@ import type { ReferenceBoundaries, ReferenceProperties } from './historicalBound
 export const HISTORICAL_NOTICE = 'Historical reference boundaries — 2015. Not verified against the 2024 SRA cluster list.'
 export const REFERENCE_COLOR = '#668894'
 function popup(feature: Feature<Polygon, ReferenceProperties>, data: ReferenceBoundaries) {
-  const element = document.createElement('div'); element.className = 'reference-boundary-popup'
+  const element = document.createElement('div'); element.className = 'reference-boundary-popup';element.setAttribute('role','region');element.setAttribute('aria-label',t('explore.historicalDetail'))
   const title = document.createElement('strong'); title.textContent = t('2015 Reference Boundaries'); element.append(title)
   const notice = document.createElement('p'); notice.textContent = t(HISTORICAL_NOTICE); element.append(notice)
   const reference = document.createElement('p'); reference.textContent = t('Polygon technical reference: {reference}', { reference: feature.properties.polyno ?? t('Not available in the supplied GeoJSON') }); element.append(reference)
@@ -19,7 +19,7 @@ function popup(feature: Feature<Polygon, ReferenceProperties>, data: ReferenceBo
   return element
 }
 export default function HistoricalReferenceLayer({ data }: { data: ReferenceBoundaries }) {
-  const group = useRef<L.GeoJSON>(null), { language } = useLanguage()
+  const selectedPath=useRef<L.Path|null>(null), group = useRef<L.GeoJSON>(null), { language } = useLanguage()
   useEffect(() => {
     group.current?.eachLayer(layer => {
       const path = layer as L.Path & { feature?: Feature<Polygon, ReferenceProperties> }
@@ -29,6 +29,7 @@ export default function HistoricalReferenceLayer({ data }: { data: ReferenceBoun
   }, [language, data])
   return <Pane name="historical-reference-boundaries" style={{ zIndex: 390 }}><GeoJSON ref={group} data={data.geometry} style={{ color: REFERENCE_COLOR, weight: 1, opacity: .8, fillColor: REFERENCE_COLOR, fillOpacity: .04, className: 'us-reference-boundary' }} onEachFeature={(feature, layer) => {
     layer.bindPopup(() => popup(feature as Feature<Polygon, ReferenceProperties>, data))
+    layer.on('popupopen',()=>{selectedPath.current?.getElement()?.classList.remove('is-selected');selectedPath.current=layer as L.Path;selectedPath.current.getElement()?.classList.add('is-selected')})
     layer.on('add', () => {
       const path = layer as L.Path, element = path.getElement()
       if (!element) return

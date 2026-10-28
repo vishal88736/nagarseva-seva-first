@@ -27,7 +27,7 @@ export default function UrbanMap({ data, clusters, selected, onSelect, weights, 
   const tileUrl = import.meta.env.VITE_TILE_URL || 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
   return <div className={`us-map ${compact ? 'compact' : ''}`}>
     <MapContainer center={[19.057, 72.920]} zoom={15} scrollWheelZoom={false} zoomControl={false} zoomAnimation={false} fadeAnimation={false} markerZoomAnimation={false} aria-label={t("Synthetic settlement cluster map")}>
-      {basemap && <TileLayer url={tileUrl} attribution={import.meta.env.VITE_TILE_ATTRIBUTION || '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'} />}
+      {basemap && <TileLayer url={tileUrl} attribution={import.meta.env.VITE_TILE_ATTRIBUTION || t('map.attribution')} />}
       <LocalizedMapControls label="Synthetic settlement cluster map" /><Fit clusters={clusters} />
       {roads && data.network.edges.filter(edge => edge.walkable).map((edge, index) => { const a = nodes.get(edge.from)!, b = nodes.get(edge.to)!; return <Polyline key={index} positions={[[a.lat, a.lon], [b.lat, b.lon]]} pathOptions={{ color: '#8b9e98', weight: 3, opacity: .6, dashArray: '5 5' }}><Tooltip>{t("Demonstration walking edge")}</Tooltip></Polyline> })}
       {clusters.filter(cluster => cluster.geometry).map(cluster => {
