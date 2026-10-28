@@ -54,6 +54,23 @@ def test_frontend_and_api_share_origin_and_api_errors_stay_api_errors(hosted):
         assert c.post('/api/urban/priority', headers=ORIGIN, json={}).json()['items'][0]['score'] == 65
 
 
+def test_historical_static_assets_are_served_separately_from_settlement_data(hosted):
+    import hashlib
+    import json
+    _, frontend, _ = hosted
+    assets = frontend / 'data'
+    assets.mkdir()
+    for name in ('mumbai_slum_clusters_2015.geojson', 'mumbai_slum_clusters_2015.metadata.json'):
+        (assets / name).write_bytes((ROOT / 'nagarseva/website/public/data' / name).read_bytes())
+    with client(hosted) as c:
+        metadata = c.get('/data/mumbai_slum_clusters_2015.metadata.json', headers=ORIGIN).json()
+        geometry = c.get('/data/mumbai_slum_clusters_2015.geojson', headers=ORIGIN)
+        assert geometry.status_code == 200
+        assert hashlib.sha256(geometry.content).hexdigest() == metadata['sha256']
+        assert len(json.loads(geometry.content)['features']) == 2542
+        assert c.get('/api/urban/data/settlements', headers=ORIGIN).json()['total'] == 0
+
+
 def test_officer_protection_and_persistence_across_app_recreation(hosted):
     with client(hosted) as c:
         assert c.get('/api/urban/state', headers=ORIGIN).status_code == 401

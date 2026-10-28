@@ -43,7 +43,7 @@ def wait_for(url, process):
 def main():
     OUT.mkdir(parents=True,exist_ok=True)
     checks, errors, processes, logs = [], [], [], []
-    report = {'status':'failed','checked_at':datetime.now(timezone.utc).isoformat(),'scope':'Actual Chromium, bundled historical GeoJSON and disposable API; no field validation','checks':checks,'browser_errors':errors,'source_features':2542,'rendered_features':2517,'topology_exclusions':25,'basemap_tiles':'Blocked for deterministic tests; no live tile availability claim'}
+    report = {'status':'failed','checked_at':datetime.now(timezone.utc).isoformat(),'scope':'Actual Chromium, bundled historical GeoJSON and disposable API; no field validation','checks':checks,'browser_errors':errors,'tested_commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'working_tree_dirty':bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip()),'source_features':2542,'rendered_features':2517,'topology_exclusions':25,'basemap_tiles':'Blocked for deterministic tests; no live tile availability claim'}
     try:
         with tempfile.TemporaryDirectory(prefix='urban-reference-browser-') as folder:
             key = secrets.token_urlsafe(32)
@@ -108,6 +108,14 @@ def main():
                     assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth + 1')
                     page.screenshot(path=str(OUT/f'mobile-{language}.png'),full_page=True)
                 checks.append('390px mobile layout has no horizontal overflow in any supported language')
+                offline=browser.new_context(viewport={'width':1200,'height':900})
+                offline.route('**/api/urban/data/**',lambda route:route.abort())
+                offline.route('https://tile.openstreetmap.org/**',lambda route:route.abort())
+                offline_page=offline.new_page(); offline_page.goto(WEB+'/#explore')
+                expect(offline_page.locator('.us-reference-boundary')).to_have_count(2517,timeout=20000)
+                expect(offline_page.get_by_text(LABELS['en'][1],exact=True)).to_be_visible()
+                offline.close()
+                checks.append('The bundled historical layer remains usable when the operational API is unavailable')
                 # Error states use new contexts so immutable in-memory caching cannot conceal a failed fetch.
                 for kind in ['http','empty','malformed','empty-collection']:
                     ctx=browser.new_context(viewport={'width':1200,'height':900})

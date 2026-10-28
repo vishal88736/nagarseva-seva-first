@@ -1,5 +1,6 @@
 """Actual CI container HTTP, upload, auth and restart-persistence checks."""
 import base64
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -44,6 +45,16 @@ assert status == 200 and b'<html' in html.lower() and b'UrbanSaarthi' in html
 assert headers['cache-control'] == 'no-store'
 for secret in OFFICER.values():
     assert secret.encode() not in html
+
+# Historical geometry is bundled with the UI, independent of acquired API data.
+status, _, payload = request('/data/mumbai_slum_clusters_2015.metadata.json', ORIGIN)
+assert status == 200, 'Historical boundary metadata is missing from the container'
+reference = json.loads(payload)
+status, _, payload = request('/data/mumbai_slum_clusters_2015.geojson', ORIGIN)
+assert status == 200 and hashlib.sha256(payload).hexdigest() == reference['sha256']
+assert len(json.loads(payload)['features']) == reference['source_feature_count'] == 2542
+assert reference['valid_feature_count'] == 2517 and len(reference['excluded_features']) == 25
+assert reference['analysis_allowed'] is False and reference['reference_year'] == 2015
 
 # CI deliberately mounts no acquired source files. The active public API must
 # expose an honest empty state while the separately labelled sandbox still works.
