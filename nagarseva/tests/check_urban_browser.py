@@ -69,6 +69,14 @@ def configured_ports():
     return ports
 
 
+def open_sandbox(page):
+    previous_hash = page.evaluate("location.hash")
+    page.get_by_role("button", name="Data", exact=True).click()
+    page.get_by_text("Reference data & demonstration", exact=True).click()
+    page.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
+    page.evaluate("hash => { location.hash = hash }", previous_hash)
+
+
 def main():
     api_port, web_port = configured_ports()
     api_base, web_base = f'http://127.0.0.1:{api_port}', f'http://127.0.0.1:{web_port}'
@@ -117,7 +125,7 @@ def main():
                         emit_preview(initial)
 
                 page.goto(web_base, wait_until="networkidle")
-                page.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
+                open_sandbox(page)
                 expect(page.locator(".us-context-bar")).to_contain_text("Python calculation checked")
                 expect(page.get_by_role("heading", name="A clear path from need to service.")).to_be_visible()
                 expect(page.get_by_text("Official listing fact", exact=True)).to_have_count(3)
@@ -210,7 +218,7 @@ def main():
                 assert brief["scenario_comparison"]["assumptions"]["contingency_pct"] == 10
                 assert "content_base64" not in json.dumps(brief) and "officerKey" not in json.dumps(brief)
                 page.reload(wait_until="networkidle")
-                page.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
+                open_sandbox(page)
                 expect(page.get_by_role("heading", name="CI demo water improvement", exact=True)).to_be_visible()
                 expect(verified).to_have_text("01")
                 check("Exported brief contains scores, assumptions and evidence metadata; SQLite records persist after reload")
@@ -249,14 +257,14 @@ def main():
                 sandbox = offline.new_page()
                 sandbox.on("pageerror", lambda error: errors.append(error.stack or str(error)))
                 sandbox.goto(web_base + "/#assurance", wait_until="networkidle")
-                sandbox.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
+                open_sandbox(sandbox)
                 expect(sandbox.locator(".us-sandbox-banner")).to_contain_text("browser-only demonstration")
                 sandbox.get_by_role("button", name="Plan a service work", exact=False).click()
                 sandbox.get_by_label("Work title", exact=True).fill("Offline browser-only work")
                 sandbox.get_by_role("button", name="Save planned work", exact=False).click()
                 expect(sandbox.get_by_role("heading", name="Offline browser-only work", exact=True)).to_be_visible()
                 sandbox.reload(wait_until="networkidle")
-                sandbox.get_by_role("button", name="Open synthetic sandbox", exact=True).click()
+                open_sandbox(sandbox)
                 expect(sandbox.get_by_role("heading", name="Offline browser-only work", exact=True)).to_be_visible()
                 with urllib.request.urlopen(api_base + "/urban/state") as response:
                     server = json.load(response)
