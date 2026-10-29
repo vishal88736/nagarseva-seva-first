@@ -1,3 +1,5 @@
+> Current active UI: the centralized synthetic prototype and controlled onboarding described in [the repository guide](../../README.md). Historical source integration described below is archived and disconnected from the active UI.
+
 # UrbanSaarthi product and data contract
 
 The primary application has four routes:
@@ -74,7 +76,7 @@ settlement association. It collects no reporter name, phone or beneficiary detai
 The browser uses `/api` as its existing same-origin proxy. API documentation is
 available at `/docs` on the development API.
 
-Required category, description length, dates, coordinates and uploads are validated
+Required category, description length, location description, dates, coordinates and uploads are validated
 on the server. The report date uses the Mumbai calendar. Coordinates are optional,
 paired and limited to three decimal places. Empty coordinates remain null; zero is
 accepted only when supplied. Optional consented PNG/JPEG images have a 2 MiB limit,
@@ -84,7 +86,8 @@ Uploaded images are not public, authenticated field inspections or proof of serv
 
 Duplicate retries with the same request key and payload return the same saved ID.
 Reusing a key for different content is an explicit conflict. Success is shown only
-after a committed API response; failed submissions remain editable. Saved references
+after a committed, schema-checked API response; an unexpected HTTP 200 payload cannot
+claim success. Failed submissions remain editable. Saved references
 survive refresh through the report URL. Statuses are `submitted`, `under_review` and
 `resolved`, and never automatically create verified service interventions.
 
@@ -109,39 +112,39 @@ resolution, validated policy weight or current service baseline is claimed.
 
 ### Supplied visual reference
 
-The 29 October design update follows the supplied charcoal dashboard reference:
-a compact icon rail, lavender shield mark, pill-shaped search/language/data controls,
-a wide hero with floating civic medallions, five source-backed metrics and a three-card
-workspace. `public/urbansaarthi-mark.svg` recreates the supplied mark as a vector and
-also supplies the favicon. `CityAtlasArt.tsx` draws decorative civic symbols with the
-existing icon package. There are no raster image downloads or new dependencies.
+The current 29 October update follows the supplied light civic dashboard: a persistent
+left sidebar, teal building mark, pale blue-grey background, white rounded panels,
+four overview cards, five dataset-coverage rows, actual report activity, the historical
+map and a paginated reference table. The screenshot supplies no application data.
 
-The dashboard's segmented bar is the actual topology-valid polygon count divided by
-the source count. The ward chart counts original register rows with a supplied ward;
-it does not allocate households, population or service observations. Source cards
-filter with keyboard-accessible tabs, switch between grid/list views, and open the
-existing explorer or reporting route. Header search uses the same settlement filter
-state as the explorer. The five metrics add sourced project listings to the existing
-four metrics without treating listings as active or completed projects.
+The displayed source total is calculated from the parsed GeoJSON. The map separately
+shows the 2,517 displayable features and explains the 25 topology exclusions. The
+reference table numbers use original one-based file positions; excluded positions
+are not renumbered or converted to official identifiers. The label explicitly explains
+its application-generated meaning. Selecting a row or polygon highlights and fits
+its actual geometry and displays its original properties, including null values.
+Name, ward and SRA-ID search are unavailable for this historical layer. The imported
+2024 register retains separate source-supported search and filters.
 
-The same palette applies to the explorer, report form, project tables/dialogs and
-secondary data tools. The street basemap uses a visual grayscale/inversion filter;
-source coordinates and attribution stay intact. `main.tsx` loads scoped product styles
-after the retained legacy styles so old light fields cannot override the new theme.
-The navigation expands into a drawer, has an explicit close action, and closes with
-Escape. Changing language preserves the selected card tab and explorer filters.
+The source report distinguishes original geometry, extracted SRA records, unmatched
+historical Census context, and unverified scheme listings. It exposes genuine source
+links and downloads, recorded staging/source timestamps and validator diagnostics.
+A staging timestamp is not presented as a new import or field-verification date.
 
-Pending dataset counts use compact placeholders with an explicit busy state; unavailable
-counts remain missing rather than becoming zero. A delayed-response browser check proves
-that placeholders become the actual source counts after loading. The polygon legend
-uses the same lavender color as the displayed boundaries.
+The same light palette applies to all four routes and retained tools. The mobile
+sidebar is a drawer with an explicit close action and Escape support. All application
+strings use the existing English, Hindi and Marathi resources; original source text
+and machine field names remain unchanged. No new dependency was installed.
 
-The [reference-design validation receipt](../../research/verification/reference_design_validation.json)
-records 30 passing frontend tests, passing build/lint/strict type checks, eight product
-browser groups with both small fixtures and acquired records, and retained geometry,
-workspace and field-entry UI regressions. A separate read-only check captured all four
-running routes at desktop and mobile sizes in English, Hindi and Marathi. Test issue
-submissions use disposable SQLite; no test reports were added to the running workspace.
+[`scripts/validate_civic_sources.py`](../../scripts/validate_civic_sources.py) validates
+local files without downloads, replacement or import, including reproducing all 79
+pages of the saved SRA extraction. Its [current receipt](../../research/verification/civic_sources_validation.json)
+records actual inspection time. Geometry/metadata URLs can be configured using
+`VITE_REFERENCE_GEOMETRY_URL` and `VITE_REFERENCE_METADATA_URL`; use a matching
+checksum-bound pair. Defaults serve the existing single public geometry file.
+
+[The current implementation report](../../research/civic_implementation_report.md)
+records changes, evidence, commands, browser verification and outstanding data limits.
 
 ## Replacing historical geometry later
 
@@ -162,7 +165,7 @@ and migration `002_citizen_issues.sql` add report persistence to the same SQLite
 `scripts/activate_public_data.py` connects the verified acquired bundle without
 overwriting a user import. No package dependency was added.
 
-Local validation on 28 October 2026:
+Historical validation on 28 October 2026 (superseded by the current report above):
 
 | Check | Actual result |
 | --- | --- |

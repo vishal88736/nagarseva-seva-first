@@ -14,6 +14,12 @@ const manifest = (count = 1) => ({...metadata,source_feature_count:count,valid_f
 test('Exact supplied bytes, full counts, Mumbai WGS84 extent and explicit topology exclusions load', async () => {
   const result = await loadReferenceBoundaries(HISTORICAL_2015, fetcher)
   assert.equal(result.metadata.source_feature_count, 2542)
+  assert.equal(result.summary.featureCount, 2542)
+  assert.equal(result.summary.coordinateCount, 70404)
+  assert.deepEqual(result.summary.geometryTypes, {Polygon:2542})
+  assert.equal(result.summary.missingGeometry,0)
+  assert.equal(result.summary.unclosedRings,0)
+  assert.deepEqual(result.summary.bounds,result.metadata.bounds)
   assert.equal(result.geometry.features.length, 2517)
   assert.equal(result.skippedCount, 25)
   assert.equal(result.metadata.coordinate_count, 70404)
@@ -30,7 +36,7 @@ test('Exact supplied bytes, full counts, Mumbai WGS84 extent and explicit topolo
 })
 
 test('Empty collections, malformed structure and changed source counts remain explicit', () => {
-  assert.equal(parseReferenceBoundaries({type:'FeatureCollection',features:[]}, manifest(0)).geometry.features.length,0)
+  assert.throws(()=>parseReferenceBoundaries({type:'FeatureCollection',features:[]}, manifest(0)), /No reference/)
   for (const value of [null,{},[],{type:'FeatureCollection',features:null},{type:'FeatureCollection',features:[],crs:{name:'EPSG:32643'}}]) assert.throws(()=>parseReferenceBoundaries(value,manifest()), /WGS84/)
   assert.throws(()=>parseReferenceBoundaries({type:'FeatureCollection',features:[]},manifest()), /count/)
 })
@@ -58,4 +64,23 @@ test('Failed requests, empty/oversize responses, malformed JSON and checksum cha
   await assert.rejects(loadReferenceBoundaries(HISTORICAL_2015,async()=>new Response('not JSON')), /valid JSON/)
   await assert.rejects(loadReferenceBoundaries(HISTORICAL_2015,async url=>new Response(url.endsWith('.metadata.json')?JSON.stringify(metadata):'{}')), /checksum/)
   await assert.rejects(loadReferenceBoundaries(HISTORICAL_2015,async(_url,options)=>new Promise((_resolve,reject)=>options.signal.addEventListener('abort',()=>reject(new DOMException('Aborted','AbortError')))),5), /Aborted/)
+})
+
+
+test('Source positions survive exclusions and source properties are preserved without identifiers', () => {
+  const first = square(), second = square(), third = square()
+  third.properties = {source_note:'Actual source text',polyno:null}
+  first.properties = null
+  const result = parseReferenceBoundaries({type:'FeatureCollection',features:[first,second,third]}, {...manifest(3),valid_feature_count:2,excluded_features:[{source_feature_number:2,reason:'TEST ONLY exclusion'}]})
+  assert.deepEqual(result.sourceFeatureNumbers,[1,3])
+  assert.deepEqual(result.geometry.features[0].properties,{})
+  assert.deepEqual(result.geometry.features[1].properties,third.properties)
+  assert.equal(result.summary.featureCount,3)
+  assert.equal(result.summary.coordinateCount,15)
+  assert.deepEqual(result.summary.geometryTypes,{Polygon:3})
+  assert.equal(result.summary.missingProperties,1)
+  assert.equal(result.summary.missingGeometry,0)
+  assert.equal(result.summary.unclosedRings,0)
+  assert.deepEqual(result.summary.bounds,[72.9,19,72.91,19.01])
+  assert.deepEqual(result.summary.fields,['polyno','source_note'])
 })

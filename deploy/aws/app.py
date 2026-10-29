@@ -26,7 +26,9 @@ class OriginGuard:
         supplied = headers.get(b"x-origin-verify", b"")
         if not secrets.compare_digest(supplied, self.secret.encode("ascii")):
             return await JSONResponse({"detail": "Origin access denied."}, status_code=403)(scope, receive, send)
-        import_paths = {"/api/urban/data/workspace/preview", "/api/urban/data/workspace/import"}
+        import_paths = {"/api/urban/data/workspace/preview", "/api/urban/data/workspace/import",
+                        "/api/urban/integration/inspect", "/api/urban/integration/validate",
+                        "/api/urban/integration/imports"}
         limit = MAX_DATASET_REQUEST_BYTES if scope.get("method") == "POST" and scope.get("path") in import_paths else MAX_BODY_BYTES
         try:
             length = int(headers.get(b"content-length", b"0"))
@@ -71,7 +73,7 @@ class OriginGuard:
 
 class SPAFiles(StaticFiles):
     """Serve only known client routes through the SPA; missing assets stay 404."""
-    routes = {'dashboard','settlements','report-issue','projects','projects/data','projects/priorities','projects/scenarios','projects/assurance'}
+    routes = {'dashboard','settlements','report-issue','projects','projects/data','projects/priorities','projects/scenarios','projects/assurance','projects/reports','projects/community','data-integration','housing','services','visits','methodology'}
 
     async def get_response(self, path, scope):
         if scope['method'] in {'GET','HEAD'} and path.strip('/') in self.routes:
@@ -95,4 +97,4 @@ def build_app(frontend_dir: str | Path | None = None, db_path=None):
     return OriginGuard(application, origin_secret)
 
 
-# Uvicorn uses --factory; importing this module doesn't start a server.
+# Uvicorn uses --factory; importing this module does not start a server.

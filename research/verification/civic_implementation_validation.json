@@ -1,0 +1,172 @@
+{
+  "checked_at": "2026-10-29T13:48:08.666763+00:00",
+  "status": "passed",
+  "scope": "Local source validation and software behavior; no public deployment or field validation",
+  "python_tests": {
+    "passed": 322,
+    "warnings": 4
+  },
+  "frontend_tests": {
+    "passed": 33
+  },
+  "lint": "passed (repository tsc alias)",
+  "strict_types": "passed",
+  "production_build": "passed",
+  "build_warning": "Main chunk approximately 502 kB, exceeds Vite advisory threshold",
+  "browser": {
+    "product_empty": {
+      "status": "passed",
+      "checked_at": "2026-10-29T13:43:16.544767+00:00",
+      "scope": "Production build, Chromium, actual bundled GeoJSON and disposable SQLite; software issue fixtures only",
+      "real_acquired_sources": false,
+      "basemap_tiles": "Blocked in automated tests",
+      "checks": [
+        "Light civic shell, four routes, actual source counts, five coverage states, no fabricated activity/issues/projects",
+        "Real polygon lookup/pagination, preserved source numbering, table keyboard selection, actual geometry highlight, popup, zoom/pan/fit and layer toggle",
+        "Required category/description/location, whitespace and invalid-photo rejection, confirmed SQLite persistence, reload and actual dashboard activity",
+        "Truthful empty/published project views, source details, dataset provenance and real issue/GeoJSON downloads",
+        "All four sections in English/Hindi/Marathi, 390px navigation and layouts without page overflow; language persists on reload",
+        "Network failure cannot claim issue success; empty and malformed source files produce useful errors without fake polygons; delayed APIs retain truthful loading states"
+      ],
+      "browser_errors": [],
+      "field_validation": false
+    },
+    "product_acquired": {
+      "status": "passed",
+      "checked_at": "2026-10-29T13:43:28.669453+00:00",
+      "scope": "Production build, Chromium, actual bundled GeoJSON and disposable SQLite; software issue fixtures only",
+      "real_acquired_sources": true,
+      "basemap_tiles": "Blocked in automated tests",
+      "checks": [
+        "Light civic shell, four routes, actual source counts, five coverage states, no fabricated activity/issues/projects",
+        "Real polygon lookup/pagination, preserved source numbering, table keyboard selection, actual geometry highlight, popup, zoom/pan/fit and layer toggle",
+        "Required category/description/location, whitespace and invalid-photo rejection, confirmed SQLite persistence, reload and actual dashboard activity",
+        "Truthful empty/published project views, source details, dataset provenance and real issue/GeoJSON downloads",
+        "All four sections in English/Hindi/Marathi, 390px navigation and layouts without page overflow; language persists on reload",
+        "Network failure cannot claim issue success; empty and malformed source files produce useful errors without fake polygons; delayed APIs retain truthful loading states"
+      ],
+      "browser_errors": [],
+      "field_validation": false
+    },
+    "historical_map": {
+      "status": "passed",
+      "checked_at": "2026-10-29T13:33:30.652330+00:00",
+      "scope": "Actual Chromium, bundled historical GeoJSON and disposable API; no field validation",
+      "checks": [
+        "All 2542 original features are parsed; 2517 topology-valid polygons render at the Mumbai extent, with source-only click/keyboard popups, translated open popups and a working toggle in English, Hindi and Marathi",
+        "Language changes preserve the live map viewport, visibility and search state; the chosen language survives reload",
+        "390px mobile layout has no horizontal overflow in any supported language",
+        "The bundled historical layer remains usable when the operational API is unavailable",
+        "HTTP failures, empty responses, malformed metadata and empty valid collections show localized states; retry recovers a failed request",
+        "Imported settlement names remain original; the 2015 layer adds no settlement, household or service observations and no identifier joins"
+      ],
+      "browser_errors": [],
+      "tested_commit": "ac206f43bf159f2aaae679dce47def4485495ffa",
+      "working_tree_dirty": true,
+      "source_features": 2542,
+      "rendered_features": 2517,
+      "topology_exclusions": 25,
+      "basemap_tiles": "Blocked for deterministic tests; no live tile availability claim"
+    },
+    "workspace_regression": {
+      "status": "passed",
+      "checked_at": "2026-10-29T13:46:53.808447+00:00",
+      "scope": "Actual Chromium and API using user-uploaded synthetic software fixtures in disposable SQLite",
+      "field_validation": false,
+      "checks": [
+        "Empty product dashboard has a clear data entry path and keeps legacy planning tools accessible",
+        "Template download, malformed-file recovery, nonmutating preview and actual authorized GeoJSON/observation/project import pass",
+        "Map fits imported geometries outside the old fixed viewport; selection, keyboard boundary access and exact project joins are connected",
+        "Hand-worked 51-point score, water-only80, zero-weight rejection, missing-data separation and CSV pass",
+        "Imported120 households feed scenarios; hand-worked ₹1199 matches API; due-date edit, plan/completion/evidence/review and correct complaint service execute",
+        "Reload retains imported data; primary explorer and retained planning tools fit390px; offline API shows retry without substituting data"
+      ],
+      "browser_errors": []
+    },
+    "field_ui_regression": {
+      "status": "passed",
+      "checked_at": "2026-10-29T13:33:46.296219+00:00",
+      "scope": "Actual Chromium UI with synthetic API fixtures; no field or backend validation",
+      "field_validation": false,
+      "checks": [
+        "Actual component renders compact closed forms and recovers a failed survey request",
+        "Raw payload distinguishes zero/missing; timezone, paired GPS, consent and duplicate ID checks; no index POST generated",
+        "Reviewed index requires a distinct reviewer and explicit acknowledgement, retaining source/time/protocol",
+        "Protected CSV download and 390px layout checked without browser errors"
+      ],
+      "browser_errors": []
+    }
+  },
+  "live_local_application": {
+    "checked_at": "2026-10-29T13:34:17.785560+00:00",
+    "status": "passed",
+    "preview": "http://localhost:5173",
+    "api": "http://localhost:8000",
+    "scope": "Read-only running local application, all four desktop routes, Hindi/Marathi mobile captures; no reports submitted",
+    "source_counts": {
+      "settlements_loaded": 2597,
+      "settlements_with_geometry": 0,
+      "sufficient_indicator_coverage": 0,
+      "documented_deficits": 0,
+      "requires_assessment": 2597,
+      "projects": 5677,
+      "awaiting_verification": 0,
+      "verified_interventions": 0,
+      "overdue_interventions": 0,
+      "synthetic": false,
+      "deficit_threshold": "Index >=60; illustrative review threshold"
+    },
+    "issue_count_before": 0,
+    "issue_count_after": 0,
+    "live_basemap_tiles_loaded": 6,
+    "server_requires_location": true,
+    "browser_errors": [],
+    "photo_storage_enabled": false,
+    "settled_source_views": {
+      "visible_register_rows": 10,
+      "visible_project_rows": 20,
+      "rendered_historical_polygons": 2517
+    }
+  },
+  "source_validation_receipt": "research/verification/civic_sources_validation.json",
+  "created_files": [
+    "nagarseva/website/src/urban/DatasetReports.tsx",
+    "nagarseva/website/src/urban/ReferencePolygonDetails.tsx",
+    "nagarseva/website/src/urban/ReferencePolygonTable.tsx",
+    "nagarseva/website/src/urban/referencePresentation.ts",
+    "nagarseva/website/tests/issueClient.test.mjs",
+    "research/civic_implementation_report.md",
+    "research/verification/civic_implementation_validation.json",
+    "research/verification/civic_sources_validation.json",
+    "scripts/validate_civic_sources.py"
+  ],
+  "modified_files": [
+    ".env.example",
+    "README.md",
+    "nagarseva/docs/product.md",
+    "nagarseva/model/api/citizen_issues.py",
+    "nagarseva/website/index.html",
+    "nagarseva/website/public/urbansaarthi-mark.svg",
+    "nagarseva/website/src/i18n/LanguageProvider.tsx",
+    "nagarseva/website/src/i18n/locales/en.ts",
+    "nagarseva/website/src/i18n/locales/hi.ts",
+    "nagarseva/website/src/i18n/locales/mr.ts",
+    "nagarseva/website/src/urban/HistoricalReferenceLayer.tsx",
+    "nagarseva/website/src/urban/IssueReport.tsx",
+    "nagarseva/website/src/urban/ProductDashboard.tsx",
+    "nagarseva/website/src/urban/ProjectsReports.tsx",
+    "nagarseva/website/src/urban/PublicMap.tsx",
+    "nagarseva/website/src/urban/PublicWorkspace.tsx",
+    "nagarseva/website/src/urban/historicalBoundaries.ts",
+    "nagarseva/website/src/urban/issueClient.ts",
+    "nagarseva/website/src/urban/product.css",
+    "nagarseva/website/tests/historicalBoundaries.test.mjs",
+    "tests/check_historical_boundaries_browser.py",
+    "tests/check_product_browser.py",
+    "tests/check_public_browser.py",
+    "tests/test_citizen_issues.py"
+  ],
+  "new_dependencies": [],
+  "source_files_replaced": false,
+  "production_reports_added": false
+}

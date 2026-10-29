@@ -26,3 +26,5 @@ test('Locale-aware numbers, money, dates and statuses retain machine data semant
   assert.equal(validLanguage('xx'),false); assert.equal(validLanguage('hi'),true); assert.equal(storedLanguage(),'en')
   setLanguage('en')
 })
+
+test('Event timestamps use the India calendar independently of browser timezone',()=>{setLanguage('en');assert.match(formatDate('2026-10-29T22:00:00Z'),/^30 /);assert.match(formatDate('2026-10-29'),/^29 /)})

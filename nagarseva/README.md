@@ -1,3 +1,5 @@
+> Current active UI: the centralized synthetic prototype and controlled onboarding described in [the repository guide](../README.md). Historical source integration described below is archived and disconnected from the active UI.
+
 # UrbanSaarthi application
 
 The default acquired-data workspace and its separate synthetic sandbox are described

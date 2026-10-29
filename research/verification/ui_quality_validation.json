@@ -1,0 +1,90 @@
+{
+  "status": "passed",
+  "checkedAt": "2026-10-29T17:57:01.533834+00:00",
+  "scope": "Software/browser verification; synthetic SQLite plus live OSM context; no government connection or field validation",
+  "pythonTests": 382,
+  "frontendTests": 48,
+  "build": "passed with optimization advisories",
+  "lint": "passed (TypeScript script)",
+  "strictTypes": "passed",
+  "browser": {
+    "integration": {
+      "status": "passed",
+      "checkedAt": "2026-10-29T17:53:02.872800+00:00",
+      "checks": [
+        "One deterministic persisted dataset: 100 settlements, 24 demo wards, 60 issues, 20 projects, 30 visits, 40 milestones; real integrations absent",
+        "Actual map polygons and paginated list share filters and selection; six service gaps use stored indicators",
+        "Accessible required-field errors; public issue save confirmed by SQLite, genuine submission event and refresh persistence",
+        "Server-authorized issue acknowledgement and history, milestone creation, visit scheduling and cancellation update shared records",
+        "CSV download contains actual filtered records and a synthetic-data disclaimer",
+        "GeoJSON actual metadata, existing-field suggestions, explicit CRS validation, preview, authorized confirmed import, hash/original preservation and refresh receipt; demo stays at 100",
+        "CSV inspection, actual columns and duplicate-identifier validation; unsupported formats and oversized files rejected without saving",
+        "Manual mapping of actual CSV fields, confirmed CSV import, malformed HTTP-success rejection and no false saved state",
+        "English, Hindi and Marathi update headings, workflow, navigation and governance; 390px drawer and no document overflow",
+        "Confirmed scoped reset restores initial counts and preserves controlled import provenance",
+        "No old GIS data requests and no uncaught browser errors",
+        "Backend failure shows an honest unavailable state, no invented metrics, and Retry restores the actual snapshot"
+      ],
+      "scope": "Production Chromium UI, synthetic software fixtures and disposable SQLite; no live authority connection",
+      "browserErrors": []
+    },
+    "management": {
+      "status": "passed",
+      "checkedAt": "2026-10-29T17:46:18.452429+00:00",
+      "scope": "Disposable SQLite and browser workflows only",
+      "checks": [
+        "Anonymous project creation deep links explain access rather than exposing a save form",
+        "Project creation, progress update and reload persistence work through SQLite",
+        "A rejected administrator key gives a real error and cannot update project progress",
+        "Completed milestones require actual completion dates; invalid saves do not create records",
+        "Completing a visit preserves indicators; explicit confirmed application persists a traceable update",
+        "Housing assessment creation and editing preserve the correct settlement and count",
+        "Public housing assessment details remain readable while edits stay protected",
+        "Community moderation and response updates persist with genuine operation events",
+        "Feedback history retains both administrative responses and status transitions",
+        "Settlement-filtered reports scope summary counts and infrastructure to the same stored records",
+        "Upcoming-visit dashboard action carries the same India-calendar date filter as its metric",
+        "Inverted visit date ranges show an explicit validation error and recover on correction",
+        "Visible required-field errors change language immediately without resubmitting"
+      ],
+      "browserErrors": [],
+      "feedbackHistoryRetainsPriorResponse": true
+    },
+    "map": {
+      "status": "passed",
+      "checkedAt": "2026-10-29T17:53:07.324891+00:00",
+      "checks": [
+        "Street tiles load by default; grouped location counts account for all 100 actual records",
+        "Language switching and list sorting preserve zoom, center and polygon DOM identity",
+        "Polygon selection zooms to actual geometry and reveals/highlights the corresponding paginated row",
+        "Fit action and geometry visibility controls work without discarding selection",
+        "At 390px with provider blocked, the coordinate grid, metric scale, clusters and retry remain usable without overflow"
+      ],
+      "browserErrors": [],
+      "scope": "Read-only current app; live OSM tiles for online check, deliberately blocked tiles for fallback; no database mutations"
+    },
+    "localRuntime": {
+      "status": "passed",
+      "workspaceUnchangedAcrossRestart": true,
+      "counts": {
+        "settlements": 100,
+        "wards": 24,
+        "issues": 60,
+        "projects": 20,
+        "visits": 30,
+        "milestones": 40,
+        "assessments": 0,
+        "feedback": 0
+      },
+      "health": {
+        "adapter": "sqlite-synthetic",
+        "synthetic": true,
+        "adminConfigured": false,
+        "photoStorage": false,
+        "timezone": "Asia/Kolkata",
+        "externalConnected": false
+      }
+    }
+  },
+  "userWorkspacePreserved": true
+}

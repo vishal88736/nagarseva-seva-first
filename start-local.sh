@@ -94,8 +94,8 @@ for attempt in range(120):
             assert json.load(response)['status'] == 'ok'
         with urllib.request.urlopen(f'http://127.0.0.1:{web_port}', timeout=1) as response:
             assert response.status == 200
-        with urllib.request.urlopen(f'http://127.0.0.1:{web_port}/api/urban/data/health', timeout=1) as response:
-            assert json.load(response)['status'] == 'ok'
+        with urllib.request.urlopen(f'http://127.0.0.1:{web_port}/api/urban/demo/health', timeout=1) as response:
+            assert json.load(response)['adapter'] == 'sqlite-synthetic'
         break
     except ProcessLookupError:
         raise SystemExit(f'A server exited. Check .runtime/local/{api_port}-{web_port}/api.log and web.log.')

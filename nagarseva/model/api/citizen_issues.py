@@ -35,7 +35,7 @@ class IssueInput(BaseModel):
     category: CATEGORIES
     description: str = Field(min_length=10,max_length=2000)
     ward: str | None = Field(None,max_length=120)
-    location: str | None = Field(None,max_length=300)
+    location: str = Field(min_length=1,max_length=300)
     latitude: float | None = Field(None,ge=-90,le=90,strict=True)
     longitude: float | None = Field(None,ge=-180,le=180,strict=True)
     report_date: date
@@ -43,6 +43,8 @@ class IssueInput(BaseModel):
 
     @model_validator(mode='after')
     def valid_report(self):
+        if not self.location:
+            raise ValueError('A location description is required.')
         if self.report_date > datetime.now(timezone(timedelta(hours=5,minutes=30))).date():
             raise ValueError('The report date cannot be in the future.')
         if bool(self.latitude is not None) != bool(self.longitude is not None):

@@ -277,16 +277,20 @@ def create_app(db_path: str | Path | None = None, data_dir: str | Path | None = 
     from .public_store import PublicStore
     from .public_data import create_public_router
     application = FastAPI(title="UrbanSaarthi", version="1.0.0",
-                          description="Historical source exploration, prototype issue reporting and documented service assurance. No official municipal submission or automated eligibility decisions.")
+                          description="SEVAMO96 synthetic civic demonstration and controlled file onboarding. No authorized external government service is connected.")
     application.state.store = RecordStore(db_path or os.getenv("URBANSAARTHI_DB_PATH", str(Path(__file__).resolve().parents[1] / "data/local/urbansaarthi.sqlite3")))
     application.add_middleware(CORSMiddleware, allow_origins=os.getenv("NAGARSEVA_CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173").split(","),
                                allow_methods=["GET", "POST", "PATCH"], allow_headers=["Content-Type", "X-Officer-Key", "Idempotency-Key"])
     application.include_router(create_router(lambda: application.state.store))
-    source_dir = data_dir or os.getenv("URBANSAARTHI_DATA_DIR", str(Path(__file__).resolve().parents[3] / "data/processed"))
+    source_dir = data_dir or os.getenv("URBANSAARTHI_DATA_DIR", str(Path(__file__).resolve().parents[3] / ".runtime/inactive-public-source"))
     application.state.public = PublicStore(application.state.store, source_dir)
     application.include_router(create_public_router(lambda: application.state.public, public_access, decode_evidence))
     from .citizen_issues import create_issue_router
     application.include_router(create_issue_router(lambda: application.state.public, public_access))
+    from .civic_demo import create_demo_router
+    from .data_onboarding import create_onboarding_router
+    application.include_router(create_demo_router(application.state.store, public_access))
+    application.include_router(create_onboarding_router(application.state.store, public_access))
     return application
 
 

@@ -1,0 +1,25 @@
+import { t, errorText, formatDate, formatNumber } from '../i18n/locale'
+import { useReferenceBoundaries } from './useReferenceBoundaries'
+import { HISTORICAL_2015 } from './historicalBoundaries'
+import { HISTORICAL_NOTICE } from './referencePresentation'
+import { sourceUrl } from './sourceUrl'
+import type { Metadata } from './publicClient'
+
+export default function DatasetReports({ metadata }: { metadata: Metadata | null }) {
+  const reference = useReferenceBoundaries(), data = reference.data
+  const registered = metadata?.snapshot.settlement_record_type === 'published_cluster_register'
+  const sources = [
+    { key:'civic.sra', publisher:'Slum Rehabilitation Authority, BrihanMumbai', year:'2024', count:registered?metadata?.snapshot.settlement_count:null, state:registered?'civic.verificationPending':metadata?'civic.importPending':'Error', note:'civic.sraReportNote' },
+    { key:'civic.census', publisher:'Office of the Registrar General & Census Commissioner, India', year:'2011', count:metadata?.snapshot.historical_observation_count, state:'Not linked', note:'civic.censusReportNote' },
+    { key:'civic.redevelopment', publisher:metadata?.snapshot.source_type==='user_import'?t('Not supplied'):'Slum Rehabilitation Authority, BrihanMumbai', year:null, count:metadata?.snapshot.projects_count, state:metadata?.snapshot.projects_count?'civic.verificationPending':metadata?'No records':'Error', note:'civic.projectsReportNote' },
+  ]
+  return <section className="us-panel dataset-reports"><h2>{t('civic.datasetReports')}</h2><p>{t('civic.datasetIntro')}</p>
+    <article className="dataset-report"><div className="civic-section-heading"><h3>{t('civic.boundaryCard')}</h3><span className="us-tag blue">{t(data?'Available':reference.loading?'Loading…':'Error')}</span></div><p className="historical-disclaimer">{t(HISTORICAL_NOTICE)}</p>
+      {reference.error&&<p role="alert">{errorText(reference.error)} <button className="us-button" onClick={reference.retry}>{t('Retry')}</button></p>}
+      {data&&<><dl className="us-facts"><div><dt>{t('civic.publisher')}</dt><dd>OpenCity · {t(data.metadata.source_attribution_key)}</dd></div><div><dt>{t('civic.sourceYear')}</dt><dd>2015</dd></div><div><dt>{t('civic.records')}</dt><dd>{formatNumber(data.summary.featureCount,0)} · {t('civic.displayCount',{valid:formatNumber(data.geometry.features.length,0),excluded:formatNumber(data.skippedCount,0)})}</dd></div><div><dt>{t('Geometry type')}</dt><dd>{Object.entries(data.summary.geometryTypes).map(([key,count])=>`${key}: ${formatNumber(count,0)}`).join(', ')}</dd></div><div><dt>{t('civic.coordinateCount')}</dt><dd>{formatNumber(data.summary.coordinateCount,0)}</dd></div><div><dt>{t('civic.bounds')}</dt><dd><code>{data.summary.bounds?.map(n=>n.toFixed(7)).join(', ')}</code></dd></div><div><dt>{t('civic.sourceProperties')}</dt><dd>{data.summary.fields.join(', ')||t('civic.noneProvided')}</dd></div><div><dt>{t('civic.stagedAt')}</dt><dd>{formatDate(data.metadata.staged_at,true)}</dd></div></dl><p>{t('civic.boundaryReportNote')}</p><details><summary>{t('civic.excludedDetails')}</summary><ul className="dataset-exclusions">{data.metadata.excluded_features.map(row=><li key={row.source_feature_number}><code>{row.source_feature_number}</code> · {row.reason}</li>)}</ul></details><div className="us-button-row"><a className="us-button" href={HISTORICAL_2015.geometryUrl} download>{t('projects.downloadGeoJSON')}</a><a className="us-button" href={HISTORICAL_2015.metadataUrl} download>{t('civic.downloadValidation')}</a><a className="us-button" href={data.metadata.source_catalog_url} target="_blank" rel="noreferrer">{t('Source catalogue')}</a></div></>}
+    </article>
+    {sources.map(row=><article className="dataset-report" key={row.key}><div className="civic-section-heading"><h3>{t(row.key)}</h3><span className="us-tag amber">{t(row.state)}</span></div><dl className="us-facts"><div><dt>{t('civic.publisher')}</dt><dd>{row.publisher}</dd></div><div><dt>{t('civic.sourceYear')}</dt><dd>{row.year||t('Not supplied')}</dd></div><div><dt>{t('civic.records')}</dt><dd>{metadata?formatNumber(row.count,0):t('Unavailable')}</dd></div></dl><p>{t(row.note)}</p></article>)}
+    {metadata?.snapshot.built_at&&<p className="us-small">{t('dashboard.snapshotBuilt',{date:formatDate(metadata.snapshot.built_at,true)})}</p>}
+    {metadata?.datasets.length ? <details className="dataset-inventory"><summary>{t('civic.sourceInventory')}</summary>{metadata.datasets.map((source,index)=><article key={`${source.dataset_name}-${index}`}><h3>{source.dataset_name}</h3><p>{source.publisher}</p><dl className="us-facts"><div><dt>{t('Status')}</dt><dd>{source.access_status}</dd></div><div><dt>{t('civic.validationNotes')}</dt><dd>{source.validation_status||t('Not supplied')}</dd></div><div><dt>{t('civic.retrievedAt')}</dt><dd>{formatDate(source.retrieved_at,true)}</dd></div></dl><p>{source.limitations}</p>{sourceUrl(source.source_url)&&<a href={sourceUrl(source.source_url)} target="_blank" rel="noreferrer">{t('Source')}</a>}</article>)}</details>:<p>{t('civic.inventoryUnavailable')}</p>}
+  </section>
+}

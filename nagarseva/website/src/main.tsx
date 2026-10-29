@@ -4,5 +4,8 @@ import App from './App'
 import { LanguageProvider } from './i18n/LanguageProvider'
 import './urban/urban.css'
 import './urban/product.css'
+import './civic/civic.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(<React.StrictMode><LanguageProvider><App /></LanguageProvider></React.StrictMode>)
+
+import './civic/audit.css'

@@ -67,7 +67,7 @@ def template():
             "ForwardHeaders": {"Type": "AWS::CloudFront::OriginRequestPolicy", "Properties": {
                 "OriginRequestPolicyConfig": {"Name": {"Fn::Sub": "${AWS::StackName}-api"},
                     "CookiesConfig": {"CookieBehavior": "none"}, "QueryStringsConfig": {"QueryStringBehavior": "all"},
-                    "HeadersConfig": {"HeaderBehavior": "whitelist", "Headers": ["Content-Type", "X-Officer-Key"]}}}},
+                    "HeadersConfig": {"HeaderBehavior": "whitelist", "Headers": ["Content-Type", "X-Officer-Key", "Idempotency-Key", "Origin", "Access-Control-Request-Method", "Access-Control-Request-Headers"]}}}},
             "Distribution": {"Type": "AWS::CloudFront::Distribution", "DependsOn": "AddressAssociation", "Properties": {
                 "DistributionConfig": {"Enabled": True, "HttpVersion": "http2", "IPV6Enabled": True,
                     "Comment": "UrbanSaarthi demo - all responses uncached - pay-as-you-go pricing",

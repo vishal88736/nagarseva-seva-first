@@ -120,7 +120,7 @@ def test_hosted_public_data_empty_state_is_available_without_synthetic_substitut
         assert c.get('/api/urban/data/interventions', headers=ORIGIN).status_code == 401
         assert c.get('/api/urban/data/interventions', headers=OFFICER).json()['items'] == []
 
-@pytest.mark.parametrize('path,expected', [('/api/urban/data/workspace/preview', 200), ('/api/urban/data/workspace/import', 200), ('/api/urban/data/complaints', 413)])
+@pytest.mark.parametrize('path,expected', [('/api/urban/data/workspace/preview', 200), ('/api/urban/data/workspace/import', 200), ('/api/urban/integration/inspect',200),('/api/urban/integration/validate',200),('/api/urban/integration/imports',200),('/api/urban/data/complaints', 413)])
 def test_large_import_envelope_does_not_relax_other_request_limits(hosted, path, expected):
     from starlette.responses import JSONResponse
     module, _, _ = hosted
@@ -152,10 +152,36 @@ def test_import_limit_also_rejects_oversized_chunked_bodies(hosted):
     assert response.status_code == 413
 
 
-@pytest.mark.parametrize('path',['/dashboard','/settlements','/report-issue','/projects','/projects/data','/projects/priorities','/projects/scenarios','/projects/assurance'])
+@pytest.mark.parametrize('path',['/dashboard','/settlements','/report-issue','/projects','/projects/data','/projects/priorities','/projects/scenarios','/projects/assurance','/projects/reports','/projects/community','/data-integration','/housing','/services','/visits','/methodology'])
 def test_known_product_routes_support_direct_navigation_and_refresh(hosted,path):
     with client(hosted) as c:
         response=c.get(path,headers=ORIGIN)
         assert response.status_code==200 and '<title>UrbanSaarthi</title>' in response.text
         assert c.get('/data/missing.geojson',headers=ORIGIN).status_code==404
         assert c.get('/api/missing',headers=ORIGIN).status_code==404
+
+
+def test_current_controlled_upload_fits_the_hosted_envelope(hosted):
+    import base64
+    module,frontend,database=hosted
+    raw=('id,name,is_synthetic\n'+''.join(f'DEMO-UP-{i:04},Demo data '+('x'*800)+',true\n' for i in range(4000))).encode()
+    assert 3_000_000<len(raw)<5*1024*1024
+    with TestClient(module.build_app(frontend,database)) as c:
+        response=c.post('/api/urban/integration/inspect',headers=ORIGIN,json={'filename':'Demo-data.csv','contentBase64':base64.b64encode(raw).decode(),'permissionAccepted':True})
+        assert response.status_code==200,response.text
+        assert response.json()['recordCount']==4000 and response.json()['stored'] is False
+
+
+def test_vercel_origin_preflight_and_actual_response_are_allowed_explicitly(hosted,monkeypatch):
+    monkeypatch.setenv('NAGARSEVA_CORS_ORIGINS','https://urbansaarthi.vercel.app')
+    with client(hosted) as c:
+        response=c.options('/api/urban/demo/commands',headers={**ORIGIN,'Origin':'https://urbansaarthi.vercel.app','Access-Control-Request-Method':'POST','Access-Control-Request-Headers':'content-type,x-officer-key'})
+        assert response.status_code==200 and response.headers['access-control-allow-origin']=='https://urbansaarthi.vercel.app'
+        assert c.get('/api/urban/demo/health',headers={**ORIGIN,'Origin':'https://urbansaarthi.vercel.app'}).headers['access-control-allow-origin']=='https://urbansaarthi.vercel.app'
+        assert c.options('/api/urban/demo/commands',headers={**ORIGIN,'Origin':'https://unapproved.example.test','Access-Control-Request-Method':'POST'}).status_code==400
+
+
+def test_cloudfront_template_forwards_cors_and_idempotency_headers():
+    spec=importlib.util.spec_from_file_location('urban_template',ROOT/'deploy/aws/build_template.py');module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    policy=module.template()['Resources']['ForwardHeaders']['Properties']['OriginRequestPolicyConfig']
+    assert {'Origin','Access-Control-Request-Headers','Access-Control-Request-Method','Content-Type','X-Officer-Key','Idempotency-Key'}<=set(policy['HeadersConfig']['Headers'])

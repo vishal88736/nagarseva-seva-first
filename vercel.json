@@ -1,0 +1,30 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm --prefix nagarseva/website ci",
+  "buildCommand": "node deploy/vercel/build.mjs",
+  "outputDirectory": "nagarseva/website/dist",
+  "rewrites": [
+    {"source": "/dashboard", "destination": "/index.html"},
+    {"source": "/settlements", "destination": "/index.html"},
+    {"source": "/report-issue", "destination": "/index.html"},
+    {"source": "/projects", "destination": "/index.html"},
+    {"source": "/projects/data", "destination": "/index.html"},
+    {"source": "/projects/priorities", "destination": "/index.html"},
+    {"source": "/projects/scenarios", "destination": "/index.html"},
+    {"source": "/projects/assurance", "destination": "/index.html"},
+    {"source": "/projects/reports", "destination": "/index.html"},
+    {"source": "/projects/community", "destination": "/index.html"},
+    {"source": "/data-integration", "destination": "/index.html"},
+    {"source": "/housing", "destination": "/index.html"},
+    {"source": "/services", "destination": "/index.html"},
+    {"source": "/visits", "destination": "/index.html"},
+    {"source": "/methodology", "destination": "/index.html"}
+  ],
+  "headers": [
+    {"source": "/(.*)", "headers": [
+      {"key": "X-Content-Type-Options", "value": "nosniff"},
+      {"key": "Referrer-Policy", "value": "strict-origin-when-cross-origin"}
+    ]}
+  ]
+}

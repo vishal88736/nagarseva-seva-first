@@ -1,0 +1,21 @@
+import type { Polygon } from 'geojson'
+export const SERVICES = ['water','sanitation','drainage','waste','electricity','access'] as const
+export type Service = typeof SERVICES[number]
+export const METRICS: Record<Service,keyof Settlement> = {water:'waterAccessPercent',sanitation:'sanitationAccessPercent',drainage:'drainageCoveragePercent',waste:'wasteCollectionPercent',electricity:'electricityAccessPercent',access:'roadAccessPercent'}
+export type Synthetic = {id:string;sourceType:'synthetic';is_synthetic:true}
+export type History = {id:string;eventType:string;createdAt:string;notes?:string;changes?:Record<string,{before:unknown;after:unknown}>}
+export type Settlement = Synthetic & {name:string;wardId:string;locality:string;populationEstimate:number;householdEstimate:number;waterAccessPercent:number|null;sanitationAccessPercent:number|null;wasteCollectionPercent:number|null;drainageCoveragePercent:number|null;electricityAccessPercent:number|null;roadAccessPercent:number|null;riskLevel:'low'|'medium'|'high';redevelopmentStatus:string;housingCondition:string;householdsForAssessment:number;latitude:number;longitude:number;geometry:Polygon;indicatorHistory:{visitId:string;changes:Record<string,{before:number|null;after:number}>;createdAt:string;notes:string}[]}
+export type Ward = Synthetic & {name:string;locality:string;settlementCount:number}
+export type Issue = Synthetic & {settlementId:string;category:Service|'other';title:string;description:string;priority:'low'|'medium'|'high';status:'open'|'acknowledged'|'in_progress'|'resolved'|'closed';createdAt:string;updatedAt:string;resolvedAt:string|null;reporterDisplayName:string;locationDescription:string;assignedOwner:string|null;attachment:{filename:string;contentType:string;bytes:number;sha256:string}|null;history:History[];seeded:boolean}
+export type Project = Synthetic & {settlementId:string;name:string;description:string;stage:string;status:string;progressPercent:number;estimatedBudget:number|null;startDate:string;expectedCompletionDate:string;responsibleAgency:string;lastUpdated:string;notes:string;history:History[]}
+export type Milestone = Synthetic & {projectId:string;name:string;plannedDate:string;status:string;completedDate:string|null;notes:string;history:History[]}
+export type Visit = Synthetic & {settlementId:string;scheduledDate:string;visitType:string;assignedOfficer:string;status:'scheduled'|'completed'|'cancelled';notes:string;findings:Partial<Record<Service,number>>;history:History[];updatedAt:string}
+export type Assessment = Synthetic & {settlementId:string;housingCondition:string;householdCount:number;improvementCategory:string;priority:string;status:string;assessmentDate:string;notes:string;history:History[]}
+export type Feedback = Synthetic & {settlementId:string;projectId:string|null;category:string;message:string;createdAt:string;status:string;response:string;history:History[]}
+export type Activity = Synthetic & {eventType:string;entityType:string;entityId:string;message:string;createdAt:string}
+export type DataSource = Synthetic & {name:string;publisher:string;dataType:'settlements'|'issues'|'projects'|'visits';recordCount:number;status:string;updatedAt:string|null;isSynthetic:true}
+export type CivicState = {schemaVersion:1;seed:number;revision:number;sourceType:'synthetic';lastSavedAt:string;is_synthetic:true;cityName:string;anomalyFixtures:{id:string;settlementId:string;overrides:Partial<Settlement>;expectedRule:string;is_synthetic:true;sourceType:'synthetic'}[];settlements:Settlement[];wards:Ward[];issues:Issue[];projects:Project[];milestones:Milestone[];visits:Visit[];assessments:Assessment[];feedback:Feedback[];activity:Activity[];dataSources:DataSource[];targets:Record<Service,number>;weights:Record<'gap'|'priority'|'unresolved'|'age',number>}
+export type DemoHealth = {adapter:'sqlite-synthetic';synthetic:true;adminConfigured:boolean;photoStorage:boolean;timezone:string;externalConnected:false}
+export type Mutation = {kind:string;entityId?:string;payload:Record<string,unknown>;expectedRevision:number;operationId:string}
+export type MutationResult = {state:CivicState;entityId:string;replayed:boolean}
+export type CivicAdapter = {load:()=>Promise<CivicState>;health:()=>Promise<DemoHealth>;mutate:(command:Mutation,key:string)=>Promise<MutationResult>}

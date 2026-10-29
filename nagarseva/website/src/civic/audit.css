@@ -1,0 +1,22 @@
+@font-face{font-family:'Urban Devanagari';src:url('/fonts/NotoSansDevanagari.ttf') format('truetype');font-style:normal;font-weight:100 900;font-display:swap}
+:lang(hi),:lang(mr){font-family:'Urban Devanagari',system-ui,sans-serif!important}
+.civic-demo-shell .audit-source{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;margin-top:12px;padding-top:9px;border-top:1px solid #dce7ee;color:#435c73;font-size:10px;line-height:1.6;text-align:left;font-weight:400;letter-spacing:normal}
+.civic-demo-shell .audit-badge{display:inline-flex;border:1px solid #e8cb8e;color:#714600;background:#fff4db;padding:1px 7px;border-radius:5px;font-size:10px;font-weight:600;white-space:nowrap}
+.civic-demo-shell .audit-badge.manual{color:#244c76;background:#e9f2fd;border-color:#b6cfe9}
+.civic-demo-shell .demo-summary{flex-wrap:wrap}.civic-demo-shell .demo-summary>.audit-source{flex-basis:100%}.civic-demo-shell .demo-small-metrics>div{flex-wrap:wrap}.civic-demo-shell .demo-small-metrics .audit-source{flex-basis:100%}
+.civic-demo-shell .demo-progress>.audit-source{display:flex;font-size:9px;margin-top:5px;padding-top:3px}.civic-demo-shell .demo-progress>.audit-source .audit-badge{font-size:9px}
+.civic-demo-shell .us-empty{display:block}.civic-demo-shell .audit-inputs{display:flex;gap:12px;flex-wrap:wrap;margin:15px 0}.civic-demo-shell .audit-inputs label{flex:1;min-width:160px}
+.civic-demo-shell .audit-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.civic-demo-shell .audit-grid>section{min-width:0}
+.civic-demo-shell :focus-visible{outline:3px solid #946000;outline-offset:3px}.civic-demo-shell .audit-method-table{margin-top:15px}.civic-demo-shell .audit-partial{font-weight:600;color:#815500}
+@media(max-width:768px){.civic-demo-shell .audit-grid{grid-template-columns:1fr}.civic-demo-shell .audit-inputs label{min-width:0;flex-basis:100%}.civic-demo-shell .audit-source{font-size:10px}}
+@media print{.demo-persistent-notice{display:block!important}.audit-source{break-inside:avoid}.us-panel{overflow:visible!important}.us-table-wrap{overflow:visible!important}table{min-width:0!important;width:100%!important}th,td{overflow-wrap:anywhere}body{background:#fff!important}}
+
+.civic-demo-shell .demo-breakdown .audit-source{font-size:9px;margin-top:4px;padding-top:4px;gap:2px 5px}.civic-demo-shell .demo-breakdown .audit-source .audit-badge{font-size:9px}.civic-demo-shell .demo-breakdown .audit-source b{font-size:9px}
+/* WCAG contrast corrections retain the established teal/navy palette. */
+.civic-demo-shell .us-brand small{color:#006b70}.civic-demo-shell .us-sidebar nav a.active{color:#006b70}.civic-demo-shell .workspace-sidebar-end>small,.civic-demo-shell .workspace-current-page{color:#4a617e}.civic-demo-shell .map-group-help{color:#526b82}
+.civic-demo-shell .us-table-wrap thead th{background:#007878;color:#fff}.civic-demo-shell .us-button.primary{background:#007478;border-color:#007478;color:#fff}.civic-demo-shell .product-tabs button[aria-selected=true]{color:#00686c}.civic-demo-shell .map-fallback-label{color:#50667b!important}.civic-demo-shell .us-option-number,.civic-demo-shell .us-scenario-total>small,.civic-demo-shell .us-scenario-total>span{color:#526747}
+.civic-demo-shell .audit-source>span{min-width:0;max-width:100%;overflow-wrap:anywhere}.civic-demo-shell .audit-source{max-width:100%}
+
+.civic-demo-shell .demo-small-metrics .audit-source .audit-badge{font-size:10px;color:#714600}
+.civic-demo-shell .us-table-wrap .us-table-button{color:#005a9e}
+.civic-demo-shell .integration-result-heading time,.civic-demo-shell .demo-timeline time{color:#4a617e}

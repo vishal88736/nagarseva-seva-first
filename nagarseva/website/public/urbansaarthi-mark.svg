@@ -1,8 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 72" fill="none">
-  <path d="M7 5C7 14 49 14 49 5" stroke="#ACA1FF" stroke-width="2"/>
-  <path d="M8 13C18 17 38 17 48 13" stroke="#ACA1FF" stroke-width="3"/>
-  <path d="M8 21H48L47 35C45 49 38 59 28 66C18 59 11 49 9 35L8 21Z" stroke="#ACA1FF" stroke-width="4"/>
-  <path d="M14 27H42L41 35C39 46 35 53 28 59C21 53 17 46 15 35L14 27Z" stroke="#ACA1FF" stroke-width="2"/>
-  <path d="M18 35C18 29 28 29 28 29C28 29 38 29 38 35C38 43 34 49 28 54C22 49 18 43 18 35Z" stroke="#ACA1FF" stroke-width="2.5"/>
-  <path d="M7 5C7 13 49 13 49 5" stroke="#D5CEFF" stroke-width="1.2"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" fill="none"><g fill="#00a5a4"><path d="M3 49h50v3H3zM8 28h12v20H8zM23 12h16v36H23zM42 34h8v14h-8zM28 6h6v6h-6z"/><path d="M13 22h4v6h-4z"/></g><g fill="#fff"><path d="M11 32h3v4h-3zM16 32h2v4h-2zM11 40h3v4h-3zM27 17h3v4h-3zM33 17h3v4h-3zM27 25h3v4h-3zM33 25h3v4h-3zM27 33h3v4h-3zM33 33h3v4h-3zM29 41h5v7h-5zM44 38h3v4h-3z"/></g></svg>

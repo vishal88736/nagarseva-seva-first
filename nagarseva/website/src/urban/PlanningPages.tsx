@@ -1,3 +1,4 @@
+import {SourceNote} from '../civic/SourceNote'
 import { formatDecimal, t, errorText, formatDate, formatNumber, formatMoney } from '../i18n/locale'
 import { ArrowDownToLine, ArrowRight, ChevronRight, CircleHelp, MapPin, Search, SlidersHorizontal } from 'lucide-react'
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
@@ -10,7 +11,7 @@ import { api, downloadCsv, downloadJson } from './client'
 const UrbanMap = lazy(() => import('./UrbanMap'))
 export { formatMoney, formatNumber } from '../i18n/locale'
 export function Tag({ children, tone = '' }: { children: ReactNode; tone?: string }) { return <span className={`us-tag ${tone}`}>{children}</span> }
-export function Panel({ title, note, children, className = '' }: { title?: string; note?: string; children: ReactNode; className?: string }) { return <section className={`us-panel ${className}`}>{title && <div className="us-panel-heading"><h2>{title}</h2>{note && <p>{note}</p>}</div>}{children}</section> }
+export function Panel({ title, note, children, className = '',provenance }: { title?: string; note?: string; children: ReactNode; className?: string;provenance?:ReactNode }) { return <section className={`us-panel ${className}`}>{title && <div className="us-panel-heading"><h2>{title}</h2>{note && <p>{note}</p>}</div>}{children}{provenance===undefined?<SourceNote/>:provenance}</section> }
 export function Heading({ number, title, description, children }: { number: string; title: string; description: string; children?: ReactNode }) { return <div className="us-heading"><div><div className="us-eyebrow">{t("WORKSPACE /")} {number}</div><h1>{title}</h1><p>{description}</p></div>{children}</div> }
 export function Field({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) { return <label className="us-field"><span>{label}</span>{children}{hint && <small>{hint}</small>}</label> }
 export function MapView(props: Parameters<typeof import('./UrbanMap').default>[0]) { return <Suspense fallback={<div className="us-map-loading">{t("Loading the settlement map…")}</div>}><UrbanMap {...props} /></Suspense> }

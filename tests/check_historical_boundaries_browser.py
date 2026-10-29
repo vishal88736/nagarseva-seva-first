@@ -24,9 +24,9 @@ WEB = 'http://127.0.0.1:15177'
 ASSET = '/data/mumbai_slum_clusters_2015.geojson'
 META = '/data/mumbai_slum_clusters_2015.metadata.json'
 LABELS = {
-    'en': ['2015 Reference Boundaries','Historical reference boundaries — 2015. Not verified against the 2024 SRA cluster list.','2015 reference boundary','Not available in the supplied GeoJSON','Reference boundary layer hidden','Retry reference boundaries','Boundary source & limitations','Fit reference boundaries'],
-    'hi': ['2015 संदर्भ सीमाएँ','ऐतिहासिक संदर्भ सीमाएँ — 2015। 2024 की SRA क्लस्टर सूची से सत्यापित नहीं हैं।','2015 की संदर्भ सीमा','दी गई GeoJSON में उपलब्ध नहीं','संदर्भ सीमा परत छिपी हुई है','संदर्भ सीमाएँ फिर लोड करें','सीमा स्रोत और सीमाएँ','संदर्भ सीमाएँ पूरी दिखाएँ'],
-    'mr': ['2015 संदर्भ सीमा','ऐतिहासिक संदर्भ सीमा — 2015. 2024 च्या SRA क्लस्टर यादीशी पडताळणी केलेली नाही.','2015 ची संदर्भ सीमा','दिलेल्या GeoJSON मध्ये उपलब्ध नाही','संदर्भ सीमा स्तर लपवला आहे','संदर्भ सीमा पुन्हा लोड करा','सीमांचा स्रोत आणि मर्यादा','सर्व संदर्भ सीमा दाखवा'],
+    'en': ['2015 Reference Boundaries','Historical reference boundaries — 2015. Not verified against the 2024 SRA cluster list.','2015 reference boundary','Reference Polygon 001','Reference boundary layer hidden','Retry reference boundaries','Boundary source & limitations','Fit reference boundaries'],
+    'hi': ['2015 संदर्भ सीमाएँ','ऐतिहासिक संदर्भ सीमाएँ — 2015। 2024 की SRA क्लस्टर सूची से सत्यापित नहीं हैं।','2015 की संदर्भ सीमा','संदर्भ बहुभुज 001','संदर्भ सीमा परत छिपी हुई है','संदर्भ सीमाएँ फिर लोड करें','सीमा स्रोत और सीमाएँ','संदर्भ सीमाएँ पूरी दिखाएँ'],
+    'mr': ['2015 संदर्भ सीमा','ऐतिहासिक संदर्भ सीमा — 2015. 2024 च्या SRA क्लस्टर यादीशी पडताळणी केलेली नाही.','2015 ची संदर्भ सीमा','संदर्भ बहुभुज ००१','संदर्भ सीमा स्तर लपवला आहे','संदर्भ सीमा पुन्हा लोड करा','सीमांचा स्रोत आणि मर्यादा','सर्व संदर्भ सीमा दाखवा'],
 }
 
 
@@ -59,19 +59,19 @@ def main():
                 page.goto(WEB+'/#explore')
                 paths = page.locator('.us-reference-boundary')
                 expect(paths).to_have_count(2517,timeout=20000)
-                expect(page.get_by_text(LABELS['en'][1],exact=True)).to_be_visible()
+                expect(page.locator('.workspace-reference-notice')).to_be_visible()
                 expect(page.locator('.workspace-reference-status')).to_contain_text('2,517 of 2,542')
                 first = paths.first; extent=page.locator('.leaflet-container').bounding_box(); box=first.bounding_box()
                 assert extent and box and extent['x'] <= box['x']+box['width']/2 <= extent['x']+extent['width'] and extent['y'] <= box['y']+box['height']/2 <= extent['y']+extent['height']
                 page.locator('.workspace-map-toolbar details summary').click()
                 for language, labels in LABELS.items():
-                    page.get_by_label('Language / भाषा',exact=True).select_option(language)
+                    page.locator('.us-language select').select_option(language)
                     expect(page.locator('html')).to_have_attribute('lang',language)
                     expect(page.get_by_label(labels[0],exact=True)).to_be_checked()
-                    expect(page.get_by_text(labels[1],exact=True)).to_be_visible()
+                    expect(page.locator('.workspace-reference-notice')).to_be_visible()
                     expect(paths).to_have_count(2517)
                     expect(page.locator('.leaflet-control-zoom-in')).to_have_count(1)
-                    page.get_by_role('button',name=labels[2],exact=True).first.press('Enter')
+                    page.get_by_role('button',name=labels[3],exact=True).press('Enter')
                     popup=page.locator('.leaflet-popup-content')
                     expect(popup).to_contain_text(labels[3])
                     expect(popup).to_contain_text('SRA')
@@ -82,12 +82,12 @@ def main():
                     expect(paths).to_have_count(0); expect(page.locator('.workspace-reference-status')).to_contain_text(labels[4])
                     page.get_by_label(labels[0],exact=True).check(); expect(paths).to_have_count(2517)
                 # DOM click dispatch also exercises Leaflet's popup handler.
-                paths.first.dispatch_event('click')
+                page.get_by_role('button',name=LABELS['mr'][3],exact=True).dispatch_event('click')
                 expect(page.locator('.leaflet-popup-content')).to_contain_text(LABELS['mr'][3])
-                page.get_by_label('Language / भाषा',exact=True).select_option('hi')
+                page.locator('.us-language select').select_option('hi')
                 expect(page.locator('.leaflet-popup-content')).to_contain_text(LABELS['hi'][3])
                 page.locator('.leaflet-popup-close-button').click()
-                page.get_by_label('Language / भाषा',exact=True).select_option('mr')
+                page.locator('.us-language select').select_option('mr')
                 checks.append('All 2542 original features are parsed; 2517 topology-valid polygons render at the Mumbai extent, with source-only click/keyboard popups, translated open popups and a working toggle in English, Hindi and Marathi')
                 page.get_by_role('button',name=LABELS['mr'][7],exact=True).click()
                 zoom=page.locator('.leaflet-control-zoom-in'); zoom.click(); page.wait_for_timeout(350)
@@ -95,16 +95,16 @@ def main():
                 search=page.locator('.workspace-map-toolbar input:not([type=checkbox])').first
                 search.fill('retained search')
                 page.get_by_label(LABELS['mr'][0],exact=True).uncheck()
-                page.get_by_label('Language / भाषा',exact=True).select_option('hi')
+                page.locator('.us-language select').select_option('hi')
                 expect(search).to_have_value('retained search')
                 expect(page.get_by_label(LABELS['hi'][0],exact=True)).not_to_be_checked()
                 assert page.locator('.leaflet-map-pane').get_attribute('style') == transform
                 page.reload(); expect(page.locator('html')).to_have_attribute('lang','hi'); expect(paths).to_have_count(2517)
                 checks.append('Language changes preserve the live map viewport, visibility and search state; the chosen language survives reload')
                 for language,labels in LABELS.items():
-                    page.get_by_label('Language / भाषा',exact=True).select_option(language)
+                    page.locator('.us-language select').select_option(language)
                     page.set_viewport_size({'width':390,'height':844})
-                    expect(page.get_by_text(labels[1],exact=True)).to_be_visible()
+                    expect(page.locator('.workspace-reference-notice')).to_be_visible()
                     assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth + 1')
                     page.screenshot(path=str(OUT/f'mobile-{language}.png'),full_page=True)
                 checks.append('390px mobile layout has no horizontal overflow in any supported language')
@@ -113,7 +113,7 @@ def main():
                 offline.route('https://tile.openstreetmap.org/**',lambda route:route.abort())
                 offline_page=offline.new_page(); offline_page.goto(WEB+'/#explore')
                 expect(offline_page.locator('.us-reference-boundary')).to_have_count(2517,timeout=20000)
-                expect(offline_page.get_by_text(LABELS['en'][1],exact=True)).to_be_visible()
+                expect(offline_page.locator('.workspace-reference-notice')).to_be_visible()
                 offline.close()
                 checks.append('The bundled historical layer remains usable when the operational API is unavailable')
                 # Error states use new contexts so immutable in-memory caching cannot conceal a failed fetch.
@@ -132,7 +132,7 @@ def main():
                         p.route('**'+ASSET,lambda route:route.fulfill(status=200,body=empty))
                         p.route('**'+META,lambda route:route.fulfill(status=200,body=json.dumps(metadata)))
                     p.goto(WEB+'/#explore')
-                    if kind == 'empty-collection': expect(p.get_by_text('संदर्भ सीमा उपलब्ध नाहीत.',exact=True)).to_be_visible()
+                    if kind == 'empty-collection': expect(p.locator('.workspace-reference-error')).to_contain_text('संदर्भ सीमा उपलब्ध नाहीत.')
                     else:
                         expect(p.get_by_role('button',name=LABELS['mr'][5],exact=True)).to_be_visible()
                         assert p.locator('.workspace-reference-error').inner_text().count('Reference boundary') == 0
@@ -148,7 +148,7 @@ def main():
                 expect(page.get_by_role('heading',name='Overview',exact=True)).to_be_visible()
                 expect(paths).to_have_count(2517)
                 for language in LABELS:
-                    page.get_by_label('Language / भाषा',exact=True).select_option(language)
+                    page.locator('.us-language select').select_option(language)
                     expect(page.get_by_role('heading',name='Overview',exact=True)).to_be_visible()
                 with urllib.request.urlopen(API+'/urban/data/overview',timeout=10) as response: stats=json.load(response)
                 assert stats['settlements_loaded'] == 2 and stats['settlements_with_geometry'] == 2

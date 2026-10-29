@@ -4,8 +4,8 @@ import type { Feature, FeatureCollection, Polygon } from 'geojson'
 export type ReferenceLayer = { id: string; year: number; geometryUrl: string; metadataUrl: string }
 export const HISTORICAL_2015: ReferenceLayer = {
   id: 'mumbai-slum-reference-2015', year: 2015,
-  geometryUrl: '/data/mumbai_slum_clusters_2015.geojson',
-  metadataUrl: '/data/mumbai_slum_clusters_2015.metadata.json',
+  geometryUrl: import.meta.env?.VITE_REFERENCE_GEOMETRY_URL || '/data/mumbai_slum_clusters_2015.geojson',
+  metadataUrl: import.meta.env?.VITE_REFERENCE_METADATA_URL || '/data/mumbai_slum_clusters_2015.metadata.json',
 }
 export type BoundaryMetadata = {
   schema_version: number; id: string; reference_year: number; crs: string; analysis_allowed: false;
@@ -15,10 +15,17 @@ export type BoundaryMetadata = {
   source_feature_count: number; valid_feature_count: number; bounds: [number, number, number, number];
   excluded_features: { source_feature_number: number; reason: string }[];
 }
-export type ReferenceProperties = { polyno: string | number | null }
+export type ReferenceProperties = Record<string, unknown>
+export type BoundarySummary = {
+  featureCount: number; geometryTypes: Record<string, number>; missingGeometry: number;
+  missingProperties: number; coordinateCount: number; unclosedRings: number;
+  bounds: [number, number, number, number] | null; fields: string[];
+}
 export type ReferenceBoundaries = {
   geometry: FeatureCollection<Polygon, ReferenceProperties>;
-  metadata: BoundaryMetadata; skippedCount: number;
+  metadata: BoundaryMetadata; skippedCount: number; summary: BoundarySummary;
+  /** One-based positions in the checksum-verified source, exclusively for UI navigation. */
+  sourceFeatureNumbers: number[];
 }
 const MAX_BYTES = 10 * 1024 * 1024
 const object = (value: unknown): value is Record<string, unknown> => !!value && typeof value === 'object' && !Array.isArray(value)
@@ -56,14 +63,40 @@ export function parseReferenceBoundaries(value: unknown, metadata: BoundaryMetad
   if (!object(value) || value.type !== 'FeatureCollection' || !Array.isArray(value.features) || value.crs) throw new Error('Reference boundaries must be a WGS84 GeoJSON FeatureCollection.')
   if (value.features.length !== metadata.source_feature_count || value.features.length > 10000) throw new Error('Reference boundary count does not match its validation metadata.')
   const excluded = new Set(metadata.excluded_features.map(row => row.source_feature_number))
-  const features: Feature<Polygon, ReferenceProperties>[] = []
+  const features: Feature<Polygon, ReferenceProperties>[] = [], sourceFeatureNumbers: number[] = []
+  const fields = new Set<string>()
+  const summary: BoundarySummary = { featureCount: value.features.length, geometryTypes: {}, missingGeometry: 0, missingProperties: 0, coordinateCount: 0, unclosedRings: 0, bounds: null, fields: [] }
   value.features.forEach((feature, index) => {
-    if (excluded.has(index + 1) || !object(feature) || feature.type !== 'Feature' || !object(feature.properties) || !validPolygon(feature.geometry)) return
-    const polyno = feature.properties.polyno
-    if (polyno !== null && polyno !== undefined && !(finite(polyno) || typeof polyno === 'string' && polyno.trim().length > 0 && polyno.length <= 100)) return
-    features.push({ type: 'Feature', properties: { polyno: polyno ?? null }, geometry: feature.geometry })
+    if (!object(feature)) { summary.missingGeometry++; summary.missingProperties++; return }
+    if (!object(feature.properties)) summary.missingProperties++
+    else Object.keys(feature.properties).forEach(key => fields.add(key))
+    const geometry = feature.geometry
+    if (!object(geometry)) summary.missingGeometry++
+    else {
+      const type = typeof geometry.type === 'string' ? geometry.type : 'Unknown'
+      summary.geometryTypes[type] = (summary.geometryTypes[type] || 0) + 1
+      const positions = (coordinates: unknown): void => {
+        if (!Array.isArray(coordinates)) return
+        if (coordinates.length >= 2 && finite(coordinates[0]) && finite(coordinates[1])) {
+          const [x,y] = coordinates; summary.coordinateCount++
+          const b = summary.bounds
+          summary.bounds = b ? [Math.min(b[0],x),Math.min(b[1],y),Math.max(b[2],x),Math.max(b[3],y)] : [x,y,x,y]
+        } else coordinates.forEach(positions)
+      }
+      positions(geometry.coordinates)
+      if (type === 'Polygon' && Array.isArray(geometry.coordinates)) for (const ring of geometry.coordinates) {
+        if (Array.isArray(ring) && ring.length && JSON.stringify(ring[0]) !== JSON.stringify(ring[ring.length-1])) summary.unclosedRings++
+      }
+    }
+    if (excluded.has(index + 1) || feature.type !== 'Feature' || !validPolygon(geometry)) return
+    // Preserve all actual attributes. Null/missing properties are safe empty objects,
+    // never inferred names, IDs or administrative fields.
+    features.push({ type: 'Feature', ...(typeof feature.id === 'string' || finite(feature.id) ? { id: feature.id } : {}), properties: object(feature.properties) ? feature.properties : {}, geometry })
+    sourceFeatureNumbers.push(index + 1)
   })
-  return { geometry: { type: 'FeatureCollection', features }, metadata, skippedCount: value.features.length - features.length }
+  summary.fields = [...fields].sort()
+  if (!features.length) throw new Error('No reference boundaries available.')
+  return { geometry: { type: 'FeatureCollection', features }, metadata, summary, sourceFeatureNumbers, skippedCount: value.features.length - features.length }
 }
 
 async function limitedBody(response: Response, maximum: number) {

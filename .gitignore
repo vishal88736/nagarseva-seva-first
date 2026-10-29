@@ -23,6 +23,7 @@ dist/
 build/
 out/
 .next/
+.vercel/
 
 # IDE & Editor
 .vscode/
@@ -78,3 +79,5 @@ data/metadata/validation.json
 # The evidence workbench is intentional committed browser source
 !prototype/dist/
 !prototype/dist/**
+.vercel
+.env*

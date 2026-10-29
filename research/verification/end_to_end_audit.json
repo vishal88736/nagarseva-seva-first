@@ -1,0 +1,931 @@
+{
+  "checkedAt": "2026-10-29T20:03:56.732366+00:00",
+  "status": "passed_with_documented_limitations",
+  "scope": "Local production-build Chromium and unit/API tests; Demo data fixtures only; no deployment or verified external authority integration.",
+  "checkCounts": {
+    "PASS": 52,
+    "PARTIAL": 6
+  },
+  "checks": [
+    {
+      "id": "F01",
+      "check": "CSV/Excel upload, template, mapping, preview and row errors",
+      "status": "PASS",
+      "finding": "Added bounded XLSX reading and visible-sheet selection; real CSV header-only templates. The browser parsed and imported an XLSX fixture, changed an actual column mapping, downloaded the exact original and exercised row errors.",
+      "evidence": {
+        "file": "nagarseva/model/api/file_formats.py",
+        "line": 10
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "F02",
+      "check": "Required source, publisher, date, licence and link",
+      "status": "PASS",
+      "finding": "All five fields are required on the server and in the form. Links are retained, never fetched; embedded credentials are rejected. Source date cannot be in the future in the India calendar.",
+      "evidence": {
+        "file": "nagarseva/model/api/data_onboarding.py",
+        "line": 64
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "F03",
+      "check": "Official / Manually provided / Demo classification",
+      "status": "PARTIAL",
+      "finding": "Demo and Manually provided · unverified badges work. An upload cannot select or assert Official; all receipts have sourceVerified:false.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/SourceNote.tsx",
+        "line": 5
+      },
+      "remaining": "An independently verified source and an authorized verification policy are needed before an Official status can be supported."
+    },
+    {
+      "id": "F04",
+      "check": "Completeness percentage",
+      "status": "PASS",
+      "finding": "Import completeness counts nonempty transformed cells over all category schema cells. Required-field completeness is separate. Service completeness counts available service inputs. Neither certifies accuracy.",
+      "evidence": {
+        "file": "nagarseva/model/api/data_onboarding.py",
+        "line": 248
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "F05",
+      "check": "Upload history, original preservation and rollback",
+      "status": "PASS",
+      "finding": "Confirmed imports persist original bytes, hash, mapping, classification, provenance and timestamps. Authorized rollback requires confirmation and a reason, retains audit evidence, excludes archived batches and protects dependent imports.",
+      "evidence": {
+        "file": "nagarseva/model/api/data_onboarding.py",
+        "line": 323
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "F06",
+      "check": "Missing-dataset empty states and upload prompt",
+      "status": "PASS",
+      "finding": "All seven real-data categories currently report not_provided. Readiness and empty states link to the working onboarding interface.",
+      "evidence": {
+        "file": "nagarseva/website/src/integration/DataIntegration.tsx",
+        "line": 40
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "F07",
+      "check": "Missing-input scoring and Partial results",
+      "status": "PASS",
+      "finding": "Missing factors are not treated as zero. Weights are normalized over available factors; unavailable weighted inputs and missing service cells mark results Partial. No usable factor yields an unavailable score.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/analytics.ts",
+        "line": 16
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "F08",
+      "check": "Map/ward table, search, combined filters, sorting and ranking",
+      "status": "PASS",
+      "finding": "Shared records drive map and paginated directory. Stable-ID selections synchronize the polygon and table. Live street tiles and blocked-provider fallback both passed.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/CivicMap.tsx",
+        "line": 60
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "F09",
+      "check": "Comparison and adjustable methodology weights",
+      "status": "PASS",
+      "finding": "Existing comparison workflow is preserved. Methodology adds weight previews and authorized saved weights; a browser save and refresh confirmed SQLite persistence.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/Methodology.tsx",
+        "line": 11
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "F10",
+      "check": "CSV and PDF exports with sources and dates",
+      "status": "PASS",
+      "finding": "CSV contains all filtered report fields, source/save/export metadata, localized display headers and formula protection. Browser Print / Save as PDF generated real PDFs in all three languages; every page was rendered for QA.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/printReport.ts",
+        "line": 6
+      },
+      "remaining": "PDF is a browser print workflow and summarizes the first nine display columns; CSV contains all fields. This scope is explained in the interface."
+    },
+    {
+      "id": "F11",
+      "check": "Source and date under data charts, cards and tables",
+      "status": "PASS",
+      "finding": "Shared source captions and explicit summary/related-record captions label Demo data, generator source and actual workspace save time. Imported previews/history show the supplied source and source date, or unavailable.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/SourceNote.tsx",
+        "line": 5
+      },
+      "remaining": "Workspace save time is explicitly labelled Saved; it is not a claimed real measurement date."
+    },
+    {
+      "id": "U01",
+      "check": "Valid file",
+      "status": "PASS",
+      "finding": "A valid CSV and XLSX import completed in disposable SQLite with explicit provenance and confirmation. GeoJSON import also passed the regression browser suite.",
+      "evidence": {
+        "file": "tests/test_audit_features.py",
+        "line": 34
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "U02",
+      "check": "Missing columns",
+      "status": "PASS",
+      "finding": "Missing identifier mapping was reported; manually mapping the real code column allowed validation. Missing row values and mappings are rejected.",
+      "evidence": {
+        "file": "tests/test_audit_features.py",
+        "line": 68
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "U03",
+      "check": "Wrong data types",
+      "status": "PASS",
+      "finding": "Nonnumeric coverage/counts, bad dates, invalid ranges and formulas produce clear errors; numeric row errors retain source row 2.",
+      "evidence": {
+        "file": "tests/test_audit_features.py",
+        "line": 68
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "U04",
+      "check": "Duplicate rows/identifiers",
+      "status": "PASS",
+      "finding": "Duplicate identifiers fail validation; cross-batch conflicts cannot silently overwrite records. Exact active retries are idempotent.",
+      "evidence": {
+        "file": "tests/test_audit_features.py",
+        "line": 68
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "U05",
+      "check": "Empty file",
+      "status": "PASS",
+      "finding": "Zero-byte and header-only files are rejected without a new import or fake success.",
+      "evidence": {
+        "file": "tests/test_audit_features.py",
+        "line": 68
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "U06",
+      "check": "Very large file",
+      "status": "PASS",
+      "finding": "A file of 5 MiB + 1 byte was rejected by both UI and API. It was not read into a preview or persisted.",
+      "evidence": {
+        "file": "tests/test_audit_features.py",
+        "line": 68
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "U07",
+      "check": "Workbook units, worksheet choice and safe formulas",
+      "status": "PASS",
+      "finding": "Percentage-formatted 0.75 becomes displayed 75 with a disclosure; selected-sheet metadata is real. Original bytes stay unchanged. Formula/error cells are never evaluated.",
+      "evidence": {
+        "file": "tests/test_audit_features.py",
+        "line": 111
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "L01",
+      "check": "Hardcoded application text and resource parity",
+      "status": "PASS",
+      "finding": "AST/key checks found no unhandled application JSX text, missing literal translation calls, missing parameters or missing locale keys. The three locale files each have 255 keys; the merged catalogue has 3012.",
+      "evidence": {
+        "file": "nagarseva/website/tests/check_translation_audit.mjs",
+        "line": 15
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "L02",
+      "check": "Missing and unchanged translation keys",
+      "status": "PASS",
+      "finding": "Missing keys: none. Parameter mismatches: none. Intentionally unchanged technical labels: CSV, SHA-256:, and · CTS in Hindi and Marathi (six entries). Proper names, source values, IDs, URLs and technical formulas remain unchanged.",
+      "evidence": {
+        "file": "research/verification/translation_audit.json",
+        "line": 1
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "L03",
+      "check": "Dates, numbers, currency and units",
+      "status": "PASS",
+      "finding": "Intl en-IN/hi-IN/mr-IN formatting is shared across UI and print reports. Full timestamps use Asia/Kolkata; calendar-only dates retain their day. CSV machine values retain ISO dates and numeric semantics, with localized display headers.",
+      "evidence": {
+        "file": "nagarseva/website/src/i18n/locale.ts",
+        "line": 31
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "L04",
+      "check": "Language persistence after refresh",
+      "status": "PASS",
+      "finding": "English, Hindi and Marathi selections persisted across reloads in actual browser tests and updated the full current UI.",
+      "evidence": {
+        "file": "nagarseva/website/src/i18n/locale.ts",
+        "line": 12
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "L05",
+      "check": "Errors, tooltips, empty states, exports and methodology",
+      "status": "PASS",
+      "finding": "Resource and parameter checks, nine populated upload previews, field-error switching and all-language PDF/CSV exports passed. Unknown uploaded source text is preserved rather than invented or mistranslated.",
+      "evidence": {
+        "file": "tests/check_audit_workflows_browser.py",
+        "line": 41
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "L06",
+      "check": "Devanagari font loads and renders",
+      "status": "PASS",
+      "finding": "Self-hosted Noto Sans Devanagari, with its OFL and source/hash manifest, loaded in Hindi and Marathi browser screens. Representative full-size screenshots and all PDF pages were visually inspected.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/audit.css",
+        "line": 1
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "L07",
+      "check": "Native Hindi and Marathi language quality",
+      "status": "PARTIAL",
+      "finding": "There is no native-speaker certification. The review CSV lists all 104 new/overridden audit strings in English/Hindi/Marathi. Existing translations also remain linguistically unverified.",
+      "evidence": {
+        "file": "research/translation_review.csv",
+        "line": 1
+      },
+      "remaining": "A native Hindi and Marathi reviewer should review technical and civic terminology, especially the examples listed below."
+    },
+    {
+      "id": "R01",
+      "check": "Every page at 375 / 768 / 1280 in three languages",
+      "status": "PASS",
+      "finding": "23 page/detail/dialog states × 3 widths × 3 languages = 207 screenshots, plus nine populated upload previews. Automated overflow/key/accessibility checks passed. Contact sheets cover every combination; full-size representative screens were inspected.",
+      "evidence": {
+        "file": "tests/check_full_audit_browser.py",
+        "line": 11
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "R02",
+      "check": "Overflow, overlap, spacing, theme and readable tables",
+      "status": "PASS",
+      "finding": "The examined states have no document overflow. Tables scroll within labelled keyboard-focusable regions. Pale background, navy text, teal controls, rounded white cards and Devanagari typography remain consistent.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/audit.css",
+        "line": 15
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "R03",
+      "check": "Loading, error and empty states",
+      "status": "PASS",
+      "finding": "Backend failure and Retry recovery, missing datasets, zero assessments/feedback, unavailable tiles, invalid uploads and failed saves were exercised without invented success or metrics.",
+      "evidence": {
+        "file": "tests/check_synthetic_integration_browser.py",
+        "line": 42
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "A01",
+      "check": "Keyboard navigation, dialog focus and focus indicators",
+      "status": "PASS",
+      "finding": "Native dialogs, semantic controls, visible focus, skip link and horizontally scrollable tables are retained. Mobile navigation traps focus, closes with Escape and restores focus.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/CivicWorkspace.tsx",
+        "line": 47
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "A02",
+      "check": "Labels, alt text and automated accessibility",
+      "status": "PASS",
+      "finding": "WCAG 2 A/AA and 2.1 AA axe checks report no violations in the 216 examined states. Brand artwork is decorative inside a labelled button; controls have accessible labels.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/ui.tsx",
+        "line": 14
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "A03",
+      "check": "Colour-blind-safe charts and status information",
+      "status": "PASS",
+      "finding": "Charts include numeric values and text labels. Status and selection are not conveyed by colour alone. Contrast fixes cover active controls, headers, selected-row links, muted text and validation timestamps.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/audit.css",
+        "line": 15
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "A04",
+      "check": "Assistive-technology certification",
+      "status": "PARTIAL",
+      "finding": "Automated Chromium checks and keyboard tests are evidence, not a screen-reader certification.",
+      "evidence": {
+        "file": "tests/check_full_audit_browser.py",
+        "line": 41
+      },
+      "remaining": "A manual review with the intended screen reader/device remains useful before public deployment."
+    },
+    {
+      "id": "S01",
+      "check": "Seeded fictional city and ward names",
+      "status": "PASS",
+      "finding": "The seed=96 CLI generated byte-identical files twice. Demo City 96 contains only numbered fictional Demo Ward and Demo Settlement source names; no real ward/slum names are generated.",
+      "evidence": {
+        "file": "scripts/generate_demo_city.py",
+        "line": 7
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S02",
+      "check": "is_synthetic on every synthetic record",
+      "status": "PASS",
+      "finding": "All active entity collections and nested operation/indicator histories receive explicit flags. Existing stored civic values were preserved while adding metadata.",
+      "evidence": {
+        "file": "nagarseva/model/api/civic_demo.py",
+        "line": 41
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S03",
+      "check": "Permanent Demo data banner",
+      "status": "PASS",
+      "finding": "A visible banner and header indicator remain across every route. Ordinary record display names stay concise; stable DEMO IDs and fictional source names are preserved.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/CivicWorkspace.tsx",
+        "line": 64
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S04",
+      "check": "Demo data badges on data visualizations",
+      "status": "PASS",
+      "finding": "Shared Panels, Tables, Progress bars, summary cards, mini cards, related records and map source captions carry the badge.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/ui.tsx",
+        "line": 8
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S05",
+      "check": "Synthetic exports watermarked Demo data",
+      "status": "PASS",
+      "finding": "CSV notice and record metadata, JSON source flags and all PDF pages identify Demo data. The exact English watermark remains in multilingual exports.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/services.ts",
+        "line": 20
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S06",
+      "check": "Synthetic/real ranking isolation",
+      "status": "PASS",
+      "finding": "Supplied batches cannot enter the synthetic adapter or rankings. Imports stay active:false and sourceVerified:false. There is no mixed-source ranking option.",
+      "evidence": {
+        "file": "nagarseva/model/api/data_onboarding.py",
+        "line": 319
+      },
+      "remaining": "A future mixed-source opt-in, warning and compatible source-specific methodology have not been implemented; no mixing is currently possible."
+    },
+    {
+      "id": "S07",
+      "check": "What-if simulator",
+      "status": "PASS",
+      "finding": "Changing a service estimate recalculates household-weighted before/after values for the same settlement collection. It is explicitly a preview and does not alter saved indicators.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/Methodology.tsx",
+        "line": 16
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S08",
+      "check": "Budget allocation",
+      "status": "PASS",
+      "finding": "Actual priority order and service gaps determine households needing coverage. User-supplied budget/unit cost are assumptions; cents-based allocation cannot exceed the budget and skips unknown inputs.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/simulations.ts",
+        "line": 24
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S09",
+      "check": "Weight tuning",
+      "status": "PASS",
+      "finding": "Previewed rankings update immediately; all-zero weights fail validation. Authorized saved weights survived refresh in the browser test.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/Methodology.tsx",
+        "line": 19
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S10",
+      "check": "Anomaly detector with planted cases",
+      "status": "PASS",
+      "finding": "Three separate seeded fixtures test household ratio >8, service coverage <10%, and a missing service value. The real predicates caught 3/3. Active settlement metrics are never overwritten by planted cases.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/simulations.ts",
+        "line": 4
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S11",
+      "check": "Grievance SLA tracker",
+      "status": "PASS",
+      "finding": "Elapsed time is derived from actual stored submission/resolution timestamps; missing/invalid resolution dates stay unavailable. High/medium/low 2/7/14-day targets are explicitly demo assumptions. Filtering and pagination work.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/simulations.ts",
+        "line": 12
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S12",
+      "check": "Project delay-risk flag",
+      "status": "PASS",
+      "finding": "Unfinished projects past expected end dates are High; overdue unfinished milestones produce Watch. The rule does not imply an official risk assessment or resolve complaints.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/simulations.ts",
+        "line": 17
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "S13",
+      "check": "Large-dataset performance test",
+      "status": "PASS",
+      "finding": "An actual separate 10,000-settlement workload generated, validated, filtered and sorted in 420.81 ms on this machine. It did not persist or change active counts.",
+      "evidence": {
+        "file": "nagarseva/model/api/civic_demo.py",
+        "line": 308
+      },
+      "remaining": "This is a local generator/validation/filter/sort diagnostic, not a concurrent-user test or a 10,000-polygon browser-load guarantee."
+    },
+    {
+      "id": "S14",
+      "check": "Synthetic methodology documentation",
+      "status": "PASS",
+      "finding": "The methodology explains fixed-seed generation, fictional geometry, household-weighted coverage, service gaps, factor scales, missing data, targets, anomaly rules, budget assumptions and source isolation.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/Methodology.tsx",
+        "line": 18
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "C01",
+      "check": "Settlement detail, housing and six basic services",
+      "status": "PASS",
+      "finding": "Profile, linked records, targets, gaps and inspection history use shared IDs and records; absent values remain unavailable.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/DemoSettlements.tsx",
+        "line": 9
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "C02",
+      "check": "Issue creation, follow-up and dashboard updates",
+      "status": "PASS",
+      "finding": "Public issue creation persists to SQLite before success; authorized status/assignment/notes produce actual history and activity. Allowed transitions match the backend.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/DemoIssues.tsx",
+        "line": 10
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "C03",
+      "check": "Projects, milestones and progress persistence",
+      "status": "PASS",
+      "finding": "Creation, progress editing, required milestone completion dates, rejected keys and reload persistence passed in a disposable database.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/DemoProjects.tsx",
+        "line": 11
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "C04",
+      "check": "Visits, cancellation and explicit indicator updates",
+      "status": "PASS",
+      "finding": "Scheduling/cancellation persist; completing a visit does not silently change indicators. Applying findings requires an explicit confirmed operation with a change history.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/DemoVisits.tsx",
+        "line": 10
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "C05",
+      "check": "Housing assessment creation and editing",
+      "status": "PASS",
+      "finding": "Creation, editing and public read-only details work; no official eligibility or personal information is invented.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/DemoHousing.tsx",
+        "line": 9
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "C06",
+      "check": "Community feedback and moderation history",
+      "status": "PASS",
+      "finding": "Feedback and responses persist. Administrative changes retain previous responses and status transitions in actual events.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/DemoCommunity.tsx",
+        "line": 6
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "C07",
+      "check": "Reports and dashboard use the same filtered records",
+      "status": "PASS",
+      "finding": "Settlement-scoped report summaries and infrastructure use the same records as the supporting table. Open/upcoming metrics and navigation apply matching filters.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/DemoReports.tsx",
+        "line": 12
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "C08",
+      "check": "Scoped reset and replaceable persistence adapter",
+      "status": "PASS",
+      "finding": "Confirmed reset restores deterministic demo records and preserves controlled source imports. Existing SQLite/RecordStore and CivicAdapter architecture remain intact.",
+      "evidence": {
+        "file": "nagarseva/website/src/civic/adapter.ts",
+        "line": 16
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "C09",
+      "check": "Old GIS integration stays disconnected",
+      "status": "PASS",
+      "finding": "No old boundary/KML requests were observed in the browser regression. Original source files were not deleted or replaced.",
+      "evidence": {
+        "file": "tests/check_synthetic_integration_browser.py",
+        "line": 42
+      },
+      "remaining": "None for the tested scope."
+    },
+    {
+      "id": "C10",
+      "check": "Production data connection",
+      "status": "PARTIAL",
+      "finding": "No external government/authority service is configured or tested. All seven real-data categories are honestly Not provided. Controlled uploads are real isolated imports, not production activation.",
+      "evidence": {
+        "file": "nagarseva/model/api/data_onboarding.py",
+        "line": 273
+      },
+      "remaining": "Provide authorized sources, definitions/licences/dates, validated geographic crosswalks, credentials where needed, security/access controls, retention, monitoring and backups."
+    },
+    {
+      "id": "C11",
+      "check": "Current local administrator configuration",
+      "status": "PARTIAL",
+      "finding": "The running server has adminConfigured:false. Protected routes correctly explain the limitation; authorized and rejected-key flows were exercised with temporary credentials.",
+      "evidence": {
+        "file": "nagarseva/model/api/civic_demo.py",
+        "line": 299
+      },
+      "remaining": "Set a private NAGARSEVA_OFFICER_KEY before starting the API and enter it in Data management to use protected actions locally. No secret was invented or printed."
+    },
+    {
+      "id": "C12",
+      "check": "Optional photo storage",
+      "status": "PARTIAL",
+      "finding": "Current photoStorage:false is truthful. Form/API validation exists; private attachment-storage tests use isolated configuration.",
+      "evidence": {
+        "file": "nagarseva/model/api/civic_demo.py",
+        "line": 299
+      },
+      "remaining": "Enable the existing URBANSAARTHI_EVIDENCE_STORAGE=sqlite option if photo persistence is desired. Production storage/privacy policy remains a separate decision."
+    }
+  ],
+  "recordCounts": {
+    "settlements": 100,
+    "wards": 24,
+    "issues": 60,
+    "projects": 20,
+    "milestones": 40,
+    "visits": 30,
+    "assessments": 0,
+    "feedback": 0,
+    "dataSources": 4,
+    "anomalyFixtures": 3,
+    "activity": 2
+  },
+  "preservedOriginalCivicValues": {
+    "settlements": true,
+    "wards": true,
+    "issues": true,
+    "projects": true,
+    "milestones": true,
+    "visits": true,
+    "assessments": true,
+    "feedback": true,
+    "dataSources": true
+  },
+  "allSyntheticFlags": true,
+  "browser": {
+    "pageStates": 23,
+    "screenshots": 207,
+    "populatedUploadScreenshots": 9,
+    "widths": [
+      375,
+      768,
+      1280
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "mr"
+    ],
+    "overflow": 0,
+    "axeViolations": 0,
+    "pageErrors": 0,
+    "keyboardNavigation": "passed"
+  },
+  "tests": {
+    "python": 398,
+    "javascript": 53,
+    "integrationBrowserGroups": 12,
+    "managementBrowserGroups": 13,
+    "mapBrowserGroups": 5,
+    "newBrowserGroups": 8
+  },
+  "translations": {
+    "catalogueKeys": 3012,
+    "missing": [],
+    "parameterErrors": [],
+    "sameAsEnglish": [
+      {
+        "key": "CSV",
+        "language": "hi",
+        "value": "CSV",
+        "reason": "Unchanged technical acronym; review allowlist"
+      },
+      {
+        "key": "CSV",
+        "language": "mr",
+        "value": "CSV",
+        "reason": "Unchanged technical acronym; review allowlist"
+      },
+      {
+        "key": "SHA-256:",
+        "language": "hi",
+        "value": "SHA-256:",
+        "reason": "Unchanged technical acronym; review allowlist"
+      },
+      {
+        "key": "SHA-256:",
+        "language": "mr",
+        "value": "SHA-256:",
+        "reason": "Unchanged technical acronym; review allowlist"
+      },
+      {
+        "key": "· CTS",
+        "language": "hi",
+        "value": "· CTS",
+        "reason": "Unchanged technical acronym; review allowlist"
+      },
+      {
+        "key": "· CTS",
+        "language": "mr",
+        "value": "· CTS",
+        "reason": "Unchanged technical acronym; review allowlist"
+      }
+    ],
+    "nativeReviewKeyCount": 104,
+    "nativeReviewed": false
+  },
+  "benchmark": {
+    "is_synthetic": true,
+    "label": "Demo data",
+    "recordCount": 10000,
+    "filteredCount": 3334,
+    "rankedCount": 3334,
+    "generatedAt": "2026-10-29T19:44:17.159848+00:00",
+    "generationMs": 76.96,
+    "validationMs": 340.55,
+    "filterSortMs": 3.31,
+    "totalMs": 420.81,
+    "persisted": false
+  },
+  "generator": {
+    "byteIdentical": true,
+    "seed": 96,
+    "sha256": "fa56d8231dfa448d79759299575155e901b10f1527305698e74784b23ffb4af5",
+    "cityName": "Demo City 96",
+    "settlements": 100,
+    "wards": 24,
+    "fictionalNamesOnly": true
+  },
+  "commands": [
+    {
+      "check": "Dependencies",
+      "command": "UV_CACHE_DIR=.runtime/end-to-end-audit/cache/uv uv pip install --python nagarseva/.venv/bin/python -r nagarseva/model/requirements-urban.txt",
+      "result": "PASS: declared packages resolved; defusedxml installed; existing openpyxl reused."
+    },
+    {
+      "check": "Frontend install",
+      "command": "npm ci --cache ../../.runtime/end-to-end-audit/cache/npm (from website/)",
+      "result": "PASS: 83 packages installed, npm reported 0 vulnerabilities. esbuild postinstall-policy warning remained; its installed platform binary built the app."
+    },
+    {
+      "check": "Python environment",
+      "command": "uv pip check --python nagarseva/.venv/bin/python",
+      "result": "PASS: 65 packages compatible."
+    },
+    {
+      "check": "Python regression",
+      "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest tests nagarseva/tests/test_urban.py nagarseva/model/tests deploy/aws/tests submission/scripts/tests .github/tests -q",
+      "result": "PASS: 398 tests, 4 nonblocking dependency/legacy warnings."
+    },
+    {
+      "check": "JavaScript tests",
+      "command": "npm --prefix nagarseva/website test",
+      "result": "PASS: 53 tests, 0 failures."
+    },
+    {
+      "check": "Repository lint",
+      "command": "npm --prefix nagarseva/website run lint",
+      "result": "PASS. The configured linter is TypeScript tsc --noEmit, not an ESLint/style audit."
+    },
+    {
+      "check": "Strict app types",
+      "command": "npx --no-install tsc -p tsconfig.app.json --noEmit --noUnusedLocals --noUnusedParameters (website/)",
+      "result": "PASS after removing one unused import."
+    },
+    {
+      "check": "Production build",
+      "command": "npm --prefix nagarseva/website run build",
+      "result": "PASS: tsc -b and Vite. Main bundle-size and existing static/dynamic PlanningPages import advisories remain."
+    },
+    {
+      "check": "Integration regression browser",
+      "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python tests/check_synthetic_integration_browser.py",
+      "result": "PASS: 12 workflow groups, 0 page errors; disposable SQLite."
+    },
+    {
+      "check": "Management browser",
+      "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python tests/check_civic_management_browser.py",
+      "result": "PASS: 13 workflow groups, 0 page errors; disposable SQLite."
+    },
+    {
+      "check": "Map browser",
+      "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python tests/check_civic_map_browser.py",
+      "result": "PASS: 5 read-only workflow groups, live tiles and intentional fallback, 0 page errors."
+    },
+    {
+      "check": "Extended browser matrix",
+      "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python tests/check_full_audit_browser.py",
+      "result": "PASS: 207 screenshots; no overflow, missing keys, page errors or axe violations."
+    },
+    {
+      "check": "New upload/simulation/export browser",
+      "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python tests/check_audit_workflows_browser.py",
+      "result": "PASS: 8 workflow groups; 9 populated upload previews; actual multilingual PDFs and CSV."
+    },
+    {
+      "check": "Translation audit",
+      "command": "node --experimental-strip-types tests/check_translation_audit.mjs (website/)",
+      "result": "PASS: 3012 catalogue keys; no missing keys/parameters or unhandled JSX/literal calls."
+    },
+    {
+      "check": "Generator repeat",
+      "command": "nagarseva/.venv/bin/python scripts/generate_demo_city.py --seed 96 --count 100 --output <two task-local paths>",
+      "result": "PASS: byte-identical output; SHA-256 fa56d8231dfa448d79759299575155e901b10f1527305698e74784b23ffb4af5"
+    },
+    {
+      "check": "PDF visual checks",
+      "command": "pdfinfo and pdftoppm for report-en.pdf, report-hi.pdf and report-mr.pdf",
+      "result": "PASS: all 14 pages rendered; source/date, watermark, table repetition and Devanagari shaping inspected."
+    },
+    {
+      "check": "Diff whitespace",
+      "command": "git diff --check",
+      "result": "PASS."
+    },
+    {
+      "check": "Local startup",
+      "command": "bash start-local.sh",
+      "result": "PASS at http://localhost:5173 and http://localhost:8000/docs. Restarted only task-owned processes."
+    }
+  ],
+  "currentConfiguration": {
+    "adapter": "sqlite-synthetic",
+    "synthetic": true,
+    "adminConfigured": false,
+    "photoStorage": false,
+    "timezone": "Asia/Kolkata",
+    "externalConnected": false
+  },
+  "realReadiness": {
+    "activeAdapter": "sqlite-synthetic",
+    "externalConnected": false,
+    "categories": [
+      {
+        "category": "boundaries",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "identifiers",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "housing",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "services",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "projects",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "issues",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "visits",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      }
+    ]
+  },
+  "limitations": [
+    "No verified official data connection or Official classification workflow.",
+    "Current server administrator key and optional photo storage are not configured.",
+    "No mixed-source ranking or automatic activation of imports.",
+    "Legacy XLS, KML, shapefile and PDF ingestion are unavailable.",
+    "Native Hindi/Marathi and screen-reader reviews remain pending.",
+    "PDF uses browser Print / Save as PDF and summarizes nine display columns; CSV retains all fields.",
+    "Benchmark does not establish production capacity."
+  ],
+  "artifacts": {
+    "screenshots": ".runtime/end-to-end-audit/gallery.html",
+    "uploadPreviews": ".runtime/end-to-end-audit/workflows/",
+    "logs": ".runtime/end-to-end-audit/",
+    "nativeReview": "research/translation_review.csv"
+  }
+}

@@ -1,164 +1,134 @@
 # UrbanSaarthi
 
-A working multilingual prototype for affordable housing, settlement exploration and
-basic-service issue reporting in Mumbai, built for the Seva First Maharashtra Zone
-problem statement. The application uses React/TypeScript/Leaflet, FastAPI and SQLite.
-It does not claim official municipal submission or government integration.
+**People • Places • Better Cities**
 
-## Four primary sections
+A working English, Hindi and Marathi civic-tech demonstration for **SEVAMO96**:
+General Category, Urban Development; affordable housing, slum redevelopment and
+basic-service assurance. React/TypeScript/Leaflet, FastAPI and SQLite are preserved.
 
-- **Dashboard** (`/dashboard`): sourced dataset counts, historical map preview and recent reports.
-- **Explore Settlements** (`/settlements`): independent 2015 polygons and the 2024 register, with source-supported filters.
-- **Report an Issue** (`/report-issue`): validated, persisted anonymous reports and stable references.
-- **Projects & Reports** (`/projects`): sourced project records, details, filters and downloads.
+**DEMO MODE · Synthetic data.** Settlement records, ward assignments, geometries,
+housing estimates, service indicators, issues, projects and owners are fictional.
+No government API, authority approval, official eligibility decision or live-record
+validation is claimed. Archived acquired files are preserved but are disconnected
+from the active application. Nothing is downloaded or reactivated automatically.
 
-English, हिंदी and मराठी use the existing translation provider, with feature dictionaries
-in `nagarseva/website/src/i18n/locales/`. Changing language preserves forms and filters.
-Published names and original source values are retained rather than machine-translated.
+## Working application
 
-The interface follows the supplied dark reference: a charcoal icon rail, lavender
-shield logo, source-backed hero metrics and compact workspace cards. Header search,
-card filters and grid/list controls work with the existing source records. The map,
-forms and reports use the same theme in all three languages.
-[Reference design and workflow validation](research/verification/reference_design_validation.json).
+- **Dashboard** `/dashboard`: actual shared-record summaries, household-weighted
+  service coverage, issue/project breakdowns, gaps, map and genuine operation history.
+- **Explore Settlements** `/settlements`: search, combined filters, sorting, pagination,
+  synchronized synthetic polygons and details for housing, six services and related records.
+- **Report an Issue** `/report-issue`: validated submission, optional consented photos
+  when enabled, SQLite save, management filters, authorized status updates and follow-up.
+- **Projects & Reports** `/projects`: projects and milestones, housing assessments,
+  visits/inspections, community feedback, six filtered CSV reports and data management.
+- **Real-World Data Integration** `/data-integration`: honest readiness matrix,
+  functioning CSV/GeoJSON inspection, mapping, validation, controlled import,
+  provenance, proposed roadmap and privacy/governance information.
 
-Existing prioritization, hypothetical scenarios, officer service assurance and Data &
-access remain secondary tools under Projects & Reports. Legacy hash links still work.
-[Product, routing, source and API contract](nagarseva/docs/product.md).
+Additional views: `/housing`, `/services`, `/visits`, `/projects/data`.
+Existing secondary hash links and the hypothetical comparison calculator remain.
+All data mutations use the same revisioned, transactional synthetic adapter. The
+language selection persists in the existing browser preference; IDs do not change.
 
-## Data currently connected in the local workspace
+Initial fixed-seed collections: **100 settlements, 24 demo wards, 60 issues,
+20 projects, 40 milestones, 30 visits and 4 data-source records**. Housing assessments
+and feedback start empty. Activity is recorded when an actual operation occurs,
+including initial workspace creation; seed histories do not invent user actions.
+Every synthetic row carries `is_synthetic:true`. Three planted anomaly fixtures
+are separate test scenarios and never overwrite active settlement indicators.
+The interface and exports label these fictional records **Demo data**.
 
-| Dataset | Actual imported count | Scope |
-| --- | --- | --- |
-| Historical 2015 boundaries | 2,542 source polygons; 2,517 displayed | 25 topology-invalid polygons excluded without repair |
-| SRA 2024 register | 2,597 source rows | No verified join to 2015 polygons |
-| SRA scheme listings | 5,677 records | Unknown status/progress stays unknown |
-| OSM context | 7,106 mapped objects | Mapping does not establish operation or household access |
-| Census 2011 | 456 observations across 190 state/town units | No cluster allocation; historical reference year retained |
-
-The supplied GeoJSON has only `polyno`, null in every feature. It provides no verified
-settlement names or SRA IDs. Geometry, register records, project listings, Census
-observations and user reports remain distinct. [Boundary validation and limitations](research/historical_boundaries_2015.md).
-The original retrieval date and independently verified SRA reuse terms remain unknown.
+`/methodology` documents generation and calculation rules and provides adjustable
+weight previews, a what-if simulator, budget allocation, planted-anomaly checks,
+SLA tracking, date-based project delay flags and a measured 10,000-settlement
+diagnostic. The diagnostic does not persist its separate workload or alter the city.
+Reports support CSV and browser Print / Save as PDF with source/save/export dates.
 
 ## Run locally
 
-Use Python 3.12 and Node 24. From the repository root:
+Use the existing Python 3.12 and Node 24 environment. The app is nested inside
+`seva first/nagarseva-seva-first`; the parent folder has no `package.json`.
+From that repository root:
+
+```bash
+bash start-local.sh
+```
+
+For the chosen Vercel frontend + persistent Python backend deployment, see
+[the deployment guide](deploy/vercel/README.md). The root `vercel.json` expects a
+real `VITE_API_BASE_URL` and rejects deployment with a disconnected backend.
+
+Open **http://localhost:5173/dashboard**, then **Data Integration** in the sidebar.
+API documentation: **http://localhost:8000/docs**. The launcher checks installed
+dependency fingerprints and occupied ports; it stops only its own server processes.
+For a different pair:
+
+```bash
+URBANSAARTHI_API_PORT=8001 URBANSAARTHI_WEB_PORT=5174 bash start-local.sh
+```
+
+For a fresh environment, install the declared dependencies first:
 
 ```bash
 python3.12 -m venv nagarseva/.venv
 nagarseva/.venv/bin/python -m pip install -r nagarseva/model/requirements-urban.txt
 npm --prefix nagarseva/website ci
-bash start-local.sh
 ```
 
-Open **http://localhost:5173/dashboard**. API documentation: **http://localhost:8000/docs**.
-The launcher reuses installed dependencies and reports occupied ports without stopping
-unrelated processes. To use the current alternate ports:
+Public demo issues, visits and feedback can be created without an officer key.
+Administrative changes, reset and controlled imports use the existing backend
+key authorization. To enable them, set a private key **before starting the API**,
+then enter that same key in **Demo data management → Demo administrator access**:
 
 ```bash
-URBANSAARTHI_API_PORT=8001 URBANSAARTHI_WEB_PORT=5174 bash start-local.sh
-```
-
-A fresh checkout already includes the 2015 static layer. The other acquired source files
-remain local and are not silently downloaded or replaced. When `data/processed` and its
-validated originals are available, connect them reproducibly:
-
-```bash
-nagarseva/.venv/bin/python -m pip install -r scripts/requirements-data.txt
-nagarseva/.venv/bin/python scripts/activate_public_data.py
-export URBANSAARTHI_DB_PATH="$PWD/.runtime/my-workspace/workspace.sqlite3"
-export URBANSAARTHI_DATA_DIR="$PWD/.runtime/my-workspace/input"
-URBANSAARTHI_API_PORT=8001 URBANSAARTHI_WEB_PORT=5174 bash start-local.sh
-```
-
-Activation verifies source hashes, backs up an existing database, preserves operational
-records and refuses to replace a user import. Repeated identical activation is safe.
-[Bring-your-own-data import format](nagarseva/docs/workspace-data.md) also remains available.
-
-Public issue creation requires no officer key. For operator actions and private evidence:
-
-```bash
-read -rsp 'Choose a private local officer key: ' NAGARSEVA_OFFICER_KEY
+read -rsp 'Choose a private local administrator key: ' NAGARSEVA_OFFICER_KEY
 export NAGARSEVA_OFFICER_KEY
-export NAGARSEVA_MODE=pilot-prototype
-export URBANSAARTHI_EVIDENCE_STORAGE=sqlite  # optional consented image storage
+export URBANSAARTHI_EVIDENCE_STORAGE=sqlite  # optional private PNG/JPEG photo storage
 bash start-local.sh
 ```
 
-See [.env.example](.env.example). Never put officer keys in VITE_* variables or commit
-runtime databases, images or real credentials. Schema migrations are applied at API
-startup. Reports are saved in SQLite and explicitly marked as prototype self-reports;
-they are not forwarded to a municipality. Shared keys are not production identity/RBAC.
+The key stays in this browser session and is checked on the server. This is demo
+administration, not a production identity or government officer system. Never put
+keys in `VITE_*` variables, source control, screenshots or logs. See [.env.example](.env.example).
+The default database is `nagarseva/model/data/local/urbansaarthi.sqlite3`.
+`URBANSAARTHI_DB_PATH` can select a different SQLite file; relative paths resolve
+from the API working directory (`nagarseva`). This is server persistence shared by
+clients of that server, not localStorage reporting or municipal submission.
 
-## Acquire and validate data
+## Controlled data onboarding
 
-From the repository root, after creating `nagarseva/.venv` as above:
+**Implemented formats:** UTF-8 comma-separated CSV (including BOM, quoted commas
+and multiline cells), Excel `.xlsx` with visible-worksheet selection, and GeoJSON
+FeatureCollection (`.geojson` or `.json`). Limits:
+5 MiB, 5,000 records and 100 source fields. Legacy XLS, Shapefile, KML and PDF ingestion,
+coordinate reprojection and external API synchronization are not implemented.
 
-```bash
-uv pip install --python nagarseva/.venv/bin/python -r scripts/requirements-data.txt
-# Poppler (pdftotext/pdfinfo) and OpenSSL must be on PATH.
-nagarseva/.venv/bin/python scripts/acquire_data.py
-```
+Selecting a file reads it in browser memory. After a permission/data-minimization
+attestation, inspection and validation send it to this application's backend;
+these requests do not permanently store it. Field suggestions use actual columns,
+never fabricated identifiers. Geographic data require explicit WGS84 confirmation.
+Schema checks are not source-authenticity or official verification.
 
-The staged runner continues after source failures and records them in the inventory.
-It never treats a failed source as a successful dataset. Successful downloads are
-cached with checked SHA-256 hashes; `--refresh` rechecks sources and preserves older
-content-addressed originals. No large Geofabrik extract is downloaded for this pilot.
-Raw files are in `data/raw/{sra,census,osm,other}` as applicable, cleaned files in
-`data/processed`, and request/quality manifests in `data/metadata`. Source originals and large processed assets are
-excluded from Git; the checked local handoff bundle is prepared separately. No source credentials are required or bypassed.
+A successful explicit, authorized import commits original bytes, SHA-256, mapping,
+source provenance, transformed records and actual timestamps to a separate SQLite
+batch. Duplicate identifiers are rejected; exact retries are idempotent. Related
+records must reference identifiers in an explicitly selected controlled settlement
+batch. No row-order or synthetic-to-real geographic join is attempted.
 
-Individual repeatable stages:
+**Imported batches are isolated:** they do not replace demo records, activate real
+records in settlement/project pages, or connect a government service. Production
+activation needs approved source semantics, compatibility tests, authorization,
+a backend integration adapter and operational access controls. Sources may not
+contain every desirable field. Static files cannot support two-way complaint sync.
 
-```bash
-nagarseva/.venv/bin/python scripts/inspect_sra_layers.py
-nagarseva/.venv/bin/python scripts/ingest_sra.py
-nagarseva/.venv/bin/python scripts/ingest_sra_register.py
-nagarseva/.venv/bin/python scripts/ingest_sra_pdf.py
-nagarseva/.venv/bin/python scripts/ingest_sra_projects.py
-nagarseva/.venv/bin/python scripts/ingest_osm.py
-nagarseva/.venv/bin/python scripts/ingest_census.py
-nagarseva/.venv/bin/python scripts/prepare_real_data.py
-nagarseva/.venv/bin/python scripts/prepare_demo_data.py
-nagarseva/.venv/bin/python scripts/validate_datasets.py
-```
+[Detailed contract and dependencies](nagarseva/docs/data-integration.md) ·
+[Implementation and verification report](research/integration_readiness_implementation.md).
 
-The Census trust repair is request-specific and does not disable TLS or change the
-system trust store. See [Census acquisition details](research/census_followup.md).
+## Checks
 
-Restart the API after preparing a new source snapshot. Set `URBANSAARTHI_DATA_DIR`
-to another processed directory if needed. The acquisition inventory records source
-dates and unresolved licences separately from retrieval dates. The PDF map and
-listing are retained for local research; wider redistribution needs source-specific
-reuse review. OSM data require OpenStreetMap contributor attribution and ODbL terms.
-
-Set `NAGARSEVA_OFFICER_KEY` on the API and enter it through **Officer access** to protect server records. Do not put the key in a frontend build or commit it. This shared-key demo is not production identity or role management.
-
-## Deploy on AWS
-
-Use the [AWS CloudShell deployment guide](deploy/aws/README.md) for one EC2 instance, persistent encrypted-volume demo records and an HTTPS CloudFront address. Active credits must cover usage; this is not permanently free hosting. The guide and readiness CI do not imply that an AWS account has already been provisioned.
-
-## Data and validation boundaries
-
-The separate five-cluster sandbox's polygons, indices, routes and household/cost
-assumptions are **synthetic**. Acquired mode uses actual source records with nullable
-geometry and observations. SRA feature services still timed out. The Census server's
-missing intermediate certificate was repaired using verified public CA material,
-with hostname and certificate verification retained; all four official table assets
-were downloaded. Historical 2011 state/town observations are not assigned to SRA
-clusters. The georeferenced 2024 source map is raster imagery, not current analytical
-boundaries. OSM mappings do not prove service operation, and a shared CTS
-string does not establish a project join. No current service baseline, official cost
-estimate, approved ward pilot or field impact is claimed.
-
-Calculations run deterministically in Python and the browser. The four-section product's
-current checks are recorded in [product validation](research/verification/product_validation.json),
-including a browser run with the acquired register and project records. Earlier acquisition
-findings remain in [the research report](research/final_report.md). CI artifacts in
-`integration/` retain their own dates, source revisions and validation scope.
-
-Run checks from the repository root:
+Run from the repository root (use the existing environment; the full Python suite
+also requires `nagarseva/model/requirements.txt`):
 
 ```bash
 PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest tests nagarseva/tests/test_urban.py nagarseva/model/tests deploy/aws/tests submission/scripts/tests .github/tests -q
@@ -166,36 +136,56 @@ npm --prefix nagarseva/website test
 npm --prefix nagarseva/website run lint
 nagarseva/website/node_modules/.bin/tsc -p nagarseva/website/tsconfig.app.json --noEmit --noUnusedLocals --noUnusedParameters
 npm --prefix nagarseva/website run build
-# System Chromium + Playwright; uses a disposable database and owned ports.
-uv pip install --python nagarseva/.venv/bin/python playwright==1.56.0
-CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_product_browser.py
-CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_historical_boundaries_browser.py
-CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_public_browser.py
-CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_field_collection_browser.py
-# Optional: requires the locally acquired data/processed/urban_real.json.
-URBANSAARTHI_BROWSER_REAL_DATA=1 CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_product_browser.py
+# Requires the existing Playwright installation and system Chromium; disposable DB only.
+PYTHONPATH=nagarseva CHROMIUM_PATH=/usr/bin/chromium nagarseva/.venv/bin/python tests/check_synthetic_integration_browser.py
 ```
 
-The full Python command additionally requires `nagarseva/model/requirements.txt`.
-CI uses Playwright-managed Chromium; the local commands above select the installed system browser.
-The original synthetic-trained models are not used to rank acquired settlements.
+The browser test uses owned ephemeral ports and synthetic software fixtures. Basemap
+requests are blocked. It does not prove an external provider, AWS deployment,
+production authorization, source quality or field outcomes. Older historical/public
+browser scripts remain archived regression references for the disconnected UI;
+they are not acceptance tests for the active synthetic interface.
 
-## Project materials
+## Preserved research and deployment materials
 
-- [Architecture, formulas, state transitions and evaluation](nagarseva/docs/urbansaarthi.md)
-- [Focused application guide](nagarseva/README.md)
-- [Research overview](research/README.md) and [executive research findings](research/research_summary.md)
-- [Evidence workbench](prototype/README.md), also available at `/evidence/`
-- [UrbanSaarthi submission pack](submission/README.md): official-template deck and PDF, budget, answers and pitch. Authenticated form/upload limits remain unverified and personal fields remain omitted.
-- [Original source lineage](integration/source-manifest.json) and [merge record](integration/README.md)
+- [Earlier civic implementation](research/civic_implementation_report.md) and
+  [historical-boundary validation](research/historical_boundaries_2015.md): archived
+  source investigations, not the active adapter or current readiness status.
+- [Research findings](research/final_report.md), [research overview](research/README.md),
+  [original source lineage](integration/source-manifest.json) and [merge record](integration/README.md).
+- [Architecture and earlier calculation methods](nagarseva/docs/urbansaarthi.md).
+- [Evidence workbench](prototype/README.md), separately available at `/evidence/`.
+- [Submission pack](submission/README.md) and [prepared pilot protocols](pilot/README.md):
+  preparation does not establish field evidence, official approval or live integration.
+- [AWS deployment guide](deploy/aws/README.md): retained deployment tooling; no new
+  deployment was performed for the readiness work. Hosting requires suitable credentials,
+  security configuration and resources. [Earlier CI evidence](integration/ci-validation.json)
+  retains its original revision and scope.
 
-The original remote repository remains untouched. Imported model artifacts and
-legacy API/tests are retained. Unreachable frontend files were removed as documented
-in the cleanup report. The existing SQLite database remains the development store;
-PostGIS, production identity and agency integrations are not implemented.
+Original source files, archival parsing tools, API compatibility routes, models and
+legacy SQLite records remain intact. Synthetic records and controlled imports use
+separate additive tables. A confirmed reset affects only the synthetic namespace,
+including its demo attachments, and preserves controlled imports and unrelated data.
 
-The [prepared pilot kit](pilot/README.md) identifies a prospective BMC M-East water-domain owner and includes an unsent request, independent-baseline protocol, observation/indicator rules and blank quote templates. Prepared protocols are not completed field evidence.
+## End-to-end audit evidence
 
-## Published source and checks
+See [the current audit](research/end_to_end_audit.md) for the full PASS/PARTIAL
+checklist, file/line evidence, upload cases, limitations and executed commands.
+[Translation checks](research/verification/translation_audit.json) and
+[the native-review queue](research/translation_review.csv) distinguish missing
+keys from linguistic review. Source values and stable identifiers are preserved.
 
-The source merge and per-file hashes were verified in [this workflow](https://github.com/vishal88736/nagarseva-seva-first/actions/runs/39140508298). See [the recorded validation outcomes](integration/ci-validation.json) for backend, frontend and evidence-check results. Browser and field validation remain separate.
+Re-run the added audit checks after building:
+
+```bash
+npm --prefix nagarseva/website run build
+PYTHONPATH=nagarseva nagarseva/.venv/bin/python tests/check_full_audit_browser.py
+PYTHONPATH=nagarseva nagarseva/.venv/bin/python tests/check_audit_workflows_browser.py
+(cd nagarseva/website && node --experimental-strip-types tests/check_translation_audit.mjs)
+```
+
+Reproduce the fictional city without touching SQLite:
+
+```bash
+nagarseva/.venv/bin/python scripts/generate_demo_city.py --seed 96 --count 100 --output .runtime/demo-city.json
+```

@@ -18,7 +18,7 @@ const patterns = Object.keys(messages).filter(key => /\{\w+\}/.test(key)).map(ke
 })
 export function translate(language: Language, key: string, params: Params = {}): string {
   let values = params, entry = messages[key]
-  if (!entry && language !== 'en') {
+  if (!entry) {
     for (const pattern of patterns) {
       const match = pattern.regex.exec(key)
       if (match) { entry = messages[pattern.key]; values = { ...Object.fromEntries(pattern.names.map((name, i) => [name, match[i + 1]])), ...params }; break }
@@ -36,7 +36,7 @@ export function formatDate(value: string | null | undefined, time = false) {
   if (/^\d{4}$/.test(value)) return formatNumber(Number(value), 0).replace(/[,٬]/g, '')
   const instant = new Date(value)
   if (!Number.isFinite(instant.getTime())) return value
-  return new Intl.DateTimeFormat(LOCALE[currentLanguage], { year: 'numeric', month: 'short', day: 'numeric', ...(time ? { hour: '2-digit', minute: '2-digit' } as const : {}), ...(/^\d{4}-\d{2}-\d{2}$/.test(value) ? { timeZone: 'UTC' } : {}) }).format(instant)
+  return new Intl.DateTimeFormat(LOCALE[currentLanguage], { year: 'numeric', month: 'short', day: 'numeric', ...(time ? { hour: '2-digit', minute: '2-digit' } as const : {}), timeZone: /^\d{4}-\d{2}-\d{2}$/.test(value) ? 'UTC' : 'Asia/Kolkata' }).format(instant)
 }
 export function errorText(value: string): string {
   if (!value) return ''

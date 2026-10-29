@@ -8,7 +8,7 @@ from model.api.urban import create_app
 
 
 def payload(**changes):
-    return {'category':'water','description':'TEST ONLY: interrupted water supply','ward':'Test ward','location':None,'latitude':None,'longitude':None,'report_date':datetime.now(timezone.utc).date().isoformat(),**changes}
+    return {'category':'water','description':'TEST ONLY: interrupted water supply','ward':'Test ward','location':'TEST ONLY public location','latitude':None,'longitude':None,'report_date':datetime.now(timezone.utc).date().isoformat(),**changes}
 
 
 @pytest.fixture
@@ -43,7 +43,7 @@ def test_idempotent_submission_does_not_duplicate_records_and_conflicts_are_expl
         assert client.post('/urban/data/issues',json=payload(description='TEST ONLY: different report'),headers=headers).status_code==409
 
 
-@pytest.mark.parametrize('changes',[{'category':'unsupported'},{'description':'short'},{'latitude':19.05},{'longitude':72.9},{'latitude':19.12345,'longitude':72.9},{'latitude':True,'longitude':72.9},{'latitude':91,'longitude':72.9},{'report_date':(datetime.now(timezone.utc)+timedelta(days=2)).date().isoformat()},{'official_submission':True}])
+@pytest.mark.parametrize('changes',[{'location':None},{'location':''},{'location':'   '},{'category':'unsupported'},{'description':'short'},{'latitude':19.05},{'longitude':72.9},{'latitude':19.12345,'longitude':72.9},{'latitude':True,'longitude':72.9},{'latitude':91,'longitude':72.9},{'report_date':(datetime.now(timezone.utc)+timedelta(days=2)).date().isoformat()},{'official_submission':True}])
 def test_issue_validation_rejects_bad_data(app,changes):
     with TestClient(app) as client:
         assert client.post('/urban/data/issues',json=payload(**changes),headers={'Idempotency-Key':'test-validation-key'}).status_code==422
@@ -89,3 +89,12 @@ def test_public_issue_export_escapes_formula_cells_and_keeps_scope_and_missing_v
         assert 'official_submission' in exported.text and 'False' in exported.text
         assert 'idempotency_key' not in exported.text and 'content_base64' not in exported.text
         assert client.get('/urban/data/issues/missing').status_code==404
+
+
+def test_oversize_or_empty_photo_cannot_persist_an_issue(app):
+    with TestClient(app) as client:
+        for index, content in enumerate([b'', b'\x89PNG\r\n\x1a\n' + b'x' * 2_097_152]):
+            attachment={'filename':'test-only.png','content_type':'image/png','content_base64':base64.b64encode(content).decode(),'consent':True}
+            response=client.post('/urban/data/issues',json=payload(attachment=attachment),headers={'Idempotency-Key':f'test-image-size-{index:04d}'})
+            assert response.status_code==422
+        assert client.get('/urban/data/issues').json()['total']==0

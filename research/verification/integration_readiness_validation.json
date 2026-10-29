@@ -1,0 +1,197 @@
+{
+  "checkedAt": "2026-10-29T17:24:00.393715+00:00",
+  "status": "passed",
+  "scope": "Local software implementation and synthetic fixture tests only; no real government integration, source verification, external provider validation or deployment",
+  "framework": "React18 / TypeScript5 / Vite6 / Leaflet1.9 / FastAPI / SQLite",
+  "activeAdapter": "sqlite-synthetic",
+  "defaultWorkspace": {
+    "counts": {
+      "settlements": 100,
+      "wards": 24,
+      "issues": 60,
+      "projects": 20,
+      "milestones": 40,
+      "visits": 30,
+      "assessments": 0,
+      "feedback": 0,
+      "dataSources": 4,
+      "activity": 1
+    },
+    "revision": 1,
+    "sourceType": "synthetic",
+    "lastSavedAt": "2026-10-29T14:48:30.947275+00:00"
+  },
+  "defaultHealth": {
+    "adapter": "sqlite-synthetic",
+    "synthetic": true,
+    "adminConfigured": false,
+    "photoStorage": false,
+    "timezone": "Asia/Kolkata",
+    "externalConnected": false
+  },
+  "defaultReadiness": {
+    "activeAdapter": "sqlite-synthetic",
+    "externalConnected": false,
+    "categories": [
+      {
+        "category": "boundaries",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "identifiers",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "housing",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "services",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "projects",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "issues",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      },
+      {
+        "category": "visits",
+        "status": "not_provided",
+        "importedBatches": 0,
+        "recordCount": 0
+      }
+    ]
+  },
+  "supportedFileFormats": [
+    "UTF-8 CSV",
+    "GeoJSON FeatureCollection (.geojson/.json)"
+  ],
+  "importPersistence": "Private original bytes, transformed records, mapping, SHA-256, provenance and actual timestamps in civic_import_batches; separate from synthetic workspace",
+  "checks": [
+    {
+      "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python -m pytest tests nagarseva/tests/test_urban.py nagarseva/model/tests deploy/aws/tests submission/scripts/tests .github/tests -q",
+      "result": "381 passed; 4 dependency/legacy warnings; 13.94 seconds"
+    },
+    {
+      "command": "npm --prefix nagarseva/website test",
+      "result": "42 passed; 0 failed"
+    },
+    {
+      "command": "npm --prefix nagarseva/website run lint",
+      "result": "passed; existing script is TypeScript checking, not an ESLint run"
+    },
+    {
+      "command": "nagarseva/website/node_modules/.bin/tsc -p nagarseva/website/tsconfig.app.json --noEmit --noUnusedLocals --noUnusedParameters",
+      "result": "passed; no diagnostics"
+    },
+    {
+      "command": "npm --prefix nagarseva/website run build",
+      "result": "passed; Vite advisory for a roughly 601 kB entry chunk and an existing mixed static/dynamic PlanningPages import"
+    },
+    {
+      "command": "PYTHONPATH=nagarseva nagarseva/.venv/bin/python tests/check_synthetic_integration_browser.py",
+      "result": "passed; production Chromium, disposable SQLite, 12 workflow assertions/groups, zero uncaught page errors"
+    },
+    {
+      "command": "bash start-local.sh",
+      "result": "started successfully on API 8000 and frontend 5173; existing installed dependencies reused"
+    },
+    {
+      "command": "git diff --check",
+      "result": "passed"
+    }
+  ],
+  "browser": {
+    "status": "passed",
+    "checkedAt": "2026-10-29T15:32:04.352080+00:00",
+    "checks": [
+      "One deterministic persisted dataset: 100 settlements, 24 demo wards, 60 issues, 20 projects, 30 visits, 40 milestones; real integrations absent",
+      "Actual map polygons and paginated list share filters and selection; six service gaps use stored indicators",
+      "Accessible required-field errors; public issue save confirmed by SQLite, genuine submission event and refresh persistence",
+      "Server-authorized issue acknowledgement and history, milestone creation, visit scheduling and cancellation update shared records",
+      "CSV download contains actual filtered records and a synthetic-data disclaimer",
+      "GeoJSON actual metadata, existing-field suggestions, explicit CRS validation, preview, authorized confirmed import, hash/original preservation and refresh receipt; demo stays at 100",
+      "CSV inspection, actual columns and duplicate-identifier validation; unsupported formats and oversized files rejected without saving",
+      "Manual mapping of actual CSV fields, confirmed CSV import, malformed HTTP-success rejection and no false saved state",
+      "English, Hindi and Marathi update headings, workflow, navigation and governance; 390px drawer and no document overflow",
+      "Confirmed scoped reset restores initial counts and preserves controlled import provenance",
+      "No old GIS data requests and no uncaught browser errors",
+      "Backend failure shows an honest unavailable state, no invented metrics, and Retry restores the actual snapshot"
+    ],
+    "scope": "Production Chromium UI, synthetic software fixtures and disposable SQLite; no live authority connection",
+    "browserErrors": []
+  },
+  "filesCreated": [
+    "nagarseva/website/src/civic/CivicMap.tsx",
+    "nagarseva/website/src/civic/CivicProvider.tsx",
+    "nagarseva/website/src/civic/CivicWorkspace.tsx",
+    "nagarseva/website/src/civic/DemoCommunity.tsx",
+    "nagarseva/website/src/civic/DemoDashboard.tsx",
+    "nagarseva/website/src/civic/DemoHousing.tsx",
+    "nagarseva/website/src/civic/DemoIssues.tsx",
+    "nagarseva/website/src/civic/DemoManagement.tsx",
+    "nagarseva/website/src/civic/DemoProjects.tsx",
+    "nagarseva/website/src/civic/DemoReports.tsx",
+    "nagarseva/website/src/civic/DemoServices.tsx",
+    "nagarseva/website/src/civic/DemoSettlements.tsx",
+    "nagarseva/website/src/civic/DemoVisits.tsx",
+    "nagarseva/website/src/civic/adapter.ts",
+    "nagarseva/website/src/civic/analytics.ts",
+    "nagarseva/website/src/civic/civic.css",
+    "nagarseva/website/src/civic/services.ts",
+    "nagarseva/website/src/civic/types.ts",
+    "nagarseva/website/src/civic/ui.tsx",
+    "nagarseva/website/src/integration/DataIntegration.tsx",
+    "nagarseva/website/src/integration/adapter.ts",
+    "nagarseva/model/api/civic_demo.py",
+    "nagarseva/model/api/data_onboarding.py",
+    "nagarseva/website/src/i18n/demoMessages.ts",
+    "nagarseva/website/src/i18n/integrationMessages.ts",
+    "nagarseva/website/tests/civic.test.mjs",
+    "nagarseva/website/tests/onboardingAdapter.test.mjs",
+    "tests/test_civic_demo.py",
+    "tests/test_data_onboarding.py",
+    "tests/check_synthetic_integration_browser.py",
+    "nagarseva/docs/data-integration.md",
+    "research/integration_readiness_implementation.md",
+    "research/verification/integration_readiness_validation.json"
+  ],
+  "filesModified": [
+    ".env.example",
+    "README.md",
+    "deploy/aws/app.py",
+    "deploy/aws/tests/test_hosted.py",
+    "nagarseva/README.md",
+    "nagarseva/docs/product.md",
+    "nagarseva/model/api/urban.py",
+    "nagarseva/website/index.html",
+    "nagarseva/website/src/App.tsx",
+    "nagarseva/website/src/i18n/messages.ts",
+    "nagarseva/website/src/main.tsx",
+    "start-local.sh"
+  ],
+  "limitations": [
+    "No imported-record activation into the current synthetic pages",
+    "No authorized external API/database connection or government identity/approval",
+    "Missing default NAGARSEVA_OFFICER_KEY blocks administrative mutations, imports and private imported records",
+    "KML, shapefile, PDF and XLSX import and reprojection are unimplemented",
+    "Production identity/RBAC, retention controls, hardened upload operations, audit access, monitoring and backup/restore require implementation and validation",
+    "Live OSM tiles and production deployment not validated"
+  ],
+  "preservation": "Original GIS/source files, prior user edits, legacy APIs, existing SQLite records, visual assets, dependencies and archived research retained"
+}

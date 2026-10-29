@@ -57,12 +57,12 @@ def main():
                 context.route('https://tile.openstreetmap.org/**',lambda route:route.abort())
                 page = context.new_page(); page.on('pageerror',lambda error:errors.append(str(error)))
                 page.goto(WEB)
-                expect(page.get_by_role('heading',name='Urban Overview',exact=True)).to_be_visible()
+                expect(page.get_by_role('heading',name='UrbanSaarthi Dashboard',exact=True)).to_be_visible()
                 assert page.get_by_role('heading',name='Dataset inventory',exact=True).count() == 0
                 assert page.get_by_role('heading',name='Historical Census context',exact=True).count() == 0
                 page.screenshot(path=str(OUT/'empty-overview.png'),full_page=True)
                 checks.append('Empty product dashboard has a clear data entry path and keeps legacy planning tools accessible')
-                page.get_by_role('button',name='Data',exact=True).click()
+                page.get_by_role('button',name='Data sources',exact=True).click()
                 page.get_by_label('Public data officer key').fill(key)
                 page.get_by_role('button',name='Apply officer key',exact=True).click()
                 with page.expect_download() as download:
@@ -87,6 +87,9 @@ def main():
                 expect(page.get_by_role('status').filter(has_text='Dataset imported.')).to_be_visible()
                 assert api('/overview')['settlements_loaded'] == 2
                 checks.append('Template download, malformed-file recovery, nonmutating preview and actual authorized GeoJSON/observation/project import pass')
+                page.locator('.us-sidebar nav').get_by_role('link',name='Projects & Reports',exact=True).click()
+                page.get_by_role('tab',name='Data reports',exact=True).click()
+                expect(page.locator('.dataset-report').nth(3).locator('dd').first).to_have_text('Not supplied')
                 def nav(name):
                     mapping={'Overview':'Dashboard','Settlement map':'Explore Settlements'}
                     legacy={'Priorities':'prioritize','Scenarios':'compare','Service assurance':'assurance'}
@@ -177,7 +180,7 @@ def main():
                 assert api('/complaints',True)['items'][0]['service_type'] == 'water'
                 checks.append('Imported120 households feed scenarios; hand-worked ₹1199 matches API; due-date edit, plan/completion/evidence/review and correct complaint service execute')
                 nav('Overview'); page.reload()
-                expect(page.get_by_role('heading',name='Urban Overview',exact=True)).to_be_visible()
+                expect(page.get_by_role('heading',name='UrbanSaarthi Dashboard',exact=True)).to_be_visible()
                 page.screenshot(path=str(OUT/'overview.png'),full_page=True)
                 page.set_viewport_size({'width':390,'height':844})
                 for name in ['Overview','Settlement map','Priorities','Scenarios','Service assurance']:
@@ -189,7 +192,7 @@ def main():
                     assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 2'), name
                 page.get_by_role('button',name='Toggle navigation',exact=True).click(); nav('Overview')
                 page.screenshot(path=str(OUT/'mobile.png'),full_page=True)
-                page.get_by_role('button',name='Data',exact=True).click()
+                page.get_by_role('button',name='Data sources',exact=True).click()
                 expect(page.get_by_label('Dataset file')).to_be_visible()
                 assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 2'), 'Data & access'
                 page.screenshot(path=str(OUT/'mobile-data.png'),full_page=True)
