@@ -1,8 +1,7 @@
-import './product.css'
 import { sourceUrl } from './sourceUrl'
 import { LanguageSwitcher, localizedPageTitle, useLanguage } from '../i18n/LanguageProvider'
 import { t, errorText, formatDate, formatNumber, statusText } from '../i18n/locale'
-import { Building2, Database, LayoutDashboard, MapPinned, Menu, MessageSquarePlus, FolderOpen, X } from 'lucide-react'
+import { Database, LayoutDashboard, MapPinned, Menu, MessageSquarePlus, FolderOpen, Search, X } from 'lucide-react'
 import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { DEFAULT_WEIGHTS } from './engine'
 import { dataApi, planningDataset } from './publicClient'
@@ -37,6 +36,12 @@ export default function PublicWorkspace({ onDemo }: { onDemo: () => void }) {
     } catch (problem) { setError((problem as Error).message) } finally { setLoading(false) }
   }, [])
   useEffect(() => { void load() }, [load])
+  useEffect(() => {
+    if (!mobile) return
+    const close = (event: KeyboardEvent) => { if (event.key === 'Escape') { setMobile(false); document.querySelector<HTMLButtonElement>('.us-mobile-nav')?.focus() } }
+    addEventListener('keydown', close)
+    return () => removeEventListener('keydown', close)
+  }, [mobile])
   useEffect(() => { const listener = () => { setRoute({page:routePage(location.pathname,location.hash),query:location.search}); setMobile(false) }; addEventListener('popstate',listener);addEventListener('hashchange',listener); return()=>{removeEventListener('popstate',listener);removeEventListener('hashchange',listener)} }, [])
   const titleKey = MAIN_ROUTES.find(item=>item.id===page)?.label || ({data:'Data & access',prioritize:'Priorities',compare:'Scenarios',assurance:'Service assurance'} as Record<string,string>)[page]
   useEffect(()=>{document.title=localizedPageTitle(titleKey)},[titleKey,language])
@@ -57,25 +62,26 @@ export default function PublicWorkspace({ onDemo }: { onDemo: () => void }) {
   const wards = [...new Set(settlements.map(row => row.administrative_area).filter(Boolean))].sort() as string[]
   const villages = [...new Set(settlements.map(row=>row.village).filter(Boolean))].sort() as string[]
   const filtered = settlements.filter(row => `${row.source_id} ${row.name} ${row.administrative_area || ''}`.toLowerCase().includes(search.toLowerCase()) && (!ward || row.administrative_area === ward) && (!village || row.village===village))
-  function navigate(next:Page,query?:string) { const url=new URL(location.href);url.pathname=PATHS[next];url.hash='';url.search=query??'';history.pushState(null,'',url);setRoute({page:next,query:url.search});setMobile(false);window.scrollTo({top:0,behavior:'instant'}) }
+  function navigate(next:Page,query?:string) { const url=new URL(location.href);url.pathname=PATHS[next];url.hash='';url.search=query??'';const record=url.searchParams.get('settlement');if(record&&settlements.some(row=>row.id===record))setSelectedId(record);history.pushState(null,'',url);setRoute({page:next,query:url.search});setMobile(false);window.scrollTo({top:0,behavior:'instant'}) }
   function select(id: string) { if (id !== selectedId) setDraft(null); setSelectedId(id); const url = new URL(location.href); url.searchParams.set('settlement', id); history.replaceState(null, '', url) }
   function changed() { setRevision(old => old + 1); dataApi<Stats>('/overview').then(setStats).catch(problem => setError(problem.message)) }
     const needsSelection = ['prioritize', 'compare', 'assurance'].includes(page)
   const icons={dashboard:LayoutDashboard,settlements:MapPinned,'report-issue':MessageSquarePlus,projects:FolderOpen}
-  return <div className="us-shell public-workspace workspace-focused product-shell">
+  return <div className={`us-shell public-workspace workspace-focused product-shell ${mobile?'navigation-expanded':''}`}>
     <a className="us-skip" href="#public-main">{t('Skip to main content')}</a>
-    <aside className={`us-sidebar ${mobile?'open':''}`}>
-      <button className="us-brand" onClick={()=>navigate('dashboard')}><span className="us-brand-mark"><Building2 size={23}/></span><span><strong>{t('UrbanSaarthi')}</strong><small>{t('shell.subtitle')}</small></span></button>
-      <nav aria-label={t('shell.navigation')}>{MAIN_ROUTES.map(item=>{const Icon=icons[item.id];return <a key={item.id} href={item.path} aria-current={activeSection(page)===item.id?'page':undefined} className={activeSection(page)===item.id?'active':''} onClick={event=>{if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();navigate(item.id)}}><Icon size={19}/><span>{t(item.label)}</span></a>})}</nav>
-      <div className="workspace-sidebar-end"><button className={`workspace-data-link ${page==='data'?'active':''}`} onClick={()=>navigate('data')}><Database size={18}/>{t('Data & access')}</button><small>{t('Mumbai · Maharashtra')}</small></div>
+    <aside id="product-navigation" className={`us-sidebar ${mobile?'open':''}`}>
+      {mobile && <button className="product-nav-close" aria-label={t('design.closeMenu')} onClick={()=>{setMobile(false);document.querySelector<HTMLButtonElement>('.us-mobile-nav')?.focus()}}><X size={18}/></button>}
+      <button className="us-brand" aria-label={t('UrbanSaarthi')} onClick={()=>navigate('dashboard')}><img className="us-brand-mark" src="/urbansaarthi-mark.svg" width="45" height="58" alt=""/><span><strong>{t('UrbanSaarthi')}</strong><small>{t('shell.subtitle')}</small></span></button>
+      <nav aria-label={t('shell.navigation')}>{MAIN_ROUTES.map(item=>{const Icon=icons[item.id];return <a key={item.id} href={item.path} title={t(item.label)} aria-current={activeSection(page)===item.id?'page':undefined} className={activeSection(page)===item.id?'active':''} onClick={event=>{if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();navigate(item.id)}}><Icon size={23} strokeWidth={1.5}/><span>{t(item.label)}</span></a>})}</nav>
+      <div className="workspace-sidebar-end"><button title={t('Data & access')} aria-label={t('Data & access')} className={`workspace-data-link ${page==='data'?'active':''}`} onClick={()=>navigate('data')}><Database size={22} strokeWidth={1.5}/><span>{t('Data & access')}</span></button><small>{t('Mumbai · Maharashtra')}</small></div>
     </aside>
     {mobile&&<button className="us-nav-backdrop" aria-label={t('Close navigation')} onClick={()=>setMobile(false)}/>}
-    <div className="us-workspace"><header className="us-topbar"><div className="us-header-context"><button className="us-icon-button us-mobile-nav" aria-label={t('Toggle navigation')} onClick={()=>setMobile(!mobile)}>{mobile?<X/>:<Menu/>}</button><span className="workspace-current-page">{t(titleKey)}</span></div><div className="us-header-actions"><LanguageSwitcher/><button className="us-button" onClick={()=>navigate('data')}><Database size={15}/>{t('Data')}</button></div></header>
+    <div className="us-workspace"><header className="us-topbar"><div className="us-header-context"><a className="product-mobile-brand" href="/dashboard" aria-label={t('UrbanSaarthi')} onClick={event=>{event.preventDefault();navigate('dashboard')}}><img src="/urbansaarthi-mark.svg" width="30" height="39" alt=""/></a><button className="us-icon-button us-mobile-nav" aria-label={t('Toggle navigation')} aria-expanded={mobile} aria-controls="product-navigation" onClick={()=>setMobile(!mobile)}>{mobile?<X strokeWidth={1.5}/>:<Menu strokeWidth={1.5}/>}</button><span className="workspace-current-page">{t(titleKey)}</span></div><div className="us-header-actions"><form className="product-global-search" role="search" onSubmit={event=>{event.preventDefault();setListPage(0);navigate('settlements')}}><Search size={21} strokeWidth={1.5}/><input type="search" aria-label={t('design.globalSearch')} placeholder={t('design.search')} value={search} onChange={event=>{setSearch(event.target.value);setListPage(0)}}/><button type="submit" aria-label={t('design.runSearch')}><span>↵</span></button></form><LanguageSwitcher/><button className="us-button product-connect" onClick={()=>navigate('data')}>{t('Data')}</button></div></header>
       {needsSelection&&settlements.length>0&&<div className="us-context-bar"><label>{t('Settlement')}<select aria-label={t('Selected settlement')} value={selectedId} onChange={event=>select(event.target.value)}>{settlements.map(row=><option key={row.id} value={row.id}>{row.name} · {row.source_id}</option>)}</select></label><button className="us-button" onClick={()=>navigate('settlements')}>{t('View on map')}</button></div>}
       <main id="public-main" className="us-content">
         {error&&<div className="us-alert" role="alert">{errorText(error)}<button className="us-button" onClick={load}>{t('Retry data connection')}</button></div>}
         {indicatorError&&needsSelection&&<div className="us-alert" role="alert">{errorText(indicatorError)}<button className="us-button" onClick={changed}>{t('Retry indicators')}</button></div>}
-        {page==='dashboard'&&<ProductDashboard metadata={metadata} stats={stats} onPage={navigate}/>}
+        {page==='dashboard'&&<ProductDashboard metadata={metadata} stats={stats} settlements={settlements} onPage={navigate}/>}
         {page==='report-issue'&&<IssueReport lookupId={new URLSearchParams(route.query).get('issue')||''}/>}
         {page==='projects'&&<ProjectsReports metadata={metadata} onPage={navigate}/>}
         {page==='data'&&<WorkspaceData metadata={metadata} officerKey={key} onKey={value=>{setKey(value);sessionStorage.setItem('urbansaarthi-officer-key',value)}} onImported={load} onDemo={onDemo}/>}
