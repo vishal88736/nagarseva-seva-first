@@ -33,8 +33,8 @@ function WardDistribution({ settlements }: { settlements: PublicSettlement[] }) 
   </figure>
 }
 
-export default function ProductDashboard({ metadata, stats, settlements, onPage }: {
-  metadata: Metadata | null; stats: Stats | null; settlements: PublicSettlement[]; onPage: (page: Page, query?: string) => void
+export default function ProductDashboard({ metadata, stats, settlements, loading, onPage }: {
+  metadata: Metadata | null; stats: Stats | null; settlements: PublicSettlement[]; loading: boolean; onPage: (page: Page, query?: string) => void
 }) {
   const reference = useReferenceBoundaries()
   const [issues, setIssues] = useState<IssueSummary | null>(null), [issueError, setIssueError] = useState(''), [retry, setRetry] = useState(0)
@@ -53,15 +53,16 @@ export default function ProductDashboard({ metadata, stats, settlements, onPage 
   const registered = metadata?.snapshot.settlement_record_type === 'published_cluster_register'
   const valid = reference.data?.geometry.features.length, total = reference.data?.metadata.source_feature_count
   const validFraction = valid != null && total ? valid / total : 0
+  const unknownCount = loading ? '—' : t('dashboard.noData')
   const metrics = [
-    { label: 'dashboard.boundaries', value: valid != null ? formatNumber(valid, 0) : reference.loading ? t('Loading…') : t('Unavailable'), note: 'dashboard.historicalOnly' },
-    { label: registered ? 'dashboard.register' : 'Settlement records', value: stats ? formatNumber(stats.settlements_loaded, 0) : t('dashboard.noData'), note: registered ? 'dashboard.registerYear' : 'dashboard.importedRecords' },
-    { label: 'dashboard.openIssues', value: issues ? formatNumber(issues.open, 0) : t('dashboard.noData'), note: 'dashboard.selfReported' },
-    { label: 'dashboard.verified', value: stats?.verified_interventions != null ? formatNumber(stats.verified_interventions, 0) : t('dashboard.noData'), note: 'dashboard.recordedReview' },
-    { label: 'dashboard.projectListings', value: stats ? formatNumber(stats.projects, 0) : t('dashboard.noData'), note: 'design.listingsNote' },
+    { label: 'dashboard.boundaries', value: valid != null ? formatNumber(valid, 0) : reference.loading ? '—' : t('Unavailable'), missing: valid == null, note: 'dashboard.historicalOnly' },
+    { label: registered ? 'dashboard.register' : 'Settlement records', value: stats ? formatNumber(stats.settlements_loaded, 0) : unknownCount, missing: !stats, note: registered ? 'dashboard.registerYear' : 'dashboard.importedRecords' },
+    { label: 'dashboard.openIssues', value: issues ? formatNumber(issues.open, 0) : issueError ? t('dashboard.noData') : '—', missing: !issues, note: 'dashboard.selfReported' },
+    { label: 'dashboard.verified', value: stats?.verified_interventions != null ? formatNumber(stats.verified_interventions, 0) : unknownCount, missing: stats?.verified_interventions == null, note: 'dashboard.recordedReview' },
+    { label: 'dashboard.projectListings', value: stats ? formatNumber(stats.projects, 0) : unknownCount, missing: !stats, note: 'design.listingsNote' },
   ]
   return <>
-    <section className="product-hero">
+    <section className="product-hero" aria-busy={loading || reference.loading || !issues && !issueError}>
       <CityAtlasArt />
       <div className="product-hero-copy">
         <Heading number="01" title={t('dashboard.title')} description={t('dashboard.intro')} />
@@ -73,7 +74,7 @@ export default function ProductDashboard({ metadata, stats, settlements, onPage 
           <div className="product-coverage-values"><span>{valid != null ? formatNumber(valid, 0) : '—'}<small>{t('design.validPolygons')}</small></span><span>{total != null ? formatNumber(total, 0) : '—'}<small>{t('design.sourcePolygons')}</small></span></div>
         </div>
       </div>
-      <div className="us-metrics product-metrics">{metrics.map(metric => <div className="us-metric" key={metric.label}>
+      <div className="us-metrics product-metrics">{metrics.map(metric => <div className={`us-metric ${metric.missing ? 'is-missing' : ''}`} key={metric.label}>
         <span className="product-metric-marker"><Check size={10} strokeWidth={2} /></span><strong>{metric.value}</strong><span className="product-metric-label">{t(metric.label)}</span><small>{t(metric.note)}</small>
       </div>)}</div>
     </section>
@@ -93,7 +94,7 @@ export default function ProductDashboard({ metadata, stats, settlements, onPage 
         {(scope === 'all' || scope === 'register') && <Panel className="product-register-card product-data-card">
           <div className="product-card-source"><Database size={16} /><span>{t(registered ? 'design.registerSource' : 'dashboard.importedRecords')}</span><span className="product-source-dot" /></div>
           <h2>{t('design.registerTitle')}</h2><p className="product-card-description">{t(registered ? 'dashboard.registerYear' : 'dashboard.importedRecords')}</p>
-          <div className="product-card-stat"><span>{t('design.sourceRows')}</span><strong>{stats ? formatNumber(stats.settlements_loaded, 0) : t('dashboard.noData')}</strong></div>
+          <div className="product-card-stat"><span>{t('design.sourceRows')}</span><strong className={!stats ? 'is-missing' : ''}>{stats ? formatNumber(stats.settlements_loaded, 0) : unknownCount}</strong></div>
           {settlements.length ? <div className="product-register-sample">{settlements.slice(0, 2).map(row => <button key={row.id} onClick={() => onPage('settlements', `?settlement=${encodeURIComponent(row.id)}`)}><span>{row.source_name === null ? t('explore.nameMissing') : row.name}<small>{row.source_id} · {row.administrative_area || t('Ward not supplied')}</small></span><ArrowRight size={14} /></button>)}</div> : <p className="product-empty">{t('dashboard.noData')}</p>}
           <WardDistribution settlements={settlements} />
           <button className="us-button product-card-action" onClick={() => onPage('settlements')}>{t('design.browseRegister')}<ArrowRight size={15} /></button>

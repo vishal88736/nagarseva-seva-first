@@ -81,7 +81,7 @@ export default function PublicWorkspace({ onDemo }: { onDemo: () => void }) {
       <main id="public-main" className="us-content">
         {error&&<div className="us-alert" role="alert">{errorText(error)}<button className="us-button" onClick={load}>{t('Retry data connection')}</button></div>}
         {indicatorError&&needsSelection&&<div className="us-alert" role="alert">{errorText(indicatorError)}<button className="us-button" onClick={changed}>{t('Retry indicators')}</button></div>}
-        {page==='dashboard'&&<ProductDashboard metadata={metadata} stats={stats} settlements={settlements} onPage={navigate}/>}
+        {page==='dashboard'&&<ProductDashboard metadata={metadata} stats={stats} settlements={settlements} loading={loading} onPage={navigate}/>}
         {page==='report-issue'&&<IssueReport lookupId={new URLSearchParams(route.query).get('issue')||''}/>}
         {page==='projects'&&<ProjectsReports metadata={metadata} onPage={navigate}/>}
         {page==='data'&&<WorkspaceData metadata={metadata} officerKey={key} onKey={value=>{setKey(value);sessionStorage.setItem('urbansaarthi-officer-key',value)}} onImported={load} onDemo={onDemo}/>}

@@ -7,7 +7,7 @@ import { t } from '../i18n/locale'
 import type { ReferenceBoundaries, ReferenceProperties } from './historicalBoundaries'
 
 export const HISTORICAL_NOTICE = 'Historical reference boundaries — 2015. Not verified against the 2024 SRA cluster list.'
-export const REFERENCE_COLOR = '#668894'
+export const REFERENCE_COLOR = '#afa0e3'
 function popup(feature: Feature<Polygon, ReferenceProperties>, data: ReferenceBoundaries) {
   const element = document.createElement('div'); element.className = 'reference-boundary-popup';element.setAttribute('role','region');element.setAttribute('aria-label',t('explore.historicalDetail'))
   const title = document.createElement('strong'); title.textContent = t('2015 Reference Boundaries'); element.append(title)

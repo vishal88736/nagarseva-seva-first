@@ -73,11 +73,46 @@ def main():
                 expect(page.locator('.product-metrics .us-metric').nth(0).locator('strong')).to_have_text('2,517')
                 expect(page.locator('.product-metrics .us-metric').nth(1).locator('strong')).to_have_text(f"{len(data['settlements']):,}")
                 expect(page.locator('.product-metrics .us-metric').nth(2).locator('strong')).to_have_text('0')
+                expect(page.locator('.product-metrics .us-metric')).to_have_count(5)
+                expect(page.locator('.product-metrics .us-metric').nth(4).locator('strong')).to_have_text(f"{len(data['projects']):,}")
                 positions=[item.bounding_box()['y'] for item in page.locator('.product-metrics .us-metric').all()];assert max(positions)-min(positions)<2
                 page.screenshot(path=str(OUT/'dashboard-en.png'),full_page=True)
-                checks.append('Four routes and real dataset KPIs render; historical polygons are distinct from register records and four desktop metrics share one row')
+                checks.append('Four routes and actual dataset KPIs render; historical polygons are distinct from register records and five desktop metrics share one row')
+                assert page.locator('.product-shell').evaluate('(node)=>getComputedStyle(node).backgroundColor')=='rgb(20, 20, 20)'
+                assert page.locator('.us-brand-mark').evaluate('(node)=>node.complete&&node.naturalWidth>0')
+                expected_wards={}
+                for row in data['settlements']:
+                    if row.get('administrative_area'):expected_wards[row['administrative_area']]=expected_wards.get(row['administrative_area'],0)+1
+                actual_wards=page.locator('.registry-bars>div').evaluate_all('(nodes)=>nodes.map(node=>node.title)')
+                assert set(actual_wards)=={f'{ward}: {count:,}' for ward,count in expected_wards.items()}
+                page.get_by_role('tab',name='All data',exact=True).press('ArrowRight')
+                expect(page.get_by_role('tab',name='Boundaries',exact=True)).to_have_attribute('aria-selected','true')
+                expect(page.locator('.product-data-card')).to_have_count(1)
+                page.get_by_role('tab',name='Register',exact=True).click()
+                page.get_by_label('Language / भाषा',exact=True).select_option('hi')
+                expect(page.get_by_role('tab',name='रजिस्टर',exact=True)).to_have_attribute('aria-selected','true')
+                expect(page.locator('.product-register-card')).to_be_visible()
+                page.get_by_label('Language / भाषा',exact=True).select_option('en')
+                page.get_by_role('button',name='List view',exact=True).click()
+                expect(page.get_by_role('button',name='Grid view',exact=True)).to_have_attribute('aria-pressed','true')
+                page.get_by_role('button',name='Grid view',exact=True).click()
+                page.get_by_role('tab',name='All data',exact=True).click()
+                expect(page.locator('.product-data-card')).to_have_count(3)
+                page.get_by_role('button',name='Toggle navigation',exact=True).click()
+                expect(page.get_by_role('button',name='Close menu',exact=True)).to_be_visible()
+                page.keyboard.press('Escape');expect(page.get_by_role('button',name='Toggle navigation',exact=True)).to_have_attribute('aria-expanded','false')
+                search=page.get_by_role('searchbox',name='Search settlement names, identifiers or wards',exact=True)
+                search.fill(data['settlements'][1]['source_id']);search.press('Enter')
+                expect(page).to_have_url(WEB+'/settlements')
+                expect(page.locator('.workspace-settlement-list button')).to_have_count(1)
+                nav('Dashboard');expect(page.locator('.product-register-sample button').nth(1)).to_be_visible()
+                page.locator('.product-register-sample button').nth(1).click()
+                expect(page.locator('.workspace-settlement-list button.selected')).to_contain_text(data['settlements'][1]['name'])
+                page.get_by_label('Search settlements',exact=True).fill('');nav('Dashboard')
+                checks.append('Reference dark shell and logo load; actual ward counts, keyboard card filters, language-preserved selection, grid/list toggle, menu Escape, global search and record-card navigation pass')
                 nav('Explore Settlements');expect(page).to_have_url(WEB+'/settlements')
                 expect(page.locator('.us-reference-boundary')).to_have_count(2517)
+                assert page.locator('.us-reference-boundary').first.evaluate('(node)=>getComputedStyle(node).stroke')==page.locator('.workspace-map-legend>span').first.locator('i').evaluate('(node)=>getComputedStyle(node).backgroundColor')
                 page.get_by_role('button',name='2015 reference boundary',exact=True).first.press('Enter')
                 expect(page.locator('.us-reference-boundary.is-selected')).to_have_count(1)
                 expect(page.get_by_role('region',name='Selected historical polygon')).to_contain_text('Not available in the supplied GeoJSON')
@@ -137,6 +172,9 @@ def main():
                         expect(page.get_by_role('heading',name=headings[index],exact=True)).to_be_visible()
                         assert page.evaluate('document.documentElement.scrollWidth<=innerWidth+1')
                         assert not page.locator('main').inner_text().count('nav.')
+                        # Form fields and search retain dark surfaces rather than inherited light-theme overrides.
+                        for field in page.locator('main input:not([type=checkbox]):not([type=file]):visible,main textarea:visible,main select:visible').all():
+                            color=field.evaluate('(node)=>getComputedStyle(node).backgroundColor');assert color!='rgb(255, 255, 255)',(language,index,color)
                         page.screenshot(path=str(OUT/f'{language}-{index}-mobile.png'),full_page=True)
                 checks.append('All four sections render in English, Hindi and Marathi at390px without page overflow or untranslated navigation keys')
                 # A failed issue POST cannot show success or create a second report.
@@ -147,6 +185,19 @@ def main():
                 expect(page.get_by_role('alert')).to_contain_text('Cannot connect')
                 assert page.get_by_role('heading',name='Report saved',exact=True).count()==0 and api('/issues')['total']==1
                 checks.append('Network failure does not show a success confirmation or create an issue')
+                pending=[];loading_page=context.new_page();loading_page.set_viewport_size({'width':390,'height':844})
+                loading_page.route('**/api/urban/data/overview',lambda route:pending.append(route))
+                loading_page.goto(WEB+'/dashboard')
+                expect(loading_page.locator('.product-hero')).to_have_attribute('aria-busy','true')
+                expect(loading_page.locator('.product-metrics .us-metric').nth(1).locator('strong')).to_have_text('—')
+                assert loading_page.locator('.product-metrics .us-metric').nth(1).locator('strong').bounding_box()['height']<70
+                expect(loading_page.locator('.us-reference-boundary')).to_have_count(2517,timeout=20000)
+                assert pending
+                for route in pending:route.continue_()
+                expect(loading_page.locator('.product-metrics .us-metric').nth(1).locator('strong')).to_have_text(f"{len(data['settlements']):,}")
+                expect(loading_page.locator('.product-hero')).to_have_attribute('aria-busy','false')
+                loading_page.close()
+                checks.append('A delayed API shows compact pending counts, never an early empty-data claim, then replaces them with actual source counts')
                 context.close();browser.close()
             assert not errors,errors
             report['status']='passed'
