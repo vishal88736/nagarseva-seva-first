@@ -1,0 +1,166 @@
+{
+  "checked_at": "2026-10-29T12:30:28.497138+00:00",
+  "implementation_commit": "b1db7ec8dd292908a6b4a7af98e59535ea213b20",
+  "scope": "Supplied reference redesign and retained source-backed workflows; software checks, not field or public-deployment validation",
+  "reference": "User-supplied charcoal dashboard screenshot; vector logo recreation and civic artwork adapted to UrbanSaarthi",
+  "frontend_unit_tests": {
+    "command": "npm --prefix nagarseva/website test",
+    "passed": 30,
+    "failed": 0
+  },
+  "build": {
+    "command": "npm --prefix nagarseva/website run build",
+    "status": "passed"
+  },
+  "lint": {
+    "command": "npm --prefix nagarseva/website run lint",
+    "status": "passed"
+  },
+  "strict_types": {
+    "command": "nagarseva/website/node_modules/.bin/tsc --noEmit --noUnusedLocals --noUnusedParameters -p nagarseva/website/tsconfig.app.json",
+    "status": "passed"
+  },
+  "browser_runs": {
+    "product_fixture": {
+      "status": "passed",
+      "checked_at": "2026-10-29T12:26:14.952849+00:00",
+      "scope": "Actual Chromium and API in disposable SQLite; saved issue reports are software fixtures",
+      "checks": [
+        "Four routes and actual dataset KPIs render; historical polygons are distinct from register records and five desktop metrics share one row",
+        "Reference dark shell and logo load; actual ward counts, keyboard card filters, language-preserved selection, grid/list toggle, menu Escape, global search and record-card navigation pass",
+        "Polygon highlight and source-only details work; register selection does not move the map; ward/village/search, language persistence and browser back/forward pass",
+        "Anonymous issue form preserves translated drafts, validates image consent, persists one report with stable reference across reload, and separates review from service verification",
+        "Project search, genuine fields, provenance dialog and issue CSV exports pass without invented costs, progress or cluster links",
+        "All four sections render in English, Hindi and Marathi at390px without page overflow or untranslated navigation keys",
+        "Network failure does not show a success confirmation or create an issue",
+        "A delayed API shows compact pending counts, never an early empty-data claim, then replaces them with actual source counts"
+      ],
+      "browser_errors": [],
+      "field_validation": false,
+      "source_counts": {
+        "settlements": 2,
+        "projects": 1,
+        "indicators": 0
+      },
+      "real_source_records": false
+    },
+    "product_acquired_sources": {
+      "status": "passed",
+      "checked_at": "2026-10-29T12:28:35.463541+00:00",
+      "scope": "Actual Chromium and API in disposable SQLite; saved issue reports are software fixtures",
+      "checks": [
+        "Four routes and actual dataset KPIs render; historical polygons are distinct from register records and five desktop metrics share one row",
+        "Reference dark shell and logo load; actual ward counts, keyboard card filters, language-preserved selection, grid/list toggle, menu Escape, global search and record-card navigation pass",
+        "Polygon highlight and source-only details work; register selection does not move the map; ward/village/search, language persistence and browser back/forward pass",
+        "Anonymous issue form preserves translated drafts, validates image consent, persists one report with stable reference across reload, and separates review from service verification",
+        "Project search, genuine fields, provenance dialog and issue CSV exports pass without invented costs, progress or cluster links",
+        "All four sections render in English, Hindi and Marathi at390px without page overflow or untranslated navigation keys",
+        "Network failure does not show a success confirmation or create an issue",
+        "A delayed API shows compact pending counts, never an early empty-data claim, then replaces them with actual source counts"
+      ],
+      "browser_errors": [],
+      "field_validation": false,
+      "source_counts": {
+        "settlements": 2597,
+        "projects": 5677,
+        "indicators": 456
+      },
+      "real_source_records": true
+    },
+    "historical_layer": {
+      "status": "passed",
+      "checked_at": "2026-10-29T12:15:15.489095+00:00",
+      "scope": "Actual Chromium, bundled historical GeoJSON and disposable API; no field validation",
+      "checks": [
+        "All 2542 original features are parsed; 2517 topology-valid polygons render at the Mumbai extent, with source-only click/keyboard popups, translated open popups and a working toggle in English, Hindi and Marathi",
+        "Language changes preserve the live map viewport, visibility and search state; the chosen language survives reload",
+        "390px mobile layout has no horizontal overflow in any supported language",
+        "The bundled historical layer remains usable when the operational API is unavailable",
+        "HTTP failures, empty responses, malformed metadata and empty valid collections show localized states; retry recovers a failed request",
+        "Imported settlement names remain original; the 2015 layer adds no settlement, household or service observations and no identifier joins"
+      ],
+      "browser_errors": [],
+      "tested_commit": "ed55fea0ba23b3e393ac32ba0ed2d88f73c37744",
+      "working_tree_dirty": true,
+      "source_features": 2542,
+      "rendered_features": 2517,
+      "topology_exclusions": 25,
+      "basemap_tiles": "Blocked for deterministic tests; no live tile availability claim"
+    },
+    "retained_workspace": {
+      "status": "passed",
+      "checked_at": "2026-10-29T12:15:15.491353+00:00",
+      "scope": "Actual Chromium and API using user-uploaded synthetic software fixtures in disposable SQLite",
+      "field_validation": false,
+      "checks": [
+        "Empty product dashboard has a clear data entry path and keeps legacy planning tools accessible",
+        "Template download, malformed-file recovery, nonmutating preview and actual authorized GeoJSON/observation/project import pass",
+        "Map fits imported geometries outside the old fixed viewport; selection, keyboard boundary access and exact project joins are connected",
+        "Hand-worked 51-point score, water-only80, zero-weight rejection, missing-data separation and CSV pass",
+        "Imported120 households feed scenarios; hand-worked ₹1199 matches API; due-date edit, plan/completion/evidence/review and correct complaint service execute",
+        "Reload retains imported data; primary explorer and retained planning tools fit390px; offline API shows retry without substituting data"
+      ],
+      "browser_errors": []
+    },
+    "retained_field_ui": {
+      "status": "passed",
+      "checked_at": "2026-10-29T12:19:17.720714+00:00",
+      "scope": "Actual Chromium UI with synthetic API fixtures; no field or backend validation",
+      "field_validation": false,
+      "checks": [
+        "Actual component renders compact closed forms and recovers a failed survey request",
+        "Raw payload distinguishes zero/missing; timezone, paired GPS, consent and duplicate ID checks; no index POST generated",
+        "Reviewed index requires a distinct reviewer and explicit acknowledgement, retaining source/time/protocol",
+        "Protected CSV download and 390px layout checked without browser errors"
+      ],
+      "browser_errors": []
+    }
+  },
+  "actual_running_app": {
+    "status": "passed",
+    "checked_at": "2026-10-29T12:26:36.368865+00:00",
+    "scope": "Read-only actual running app with acquired sources, captured after source loading completed; no report submissions or field validation",
+    "viewports": [
+      {
+        "width": 1468,
+        "height": 1044
+      },
+      {
+        "width": 390,
+        "height": 844
+      }
+    ],
+    "languages": [
+      "en",
+      "hi",
+      "mr"
+    ],
+    "routes": [
+      "dashboard",
+      "settlements",
+      "report-issue",
+      "projects"
+    ],
+    "dashboard_metrics": [
+      "2,517",
+      "2,597",
+      "0",
+      "0",
+      "5,677"
+    ],
+    "register_rows": 2597,
+    "project_listings": 5677,
+    "actual_issue_count": 0,
+    "browser_errors": [],
+    "pixel_identical_claim": false,
+    "public_deployment_verified": false
+  },
+  "backend_code_changed": false,
+  "source_geometry_changed": false,
+  "source_tables_changed": false,
+  "new_historical_register_joins": 0,
+  "dependencies_added": [],
+  "ci_receipt": "integration/ci-validation.json",
+  "field_validation": false,
+  "public_deployment_verified": false
+}

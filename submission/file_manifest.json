@@ -8,8 +8,8 @@
     "sha256": "8c1f94cbd6d76a144285cea9e365289c67a7e16034e042770f3a0d788fc8dae2"
   },
   "README.md": {
-    "bytes": 11512,
-    "sha256": "6d0d634c0f2fd2f09bba11f6738f22f7be2dd4561a1934c9302611b7d6c7cb83"
+    "bytes": 11924,
+    "sha256": "daa25fdda3c059f47492d76e04481a128c759b312c82fa14920ebc7a64fd7b19"
   },
   "deploy/aws/README.md": {
     "bytes": 14367,
@@ -72,8 +72,8 @@
     "sha256": "710090af66b847c1b57ca9f1c122fad7ed8355e0b255bc573d97f63eb337dbec"
   },
   "nagarseva/docs/product.md": {
-    "bytes": 9747,
-    "sha256": "b1838a92777d830f799015e204e87a77139de338e635df343411b698ea851820"
+    "bytes": 12194,
+    "sha256": "b708033113c799979423693637262978e3c98b8239b647945616f66cdaf65c18"
   },
   "nagarseva/docs/public-data-api.md": {
     "bytes": 7904,
@@ -510,6 +510,10 @@
   "research/verification/pytest.xml": {
     "bytes": 38524,
     "sha256": "debc44c9169da1365296b19596968fbf561359c0266d2f291cafe820b5c16873"
+  },
+  "research/verification/reference_design_validation.json": {
+    "bytes": 8598,
+    "sha256": "965d5db6e066e14aff6ac268ee4b6dc89ebfb1b0e28df20186258ea2d0c7ad58"
   },
   "research/verification/staged_api.json": {
     "bytes": 1114,

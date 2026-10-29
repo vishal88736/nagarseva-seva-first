@@ -16,6 +16,12 @@ English, हिंदी and मराठी use the existing translation provid
 in `nagarseva/website/src/i18n/locales/`. Changing language preserves forms and filters.
 Published names and original source values are retained rather than machine-translated.
 
+The interface follows the supplied dark reference: a charcoal icon rail, lavender
+shield logo, source-backed hero metrics and compact workspace cards. Header search,
+card filters and grid/list controls work with the existing source records. The map,
+forms and reports use the same theme in all three languages.
+[Reference design and workflow validation](research/verification/reference_design_validation.json).
+
 Existing prioritization, hypothetical scenarios, officer service assurance and Data &
 access remain secondary tools under Projects & Reports. Legacy hash links still work.
 [Product, routing, source and API contract](nagarseva/docs/product.md).

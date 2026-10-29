@@ -100,12 +100,48 @@ updates forms, native validation messages, statuses, dialogs and map controls wi
 remounting forms or clearing filters. Original source names and table values retain
 their original language. Exports use stable machine-readable source columns.
 
-`product.css` defines scoped civic colors, four compact metrics, restrained cards,
-responsive navigation, Devanagari font fallbacks and visible focus styles. The project
+`product.css` defines scoped surfaces, compact metrics, responsive navigation,
+Devanagari font fallbacks and visible focus styles. The project
 dialog uses native focus trapping and Escape behavior. The original planning/demo
 workflows remain optional; the research archive is retained outside the primary UI.
 No new package dependency was added. No live AI, government identity, official case
 resolution, validated policy weight or current service baseline is claimed.
+
+### Supplied visual reference
+
+The 29 October design update follows the supplied charcoal dashboard reference:
+a compact icon rail, lavender shield mark, pill-shaped search/language/data controls,
+a wide hero with floating civic medallions, five source-backed metrics and a three-card
+workspace. `public/urbansaarthi-mark.svg` recreates the supplied mark as a vector and
+also supplies the favicon. `CityAtlasArt.tsx` draws decorative civic symbols with the
+existing icon package. There are no raster image downloads or new dependencies.
+
+The dashboard's segmented bar is the actual topology-valid polygon count divided by
+the source count. The ward chart counts original register rows with a supplied ward;
+it does not allocate households, population or service observations. Source cards
+filter with keyboard-accessible tabs, switch between grid/list views, and open the
+existing explorer or reporting route. Header search uses the same settlement filter
+state as the explorer. The five metrics add sourced project listings to the existing
+four metrics without treating listings as active or completed projects.
+
+The same palette applies to the explorer, report form, project tables/dialogs and
+secondary data tools. The street basemap uses a visual grayscale/inversion filter;
+source coordinates and attribution stay intact. `main.tsx` loads scoped product styles
+after the retained legacy styles so old light fields cannot override the new theme.
+The navigation expands into a drawer, has an explicit close action, and closes with
+Escape. Changing language preserves the selected card tab and explorer filters.
+
+Pending dataset counts use compact placeholders with an explicit busy state; unavailable
+counts remain missing rather than becoming zero. A delayed-response browser check proves
+that placeholders become the actual source counts after loading. The polygon legend
+uses the same lavender color as the displayed boundaries.
+
+The [reference-design validation receipt](../../research/verification/reference_design_validation.json)
+records 30 passing frontend tests, passing build/lint/strict type checks, eight product
+browser groups with both small fixtures and acquired records, and retained geometry,
+workspace and field-entry UI regressions. A separate read-only check captured all four
+running routes at desktop and mobile sizes in English, Hindi and Marathi. Test issue
+submissions use disposable SQLite; no test reports were added to the running workspace.
 
 ## Replacing historical geometry later
 
