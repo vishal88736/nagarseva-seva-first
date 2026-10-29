@@ -631,7 +631,7 @@
       "bytes": 481,
       "sha256": "15d672246dce86e6ff4eee8f9e6ae46b5b70f9b981833303f18027de4b51d6b0",
       "upstream_git_sha": "1b74406a856cb5148ecde1b5a9baab83bdadcf84",
-      "current_sha256": "17aa332a2c2f0a24fb529b0f071ffcfa69899abd9709e0d205b58af52030bd1c",
+      "current_sha256": "15cf1127658a19845a73fcb7b9109fed16438af4d42530f7dcf6e3ab8d55c496",
       "modified_during_integration": true,
       "removed_since_acquisition": false
     },
@@ -791,7 +791,7 @@
       "bytes": 220,
       "sha256": "449360d409ecbdd6aa7fb603226836ba7a6f3ed5cdcbb1a814397e7deb96a9bb",
       "upstream_git_sha": "4263911364bd2e67139ea1e79fbe2e641081df0c",
-      "current_sha256": "ad59cf7db56283eaaf83eaebc5420a8b3a19503c62af848f37d647c317e3b9a4",
+      "current_sha256": "77f017dc157ba49baf15eddaed41935bbad033300165eaad9ad276a7ae2ddd8b",
       "modified_during_integration": true,
       "removed_since_acquisition": false
     },
