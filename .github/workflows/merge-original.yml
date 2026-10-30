@@ -1,117 +1,98 @@
-name: Merge original source and validate
+name: UrbanSaarthi application checks
 
 on:
   push:
     branches: [main]
     paths:
+      - README.md
       - nagarseva/**
       - prototype/**
       - research/**
       - submission/**
       - scripts/**
       - tests/**
+      - deploy/**
+      - .github/**
       - requirements.txt
       - start-local.sh
       - .env.example
-      - integration/local-materials.zip
-      - .github/scripts/merge_payload.py
-      - .github/tests/**
-      - .github/bootstrap-manifest.json
-      - .github/workflows/merge-original.yml
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: nagarseva-initial-merge
-  cancel-in-progress: false
+  group: urbansaarthi-checks-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  merge:
+  application:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
-          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+          cache: pip
+          cache-dependency-path: |
+            requirements.txt
+            nagarseva/model/requirements.txt
+            nagarseva/model/requirements-urban.txt
+            scripts/requirements-data.txt
+            nagarseva/tests/requirements-browser.txt
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
-      - name: Configure commit author
+          cache: npm
+          cache-dependency-path: nagarseva/website/package-lock.json
+      - name: Check published documentation and preserved evidence
         run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-      - name: Verify payload and merge the pinned original source
-        id: merge
-        run: python .github/scripts/merge_payload.py merge
-      - name: Publish the combined project
-        run: git push origin HEAD:main
-      - name: Install backend dependencies
-        id: dependencies
-        continue-on-error: true
-        run: python -m pip install -r requirements.txt -r scripts/requirements-data.txt
-      - name: Run backend tests
-        id: backend
-        if: steps.dependencies.outcome == 'success'
-        continue-on-error: true
+          python .github/scripts/check_docs.py
+          python prototype/scripts/verify.py
+      - name: Install declared backend and browser dependencies
         run: |
-          set -o pipefail
-          PYTHONPATH=nagarseva python -m pytest nagarseva/model/tests nagarseva/tests tests submission/scripts/tests deploy/aws/tests .github/tests -q 2>&1 | tee .merge-work/backend-tests.txt
-      - name: Install frontend dependencies and build
-        id: frontend
-        continue-on-error: true
-        working-directory: nagarseva/website
+          python -m pip install -r requirements.txt -r nagarseva/model/requirements-urban.txt -r scripts/requirements-data.txt -r nagarseva/tests/requirements-browser.txt
+      - name: Run backend and compatibility tests
         run: |
-          set -o pipefail
-          npm ci
-          npm test
-          npm run build 2>&1 | tee ../../.merge-work/frontend-build.txt
-      - name: Exercise the UrbanSaarthi browser workflow
-        id: browser
-        if: steps.dependencies.outcome == 'success' && steps.frontend.outcome == 'success'
-        continue-on-error: true
+          mkdir -p .runtime/ci
+          PYTHONPATH=nagarseva python -m pytest tests nagarseva/tests/test_urban.py nagarseva/model/tests deploy/aws/tests submission/scripts/tests .github/tests -q --junitxml=.runtime/ci/backend.xml
+      - name: Install frontend dependencies
+        run: npm --prefix nagarseva/website ci
+      - name: Run frontend tests, lint, strict types and production build
         run: |
-          python -m pip install -r nagarseva/tests/requirements-browser.txt
-          python -m playwright install --with-deps chromium
-          python nagarseva/tests/check_urban_browser.py
-          python tests/check_field_collection_browser.py
-          python tests/check_public_browser.py
-          python tests/check_historical_boundaries_browser.py
-          python tests/check_product_browser.py
-      - name: Record actual validation outcomes
-        if: always() && steps.merge.outcome == 'success'
+          npm --prefix nagarseva/website test
+          npm --prefix nagarseva/website run lint
+          nagarseva/website/node_modules/.bin/tsc -p nagarseva/website/tsconfig.app.json --noEmit --noUnusedLocals --noUnusedParameters
+          npm --prefix nagarseva/website run build
+      - name: Install Chromium with its OS dependencies
+        run: python -m playwright install --with-deps chromium
+      - name: Exercise the current synthetic application in disposable databases
         env:
-          SEVA_DEPENDENCIES_OUTCOME: ${{ steps.dependencies.outcome }}
-          SEVA_BACKEND_OUTCOME: ${{ steps.backend.outcome }}
-          SEVA_FRONTEND_OUTCOME: ${{ steps.frontend.outcome }}
-          SEVA_BROWSER_OUTCOME: ${{ steps.browser.outcome }}
+          PYTHONPATH: nagarseva
         run: |
-          python .github/scripts/merge_payload.py report
-          python submission/scripts/prepare_pack.py
-          git add integration/status.json integration/source-manifest.json integration/ci-validation.json integration/urban-validation.json README.md submission/file_manifest.json
-          git commit -m 'Record merged source and actual validation results'
-          git push origin HEAD:main
-      - name: Export the verified repository for local synchronization
-        if: always() && steps.merge.outcome == 'success' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[sync-local]'))
-        run: python .github/scripts/merge_payload.py bundle
-      - name: Require successful application checks
-        if: always() && steps.merge.outcome == 'success'
-        env:
-          SEVA_DEPENDENCIES_OUTCOME: ${{ steps.dependencies.outcome }}
-          SEVA_BACKEND_OUTCOME: ${{ steps.backend.outcome }}
-          SEVA_FRONTEND_OUTCOME: ${{ steps.frontend.outcome }}
-          SEVA_BROWSER_OUTCOME: ${{ steps.browser.outcome }}
-        run: |
-          python - <<'PY'
-          import os
-          checks = ['SEVA_DEPENDENCIES_OUTCOME', 'SEVA_BACKEND_OUTCOME', 'SEVA_FRONTEND_OUTCOME', 'SEVA_BROWSER_OUTCOME']
-          failed = {name: os.environ.get(name) for name in checks if os.environ.get(name) != 'success'}
-          if failed:
-              raise SystemExit(f'Application checks did not all pass: {failed}')
-          print('Backend dependencies, backend tests, frontend build and UrbanSaarthi browser workflow all passed.')
-          PY
+          export CHROMIUM_PATH="$(python -c 'from playwright.sync_api import sync_playwright; p=sync_playwright().start(); print(p.chromium.executable_path); p.stop()')"
+          python tests/check_synthetic_integration_browser.py
+          python tests/check_audit_workflows_browser.py
+          python tests/check_full_audit_browser.py
+      - name: Preserve test results and generated visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: urbansaarthi-check-results
+          retention-days: 7
+          include-hidden-files: true
+          if-no-files-found: ignore
+          path: |
+            .runtime/ci/*.xml
+            .runtime/integration-readiness/browser/result.json
+            .runtime/integration-readiness/browser/*.png
+            .runtime/end-to-end-audit/**/*.json
+            .runtime/end-to-end-audit/**/*.png
+            .runtime/end-to-end-audit/**/*.pdf
+            .runtime/end-to-end-audit/**/*.html
+            prototype/test-artifacts/verification-summary.json

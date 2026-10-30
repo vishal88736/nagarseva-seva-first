@@ -12,7 +12,7 @@ PAGES=[('dashboard','/dashboard'),('settlements','/settlements'),('issue','/repo
 
 def main():
  OUT.mkdir(parents=True,exist_ok=True);processes=[];logs=[];records=[];errors=[]
- result={'status':'failed','checkedAt':datetime.now(timezone.utc).isoformat(),'pages':records,'browserErrors':errors,'scope':'Production Chromium, temporary SQLite, WCAG automated checks plus manual screenshot review; not native-speaker certification'}
+ result={'status':'failed','checkedAt':datetime.now(timezone.utc).isoformat(),'pages':records,'browserErrors':errors,'scope':'Production Chromium, temporary SQLite, automated WCAG checks and screenshots for review; no manual visual or native-speaker certification'}
  try:
   with tempfile.TemporaryDirectory(prefix='urban-full-audit-') as folder:
    folder=Path(folder);api=f'http://127.0.0.1:{port()}';web=f'http://127.0.0.1:{port()}';key=secrets.token_urlsafe(32)

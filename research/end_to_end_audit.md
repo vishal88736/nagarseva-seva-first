@@ -173,7 +173,11 @@ The self-hosted font's licence, upstream URL and checksum are included in
 
 ## Screenshots and visual evidence
 
-[Open the local screenshot gallery](../.runtime/end-to-end-audit/gallery.html).
+The local screenshot gallery is `.runtime/end-to-end-audit/gallery.html`.
+It is generated evidence excluded from Git, so it is not a downloadable link in a
+clean GitHub checkout. Run `tests/check_full_audit_browser.py` after the frontend
+build to regenerate the page screenshots locally; the broader audit workflow
+produces the additional upload/export evidence described below.
 It contains 216 screenshots, including 207 page screenshots: 23 page/detail/dialog states at 375, 768
 and 1280 pixels, in all three languages. Nine additional populated upload-preview
 screenshots are in `../.runtime/end-to-end-audit/workflows/`.

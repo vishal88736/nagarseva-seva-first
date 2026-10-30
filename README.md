@@ -364,10 +364,14 @@ launcher defaults to `ap-south-1`; pass `URBANSAARTHI_AWS_REGION=us-east-1` when
 the region chosen in the existing deployment. Do not infer a live instance's region
 from its CloudFront URL.
 
-**A GitHub push does not update EC2 automatically.** Current workflows run checks
-and preserved source/evidence tasks; there is no configured automatic AWS release
-job. Updating the website requires fetching a reviewed commit on EC2, building its
-Docker image and replacing the container while retaining `/var/lib/urbansaarthi`
+**A GitHub push does not update EC2 automatically.** The application workflow runs
+backend, frontend, documentation/evidence and current synthetic-browser checks,
+then uploads generated test evidence as workflow artifacts. It has read-only
+repository permission and does not merge source, rewrite this README or publish
+bot commits. Original source-bootstrap scripts remain archived helpers. There is
+no configured automatic AWS release job. Updating the website requires fetching a
+reviewed commit on EC2, building its Docker image and replacing the container while
+retaining `/var/lib/urbansaarthi`
 and `/etc/urbansaarthi/runtime.env`. `docker restart` alone does not load new code or
 new `--env-file` values. The initial launcher only verifies an existing completed
 stack; it does not update its container.
@@ -456,6 +460,13 @@ Additional browser matrices and upload/report workflows are documented in the
 reports under ignored `.runtime/` paths. Older public/historical browser scripts
 remain compatibility references, not acceptance checks for the active interface.
 
+The [application workflow](.github/workflows/merge-original.yml) runs the current
+synthetic acceptance, upload/export workflows and responsive/accessibility matrix.
+Its downloadable `urbansaarthi-check-results` artifact contains the generated
+reports and visual evidence. Those files are not committed source links. Run
+`python3 .github/scripts/check_docs.py` to check that published documentation links
+target tracked files even when extra local runtime files exist.
+
 The documentation refresh re-ran the existing commands; current results and their
 scope are recorded below. Passing local checks does not establish field outcomes,
 production access control, AWS account configuration or durability after deletion.
@@ -468,7 +479,7 @@ remains Node 24; no global runtime or project dependency was changed.
 
 | Executed check | Result | Evidence scope |
 | --- | --- | --- |
-| Full Python command above | **405 passed** | Local API, persistence, import, compatibility, hosting-wrapper and validation tests. Four deprecation/future warnings remain. |
+| Full Python command above | **410 passed** | Local API, persistence, import, compatibility, hosting-wrapper, published-link and validation tests. Four deprecation/future warnings remain. |
 | Frontend test command | **56 passed** | Domain calculations, selection state, locales, adapters, export and retained compatibility tests. |
 | Frontend lint script | **Passed** | The existing script runs TypeScript checking. |
 | Explicit strict TypeScript command | **Passed** | Application types plus unused-local/parameter checks. |

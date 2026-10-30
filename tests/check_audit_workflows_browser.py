@@ -26,7 +26,7 @@ def main():
      if key in messages:return messages[key][lang]
     return key
    with sync_playwright() as pw:
-    browser=pw.chromium.launch(executable_path='/usr/bin/chromium');ctx=browser.new_context(accept_downloads=True,viewport={'width':1280,'height':900});ctx.route('https://tile.openstreetmap.org/**',lambda route:route.abort());p=ctx.new_page();p.on('pageerror',lambda e:errors.append(str(e)))
+    browser=pw.chromium.launch(executable_path=os.getenv('CHROMIUM_PATH','/usr/bin/chromium'));ctx=browser.new_context(accept_downloads=True,viewport={'width':1280,'height':900});ctx.route('https://tile.openstreetmap.org/**',lambda route:route.abort());p=ctx.new_page();p.on('pageerror',lambda e:errors.append(str(e)))
     p.goto(web+'/projects/data');p.get_by_label(L('d.adminKey'),exact=True).fill(key);p.get_by_role('button',name=L('d.applyKey'),exact=True).click()
     p.goto(web+'/data-integration');p.get_by_role('tab',name=L('ir.tab.onboarding'),exact=True).click();p.get_by_label(L('ir.column.category'),exact=True).select_option('identifiers')
     with p.expect_download() as download:p.get_by_role('link',name=L('audit.template'),exact=True).click()
