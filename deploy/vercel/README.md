@@ -1,16 +1,25 @@
 # Manual deployment: Vercel frontend + AWS backend
 
-This guide uses the existing AWS CloudFront + EC2 + Docker + persistent SQLite
-architecture. The Vercel project `urbansaarthi` has been created and linked to this
-checkout; its verified assigned domain is `urbansaarthi.vercel.app`, but no
-application deployment has been published. No AWS account login, resource creation
-or update was performed by the assistant. The pending AWS login was cancelled at
-the user's request to do the steps personally.
+> **Alternative configuration, not the current deployment.** UrbanSaarthi is
+> currently hosted entirely on AWS through CloudFront and EC2. Use the
+> [AWS operations guide](../aws/README.md) for the active setup. The Vercel project
+> and domain mentioned below describe an earlier preparation session; the old
+> `urbansaarthi.vercel.app` address returned 404 when checked on 31 October 2026.
+> Do not assume that project still exists or configure CORS for it unnecessarily.
+> Every reference to that frontend domain below is historical: replace it with
+> the actual HTTPS origin you control before using this alternative configuration.
+
+This alternative uses AWS CloudFront + EC2 + Docker + persistent SQLite for the
+backend. During an earlier preparation session a Vercel project was created and
+linked, but its frontend was not published then. The user subsequently deployed
+the full application on AWS. If choosing split hosting in future, verify/link the
+intended Vercel project and use its actual domain and environment settings.
 
 ## 1. Publish the current application source — your local terminal
 
-The current application has uncommitted/new files. AWS cannot obtain this version
-from the old GitHub main commit. Review and commit the application before deploying.
+AWS can obtain only published commits. Review local changes and publish any
+intended application updates before deploying. Skip committing when already up to
+date; inspect the actual Git status instead of assuming an uncommitted version.
 The following paths exclude databases, local credential files and runtime artifacts:
 
 ```bash

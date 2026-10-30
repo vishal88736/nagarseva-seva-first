@@ -1,19 +1,68 @@
-> Current active UI: the centralized synthetic prototype and controlled onboarding described in [the repository guide](../README.md). Historical source integration described below is archived and disconnected from the active UI.
-
 # UrbanSaarthi application
 
-The default acquired-data workspace and its separate synthetic sandbox are described
-in the [current run guide](../README.md), [source results](../research/data_availability.md)
-and [API/storage guide](docs/public-data-api.md). `model.api.urban:app` serves both
-namespaces. The legacy ML API retains its old `/urban` sandbox contract; the acquired
-workspace requires the focused API. `make acquire-public-data` runs the public pipeline.
+**People • Places • Better Cities**
 
-The default frontend now follows the focused five-screen UrbanSaarthi brief. See the [root run guide](../README.md) and [architecture and validation notes](docs/urbansaarthi.md).
+The active application is the English/Hindi/Marathi **Demo data** prototype for
+SEVAMO96. React/TypeScript/Vite/Leaflet use a shared FastAPI/SQLite synthetic
+workspace. Historical/acquired datasets and model-backed routes are preserved
+compatibility material and are disconnected from the active UI.
 
-Use `make urban-setup PYTHON=python3.12`, then `make api PYTHON=python3.12` and, in another terminal, `make web`. A dedicated virtual environment is recommended. `make test` runs the focused API/calculation tests, browser-engine tests and build. Full legacy model checks require `make setup` and `make test-legacy`.
+Read the [main project README](../README.md) for the feature directory, data model,
+configuration, calculation methods, file onboarding, test commands and limitations.
+The [AWS operations guide](../deploy/aws/README.md) describes current hosting.
 
-The recommended API is `model.api.urban:app`. The original model-backed API remains available through `make legacy-api`; its `/urban` routes also support the new interface. The [historical NagarSeva guide](README.NagarSeva.md) describes the earlier broader interface; its default `make api` command now starts the focused app.
+## Start the application
 
-No model retraining is required. Acquired mode loads verified source files, retaining
-missing service measurements; the separate five-cluster sandbox uses synthetic
-fixtures. Physical completion never automatically verifies a service.
+Run from the **repository root**, one directory above this file:
+
+```bash
+bash start-local.sh
+```
+
+The launcher uses Python 3.12, creates `nagarseva/.venv` if required, installs the
+focused backend requirements/frontend lockfile dependencies when changed, and
+starts both owned processes. Node 24 matches the Docker and CI configuration.
+
+- Website: <http://localhost:5173/dashboard>.
+- Local API docs: <http://localhost:8000/docs>.
+- Default SQLite file: `model/data/local/urbansaarthi.sqlite3`, relative to this
+  `nagarseva/` directory.
+- Logs: `.runtime/local/8000-5173/`, relative to the repository root.
+- Stop both processes with **Ctrl+C** in the launcher terminal.
+
+The parent repository directory has no frontend package.json. Use
+`npm --prefix nagarseva/website ...` from the repository root, or `npm ...` from
+`nagarseva/website/`. No ML training or original-dataset ingestion is needed.
+
+## Entry points
+
+| Path | Responsibility |
+| --- | --- |
+| `website/src/civic/` | Active civic UI, typed adapter, shared state and calculations. |
+| `website/src/integration/` | Isolated file inspection, mapping, validation/import and audit UI. |
+| `website/src/i18n/` | Language resources, preference and locale formatting. |
+| `model/api/urban.py` | Active FastAPI app: `model.api.urban:app`. |
+| `model/api/civic_demo.py` | Deterministic generator, validation, transactional civic commands. |
+| `model/api/data_onboarding.py` | Controlled import batches, provenance and rollback. |
+| `model/requirements-urban.txt` | Dependencies needed by the active civic application. |
+| `model/api/main.py` | Preserved legacy/model-backed API; not the default runtime. |
+
+Affordable Housing is under **Projects & Reports → Affordable Housing**, with a
+direct `/housing` route. Basic-service assurance and visits also have `/services`
+and `/visits` routes. The [root feature table](../README.md#features-and-navigation)
+lists every main view.
+
+## Persistence and authorization
+
+The active workspace is synthetic and stored on the API server in SQLite, not
+browser localStorage. Public demo submissions and authorized administrative edits
+update that same store. Controlled imports are separate, inactive batches.
+
+Use the [configuration guide](../README.md#configuration) to set a private server
+administrator key and enter it in **Administration**. This is demonstration access,
+not production identity/RBAC. Never embed keys in `VITE_*` variables or source files.
+
+The older [NagarSeva guide](README.NagarSeva.md), acquired-data documentation and
+`Makefile` targets remain available for historical/legacy work. In particular,
+`make acquire-public-data`, `make data` and `make train` are not steps for running
+the current synthetic prototype. Do not reactivate those pipelines accidentally.
